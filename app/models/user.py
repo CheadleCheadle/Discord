@@ -41,3 +41,18 @@ class User(db.Model, UserMixin):
             'username': self.username,
             'email': self.email
         }
+
+    friendStatus = db.Table(
+        "user1_id",
+        db.Column(
+        "user2_id",
+        db.ForeignKey(add_prefix_for_prod("servers.id")),
+        primary_key = True        
+        ),
+         "user2_id",
+        db.Column(
+        "user1_id",
+        db.ForeignKey(add_prefix_for_prod("servers.id")),
+        primary_key = True        
+        )
+    )
