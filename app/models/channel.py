@@ -6,11 +6,11 @@ class Channel(db.Model):
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
-        
 
     id = db.Column(db.Integer, primary_key=True)
-    server_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("servers.id")), nullable = False)    
-    name = db.Column(db.String(40), nullable=False)      
+    server_id = db.Column(db.Integer, db.ForeignKey(
+        add_prefix_for_prod("servers.id")), nullable=False)
+    name = db.Column(db.String(40), nullable=False)
     type = db.Column(db.String(40), nullable=False)
     max_users = db.Column(db.Integer)
     topic = db.Column(db.String(100), nullable=False)
@@ -29,8 +29,8 @@ class Channel(db.Model):
 
     @type.setter
     def type(self, type):
-        self.type = type      
-        
+        self.type = type
+
     @property
     def max_users(self):
         return self.max_users
@@ -38,7 +38,7 @@ class Channel(db.Model):
     @max_users.setter
     def max_users(self, max_users):
         self.max_users = max_users
-        
+
     @property
     def topic(self):
         return self.topic
@@ -56,7 +56,6 @@ class Channel(db.Model):
             'max_users': self.max_users,
             'topic': self.topic
         }
-    
 
     server = db.relationship(
         "Server",

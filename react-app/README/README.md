@@ -15,56 +15,86 @@ store = {
         userData
       }
     }
-  },
   servers: {
     allServers: {
       [serverId]: {
-        serverData
+        serverData,
+        Channels: {
+          allChannels: {
+            [channelId]: {
+              channelData
+            }
+          }
+        }
+        Members: {
+          allUsers: {
+            [userId]: {
+              userData
+            }
+          }
+        },
+        Host: {
+          userData
+        },
+        AllCategories: [ categories list ]
       }
     },
     singleServer: {
-      serverData,
-      Channels: {
-        allChannels: {
-          [channelId]: {
-            channelData
-          }
-        }
-      }
-      Members: {
-        allUsers: {
-          [userId]: {
-            userData
-          }
-        }
-      },
-      Host: {
-        userData
-      },
-      AllCategories: [ categories list ]
+      serverId
     }
   },
   channels: {
     allChannels: {
       [channelId]: {
-        channelData
-      }
+        channelData,
+        Messages: {
+          [messages_id]: {
+            messageData
+          }
+        },
+        HostServer: {
+          serverData
+        },
+        Subscribers: {
+          [userId]: {
+            userData
+          }
+        }
     },
     singleChannel: {
-      channelData,
-      Messages: {
-        [messages_id]: {
-          messageData
-        }
-      },
-      HostServer: {
-        serverData
-      },
-      Subscribers: {
-        [userId]: {
-          userData
-        }
-      }
+      channelId
     }
   }
 }
+
+  }
+```
+
+
+# Four CRUD
+
+
+## Servers
+* CREATE SERVER
+* DELETE SERVER
+* READ SERVER
+* UPDATE SERVER
+
+## Channels
+* CREATE CHANNEL
+* DELETE CHANNEL
+* READ CHANNEL
+* UPDATE CHANNEL
+
+## Live Chat
+* POST MESSAGES
+* READ MESSAGES
+
+## Direct Messaging
+* POST MESSAGE
+* READ MESSAGE
+
+<!-- MAYBE -->
+## Friends
+* ADD FRIEND
+* DELETE FRIEND
