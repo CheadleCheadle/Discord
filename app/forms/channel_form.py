@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField
+from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 
 class ChannelForm(FlaskForm):
@@ -11,4 +11,6 @@ class ChannelForm(FlaskForm):
         'max_users', validators=[DataRequired()])
     topic = StringField(
         'topic', validators=[DataRequired()])
+    submit = SubmitField('submit')
+
    
