@@ -68,6 +68,11 @@ Returns all Servers
     }
     ```
 
+
+Server._serverid = "thgs"
+Server.name('this')
+
+
 ###  Get a Server by serverId
 
 Returns a Single Server
