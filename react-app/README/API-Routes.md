@@ -1,5 +1,35 @@
 ## Users
 
+### Get Friends by Curr_User
+
+Returns the friends of a user
+
+* Require Authentication: True
+* Request
+  * Method: GET
+  * URL: /api/curruser/friends
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "Friends": [
+        {
+          "id": 1,
+          "username": 1,
+          "email": "1@1.com",
+          "first_name": "first",
+          "last_name": "last",
+          "status": "friends"
+        }
+      ]
+    }
+    ```
 
 ## Servers
 
@@ -17,7 +47,7 @@ Returns all Servers
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
-  * Body: none
+  * Body:
 
     ```json
     {
@@ -31,10 +61,12 @@ Returns all Servers
           "icon_url": "smthing.url",
           "description": "This discord is for people",
           "server_id": 2,
-          "owner_id": 1
+          "owner_id": 1,
+          "members_num": 12
         }
       ]
     }
+    ```
 
 ###  Get a Server by serverId
 
@@ -50,7 +82,7 @@ Returns a Single Server
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
-  * Body: none
+  * Body:
 
     ```json
     {
@@ -62,6 +94,8 @@ Returns a Single Server
           "max_users": 30,
           "icon_url": "smthing.url",
           "description": "This discord is for people",
+          "members_num": 12,
+          "created_at": "2020-03-01",
           "Host": {
             "id": 1,
             "first_name": "Name1",
@@ -88,7 +122,7 @@ Returns a Single Server
           ]
         }
     }
-
+    ```
 
 ## Channels
 
@@ -106,7 +140,7 @@ Returns all channels by server_id
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
-  * Body: none
+  * Body:
 
     ```json
     {
@@ -123,3 +157,143 @@ Returns all channels by server_id
         }
       ]
     }
+    ```
+
+### Get a Channel By channelId
+
+Returns a single channel by channelId
+
+* Require Authentication: True
+* Request
+  * Method: GET
+  * URL: /api/channels/:channelId
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "Channel":
+        {
+          "id": 1,
+          "name": "Channel-1",
+          "type": "text",
+          "max_users": 30,
+          "topic": "Pets",
+          "active_status": true,
+          "active_users_num": 12,
+          "server_id": 2,
+          "active_subscribers": [
+            {
+              "id": 1,
+              "user_name": "username"
+            }
+          ],
+          "Messages": [
+            {
+              "id": 1,
+              "user_id": 1,
+              "channel_id": 1,
+              "content": "texttextextexttext",
+              "time_stamp": "2020-12-05"
+            }
+          ]
+        }
+    }
+    ```
+
+
+## Messages
+
+### Get Messages by channelId
+
+Returns the message history of a channel by channelId
+
+* Require Authentication: True
+* Request
+  * Method: GET
+  * URL: /api/channels/:channelId/messages
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "Messages": [
+        {
+          "id": 1,
+          "userId": 1,
+          "channel_id": 1,
+          "content": "text message goes here",
+          "time_stamp": "2020-09-08"
+        }
+      ]
+    }
+    ```
+
+### Get Messages by Between CurrUser and User by userId
+
+Returns the message history of a channel by channelId
+
+* Require Authentication: True
+* Request
+  * Method: GET
+  * URL: /api/currUser/messages/:userId
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "Messages": [
+        {
+          "id": 1,
+          "curr_user_id": 1,
+          "friend_id": 1,
+          "content": "text message goes here",
+          "time_stamp": "2020-09-08"
+        }
+      ]
+    }
+    ```
+
+
+### Get Messages by channelId
+
+Returns the message history of a channel by channelId
+
+* Require Authentication: True
+* Request
+  * Method: GET
+  * URL: /api/channels/:channelId/messages
+  * Body:
+
+    ```json
+    {
+
+    }
+    ```
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+
+    }
+    ```
