@@ -26,7 +26,7 @@ class Server(db.Modal):
     name = db.Column(db.String(100), nullable=False, unique=True)
     max_users = db.Column(db.Integer, nullable=False)
     description = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     # Relationship
     users = db.relationship(
