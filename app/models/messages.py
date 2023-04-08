@@ -33,6 +33,8 @@ class DirectMessage(Message):
     recipient_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod("users.id")), nullable=False)
 
+    recipient = db.relationship("User", back_populates="direct_messages")
+
     def to_dict(self):
         return {
             "id": self.id,
@@ -42,7 +44,11 @@ class DirectMessage(Message):
             "time_stamp": self._time_stamp
         }
 
-    recipient = db.relationship("User", back_populates="direct_messages")
+    @classmethod
+    def create(cls, items):
+        new_items = [cls(user_id=item["user_id"], content=item["content"], recipient_id=item["recipient_id"], _time_stamp=item["_time_stamp"], pokemon_id=item["pokemon_id"])
+                     for item in items]
+        return new_items
 
     def __repr__(self):
         return f"Direct message from user {self.user_id} to user {self.recipient_id}: {self.content}"
@@ -68,6 +74,12 @@ class ChannelMessage(Message):
             "channel_id": self.channel_id,
             "time_stamp": self._time_stamp
         }
+
+    @classmethod
+    def create(cls, items):
+        new_items = [cls(user_id=item["user_id"], content=item["content"], channel_id=item["channel_id"], _time_stamp=item["_time_stamp"], pokemon_id=item["pokemon_id"])
+                     for item in items]
+        return new_items
 
     def __repr__(self):
         return f"Channel {self.channel_id} message from user {self.user_id}: {self.content}"
