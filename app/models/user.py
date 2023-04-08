@@ -16,7 +16,6 @@ class User(db.Model, UserMixin):
     lastname = db.Column(db.String(40), nullable=False)
     photo_url = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
-    topic = db.Column(db.String(255), nullable=False)
     active_status = db.Column(db.Boolean)
     hashed_password = db.Column(db.String(255), nullable=False)
     # Relatiomship
