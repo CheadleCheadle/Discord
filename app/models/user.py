@@ -1,7 +1,23 @@
-from .db import db, environment, SCHEMA, add_prefix_for_prod
+from app.models.db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from .server import server_memberships
+
+friendStatus = db.Table(
+    "user1_id",
+    db.Column(
+        "user2_id",
+        db.Integer
+        db.ForeignKey(add_prefix_for_prod("users.id")),
+        primary_key=True
+    ),
+    "user2_id",
+    db.Column(
+        "user1_id",
+        db.Integer
+        db.ForeignKey(add_prefix_for_prod("users.id")),
+        primary_key=True
+    )
+)
 
 
 class User(db.Model, UserMixin):
@@ -23,7 +39,8 @@ class User(db.Model, UserMixin):
         "Server", secondary=server_memberships, back_populates="users")
     direct_messages = db.relationship(
         "DirectMessage", back_populates="users"
-            )
+    )
+
     @property
     def password(self):
         return self.hashed_password
@@ -41,19 +58,3 @@ class User(db.Model, UserMixin):
             'username': self.username,
             'email': self.email
         }
-
-    friendStatus = db.Table(
-        "user1_id",
-        db.Model.metadata,
-        db.Column(
-            "user2_id",
-            db.ForeignKey(add_prefix_for_prod("users.id")),
-            primary_key=True
-        ),
-        "user2_id",
-        db.Column(
-            "user1_id",
-            db.ForeignKey(add_prefix_for_prod("users.id")),
-            primary_key=True
-        )
-    )
