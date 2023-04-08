@@ -118,7 +118,6 @@ def direct_message_seeds():
     all_channel_messages = ChannelMessage.create(channel_message_data)
 
     add_dms = [db.session.add(item) for item in all_direct_messages]
-    db.session.commit()
     add_channel_messages = [db.session.add(
         item) for item in all_channel_messages]
     db.session.commit()
@@ -126,6 +125,5 @@ def direct_message_seeds():
 
 def direct_messages_unseed():
     db.session.execute(text("DELETE FROM direct_messages"))
-    db.session.commit()
     db.session.execute(text("DELETE FROM channel_messages"))
     db.session.commit()
