@@ -44,7 +44,7 @@ class DirectMessage(Message):
             "time_stamp": self._time_stamp
         }
 
-    @classmethod
+    @classmethod #Seeder method
     def create(cls, items):
         new_items = [cls(user_id=item["user_id"], content=item["content"], recipient_id=item["recipient_id"], _time_stamp=item["_time_stamp"], pokemon_id=item["pokemon_id"])
                      for item in items]
@@ -75,7 +75,7 @@ class ChannelMessage(Message):
             "time_stamp": self._time_stamp
         }
 
-    @classmethod
+    @classmethod #seeder method
     def create(cls, items):
         new_items = [cls(user_id=item["user_id"], content=item["content"], channel_id=item["channel_id"], _time_stamp=item["_time_stamp"], pokemon_id=item["pokemon_id"])
                      for item in items]

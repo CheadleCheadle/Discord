@@ -21,7 +21,9 @@ class User(db.Model, UserMixin):
     # Relatiomship
     servers = db.relationship(
         "Server", secondary=server_memberships, back_populates="users")
-
+    direct_messages = db.relationship(
+        "DirectMessage", back_populates="users"
+            )
     @property
     def password(self):
         return self.hashed_password
@@ -45,13 +47,13 @@ class User(db.Model, UserMixin):
         db.Model.metadata,
         db.Column(
             "user2_id",
-            db.ForeignKey(add_prefix_for_prod("servers.id")),
+            db.ForeignKey(add_prefix_for_prod("users.id")),
             primary_key=True
         ),
         "user2_id",
         db.Column(
             "user1_id",
-            db.ForeignKey(add_prefix_for_prod("servers.id")),
+            db.ForeignKey(add_prefix_for_prod("users.id")),
             primary_key=True
         )
     )

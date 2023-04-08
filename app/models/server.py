@@ -1,5 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-
+import datetime
 
 # Join table for Servers and users to create memberships
 server_memberships = db.Table(
@@ -22,7 +22,7 @@ class Server(db.Modal):
     owner_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod("users.id"), nullable=False))
     icon_url = db.Column(db.String, nullable=True)
-    type = db.Column(db.Boolean, nullable=False)
+    public = db.Column(db.Boolean, nullable=False)
     name = db.Column(db.String(100), nullable=False, unique=True)
     max_users = db.Column(db.Integer, nullable=False)
     description = db.Column(db.Text, nullable=False)
