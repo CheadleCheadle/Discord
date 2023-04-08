@@ -9,20 +9,19 @@ class User(db.Model, UserMixin):
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
-        
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(40), nullable=False, unique=True)    
+    username = db.Column(db.String(40), nullable=False, unique=True)
     firstname = db.Column(db.String(40), nullable=False)
     lastname = db.Column(db.String(40), nullable=False)
     photo_url = db.Column(db.String(255), nullable=False)
-    email = db.Column(db.String(255), nullable=False, unique=True)    
+    email = db.Column(db.String(255), nullable=False, unique=True)
     topic = db.Column(db.String(255), nullable=False)
     active_status = db.Column(db.Boolean)
     hashed_password = db.Column(db.String(255), nullable=False)
-    #Relatiomship
-    servers = db.relationship("Server", secondary=server_memberships, back_populates="users")
-
+    # Relatiomship
+    servers = db.relationship(
+        "Server", secondary=server_memberships, back_populates="users")
 
     @property
     def password(self):
@@ -45,14 +44,14 @@ class User(db.Model, UserMixin):
     friendStatus = db.Table(
         "user1_id",
         db.Column(
-        "user2_id",
-        db.ForeignKey(add_prefix_for_prod("servers.id")),
-        primary_key = True        
+            "user2_id",
+            db.ForeignKey(add_prefix_for_prod("servers.id")),
+            primary_key=True
         ),
-         "user2_id",
+        "user2_id",
         db.Column(
-        "user1_id",
-        db.ForeignKey(add_prefix_for_prod("servers.id")),
-        primary_key = True        
+            "user1_id",
+            db.ForeignKey(add_prefix_for_prod("servers.id")),
+            primary_key=True
         )
     )

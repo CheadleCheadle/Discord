@@ -42,6 +42,8 @@ class DirectMessage(Message):
             "time_stamp": self._time_stamp
         }
 
+    recipient = db.relationship("User", back_populates="direct_messages")
+
     def __repr__(self):
         return f"Direct message from user {self.user_id} to user {self.recipient_id}: {self.content}"
 
@@ -55,6 +57,8 @@ class ChannelMessage(Message):
     id = db.Column(db.Integer, primary_key=True)
     channel_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod("channels.id")), nullable=False)
+
+    channel = db.relationship("Channel", back_populates="channel_messages")
 
     def to_dict(self):
         return {
