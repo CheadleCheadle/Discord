@@ -39,7 +39,7 @@ class Server(db.Model):
                             default=datetime.now())
 
     # # Relationship
-    #host = db.relationship("User", back_populates="servers")
+    host = db.relationship("User", back_populates="servers")
     users = db.relationship(
         "User", secondary=server_memberships, back_populates="servers")
 
