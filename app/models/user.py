@@ -38,6 +38,7 @@ class Server(db.Model):
     _public = db.Column(db.Boolean, nullable=False)
     _name = db.Column(db.String(100), nullable=False, unique=True)
     _max_users = db.Column(db.Integer, nullable=False)
+    _topic = db.Column(db.String(100), nullable=False)
     _description = db.Column(db.Text, nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod("users.id")), nullable=False)

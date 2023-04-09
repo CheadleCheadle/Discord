@@ -7,6 +7,7 @@ class ServerForm(FlaskForm):
     icon_url = StringField('Image Url', validators=[DataRequired()])
     type  = BooleanField('Public', validators=[DataRequired()])
     name = StringField('Name', validators=[DataRequired()])
+    topic = StringField('Topic', validators=[DataRequired()])
     max_users = IntegerField('Max Users', validators=[DataRequired()])
     topic = StringField('Topic', validators=[DataRequired()])
     description = TextField('Description', validators=[DataRequired()])

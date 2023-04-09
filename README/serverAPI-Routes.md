@@ -27,17 +27,15 @@ Returns all the servers.
       {
        "id": 1,
        "name": "People",
-       "type": "public",
+       "public": True,
        "max_users": 30,
        "topic": "Pets",
        "icon_url": "smthing.url",
        "description": "This discord is for people",
-
-       <!-- "server_id": 2,   ???-->
-
        "owner_id": 1,
        "created_at": "2021-11-19 20:39:36",
-       "members_num": 12
+       "host": 1,
+       "members":[2,3]
       }
      ]
     }
@@ -69,14 +67,15 @@ Returns all the servers.
       {
        "id": 1,
        "name": "People",
-       "type": "public",
+       "public": True,
        "max_users": 30,
        "topic": "Pets",
        "icon_url": "smthing.url",
        "description": "This discord is for people",
        "owner_id": 1,
        "created_at": "2021-11-19 20:39:36",
-       "members_num": 12
+       "host": 1,
+       "members":[2,3]
       }
      ]
     }
@@ -97,17 +96,13 @@ Creates and returns a new spot.
 
     ```json
     {
-     "Servers": [
-      {
-       "name": "People",
-       "type": "public",
-       "max_users": 30,
-       "topic": "Pets",
-       "icon_url": "smthing.url",
-       "description": "This discord is for people",
-       "owner_id": 1
-      }
-     ]
+      "name": "People",
+      "public": True,
+      "max_users": 30,
+      "topic": "Pets",
+      "icon_url": "smthing.url",
+      "description": "This discord is for people",
+      "owner_id": 1,
     }
     ```
 
@@ -118,21 +113,19 @@ Creates and returns a new spot.
   - Body:
 
 ```json
-{
- "Servers": [
-  {
-   "id": 1,
-   "name": "People",
-   "type": "public",
-   "max_users": 30,
-   "topic": "Pets",
-   "icon_url": "smthing.url",
-   "description": "This discord is for people",
-   "owner_id": 1,
-   "created_at": "2021-11-19 20:39:36"
-  }
- ]
-}
+    {
+       "id": 1,
+       "name": "People",
+       "public": True,
+       "max_users": 30,
+       "topic": "Pets",
+       "icon_url": "smthing.url",
+       "description": "This discord is for people",
+       "owner_id": 1,
+       "created_at": "2021-11-19 20:39:36",
+       "host": 1,
+       "members":[2,3]
+    }
 ```
 
 - Error Response: Body validation error
@@ -184,7 +177,7 @@ Updates and returns an existing server.
        "type": "public",
        "max_users": 30,
        "topic": "Pets",
-       "icon_url": "smthing.url",
+       "icon_url": "something.url",
        "description": "This discord is for people",
        "owner_id": 1
       }
