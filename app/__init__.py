@@ -6,6 +6,8 @@ from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
 from .models.db import db
 from .models.user import User
+from .models.channel import Channel
+from .models.messages import DirectMessage, ChannelMessage
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 # from .seeds import seed_commands
