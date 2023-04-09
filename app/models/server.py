@@ -30,7 +30,7 @@ class Server(db.Model):
 
     # # Relationship
     owner = db.relationship("User", back_populates="servers")
-    channels = db.relationship("Channel", back_populates="server")
+    # channels = db.relationship("Channel", back_populates="server")
     users = db.relationship(
         "User", secondary=server_memberships, back_populates="server_memberships")
 

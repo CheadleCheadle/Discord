@@ -32,12 +32,12 @@ class User(db.Model, UserMixin):
     lastname = db.Column(db.String(40), nullable=False)
     photo_url = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
-    active_status = db.Column(db.Boolean, unique=False)
+    active_status = db.Column(db.Boolean, unique=False, default=False)
     hashed_password = db.Column(db.String(255), nullable=False)
 
-    # Relatiomship
+    # # Relatiomship
     servers = db.relationship("Server", back_populates="owner")
-    direct_messages = db.relationship("DirectMessage", back_populates="owner")
+    # direct_messages = db.relationship("DirectMessage", back_populates="owner")
     friends = db.relationship(
         "User",
         secondary="friends",
@@ -66,5 +66,9 @@ class User(db.Model, UserMixin):
         return {
             'id': self.id,
             'username': self.username,
-            'email': self.email
+            'email': self.email,
+            "firstname": self.firstname,
+            "lastname": self.lastname,
+            "photo_url": self.photo_url,
+            "active_status": self.active_status
         }
