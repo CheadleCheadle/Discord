@@ -35,6 +35,7 @@ class Channel(db.Model):
     channel_messages = db.relationship(
         "ChannelMessage", back_populates="channel"
     )
+
     # subscribers = db.relationship(
     #     "Channel",
     #     secondary="channel_subscribers"

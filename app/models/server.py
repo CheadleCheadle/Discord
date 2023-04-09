@@ -2,14 +2,13 @@ from app.models import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
 
 # Join table for Servers and users to create memberships
-# server_memberships = db.Table(
-#     "server_memberships",  # Name of the table
-#     db.Model.metadata,
-#     db.Column("user_id", db.Integer, db.ForeignKey(
-#         add_prefix_for_prod("users.id")), primary_key=True),
-#     db.Column("server_id", db.Integer, db.ForeignKey(
-#         add_prefix_for_prod("servers.id")), primary_key=True)
-# )
+server_memberships = db.Table(
+    "server_memberships",  # Name of the table
+    db.Column("user_id", db.Integer, db.ForeignKey(
+        add_prefix_for_prod("users.id")), primary_key=True),
+    db.Column("server_id", db.Integer, db.ForeignKey(
+        add_prefix_for_prod("servers.id")), primary_key=True)
+)
 
 
 class Server(db.Model):
@@ -32,8 +31,8 @@ class Server(db.Model):
     # # Relationship
     owner = db.relationship("User", back_populates="servers")
     channels = db.relationship("Channel", back_populates="server")
-    # users = db.relationship(
-    #     "User", secondary=server_memberships, back_populates="servers")
+    users = db.relationship(
+        "User", secondary=server_memberships, back_populates="server_memberships")
 
     @property
     def icon_url(self):

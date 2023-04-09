@@ -1,4 +1,5 @@
 from app.models import db, environment, SCHEMA, add_prefix_for_prod
+from .server import server_memberships
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
@@ -42,6 +43,12 @@ class User(db.Model, UserMixin):
         secondary="friends",
         primaryjoin=friends.c.user1_id == id,
         secondaryjoin=friends.c.user2_id == id,
+    )
+
+    server_memberships = db.relationship(
+        "Server",
+        secondary=server_memberships,
+        back_populates="users"
     )
 
     @property
