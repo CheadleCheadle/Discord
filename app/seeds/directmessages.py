@@ -2,7 +2,7 @@ from faker import Faker
 from datetime import datetime
 from app.models.db import db
 from sqlalchemy.sql import text
-from app.models.messages import DirectMessage, ChannelMessage
+# from app.models.messages import DirectMessage, ChannelMessage
 
 fake = Faker()
 
@@ -61,6 +61,7 @@ def direct_message_seeds():
         },
 
     ]
+
     channel_message_data = [
         {
             "id": 1,

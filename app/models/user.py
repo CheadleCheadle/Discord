@@ -1,23 +1,22 @@
-from app.models.db import db, environment, SCHEMA
+from app.models import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
-# friend_status = db.Table(
-#     "user1_id",
-#     db.Column(
-#         "user2_id",
-#         db.Integer
-#         db.ForeignKey(add_prefix_for_prod("users.id")),
-#         primary_key=True
-#     ),
-#     "user2_id",
-#     db.Column(
-#         "user1_id",
-#         db.Integer
-#         db.ForeignKey(add_prefix_for_prod("users.id")),
-#         primary_key=True
-#     )
-# )
+friends = db.Table(
+    "friends",
+    db.Column(
+        "user1_id",
+        db.Integer,
+        db.ForeignKey(add_prefix_for_prod("users.id")),
+        primary_key=True
+    ),
+    db.Column(
+        "user2_id",
+        db.Integer,
+        db.ForeignKey(add_prefix_for_prod("users.id")),
+        primary_key=True
+    )
+)
 
 
 class User(db.Model, UserMixin):
@@ -32,14 +31,18 @@ class User(db.Model, UserMixin):
     lastname = db.Column(db.String(40), nullable=False)
     photo_url = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
-    active_status = db.Column(db.Boolean)
+    active_status = db.Column(db.Boolean, unique=False)
     hashed_password = db.Column(db.String(255), nullable=False)
+
     # Relatiomship
-    # servers = db.relationship(
-    #     "Server", secondary=server_memberships, back_populates="users")
-    # direct_messages = db.relationship(
-    #     "DirectMessage", back_populates="users"
-    # )
+    servers = db.relationship("Server", back_populates="owner")
+    direct_messages = db.relationship("DirectMessage", back_populates="owner")
+    friends = db.relationship(
+        "User",
+        secondary="friends",
+        primaryjoin=friends.c.user1_id == id,
+        secondaryjoin=friends.c.user2_id == id,
+    )
 
     @property
     def password(self):

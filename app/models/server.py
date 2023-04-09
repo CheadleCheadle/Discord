@@ -1,4 +1,4 @@
-from app.models.db import db, environment, SCHEMA, add_prefix_for_prod
+from app.models import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
 
 # Join table for Servers and users to create memberships
@@ -24,13 +24,14 @@ class Server(db.Model):
     _name = db.Column(db.String(100), nullable=False, unique=True)
     _max_users = db.Column(db.Integer, nullable=False)
     _description = db.Column(db.Text, nullable=False)
-    # owner_id = db.Column(db.Integer, db.ForeignKey(
-    #     add_prefix_for_prod("users.id"), nullable=False))
+    _owner_id = db.Column(db.Integer, db.ForeignKey(
+        add_prefix_for_prod("users.id")), nullable=False)
     _created_at = db.Column(db.DateTime, nullable=False,
                             default=datetime.utcnow)
 
     # # Relationship
-    # host = db.relationship("User", back_populates="servers")
+    owner = db.relationship("User", back_populates="servers")
+    channels = db.relationship("Channel", back_populates="server")
     # users = db.relationship(
     #     "User", secondary=server_memberships, back_populates="servers")
 
@@ -74,14 +75,14 @@ class Server(db.Model):
     def description(self, new_description):
         self._description = new_description
 
-    # def to_dict(self):
-    #     return {
-    #         "id": self.id,
-    #         # "owner_id": self.owner_id,
-    #         "icon_url": self.icon_url,
-    #         "public": self.public,
-    #         "name": self.name,
-    #         "max_users": self.max_users,
-    #         "description": self.description,
-    #         "created_at": self.created_at
-    #     }
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "owner_id": self._owner_id,
+            "icon_url": self._icon_url,
+            "public": self._public,
+            "name": self._name,
+            "max_users": self._max_users,
+            "description": self._description,
+            "created_at": self._created_at
+        }
