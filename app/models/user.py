@@ -5,6 +5,7 @@ from flask_login import UserMixin
 
 friends = db.Table(
     "friends",
+    db.Model.metadata,
     db.Column(
         "user1_id",
         db.Integer,
@@ -36,23 +37,26 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
 
     # # Relatiomship
-    servers = db.relationship("Server", back_populates="owner")
+    servers = db.relationship(
+        "Server", back_populates="owner", cascade="all, delete-orphan")
     direct_messages = db.relationship(
         "DirectMessage",
         secondary="direct_messages",
         primaryjoin=DirectMessage.user_id == id,
         secondaryjoin=DirectMessage.recipient_id == id,
-        overlaps="recipient"
+        overlaps="recipient",
+        cascade="all, delete orphan"
     )
 
     channel_messages = db.relationship(
-        "ChannelMessage", back_populates='sender')
+        "ChannelMessage", back_populates='sender', cascade="all, delete-orphan")
 
     friends = db.relationship(
         "User",
         secondary="friends",
         primaryjoin=friends.c.user1_id == id,
         secondaryjoin=friends.c.user2_id == id,
+        cascade="all, delete-orphan"
     )
 
     # received_messages = db.relationship(
@@ -61,7 +65,8 @@ class User(db.Model, UserMixin):
     server_memberships = db.relationship(
         "Server",
         secondary=server_memberships,
-        back_populates="users"
+        back_populates="users",
+        cascade="all, delete-orphan"
     )
 
     @property

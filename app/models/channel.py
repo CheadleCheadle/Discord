@@ -33,7 +33,7 @@ class Channel(db.Model):
     server = db.relationship("Server", back_populates="channels")
 
     channel_messages = db.relationship(
-        "ChannelMessage", back_populates="channel"
+        "ChannelMessage", back_populates="channel", cascade="all, delete-orphan"
     )
 
     # subscribers = db.relationship(

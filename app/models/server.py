@@ -4,6 +4,7 @@ from datetime import datetime
 # Join table for Servers and users to create memberships
 server_memberships = db.Table(
     "server_memberships",  # Name of the table
+    db.Model.metadata,
     db.Column("user_id", db.Integer, db.ForeignKey(
         add_prefix_for_prod("users.id")), primary_key=True),
     db.Column("server_id", db.Integer, db.ForeignKey(
@@ -30,9 +31,9 @@ class Server(db.Model):
 
     # # Relationship
     owner = db.relationship("User", back_populates="servers")
-    channels = db.relationship("Channel", back_populates="server")
+    channels = db.relationship("Channel", back_populates="server", cascade="all, delete-orphan")
     users = db.relationship(
-        "User", secondary=server_memberships, back_populates="server_memberships")
+        "User", secondary=server_memberships, back_populates="server_memberships", cascade="all, delete-orphan")
 
     @property
     def icon_url(self):
