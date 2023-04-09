@@ -45,6 +45,9 @@ class User(db.Model, UserMixin):
         overlaps="recipient"
     )
 
+    channel_messages = db.relationship(
+        "ChannelMessage", back_populates='sender')
+
     friends = db.relationship(
         "User",
         secondary="friends",

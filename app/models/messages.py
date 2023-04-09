@@ -70,7 +70,7 @@ class ChannelMessage(Message):
     channel_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod("channels.id")), nullable=False)
 
-    sender = db.relationship("User")
+    sender = db.relationship("User", back_populates='channel_messages')
     channel = db.relationship("Channel", back_populates="channel_messages")
 
     def to_dict(self):
