@@ -6,9 +6,13 @@ from datetime import datetime
 
 follows = db.Table(
         "follows", 
+        db.Model.metadata,
         db.Column("follower_id", db.Integer, db.ForeignKey("users.id")),
         db.Column("followed_id", db.Integer, db.ForeignKey("users.id"))
         )
+
+if environment == "production":
+    follows.schema = SCHEMA
 
 # Join table for Servers and users to create memberships
 server_memberships = db.Table(
@@ -20,6 +24,8 @@ server_memberships = db.Table(
         add_prefix_for_prod("servers.id")), primary_key=True)
 )
 
+if environment == "production":
+    server_memberships.schema = SCHEMA
 
 class Server(db.Model):
     __tablename__ = "servers"
@@ -39,8 +45,10 @@ class Server(db.Model):
                             default=datetime.now())
 
     # # Relationship
-    host = db.relationship("User", back_populates="servers")
-    users = db.relationship(
+    # host_servers one-many
+    host = db.relationship("User", back_populates="host_servers")
+    # server_memberships many-many
+    members = db.relationship(
         "User", secondary=server_memberships, back_populates="servers")
 
     @property
@@ -110,11 +118,16 @@ class User(db.Model, UserMixin):
     active_status = db.Column(db.Boolean)
     hashed_password = db.Column(db.String(255), nullable=False)
     # Relationship
+    # host_servers one-many
+    host_servers = db.relationship("Server", back_populates="host")
+    # server_memberships many-many
     servers = db.relationship(
-           "Server", secondary=server_memberships, back_populates="users")
+           "Server", secondary=server_memberships, back_populates="members")
+    #
     direct_messages = db.relationship(
             "DirectMessage", back_populates="users"
             )
+    #
     followers = db.relationship(
             "User", 
             secondary=follows,
