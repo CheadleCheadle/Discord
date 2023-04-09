@@ -1,4 +1,4 @@
-from app.models.db import db, environment, SCHEMA, add_prefix_for_prod
+from app.models import db, environment, SCHEMA, add_prefix_for_prod
 
 # # Join table for creating channel members
 # channel_subscribers = db.Table(
@@ -32,9 +32,9 @@ class Channel(db.Model):
 
     server = db.relationship("Server", back_populates="channels")
 
-    channel_messages = db.relationship(
-        "ChannelMessage", back_populates="channel"
-    )
+    # channel_messages = db.relationship(
+    #     "ChannelMessage", back_populates="channel"
+    # )
 
     # subscribers = db.relationship(
     #     "Channel",
@@ -72,6 +72,12 @@ class Channel(db.Model):
     @topic.setter
     def topic(self, val):
         self._topic = val
+
+    @classmethod
+    def create(cls, items):
+        new_items = [cls(_server_id=item["_server_id"], _name=item["_name"],
+                     _type=item["_type"], _max_users=item["_max_users"], _topic=item["_topic"]) for item in items]
+        return new_items
 
     def to_dict(self):
         return {
