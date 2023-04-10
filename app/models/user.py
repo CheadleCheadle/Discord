@@ -46,7 +46,7 @@ class User(db.Model, UserMixin):
         "Server", back_populates="owner", cascade="all, delete-orphan")
     direct_messages = db.relationship(
         "DirectMessage",
-        secondary=DirectMessage,
+        secondary='direct_messages',
         primaryjoin=DirectMessage.user_id == id,
         secondaryjoin=DirectMessage.recipient_id == id,
         overlaps="recipient"
