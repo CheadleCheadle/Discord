@@ -27,6 +27,7 @@ werkzeug = "==2.2.2"
 wtforms = "==3.0.1"
 flask-socketio = "*"
 faker = "*"
+eventlet = "==0.30.2"
 
 [dev-packages]
 
