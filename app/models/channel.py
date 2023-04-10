@@ -30,10 +30,11 @@ class Channel(db.Model):
     _max_users = db.Column(db.Integer)
     _topic = db.Column(db.String(100), nullable=False)
 
-    server = db.relationship("Server", back_populates="channels")
+    server = db.relationship(
+        "Server", back_populates="channels")
 
     channel_messages = db.relationship(
-        "ChannelMessage", back_populates="channel"
+        "ChannelMessage", back_populates="channel", cascade="all, delete-orphan"
     )
 
     # subscribers = db.relationship(

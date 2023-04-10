@@ -1,4 +1,4 @@
-from app.models import db, environment, SCHEMA, add_prefix_for_prod, DirectMessage
+from app.models import db, environment, SCHEMA, add_prefix_for_prod, DirectMessage, ChannelMessage
 from .server import server_memberships
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -38,25 +38,23 @@ class User(db.Model, UserMixin):
 
     # # Relatiomship
     servers = db.relationship(
-        "Server", back_populates="owner")
+        "Server", back_populates="owner", cascade="all, delete-orphan")
     direct_messages = db.relationship(
         "DirectMessage",
-        secondary="direct_messages",
+        secondary='direct_messages',
         primaryjoin=DirectMessage.user_id == id,
         secondaryjoin=DirectMessage.recipient_id == id,
-        overlaps="recipient",
-
+        overlaps="recipient"
     )
 
     channel_messages = db.relationship(
-        "ChannelMessage", back_populates='sender')
+        "ChannelMessage", back_populates='sender', cascade="all, delete-orphan")
 
     friends = db.relationship(
         "User",
         secondary="friends",
         primaryjoin=friends.c.user1_id == id,
         secondaryjoin=friends.c.user2_id == id,
-
     )
 
     # received_messages = db.relationship(
@@ -66,7 +64,6 @@ class User(db.Model, UserMixin):
         "Server",
         secondary=server_memberships,
         back_populates="users",
-
     )
 
     @property
