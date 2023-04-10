@@ -1,29 +1,24 @@
-from app.models.db import db, environment, SCHEMA, add_prefix_for_prod
+from app.models import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
-from sqlalchemy.ext.declarative import declared_attr
 
 
 class Message(db.Model):
     __abstract__ = True
+
+    # if environment == "production":
+    #     __table_args__ = {'schema': SCHEMA}
+
     content = db.Column(db.Text, nullable=False)
-    @declared_attr
-    def user_id(cls):
-        return db.Column(db.Integer, db.ForeignKey(
-        add_prefix_for_prod("users.id")), nullable=False)
-    # datetime needs a default
     _time_stamp = db.Column(db.DateTime, nullable=False,
                             default=datetime.utcnow)
 
     @property
-    def _time_stamp(self):
+    def time_stamp(self):
         return self._time_stamp
 
-    @_time_stamp.setter
-    def _time_stamp(self, val):
+    @time_stamp.setter
+    def time_stamp(self, val):
         raise Exception("Cannot alter timestamp")
-
-    def __repr__(self):
-        return f"{self._time_stamp}: Message from user {self.user_id}: {self.content}"
 
 
 class DirectMessage(Message):
@@ -33,12 +28,16 @@ class DirectMessage(Message):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    @declared_attr
-    def recipient_id(cls):
-        return db.Column(db.Integer, db.ForeignKey(
+    recipient_id = db.Column(db.Integer, db.ForeignKey(
+        add_prefix_for_prod("users.id")),  nullable=False)
+
+    user_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod("users.id")), nullable=False)
 
-    recipient = db.relationship("User", back_populates="direct_messages")
+    sender = db.relationship(
+        "User", foreign_keys='DirectMessage.user_id', back_populates="direct_messages")
+    recipient = db.relationship(
+        "User", foreign_keys='DirectMessage.recipient_id', back_populates="direct_messages")
 
     def to_dict(self):
         return {
@@ -51,7 +50,7 @@ class DirectMessage(Message):
 
     @classmethod  # Seeder method
     def create(cls, items):
-        new_items = [cls(user_id=item["user_id"], content=item["content"], recipient_id=item["recipient_id"], _time_stamp=item["_time_stamp"], pokemon_id=item["pokemon_id"])
+        new_items = [cls(user_id=item["user_id"], content=item["content"], recipient_id=item["recipient_id"])
                      for item in items]
         return new_items
 
@@ -66,11 +65,12 @@ class ChannelMessage(Message):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    @declared_attr
-    def channel_id(cls):
-        return db.Column(db.Integer, db.ForeignKey(
+    user_id = db.Column(db.Integer, db.ForeignKey(
+        add_prefix_for_prod("users.id")), nullable=False)
+    channel_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod("channels.id")), nullable=False)
 
+    sender = db.relationship("User", back_populates='channel_messages')
     channel = db.relationship("Channel", back_populates="channel_messages")
 
     def to_dict(self):
@@ -84,7 +84,7 @@ class ChannelMessage(Message):
 
     @classmethod  # seeder method
     def create(cls, items):
-        new_items = [cls(user_id=item["user_id"], content=item["content"], channel_id=item["channel_id"], _time_stamp=item["_time_stamp"], pokemon_id=item["pokemon_id"])
+        new_items = [cls(user_id=item["user_id"], content=item["content"], channel_id=item["channel_id"])
                      for item in items]
         return new_items
 

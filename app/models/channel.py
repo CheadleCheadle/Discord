@@ -1,19 +1,19 @@
-from app.models.db import db, environment, SCHEMA, add_prefix_for_prod
+from app.models import db, environment, SCHEMA, add_prefix_for_prod
 
-# Join table for creating channel members
-channel_subscribers = db.Table(
-    "channel_subscribers",
-    db.Column(
-        "user_id",
-        db.Integer,
-        db.ForeignKey(add_prefix_for_prod("users.id")),
-        primary_key=True),
-    db.Column(
-        "channel_id",
-        db.Integer,
-        db.ForeignKey(add_prefix_for_prod("channels.id")),
-        primary_key=True)
-),
+# # Join table for creating channel members
+# channel_subscribers = db.Table(
+#     "channel_subscribers",
+#     db.Column(
+#         "user_id",
+#         db.Integer,
+#         db.ForeignKey(add_prefix_for_prod("users.id")),
+#         primary_key=True),
+#     db.Column(
+#         "channel_id",
+#         db.Integer,
+#         db.ForeignKey(add_prefix_for_prod("channels.id")),
+#         primary_key=True)
+# ),
 
 
 class Channel(db.Model):
@@ -23,64 +23,69 @@ class Channel(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    server_id = db.Column(db.Integer, db.ForeignKey(
+    _server_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod("servers.id")), nullable=False)
-    name = db.Column(db.String(40), nullable=False)
-    type = db.Column(db.String(40), nullable=False)
-    max_users = db.Column(db.Integer)
-    topic = db.Column(db.String(100), nullable=False)
+    _name = db.Column(db.String(40), nullable=False)
+    _type = db.Column(db.String(40), nullable=False)
+    _max_users = db.Column(db.Integer)
+    _topic = db.Column(db.String(100), nullable=False)
 
     server = db.relationship(
-        "Server",
-        back_populates="channels"
-    )
+        "Server", back_populates="channels")
 
     channel_messages = db.relationship(
-        "ChannelMessage", back_populates="channels"
+        "ChannelMessage", back_populates="channel", cascade="all, delete-orphan"
     )
-    subscribers = db.relationship(
-        "Channel",
-        secondary="channel_subscribers"
-    )
+
+    # subscribers = db.relationship(
+    #     "Channel",
+    #     secondary="channel_subscribers"
+    # )
 
     @property
     def name(self):
-        return self.name
+        return self._name
 
     @name.setter
-    def name(self, name):
-        self.name = name
+    def name(self, val):
+        self._name = val
 
     @property
     def type(self):
-        return self.type
+        return self._type
 
     @type.setter
-    def type(self, type):
-        self.type = type
+    def type(self, val):
+        self._type = val
 
     @property
     def max_users(self):
-        return self.max_users
+        return self._max_users
 
     @max_users.setter
-    def max_users(self, max_users):
-        self.max_users = max_users
+    def max_users(self, val):
+        self._max_users = val
 
     @property
     def topic(self):
-        return self.topic
+        return self._topic
 
     @topic.setter
-    def topic(self, topic):
-        self.topic = topic
+    def topic(self, val):
+        self._topic = val
+
+    @classmethod
+    def create(cls, items):
+        new_items = [cls(_server_id=item["_server_id"], _name=item["_name"],
+                     _type=item["_type"], _max_users=item["_max_users"], _topic=item["_topic"]) for item in items]
+        return new_items
 
     def to_dict(self):
         return {
             'id': self.id,
-            'server_id': self.server_id,
-            'name': self.name,
-            'type': self.type,
-            'max_users': self.max_users,
-            'topic': self.topic
+            'server_id': self._server_id,
+            'name': self._name,
+            'type': self._type,
+            'max_users': self._max_users,
+            'topic': self._topic
         }
