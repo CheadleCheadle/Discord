@@ -48,6 +48,8 @@ class DirectMessage(Message):
             "time_stamp": self._time_stamp
         }
 
+    
+
     @classmethod  # Seeder method
     def create(cls, items):
         new_items = [cls(user_id=item["user_id"], content=item["content"], recipient_id=item["recipient_id"])
@@ -82,7 +84,7 @@ class ChannelMessage(Message):
             "user_id": self.user_id,
             "content": self.content,
             "channel_id": self.channel_id,
-            "time_stamp": self._time_stamp
+            "time_stamp": self._time_stamp,
         }
 
     @classmethod  # seeder method

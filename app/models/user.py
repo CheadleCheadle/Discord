@@ -20,7 +20,6 @@ friends = db.Table(
     )
 )
 
-
 if environment == "production":
     friends.schema = SCHEMA
 
@@ -40,9 +39,9 @@ class User(db.Model, UserMixin):
     active_status = db.Column(db.Boolean, unique=False, default=False)
     hashed_password = db.Column(db.String(255), nullable=False)
 
-    # # Relatiomship
+    # # Relationship
     servers = db.relationship(
-        "Server", back_populates="owner", cascade="all, delete-orphan")
+        "Server",  back_populates="owner", cascade="all, delete-orphan")
     direct_messages = db.relationship(
         "DirectMessage",
         secondary='direct_messages',
@@ -81,6 +80,21 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+    #To handle recursive calls between a server getting info for its owner which causes its owner to get info for its servers. Hence, recursive loop
+    
+    def to_safe_dict(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            "firstname": self.firstname,
+            "lastname": self.lastname,
+            "photo_url": self.photo_url,
+            "active_status": self.active_status,
+            "channel_messages": [message.to_dict() for message in self.channel_messages],
+        }
+
+
     def to_dict(self):
         return {
             'id': self.id,
@@ -89,5 +103,9 @@ class User(db.Model, UserMixin):
             "firstname": self.firstname,
             "lastname": self.lastname,
             "photo_url": self.photo_url,
-            "active_status": self.active_status
+            "active_status": self.active_status,
+            "servers": [server.to_safe_dict() for server in self.servers],
+            "direct_messages": [dm.to_dict() for dm in self.direct_messages],
+            "channel_messages": [message.to_dict() for message in self.channel_messages],
+            "friends": [friend.to_dict() for friend in self.friends],
         }

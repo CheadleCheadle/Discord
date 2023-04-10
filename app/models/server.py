@@ -81,6 +81,7 @@ class Server(db.Model):
     def description(self, new_description):
         self._description = new_description
 
+
     def to_dict(self):
         return {
             "id": self.id,
@@ -90,5 +91,20 @@ class Server(db.Model):
             "name": self._name,
             "max_users": self._max_users,
             "description": self._description,
-            "created_at": self._created_at
-        }
+            "created_at": self._created_at,
+            "owner": self.owner.to_safe_dict(),
+            "channels": [channel.to_dict() for channel in self.channels],
+            "users": [user.to_dict() for user in self.users]
+            }
+
+    def to_safe_dict(self):
+        return {
+            "id": self.id,
+            "owner_id": self._owner_id,
+            "icon_url": self._icon_url,
+            "public": self._public,
+            "name": self._name,
+            "max_users": self._max_users,
+            "description": self._description,
+            "created_at": self._created_at,
+        }       
