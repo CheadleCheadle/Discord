@@ -38,7 +38,7 @@ class DirectMessage(Message):
     sender = db.relationship(
         "User", foreign_keys=add_prefix_for_prod("user.id"), back_populates="direct_messages")
     recipient = db.relationship(
-        "User", foreign_keys=add_prefix_for_prod('user.id'), back_populates="direct_messages")
+        "User", foreign_keys=add_prefix_for_prod("user.id"), back_populates="direct_messages")
 
     def to_dict(self):
         return {
