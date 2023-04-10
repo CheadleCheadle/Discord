@@ -12,6 +12,10 @@ server_memberships = db.Table(
 )
 
 
+if environment == "production":
+    server_memberships.schema = SCHEMA
+
+
 class Server(db.Model):
     __tablename__ = "servers"
 

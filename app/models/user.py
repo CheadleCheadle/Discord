@@ -21,6 +21,10 @@ friends = db.Table(
 )
 
 
+if environment == "production":
+    friends.schema = SCHEMA
+
+
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
@@ -48,7 +52,7 @@ class User(db.Model, UserMixin):
     )
 
     channel_messages = db.relationship(
-        "ChannelMessage", back_populates='sender', cascade="all, delete-orphan")
+        "ChannelMessage", back_populates='sender')
 
     friends = db.relationship(
         "User",
