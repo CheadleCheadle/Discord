@@ -30,11 +30,12 @@ class Server(db.Model):
                             default=datetime.utcnow)
 
     # # Relationship
-    owner = db.relationship("User", back_populates="servers")
+    owner = db.relationship(
+        "User", back_populates="servers", cascade="all, delete-orphan", single_parent=True)
     channels = db.relationship(
         "Channel", back_populates="server", cascade="all, delete-orphan")
     users = db.relationship(
-        "User", secondary=server_memberships, back_populates="server_memberships")
+        "User", secondary=server_memberships, back_populates="server_memberships", cascade="all, delete")
 
     @property
     def icon_url(self):
