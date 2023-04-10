@@ -23,8 +23,8 @@ def get_all_servers():
 
 
   servers = Server.query.all()
-  return f"{servers[0].owner}"
-  #return {'servers': [server.to_dict() for server in servers]}
+  # return f"{servers[0].owner}"
+  return {'servers': [server.to_dict() for server in servers]}
 
 @server_routes.route('/<int:id>')
 # @login_required
@@ -32,10 +32,4 @@ def get_one_server(id):
   """Query for all servers and returns them in a list of user dictionaries
   """
   server = Server.query.get(id)
-  print(server.to_dict())
   return server.to_dict()
-
-
-
-
-

@@ -1,7 +1,7 @@
 from faker import Faker
 from datetime import datetime
 from sqlalchemy.sql import text
-from app.models import db, DirectMessage, ChannelMessage, environment
+from app.models import db, DirectMessage, ChannelMessage, environment, SCHEMA
 
 fake = Faker()
 
