@@ -29,7 +29,7 @@ def get_all_servers():
   servers = Server.query.all()
   #return f"{servers[0].owner}"
   return {'servers': [server.to_dict() for server in servers]}, 200
-
+@login_required
 @server_routes.route("/new", methods=["POST"])
 def add_new_server():
     """returns a new post form on get requests, 
@@ -43,12 +43,13 @@ def add_new_server():
 
     if form.validate_on_submit(): 
 
-      params={ "icon_url": form.data["icon_url"],
-            "public": form.data["public"],
-            "name": form.data["name"],
-            "max_users": form.data["max_users"],
-            "topic": form.data["topic"],
-            "description": form.data["description"]}
+      params={ "_icon_url": form.data["icon_url"],
+            "_public": form.data["public"],
+            "_name": form.data["name"],
+            "_max_users": form.data["max_users"],
+            "_description": form.data["description"],
+            "_owner_id": current_user.id
+              }
       
       new_server =Server(**params)
       print(new_server)

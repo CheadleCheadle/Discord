@@ -8,7 +8,6 @@ class ServerForm(FlaskForm):
     public  = BooleanField('Public', validators=[DataRequired()])
     name = StringField('Name', validators=[DataRequired()])
     max_users = IntegerField('Max Users', validators=[DataRequired()])
-    topic = StringField('Topic', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
     submit = SubmitField('submit')
 

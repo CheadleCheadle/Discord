@@ -5,23 +5,21 @@ import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
 import Fab from "../Fab";
 import NavBarServerList from "../NavBarServerList";
-import thunkLoadAllServers from "../../store/servers";
+import {thunkLoadAllServers} from "../../store/servers";
 // import servers from "../../servers.json";
-
 const Navigation = () => {
  const dispatch = useDispatch();
- useEffect(() => {
-  console.log("Navigation thunkLoadAllServers useEffect: ");
-  dispatch(thunkLoadAllServers());
- }, [dispatch]);
 
  const return_servers = useSelector((state) => state.servers.allServers);
 
+ const sessionUser = useSelector((state) => state.session.user);
+
  const servers = Object.values(return_servers);
 
- console.log("servers", servers);
 
- const sessionUser = useSelector((state) => state.session.user);
+ useEffect(() => {
+ dispatch(thunkLoadAllServers());
+ }, [dispatch]);
 
  return (
   <div className="svr-nav-bar">
