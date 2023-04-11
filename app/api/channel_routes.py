@@ -17,6 +17,21 @@ def get_channel_by_channel_id(channel_id):
     return {"channel": channel.to_dict()}
 
 
+@channel_routes.route('/<int:channel_id>/delete')
+@login_required
+def delete_channel_by_channel_id(channel_id):
+    channel = Channel.query.get(channel_id)
+    db.session.delete(channel)
+    db.session.commit()
+    return {"success": "success"}
+
+
+# @channel_routes.route('/<int:channel_id>/edit')
+# @login_required
+# def edit_channel_by_channel_id(channel_id):
+#     channel = Channel.query.get(channel_id)
+#     form =
+
 @channel_routes.route('/<int:channel_id>/messages')
 @login_required
 def get_channel_messages_by_channel_id(channel_id):
@@ -32,8 +47,3 @@ def get_channel_messages_by_user_id(channel_id, user_id):
         ChannelMessage.channel_id == channel_id, ChannelMessage.user_id == user_id
     ).order_by(ChannelMessage._time_stamp)
     return {"channel_messages": [message.to_safe_dict() for message in all_messages]}
-
-
-# @server_routes.route('/new', methods=['POST'])
-# @login_required
-# def create_new_channel():
