@@ -28,9 +28,6 @@ if environment == "production":
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
-    if environment == "production":
-        __table_args__ = {'schema': SCHEMA}
-
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
     firstname = db.Column(db.String(40), nullable=False)
@@ -43,13 +40,29 @@ class User(db.Model, UserMixin):
     # # Relationship
     servers = db.relationship(
         "Server",  back_populates="owner", cascade="all, delete-orphan")
-    direct_messages = db.relationship(
-        "DirectMessage",
-        secondary='direct_messages',
-        primaryjoin=DirectMessage.user_id == id,
-        secondaryjoin=DirectMessage.recipient_id == id,
-        overlaps="recipient"
-    )
+    # direct_messages = db.relationship(
+    #     "DirectMessage",
+    #     secondary='direct_messages',
+    #     primaryjoin=DirectMessage.user_id == id,
+    #     secondaryjoin=DirectMessage.recipient_id == id,
+    #     overlaps="recipient"
+    # )
+    if environment == "production":
+        direct_messages = db.relationship(
+            "DirectMessage",
+            secondary=f'{SCHEMA}.direct_messages',
+            primaryjoin=DirectMessage.user_id == id,
+            secondaryjoin=DirectMessage.recipient_id == id,
+            overlaps="recipient"
+        )
+    else:
+        direct_messages = db.relationship(
+            "DirectMessage",
+            secondary='direct_messages',
+            primaryjoin=DirectMessage.user_id == id,
+            secondaryjoin=DirectMessage.recipient_id == id,
+            overlaps="recipient"
+        )
 
     channel_messages = db.relationship(
         "ChannelMessage", back_populates='sender')

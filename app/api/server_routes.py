@@ -44,7 +44,7 @@ def create_new_channel_by_server_id(server_id):
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         channel = Channel(
-            _server_id=form.server_id.data,
+            _server_id=server_id,
             _name=form.name.data,
             _type=form.type.data,
             _max_users=form.max_users.data,
