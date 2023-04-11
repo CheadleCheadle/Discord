@@ -35,11 +35,11 @@ class Server(db.Model):
 
     # # Relationship
     owner = db.relationship(
-        "User", back_populates="servers", cascade="all, delete-orphan", single_parent=True)
+        "User", back_populates="servers", single_parent=True)
     channels = db.relationship(
         "Channel", back_populates="server", cascade="all, delete-orphan")
     users = db.relationship(
-        "User", secondary=server_memberships, back_populates="server_memberships", cascade="all, delete")
+        "User", secondary=server_memberships, back_populates="server_memberships")
 
     @property
     def icon_url(self):
@@ -80,6 +80,9 @@ class Server(db.Model):
     @description.setter
     def description(self, new_description):
         self._description = new_description
+
+    def check_owner(self, user):
+        return user.id == self._owner_id
 
     def to_dict(self):
         return {

@@ -17,6 +17,11 @@ friends = db.Table(
         db.Integer,
         db.ForeignKey(add_prefix_for_prod("users.id")),
         primary_key=True
+    ),
+    db.Column(
+        "status",
+        db.String,
+        nullable=False
     )
 )
 
