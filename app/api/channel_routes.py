@@ -12,7 +12,6 @@ channel_routes = Blueprint('channel', __name__)
 # def membership_required():
 #     def inner_func():
 
-# GET AND DELETE A CHANNEL
 @channel_routes.route('/<int:channel_id>', methods=['GET', 'DELETE'])
 @login_required
 def get_channel_by_channel_id(channel_id):
@@ -23,8 +22,7 @@ def get_channel_by_channel_id(channel_id):
         db.session.commit()
         return {"success": "success"}
     return {"channel": channel.to_dict()}, 200
-
-# EDIT A CHANNEL
+# GET AND DELETE A CHANNEL
 
 
 @channel_routes.route('/<int:channel_id>/edit', methods=['POST'])
@@ -44,8 +42,7 @@ def edit_channel_by_channel_id(channel_id):
         return channel_to_edit.to_dict()
     elif form.errors:
         return {"error": form.errors}
-
-# CREATE A NEW CHANNEL MESSAGE
+# EDIT A CHANNEL
 
 
 @channel_routes.route('/<int:channel_id>/messages/new', methods=['POST'])
@@ -61,9 +58,7 @@ def create_a_channel_message(channel_id):
     db.session.add(new_message)
     db.session.commit()
     return new_message.to_safe_dict()
-
-
-# GET CHANNEL MESSAGES BY CHANNEL ID
+# CREATE A NEW CHANNEL MESSAGE
 
 
 @channel_routes.route('/<int:channel_id>/messages')
@@ -72,9 +67,7 @@ def get_channel_messages_by_channel_id(channel_id):
     all_messages = ChannelMessage.query.filter(
         ChannelMessage.channel_id == channel_id).order_by(ChannelMessage._time_stamp)
     return {"channel_messages": [message.to_safe_dict() for message in all_messages]}
-
-
-# GET CHANNEL MESSAGES BY USER ID
+# GET CHANNEL MESSAGES BY CHANNEL ID
 
 
 @channel_routes.route('/<int:channel_id>/users/<int:user_id>/messages')
@@ -84,3 +77,4 @@ def get_channel_messages_by_user_id(channel_id, user_id):
         ChannelMessage.channel_id == channel_id, ChannelMessage.user_id == user_id
     ).order_by(ChannelMessage._time_stamp)
     return {"channel_messages": [message.to_safe_dict() for message in all_messages]}
+# GET CHANNEL MESSAGES BY USER ID
