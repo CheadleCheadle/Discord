@@ -31,5 +31,8 @@ def get_all_servers():
 def get_one_server(id):
   """Query for all servers and returns them in a list of user dictionaries
   """
+  print("HI MOM!!!!!!!!!!!!!!!!",current_user)
   server = Server.query.get(id)
   return server.to_dict()
+
+
