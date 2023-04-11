@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 64071bba83ee
+Revision ID: d972e271ec93
 Revises:
-Create Date: 2023-04-10 13:29:39.067494
+Create Date: 2023-04-11 13:22:27.334276
 
 """
 from alembic import op
@@ -13,7 +13,7 @@ environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
-revision = '64071bba83ee'
+revision = 'd972e271ec93'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -34,7 +34,6 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
-
     if environment == "production":
         op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
 
@@ -48,18 +47,17 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-
     if environment == "production":
         op.execute(f"ALTER TABLE direct_messages SET SCHEMA {SCHEMA};")
 
     op.create_table('friends',
     sa.Column('user1_id', sa.Integer(), nullable=False),
     sa.Column('user2_id', sa.Integer(), nullable=False),
+    sa.Column('status', sa.String(), nullable=False),
     sa.ForeignKeyConstraint(['user1_id'], ['users.id'], ),
     sa.ForeignKeyConstraint(['user2_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('user1_id', 'user2_id')
     )
-
     if environment == "production":
         op.execute(f"ALTER TABLE friends SET SCHEMA {SCHEMA};")
 
@@ -76,7 +74,6 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('_name')
     )
-
     if environment == "production":
         op.execute(f"ALTER TABLE servers SET SCHEMA {SCHEMA};")
 
@@ -90,7 +87,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['_server_id'], ['servers.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-
     if environment == "production":
         op.execute(f"ALTER TABLE channels SET SCHEMA {SCHEMA};")
 
@@ -101,7 +97,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('user_id', 'server_id')
     )
-
     if environment == "production":
         op.execute(f"ALTER TABLE server_memberships SET SCHEMA {SCHEMA};")
 
@@ -115,10 +110,8 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-
     if environment == "production":
         op.execute(f"ALTER TABLE channel_messages SET SCHEMA {SCHEMA};")
-
     # ### end Alembic commands ###
 
 

@@ -1,1 +1,230 @@
 /* TODO Add site wide styles */
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 16pt;
+}
+
+body {
+
+  background-color: #777;
+}
+
+.svr-nav-bar {
+  padding-top: 10px;
+  width: 80px;
+  height: 100vh;
+  background-color: #444;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.svr-nav-server-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 82%;
+  /* background-color: burlywood; */
+}
+
+.svr-nav-menu {
+  width: 100%;
+  height: 18%;
+  /* background-color: aquamarine; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-content: center;
+}
+
+.svr-profile-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.svr-profile-btn-color {
+  color: green;
+  border-color: 1px solid green;
+}
+
+.svr-nav-menu-item {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  position: relative;
+}
+
+/* ********************* */
+/*    profile dropdown   */
+/* ********************* */
+
+.profile-dropdown {
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+
+  position: absolute;
+  left: calc(100% + .05rem);
+  top: 50%;
+  /* top side of self container is at 50% of parent container */
+  transform: translateY(-50%);
+  /* gap: 10px; */
+  background-color: white;
+  padding-bottom: .15rem;
+  border-radius: 9px;
+  box-shadow: 0 2px 5px 0 gray;
+  z-index: 1;
+}
+
+.hidden {
+  display: none;
+}
+
+.dropdown-content {
+  font-weight: 400;
+  font-size: 14pt;
+  padding: .20rem .55rem;
+}
+
+.logout-button-container {
+  display: flex;
+  justify-content: center;
+  border-top: 2px solid gray;
+}
+
+
+/* ********************* */
+/*   rctx-contextmenu    */
+/* ********************* */
+.svr-ctx-container {
+  display: flex;
+  align-content: center;
+  background-size: cover;
+  background-position: center;
+  /* background-image: "https://source.unsplash.com/nKC772R_qog"; */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.svr-ctx-container:hover {
+  border-radius: 25%;
+}
+
+
+
+.svr-ctx-box {
+  text-align: center;
+  font-size: 2pt;
+  /* background-color: cornflowerblue; */
+  color: transparent;
+}
+
+.menu-trigger {
+  background-color: aqua;
+  z-index: 3;
+}
+
+.contextmenu {
+  background-color: red;
+  z-index: 1;
+}
+
+.contextmenu__item {
+  background-color: lightpink;
+  z-index: 2;
+}
+
+/* ********************* */
+/*       tooltip         */
+/* ********************* */
+
+.svr-ctx-container::before,
+.svr-ctx-container::after {
+  --scale: 0;
+  --arrow-size: 10px;
+  --tooltip-color: #222;
+
+  position: absolute;
+  left: 5px;
+  /* move right .25rem */
+  top: 50%;
+  /* top side of self container is at 50% of parent container */
+  transform: translateY(-50%) translateX(var(--translate-x, 0)) scale(var(--scale));
+  /* move up half of self height */
+  /* if --translate-y is not defined just use 0*/
+  transition: 150ms transform;
+  /* transition animation */
+  transform-origin: left center;
+  /* grow from bottom */
+  z-index: 2;
+}
+
+.svr-ctx-container::before {
+  --translate-x: calc(50px + var(--arrow-size));
+  /* move up 100% of self height and size of arrow */
+  content: attr(data-tooltip);
+  /* content: "happy"; */
+  /* dynamicly receive content from attribute */
+  color: white;
+  font-size: 5pt;
+  padding: 4px;
+  border-radius: .3rem;
+  /* text-align: center; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: max-content;
+  height: 30px;
+  /* fix all the text */
+  max-width: 50px;
+  /* not exceed the parent width */
+  background: var(--tooltip-color);
+}
+
+.svr-ctx-container:hover::before,
+.svr-ctx-container:hover::after {
+  --scale: 1;
+}
+
+/* hover to scale 1 */
+
+.svr-ctx-container::after {
+  /* triangle */
+  --translate-x: calc(35px + var(--arrow-size));
+  /* 0.05 of overlap */
+  content: '';
+  border: var(--arrow-size) solid transparent;
+  /* all border transparent */
+  border-right-color: var(--tooltip-color);
+  /* except top-border */
+  transform-origin: right center;
+  /* grow from top center */
+}
+
+/* ********************* */
+/*       fab         */
+/* ********************* */
+
+.fab {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: orange;
+  border-radius: 50px;
+  box-shadow: 0 4px 6px rgb(0, 0, 0, 0.2);
+  cursor: pointer;
+  overflow: hidden;
+  height: 50px;
+  width: 50px;
+}

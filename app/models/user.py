@@ -18,6 +18,11 @@ friends = db.Table(
         db.Integer,
         db.ForeignKey(add_prefix_for_prod("users.id")),
         primary_key=True
+    ),
+    db.Column(
+        "status",
+        db.String,
+        nullable=False
     )
 )
 
@@ -40,16 +45,28 @@ class User(db.Model, UserMixin):
     active_status = db.Column(db.Boolean, unique=False, default=False)
     hashed_password = db.Column(db.String(255), nullable=False)
 
-    # # Relationship
+    # Relationships
     servers = db.relationship(
-        "Server",  back_populates="owner", cascade="all, delete-orphan")
-    direct_messages = db.relationship(
-        "DirectMessage",
-        secondary='direct_messages',
-        primaryjoin=DirectMessage.user_id == id,
-        secondaryjoin=DirectMessage.recipient_id == id,
-        overlaps="recipient"
-    )
+        "Server", back_populates="owner", cascade="all, delete-orphan")
+
+    if environment == "production":
+
+        direct_messages = db.relationship(
+                "DirectMessage",
+                secondary=f'{SCHEMA}.direct_messages',
+                primaryjoin=DirectMessage.user_id == id,
+                secondaryjoin=DirectMessage.recipient_id == id,
+                overlaps="recipient"
+        )
+    else:
+
+        direct_messages = db.relationship(
+                "DirectMessage",
+                secondary = 'direct_messages',
+                primaryjoin = DirectMessage.user_id == id,
+                secondaryjoin = DirectMessage.recipient_id == id,
+                overlaps = "recipient"
+        )
 
     channel_messages = db.relationship(
         "ChannelMessage", back_populates='sender')
@@ -61,14 +78,12 @@ class User(db.Model, UserMixin):
         secondaryjoin=friends.c.user2_id == id,
     )
 
-    # received_messages = db.relationship(
-    #     "DirectMessage", back_populates="recipient")
-
     server_memberships = db.relationship(
         "Server",
         secondary=server_memberships,
         back_populates="users",
     )
+
 
     @property
     def password(self):
@@ -81,8 +96,8 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-    #To handle recursive calls between a server getting info for its owner which causes its owner to get info for its servers. Hence, recursive loop
-    
+    # To handle recursive calls between a server getting info for its owner which causes its owner to get info for its servers. Hence, recursive loop
+
     def to_safe_dict(self):
         return {
             'id': self.id,
@@ -91,10 +106,8 @@ class User(db.Model, UserMixin):
             "firstname": self.firstname,
             "lastname": self.lastname,
             "photo_url": self.photo_url,
-            "active_status": self.active_status,
-            "channel_messages": [message.to_dict() for message in self.channel_messages],
+            "active_status": self.active_status
         }
-
 
     def to_dict(self):
         return {
