@@ -1,24 +1,52 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import ProfileButton from './ProfileButton';
-import './Navigation.css';
+import React, { useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import ProfileButton from "./ProfileButton";
+import "./Navigation.css";
+import Fab from "../Fab";
+import NavBarServerList from "../NavBarServerList";
+import thunkLoadAllServers from "../../store/servers";
+// import servers from "../../servers.json";
 
-function Navigation({ isLoaded }){
-	const sessionUser = useSelector(state => state.session.user);
+const Navigation = () => {
+ const dispatch = useDispatch();
+ useEffect(() => {
+  console.log("Navigation thunkLoadAllServers useEffect: ");
+  dispatch(thunkLoadAllServers());
+ }, [dispatch]);
 
-	return (
-		<ul>
-			<li>
-				<NavLink exact to="/">Home</NavLink>
-			</li>
-			{isLoaded && (
-				<li>
-					<ProfileButton user={sessionUser} />
-				</li>
-			)}
-		</ul>
-	);
-}
+ const return_servers = useSelector((state) => state.servers.allServers);
+
+ const servers = Object.values(return_servers);
+
+ console.log("servers", servers);
+
+ const sessionUser = useSelector((state) => state.session.user);
+
+ return (
+  <div className="svr-nav-bar">
+   <div className="svr-nav-server-list">
+    <NavBarServerList servers={servers} />
+   </div>
+   <div className="svr-nav-menu">
+    {/* <div>
+     <NavLink exact to="/">
+      Home
+     </NavLink>
+    </div> */}
+
+    <div className="svr-nav-menu-item svr-dropdown-parent">
+     <ProfileButton user={sessionUser} />
+    </div>
+
+    <div className="svr-nav-menu-item">
+     <NavLink to="/servers/new">
+      <Fab />
+     </NavLink>
+    </div>
+   </div>
+  </div>
+ );
+};
 
 export default Navigation;
