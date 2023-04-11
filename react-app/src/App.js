@@ -17,16 +17,16 @@ function App() {
  return (
   <>
    <Navigation />
-   {isLoaded && (
-    <Switch>
-     <Route path="/servers/new">
-      <AddServerForm />
-     </Route>
-     <Route path="/signup">
-      <SignupFormPage />
-     </Route>
-    </Switch>
-   )}
+   {/* {isLoaded && ( */}
+   <Switch>
+    <Route path="/servers/new">
+     <AddServerForm />
+    </Route>
+    <Route path="/signup">
+     <SignupFormPage />
+    </Route>
+   </Switch>
+   {/* )} */}
   </>
  );
 }

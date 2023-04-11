@@ -1,7 +1,7 @@
-//import ServerForm from "../components/ServerForm";
+import ServerForm from "../components/ServerForm";
 
-const AddServerForm = () => {
- return <h1>AddServerForm </h1>;
- //  return <ServerForm formType="AddServerForm" />;
+const AddServerForm = ({ user }) => {
+ //  return <h1>AddServerForm </h1>;
+ return <ServerForm user={user} formType="AddServerForm" />;
 };
 export default AddServerForm;
