@@ -11,37 +11,37 @@ def seed_messages():
     dm_data = [
         {
             "user_id": 1,
-            "content": fake.text(max_nb_chars=100),
+            "_content": fake.text(max_nb_chars=100),
             "recipient_id": 2,
         },
         {
             "user_id": 2,
-            "content": fake.text(max_nb_chars=100),
+            "_content": fake.text(max_nb_chars=100),
             "recipient_id": 1,
         },
         {
             "user_id": 1,
-            "content": fake.text(max_nb_chars=100),
+            "_content": fake.text(max_nb_chars=100),
             "recipient_id": 2,
         },
         {
             "user_id": 2,
-            "content": fake.text(max_nb_chars=100),
+            "_content": fake.text(max_nb_chars=100),
             "recipient_id": 1,
         },
         {
             "user_id": 1,
-            "content": fake.text(max_nb_chars=100),
+            "_content": fake.text(max_nb_chars=100),
             "recipient_id": 2,
         },
         {
             "user_id": 2,
-            "content": fake.text(max_nb_chars=100),
+            "_content": fake.text(max_nb_chars=100),
             "recipient_id": 1,
         },
         {
             "user_id": 2,
-            "content": fake.text(max_nb_chars=100),
+            "_content": fake.text(max_nb_chars=100),
             "recipient_id": 1,
         },
 
@@ -50,37 +50,37 @@ def seed_messages():
     channel_message_data = [
         {
             "user_id": 1,
-            "content": fake.text(max_nb_chars=100),
+            "_content": fake.text(max_nb_chars=100),
             "channel_id": 2,
         },
         {
             "user_id": 2,
-            "content": fake.text(max_nb_chars=100),
+            "_content": fake.text(max_nb_chars=100),
             "channel_id": 1,
         },
         {
             "user_id": 1,
-            "content": fake.text(max_nb_chars=100),
+            "_content": fake.text(max_nb_chars=100),
             "channel_id": 2,
         },
         {
             "user_id": 2,
-            "content": fake.text(max_nb_chars=100),
+            "_content": fake.text(max_nb_chars=100),
             "channel_id": 1,
         },
         {
             "user_id": 1,
-            "content": fake.text(max_nb_chars=100),
+            "_content": fake.text(max_nb_chars=100),
             "channel_id": 2,
         },
         {
             "user_id": 2,
-            "content": fake.text(max_nb_chars=100),
+            "_content": fake.text(max_nb_chars=100),
             "channel_id": 1,
         },
         {
             "user_id": 2,
-            "content": fake.text(max_nb_chars=100),
+            "_content": fake.text(max_nb_chars=100),
             "channel_id": 1,
         },
 
