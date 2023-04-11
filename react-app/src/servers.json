@@ -1,0 +1,41 @@
+[
+ {
+  "id": 1,
+  "name": "aA open ",
+  "public": true,
+  "max_users": 30,
+  "topic": "Pets",
+  "icon_url": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Appacademylogo.png",
+  "description": "This discord is for people",
+  "owner_id": 1,
+  "created_at": "2021-11-19 20:39:36",
+  "host": 1,
+  "members": [2, 3]
+ },
+ {
+  "id": 2,
+  "name": "BLACK PINK",
+  "public": false,
+  "max_users": 40,
+  "topic": "music",
+  "icon_url": "https://media.discordapp.net/attachments/676180932809588767/1048993307528798288/bpwelcome22.jpg?width=1431&height=876",
+  "description": "Welcome to BLACK PINK fans group",
+  "owner_id": 2,
+  "created_at": "2021-11-19 20:39:36",
+  "host": 2,
+  "members": [1, 2]
+ },
+ {
+  "id": 3,
+  "name": "Hiker",
+  "public": false,
+  "max_users": 50,
+  "topic": "exercise",
+  "icon_url": "https://www.shutterstock.com/shutterstock/photos/434536597/display_1500/stock-vector-vector-illustration-silhouette-of-a-climber-isolated-hiker-on-white-background-434536597.jpg",
+  "description": "Welcome to Moutain Hiker group",
+  "owner_id": 2,
+  "created_at": "2021-11-19 20:39:36",
+  "host": 3,
+  "members": [1, 2]
+ }
+]
