@@ -1,25 +1,22 @@
 from flask import Blueprint,redirect,render_template,request
 from flask_login import current_user, login_required
-from app.models import db, Server
+from app.models import db, Server, Channel
 from app.forms import ServerForm
 
 server_routes = Blueprint('server', __name__)
 default_image = "https://d1lss44hh2trtw.cloudfront.net/assets/article/2022/12/01/discord-offer-new-server-subscription-90-10-revenue-split_feature.jpg"
+
 @server_routes.route("/current")
+# @login_required
 def get_current_servers():
-  """Query for all servers and returns them in a list of user dictionaries
-  """
-  # if not current_user.is_authenticated:
-  #   return "current_user.is_authenticated"
+    """Query for all servers and returns them in a list of user dictionaries
+    """
+    servers = Server.query.filter(Server._owner_id == current_user.id).all()
 
+    #print({'servers': [server.to_dict() for server in servers]})
+    return {'servers': [server.to_dict() for server in servers]}
 
-
-  print(current_user)
-  servers = Server.query.filter(Server._owner_id==current_user.id).all()
-  return {'servers': [server.to_dict() for server in servers]}, 200
-
-
-
+#Get all servers
 @server_routes.route("/")
 def get_all_servers():
   """Query for all servers and returns them in a list of user dictionaries """
@@ -29,7 +26,7 @@ def get_all_servers():
   return {'servers': [server.to_dict() for server in servers]}, 200
 
 
-
+#Create new server
 @login_required
 @server_routes.route("/new", methods=["POST"])
 def add_new_server():
@@ -62,7 +59,7 @@ def add_new_server():
         return {"errors": str(e)}, 500
 
     return {"errors": form.errors }, 400
-
+#Update server
 @login_required
 @server_routes.route('/<int:id>', methods=["PUT"])
 def edit_a_server(id):
@@ -96,7 +93,7 @@ def edit_a_server(id):
 
     return {"errors": form.errors }, 400
 
-
+#Get single server
 @server_routes.route('/<int:id>')
 #@login_required
 def get_one_server(id):
@@ -107,7 +104,7 @@ def get_one_server(id):
     return {"errors":"Film not found"}, 404
   return server.to_dict(), 200
 
-
+#Delete Server
 @server_routes.route('/<int:id>', methods=["DELETE"])
 @login_required
 def delete_one_server(id):
@@ -126,3 +123,38 @@ def delete_one_server(id):
       return {"errors": str(e)}, 500
   else:
       return {"Message": "Forbidden"}, 400
+
+#Create new channel in server
+@server_routes.route('/<int:server_id>/channels/new', methods=['GET', 'POST'])
+@login_required
+def create_new_channel_by_server_id(server_id):
+    form = ChannelForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        channel = Channel(
+            _server_id=server_id,
+            _name=form.name.data,
+            _type=form.type.data,
+            _max_users=form.max_users.data,
+            _topic=form.topic.data
+        )
+        db.session.add(channel)
+        db.session.commit()
+
+        # need to change this for single channel
+        new_channel = Channel.query.filter(
+            Channel._server_id == form.server_id.data,
+            Channel._name == form.name.data,
+            Channel._type == form.type.data,
+            Channel._max_users == form.max_users.data,
+            Channel._topic == form.topic.data
+        ).all()
+        return [channel.to_safe_dict() for channel in new_channel]
+    return {"error": "error occurred"}
+
+#Get all channels for server
+@server_routes.route('/<int:server_id>/channels')
+@login_required
+def get_all_server_channels(server_id):
+    all_channels = Channel.query.filter(Channel._server_id == server_id)
+    return {"channel": [channel.to_safe_dict() for channel in all_channels]}
