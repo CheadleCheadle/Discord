@@ -9,9 +9,17 @@ class Message(db.Model):
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
-    content = db.Column(db.Text, nullable=False)
+    _content = db.Column(db.Text, nullable=False)
     _time_stamp = db.Column(db.DateTime, nullable=False,
                             default=datetime.utcnow)
+
+    @property
+    def content(self):
+        return self._content
+
+    @content.setter
+    def content(self, val):
+        self._content = val
 
     @property
     def time_stamp(self):
@@ -62,7 +70,7 @@ class DirectMessage(Message):
 
     @classmethod  # Seeder method
     def create(cls, items):
-        new_items = [cls(user_id=item["user_id"], content=item["content"], recipient_id=item["recipient_id"])
+        new_items = [cls(user_id=item["user_id"], content=item["_content"], recipient_id=item["recipient_id"])
                      for item in items]
         return new_items
 
@@ -91,15 +99,26 @@ class ChannelMessage(Message):
 
     @classmethod  # seeder method
     def create(cls, items):
-        new_items = [cls(user_id=item["user_id"], content=item["content"], channel_id=item["channel_id"])
+        new_items = [cls(user_id=item["user_id"], content=item["_content"], channel_id=item["channel_id"])
                      for item in items]
         return new_items
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "content": self._content,
+            "channel_id": self.channel_id,
+            "time_stamp": self._time_stamp,
+            "sender": self.sender.to_safe_dict(),
+            "channel": self.channel.to_safe_dict()
+        }
 
     def to_safe_dict(self):
         return {
             "id": self.id,
             "user_id": self.user_id,
-            "content": self.content,
+            "content": self._content,
             "channel_id": self.channel_id,
             "time_stamp": self._time_stamp,
         }
