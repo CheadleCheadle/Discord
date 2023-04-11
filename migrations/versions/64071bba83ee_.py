@@ -1,7 +1,7 @@
 """empty message
 
 Revision ID: 64071bba83ee
-Revises: 
+Revises:
 Create Date: 2023-04-10 13:29:39.067494
 
 """
@@ -34,8 +34,8 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
-    
- if environment == "production":
+
+    if environment == "production":
         op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
 
     op.create_table('direct_messages',
@@ -48,8 +48,8 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    
- if environment == "production":
+
+    if environment == "production":
         op.execute(f"ALTER TABLE direct_messages SET SCHEMA {SCHEMA};")
 
     op.create_table('friends',
@@ -59,8 +59,8 @@ def upgrade():
     sa.ForeignKeyConstraint(['user2_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('user1_id', 'user2_id')
     )
-    
- if environment == "production":
+
+    if environment == "production":
         op.execute(f"ALTER TABLE friends SET SCHEMA {SCHEMA};")
 
     op.create_table('servers',
@@ -76,8 +76,8 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('_name')
     )
-    
- if environment == "production":
+
+    if environment == "production":
         op.execute(f"ALTER TABLE servers SET SCHEMA {SCHEMA};")
 
     op.create_table('channels',
@@ -91,7 +91,7 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
 
- if environment == "production":
+    if environment == "production":
         op.execute(f"ALTER TABLE channels SET SCHEMA {SCHEMA};")
 
     op.create_table('server_memberships',
@@ -101,8 +101,8 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('user_id', 'server_id')
     )
-    
- if environment == "production":
+
+    if environment == "production":
         op.execute(f"ALTER TABLE server_memberships SET SCHEMA {SCHEMA};")
 
     op.create_table('channel_messages',
@@ -115,8 +115,8 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    
- if environment == "production":
+
+    if environment == "production":
         op.execute(f"ALTER TABLE channel_messages SET SCHEMA {SCHEMA};")
 
     # ### end Alembic commands ###
