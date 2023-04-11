@@ -62,6 +62,7 @@ def create_a_channel_message(channel_id):
     db.session.commit()
     return new_message.to_safe_dict()
 
+
 # GET CHANNEL MESSAGES BY CHANNEL ID
 
 
@@ -71,6 +72,7 @@ def get_channel_messages_by_channel_id(channel_id):
     all_messages = ChannelMessage.query.filter(
         ChannelMessage.channel_id == channel_id).order_by(ChannelMessage._time_stamp)
     return {"channel_messages": [message.to_safe_dict() for message in all_messages]}
+
 
 # GET CHANNEL MESSAGES BY USER ID
 

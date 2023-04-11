@@ -25,4 +25,6 @@ def user(id):
     return user.to_dict()
 
 
-# @user_routes.route('')
+# @user_routes.route('/<int:user_id>/messages/')
+# @login_required
+# def get_messages_from_user(user_id)
