@@ -5,9 +5,7 @@ from app.forms import ServerForm
 
 server_routes = Blueprint('server', __name__)
 
-
 @server_routes.route("/current")
-#@login_required
 def get_current_servers():
   """Query for all servers and returns them in a list of user dictionaries
   """
@@ -29,6 +27,9 @@ def get_all_servers():
   servers = Server.query.all()
   #return f"{servers[0].owner}"
   return {'servers': [server.to_dict() for server in servers]}, 200
+
+
+
 @login_required
 @server_routes.route("/new", methods=["POST"])
 def add_new_server():
