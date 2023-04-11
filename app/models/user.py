@@ -45,16 +45,28 @@ class User(db.Model, UserMixin):
     active_status = db.Column(db.Boolean, unique=False, default=False)
     hashed_password = db.Column(db.String(255), nullable=False)
 
-    # # Relatiomship
+    # Relationships
     servers = db.relationship(
         "Server", back_populates="owner", cascade="all, delete-orphan")
-    direct_messages = db.relationship(
-        "DirectMessage",
-        secondary='direct_messages',
-        primaryjoin=DirectMessage.user_id == id,
-        secondaryjoin=DirectMessage.recipient_id == id,
-        overlaps="recipient"
-    )
+
+    if environment == "production":
+
+        direct_messages = db.relationship(
+                "DirectMessage",
+                secondary=f'{SCHEMA}.direct_messages',
+                primaryjoin=DirectMessage.user_id == id,
+                secondaryjoin=DirectMessage.recipient_id == id,
+                overlaps="recipient"
+        )
+    else:
+
+        direct_messages = db.relationship(
+                "DirectMessage",
+                secondary = 'direct_messages',
+                primaryjoin = DirectMessage.user_id == id,
+                secondaryjoin = DirectMessage.recipient_id == id,
+                overlaps = "recipient"
+        )
 
     channel_messages = db.relationship(
         "ChannelMessage", back_populates='sender')
@@ -66,14 +78,12 @@ class User(db.Model, UserMixin):
         secondaryjoin=friends.c.user2_id == id,
     )
 
-    # received_messages = db.relationship(
-    #     "DirectMessage", back_populates="recipient")
-
     server_memberships = db.relationship(
         "Server",
         secondary=server_memberships,
         back_populates="users",
     )
+
 
     @property
     def password(self):
