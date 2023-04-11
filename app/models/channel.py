@@ -60,7 +60,7 @@ class Channel(db.Model):
                      _type=item["_type"], _max_users=item["_max_users"], _topic=item["_topic"]) for item in items]
         return new_items
 
-    def to_dict(self):
+    def to_safe_dict(self):
         return {
             'id': self.id,
             'server_id': self._server_id,
@@ -68,4 +68,16 @@ class Channel(db.Model):
             'type': self._type,
             'max_users': self._max_users,
             'topic': self._topic
+        }
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'server_id': self._server_id,
+            'name': self._name,
+            'type': self._type,
+            'max_users': self._max_users,
+            'topic': self._topic,
+            'server': self.server.to_safe_dict(),
+            'channel_messages': [message.to_safe_dict() for message in self.channel_messages]
         }

@@ -40,7 +40,7 @@ class DirectMessage(Message):
     recipient = db.relationship(
         "User", foreign_keys=add_prefix_for_prod("DirectMessage.recipient_id"), back_populates="direct_messages")
 
-    def to_dict(self):
+    def to_safe_dict(self):
         return {
             "id": self.id,
             "user_id": self.user_id,
@@ -49,7 +49,16 @@ class DirectMessage(Message):
             "time_stamp": self._time_stamp
         }
 
-    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "content": self.content,
+            "recipient_id": self.recipient_id,
+            "time_stamp": self._time_stamp,
+            "sender": self.sender.to_safe_dict(),
+            "recipient": self.recipient.to_safe_dict()
+        }
 
     @classmethod  # Seeder method
     def create(cls, items):
@@ -63,6 +72,7 @@ class DirectMessage(Message):
 
 if environment == "production":
     DirectMessage.schema = SCHEMA
+
 
 class ChannelMessage(Message):
     __tablename__ = 'channel_messages'
@@ -79,7 +89,13 @@ class ChannelMessage(Message):
     sender = db.relationship("User", back_populates='channel_messages')
     channel = db.relationship("Channel", back_populates="channel_messages")
 
-    def to_dict(self):
+    @classmethod  # seeder method
+    def create(cls, items):
+        new_items = [cls(user_id=item["user_id"], content=item["content"], channel_id=item["channel_id"])
+                     for item in items]
+        return new_items
+
+    def to_safe_dict(self):
         return {
             "id": self.id,
             "user_id": self.user_id,
@@ -87,12 +103,6 @@ class ChannelMessage(Message):
             "channel_id": self.channel_id,
             "time_stamp": self._time_stamp,
         }
-
-    @classmethod  # seeder method
-    def create(cls, items):
-        new_items = [cls(user_id=item["user_id"], content=item["content"], channel_id=item["channel_id"])
-                     for item in items]
-        return new_items
 
     def __repr__(self):
         return f"Channel {self.channel_id} message from user {self.user_id}: {self.content}"

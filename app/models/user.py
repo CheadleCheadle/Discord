@@ -81,8 +81,8 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-    #To handle recursive calls between a server getting info for its owner which causes its owner to get info for its servers. Hence, recursive loop
-    
+    # To handle recursive calls between a server getting info for its owner which causes its owner to get info for its servers. Hence, recursive loop
+
     def to_safe_dict(self):
         return {
             'id': self.id,
@@ -91,10 +91,8 @@ class User(db.Model, UserMixin):
             "firstname": self.firstname,
             "lastname": self.lastname,
             "photo_url": self.photo_url,
-            "active_status": self.active_status,
-            "channel_messages": [message.to_dict() for message in self.channel_messages],
+            "active_status": self.active_status
         }
-
 
     def to_dict(self):
         return {
