@@ -1,6 +1,7 @@
-from flask import Blueprint, jsonify
-from flask_login import login_required
-from app.models import User
+from flask import Blueprint, jsonify, request
+from flask_login import login_required, current_user
+from app.models import User, db, DirectMessage
+import json
 
 user_routes = Blueprint('users', __name__)
 
@@ -25,6 +26,31 @@ def user(id):
     return user.to_dict()
 
 
-# @user_routes.route('/<int:user_id>/messages/')
-# @login_required
-# def get_messages_from_user(user_id)
+@user_routes.route('/curr/messages/recipient/<int:recipient_id>')
+@login_required
+def get_messages_from_user(recipient_id):
+    user_id = current_user.id
+    all_messages = DirectMessage.query.filter(
+        DirectMessage.user_id == user_id,
+        DirectMessage.recipient_id == recipient_id
+    )
+
+    return [message.to_safe_dict() for message in all_messages]
+# GET MESSAGES SENT FROM USER TO RECIPIENT
+
+
+@user_routes.route('/curr/messages/new', methods=['POST'])
+@login_required
+def create_direct_message():
+    data = json.loads(request.data)
+    user_id = current_user.id
+    # return data
+    new_message = DirectMessage(
+        user_id=user_id,
+        recipient_id=data["recipient_id"],
+        _content=data['content']
+    )
+    db.session.add(new_message)
+    db.session.commit()
+    return new_message.to_safe_dict()
+# CREATE A NEW DIRECT MESSAGE
