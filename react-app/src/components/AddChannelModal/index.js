@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector} from "react-redux";
 import { useModal } from "../../context/Modal.js";
 import { createChannelAction } from "../../store/channels";
@@ -20,6 +20,7 @@ export default function AddChannelModal() {
         const newChannel = {server_id: 1, name, type, max_users:maxUsers, topic};
         dispatch(createChannelAction(newChannel, 1));
         //add dispatch to session action with new channel obj
+        closeModal()
     }
 
     const handleDisable = () => {
@@ -45,6 +46,10 @@ export default function AddChannelModal() {
         }
         return setErrors( ...tempErrors)
     }
+
+    useEffect(() => {
+    validateBody()
+    })
 
 
     return (
@@ -87,7 +92,7 @@ export default function AddChannelModal() {
             required
         />
         </label>
-        <input type="submit" value="Create new Channel" />
+        <input type="submit" disabled={Object.values(errors).length} value="Create new Channel" />
     </form>
     </>
 

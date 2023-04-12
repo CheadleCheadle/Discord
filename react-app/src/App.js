@@ -25,9 +25,6 @@ function App() {
      <Route path="/signup">
       <SignupFormPage />
      </Route>
-     <Route path="/channels/new">
-     <AddChannelModal />
-     </Route>
     </Switch> 
    )}
   </>
