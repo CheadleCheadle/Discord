@@ -25,7 +25,7 @@ def get_channel_by_channel_id(channel_id):
 # GET AND DELETE A CHANNEL
 
 
-@channel_routes.route('/<int:channel_id>/edit', methods=['POST'])
+@channel_routes.route('/<int:channel_id>/edit', methods=['PUT'])
 @login_required
 def edit_channel_by_channel_id(channel_id):
     channel_to_edit = Channel.query.get(channel_id)

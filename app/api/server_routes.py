@@ -37,7 +37,7 @@ def get_one_server(id):
     return server.to_dict()
 
 
-@server_routes.route('/<int:server_id>/channels/new', methods=['GET', 'POST'])
+@server_routes.route('/<int:server_id>/channels/new', methods=['POST'])
 @login_required
 def create_new_channel_by_server_id(server_id):
     form = ChannelForm()
@@ -45,23 +45,15 @@ def create_new_channel_by_server_id(server_id):
     if form.validate_on_submit():
         channel = Channel(
             _server_id=server_id,
-            _name=form.name.data,
-            _type=form.type.data,
-            _max_users=form.max_users.data,
-            _topic=form.topic.data
+            _name=form.data["name"],
+            _type=form.data["type"],
+            _max_users=form.data["max_users"],
+            _topic=form.data["topic"]
         )
         db.session.add(channel)
         db.session.commit()
 
-        # need to change this for single channel
-        new_channel = Channel.query.filter(
-            Channel._server_id == form.server_id.data,
-            Channel._name == form.name.data,
-            Channel._type == form.type.data,
-            Channel._max_users == form.max_users.data,
-            Channel._topic == form.topic.data
-        ).all()
-        return [channel.to_safe_dict() for channel in new_channel]
+        return channel.to_safe_dict()
     return {"error": "error occurred"}
 
 
