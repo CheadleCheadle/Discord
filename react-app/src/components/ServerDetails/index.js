@@ -55,7 +55,12 @@ export default function Server({sessionUser}) {
             </div>
 
             <div>
-
+            {server?.users.map((user) => (
+                <div key={user.id}>
+                    {user.username}  
+                    {user.photo_url}
+                </div>
+            ))}
             </div>
 
         </div>
