@@ -18,7 +18,8 @@ friends = db.Table(
         db.Integer,
         db.ForeignKey(add_prefix_for_prod("users.id")),
         primary_key=True
-    )
+    ),
+    db.Column("status", db.String)
 )
 
 if environment == "production":
@@ -40,13 +41,7 @@ class User(db.Model, UserMixin):
     # # Relationship
     servers = db.relationship(
         "Server",  back_populates="owner", cascade="all, delete-orphan")
-    # direct_messages = db.relationship(
-    #     "DirectMessage",
-    #     secondary='direct_messages',
-    #     primaryjoin=DirectMessage.user_id == id,
-    #     secondaryjoin=DirectMessage.recipient_id == id,
-    #     overlaps="recipient"
-    # )
+
     if environment == "production":
         direct_messages = db.relationship(
             "DirectMessage",
@@ -73,9 +68,6 @@ class User(db.Model, UserMixin):
         primaryjoin=friends.c.user1_id == id,
         secondaryjoin=friends.c.user2_id == id,
     )
-
-    # received_messages = db.relationship(
-    #     "DirectMessage", back_populates="recipient")
 
     server_memberships = db.relationship(
         "Server",
