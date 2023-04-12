@@ -30,7 +30,7 @@ const sessionUser = useSelector(state => state.session.user)
        <Route path="/servers/:serverId">
        <Server sessionUser={sessionUser}/>
      </Route>
-    </Switch> 
+    </Switch>
    )}
   </>
  );
