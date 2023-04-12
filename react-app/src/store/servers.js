@@ -83,6 +83,8 @@ export const thunkDeleteAServer = (id) => async (dispatch) => {
  let message;
  const response = await fetch(`/api/servers/${id}`, {
   method: "DELETE",
+  headers: { "Content-Type": "application/json" },
+  body: null,
  });
 
  if (response.ok) {

@@ -16,9 +16,9 @@ function DeleteServerModal({ serverId }) {
   return dispatch(thunkDeleteAServer(serverId))
    .then(closeModal)
    .catch(async (res) => {
-    const data = await res.json();
-    console.log("DeleteServerModal thunkDeleteAServer data", data);
-    if (data && data.errors) setErrors(data.errors);
+    //const data = await res.json();
+    // console.log("DeleteServerModal thunkDeleteAServer data", data);
+    //if (data && data.errors) setErrors(data.errors);
     closeModal();
    });
  };
