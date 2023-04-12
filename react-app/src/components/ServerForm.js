@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../context/Modal";
 import { useHistory, useParams } from "react-router-dom";
-import { thunkAddAServer } from "../store/servers";
+import { thunkAddAServer, thunkEditAServer } from "../store/servers";
 
-const ServerForm = ({ formType, user }) => {
+const ServerForm = ({ formType, server }) => {
  const dispatch = useDispatch();
  const [icon_url, setIcon_url] = useState("");
- const [public_, setPublic_] = useState(false);
+ const [public_, setPublic_] = useState("false");
  const [name, setName] = useState("");
  const [max_users, setMax_users] = useState("");
  const [description, setDescription] = useState("");
@@ -15,36 +15,48 @@ const ServerForm = ({ formType, user }) => {
  const [bErrs, setBErrs] = useState([]);
  const { closeModal } = useModal();
  const history = useHistory();
- //const { spotId } = params;
-
- //  let spots = useSelector((state) => state.spots);
 
  const handleSubmit = (e) => {
   e.preventDefault();
 
   setBErrs([]);
 
-  const newServer = {
-   icon_url: icon_url,
-   public_: public_,
-   name: name,
-   max_users: max_users,
-   description: description,
-  };
-
   if (formType === "AddServerForm") {
+   const newServer = {
+    icon_url: icon_url,
+    public_: public_ == "true" ? "True" : "False",
+    name: name,
+    max_users: max_users,
+    description: description,
+   };
    console.log("AddServerForm");
-   return dispatch(thunkAddAServer(newServer))
-    .then((server) => {
-     console.log(server);
-     history.push(`api/servers/`);
-     closeModal();
-    })
-    .catch(async (res) => {
-     const data = await res.json();
-     if (data && data.errors) setBErrs(data.errors);
-     console.log("data: ", data);
-    });
+   return dispatch(thunkAddAServer(newServer)).then((server) => {
+    console.log("this");
+    console.log(server);
+    history.push(`api/servers/`);
+    closeModal();
+   });
+   // .catch((res) => {
+   //   console.log(res)
+   // });
+  }
+
+  if (formType === "EditServerForm") {
+   setIcon_url(server.icon_url);
+   setPublic_(server.public);
+   setName(server.name);
+   setDescription(server.description);
+   setMax_users(server.max_users);
+   console.log("EditServerForm");
+   return dispatch(thunkEditAServer(server)).then((server) => {
+    console.log("this");
+    console.log(server);
+    history.push(`api/servers/`);
+    closeModal();
+   });
+   // .catch((res) => {
+   //   console.log(res)
+   // });
   }
  };
 
@@ -81,8 +93,8 @@ const ServerForm = ({ formType, user }) => {
       type="radio"
       value="true"
       name="public_"
-      checked={public_ === true}
-      onChange={() => setPublic_(true)}
+      checked={public_ === "true" ? "checked" : ""}
+      onChange={(e) => setPublic_(e.target.value)}
      />
      Public
     </label>
@@ -91,8 +103,8 @@ const ServerForm = ({ formType, user }) => {
       type="radio"
       value="false"
       name="public_"
-      checked={public_ === false}
-      onChange={() => setPublic_(false)}
+      checked={public_ === "false" ? "checked" : ""}
+      onChange={(e) => setPublic_(e.target.value)}
      />
      Private
     </label>

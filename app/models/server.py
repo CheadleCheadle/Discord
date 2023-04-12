@@ -35,7 +35,7 @@ class Server(db.Model):
 
     # # Relationship
     owner = db.relationship(
-        "User", back_populates="servers", cascade="all, delete-orphan", single_parent=True)
+        "User", back_populates="servers",single_parent=True)
     channels = db.relationship(
         "Channel", back_populates="server", cascade="all, delete-orphan")
     users = db.relationship(

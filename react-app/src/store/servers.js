@@ -61,8 +61,8 @@ export const thunkLoadOneServer = (id) => async (dispatch) => {
 export const thunkAddAServer = (data) => async (dispatch) => {
  console.log("reducer thunkAddAServer data:", data);
  let server;
- const response = await fetch("/api/servers", {
-  method: "post",
+ const response = await fetch("/api/servers/new", {
+  method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify(data),
  });
@@ -83,11 +83,13 @@ export const thunkDeleteAServer = (id) => async (dispatch) => {
  let message;
  const response = await fetch(`/api/servers/${id}`, {
   method: "DELETE",
+  headers: { "Content-Type": "application/json" },
+  body: null,
  });
 
  if (response.ok) {
   message = await response.json();
-  dispatch(deleteAServer(id));
+  dispatch(deleteAServer(+id));
 
   // console.log("reducer createASpot spot:", spot);
   return message;

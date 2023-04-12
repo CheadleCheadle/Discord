@@ -42,7 +42,7 @@ class User(db.Model, UserMixin):
 
     # # Relatiomship
     servers = db.relationship(
-        "Server", back_populates="owner", cascade="all, delete-orphan")
+        "Server", back_populates="owner", cascade="all, delete")
     direct_messages = db.relationship(
         "DirectMessage",
         secondary='direct_messages',

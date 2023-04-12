@@ -5,7 +5,7 @@ function NavBarServerList({ servers }) {
   <>
    {servers.map((server) => {
     return (
-     <div key={server.id}>
+     <div key={server.id} className="svr-nav-menu-item svr-dropdown-parent">
       <NavBarServer server={server} />
      </div>
     );
