@@ -27,7 +27,7 @@ const sessionUser = useSelector(state => state.session.user)
      <Route path="/signup">
       <SignupFormPage />
      </Route>
-     <Route path="/server">
+       <Route path="/servers/:serverId">
        <Server sessionUser={sessionUser}/>
      </Route>
     </Switch> 
