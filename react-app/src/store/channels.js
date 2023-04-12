@@ -3,6 +3,7 @@ const GET_ONE_CHANNEL = "channels/one";
 const CREATE_CHANNEL = "channels/new";
 const EDIT_CHANNEL = "channel/edit";
 const DELETE_CHANNEL = "channel/delete";
+const NEW_MESSAGE = "channel/message/new";
 
 export const loadServerChannels = (channels) => {
     return {
@@ -33,6 +34,13 @@ export const updateChannel = (channel) => {
 export const deleteChannel = (channelId) => {
     return {
         type: DELETE_CHANNEL,
+        channelId
+    }
+}
+export const newMessage = (message, channelId) => {
+    return {
+        type: NEW_MESSAGE,
+        message,
         channelId
     }
 }
@@ -90,6 +98,7 @@ export const deleteChannelAction = (channelId) => async (dispatch) => {
         return data;
     }
 }
+
 
 const initalState = { allChannels: {}, singleChannelId: null};
 
