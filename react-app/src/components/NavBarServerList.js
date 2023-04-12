@@ -2,12 +2,12 @@ import NavBarServer from "./NavBarServer";
 import AddChannelModal from "./AddChannelModal/index";
 import OpenModalMenuItem from "./OpenModalButton/";
 import Server from "../components/ServerDetails/index.js";
-import { useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 function NavBarServerList({ servers }) {
-    const history = useHistory();
-    const loadServer = (server) => {
-        history.push(`/servers/${server.id}`)
-    }
+ const history = useHistory();
+ const loadServer = (server) => {
+  history.push(`/servers/${server.id}`);
+ };
  return (
   <>
    {servers.map((server) => {
@@ -17,10 +17,9 @@ function NavBarServerList({ servers }) {
      </div>
     );
    })}
-     <OpenModalMenuItem 
-        itemText="New Channel"
-        modalComponent={<AddChannelModal />}
-     />
+   <div className="svr-channel-nav-bar-container">
+    <div></div>
+   </div>
   </>
  );
 }

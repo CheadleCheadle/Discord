@@ -228,3 +228,15 @@ body {
   height: 50px;
   width: 50px;
 }
+
+/* ********************* */
+/*       channel bar     */
+/* ********************* */
+
+.svr-channel-nav-bar-contain {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
