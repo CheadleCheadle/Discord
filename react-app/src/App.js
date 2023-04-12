@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import SignupFormPage from "./components/SignupFormPage";
 import LoginFormPage from "./components/LoginFormPage";
@@ -9,6 +9,7 @@ import AddServerForm from "./components/AddServerForm";
 import AddChannelModal from "./components/AddChannelModal/index.js";
 function App() {
  const dispatch = useDispatch();
+const sessionUser = useSelector(state => state.session.user)
  const [isLoaded, setIsLoaded] = useState(false);
  useEffect(() => {
   dispatch(authenticate()).then(() => setIsLoaded(true));
