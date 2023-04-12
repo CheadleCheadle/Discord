@@ -19,7 +19,7 @@ friends = db.Table(
         db.ForeignKey(add_prefix_for_prod("users.id")),
         primary_key=True
     ),
-    db.Column("status", db.String)
+    db.Column("status", db.String, nullable=False)
 )
 
 if environment == "production":
@@ -87,6 +87,16 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
     # To handle recursive calls between a server getting info for its owner which causes its owner to get info for its servers. Hence, recursive loop
+
+    def add_friend(self, friend_lst, status):
+        if isinstance(friend_lst, list):
+            new_friendships = [friends.insert().values(
+                user1_id=self.id, user2_id=friend.id, status=status) for friend in friend_lst]
+            [db.engine.execute(friend) for friend in new_friendships]
+        else:
+            new_friendship = friends.insert().values(
+                user1_id=self.id, user2_id=friend_lst.id, status=status)
+            db.engine.execute(new_friendship)
 
     def to_safe_dict(self):
         return {

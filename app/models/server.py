@@ -82,6 +82,16 @@ class Server(db.Model):
     def description(self, new_description):
         self._description = new_description
 
+    def add_member(self, users, status):
+        if isinstance(users, list):
+            new_members = [server_memberships.insert().values(
+                user_id=user.id, server_id=self.id, status=status) for user in users]
+            [db.engine.execute(member) for member in new_members]
+        else:
+            new_member = server_memberships.insert().values(
+                user_id=users.id, server_id=self.id, status=status)
+            db.engine.execute(new_member)
+
     def to_dict(self):
         return {
             "id": self.id,

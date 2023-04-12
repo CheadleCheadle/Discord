@@ -3,28 +3,12 @@ from sqlalchemy.sql import text
 
 
 def seed_friends():
-    # friend_status1 = friends(
-    #     user1_id=1,
-    #     user2_id=2,
-    #     status="friends"
-    # )
-    # friend_status2 = friends(
-    #     user1_id=1,
-    #     user2_id=3,
-    #     status="friends"
-    # )
-    # friend_status3 = friends(
-    #     user1_id=2,
-    #     user2_id=3,
-    #     status="friends"
-    # )
-    # friends_list = [friend_status1, friend_status2, friend_status3]
-    # all_friends = [db.session.add(friend) for friend in friends_list]
+
     users_list = User.query.all()
-    users_list[0].friends.append(users_list[1])
+    users_list[0].add_friend([users_list[1], users_list[2]], 'pending')
+    users_list[1].add_friend(users_list[2], "pending")
+    # users_list[0].add_friend(users_list[2], "pending")
     db.session.commit()
-    return users_list[0].to_dict()
-    # return all_friends
 
 
 def undo_friends():
