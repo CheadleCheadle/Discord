@@ -1,24 +1,25 @@
 import React, { useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
 import Fab from "../Fab";
 import NavBarServerList from "../NavBarServerList";
-import {thunkLoadAllServers} from "../../store/servers";
+import { thunkLoadAllServers } from "../../store/servers";
+import OpenModalButton from "../OpenModalButton";
+import AddServerForm from "../AddServerForm";
 // import servers from "../../servers.json";
 const Navigation = () => {
  const dispatch = useDispatch();
-
+ const history = useHistory();
  const return_servers = useSelector((state) => state.servers.allServers);
 
  const sessionUser = useSelector((state) => state.session.user);
 
  const servers = Object.values(return_servers);
 
-
  useEffect(() => {
- dispatch(thunkLoadAllServers());
+  dispatch(thunkLoadAllServers());
  }, [dispatch]);
 
  return (
@@ -38,9 +39,12 @@ const Navigation = () => {
     </div>
 
     <div className="svr-nav-menu-item">
-     <NavLink to="/servers/new">
-      <Fab />
-     </NavLink>
+     {/* <Fab onClick={() => history.push("/servers/new")} /> */}
+     <OpenModalButton
+      someN="svr-new-server-button"
+      buttonText="create"
+      modalComponent={<AddServerForm user={sessionUser} />}
+     />
     </div>
    </div>
   </div>
