@@ -49,10 +49,11 @@ def edit_channel_by_channel_id(channel_id):
 @login_required
 def create_a_channel_message(channel_id):
     data = json.loads(request.data)
+    print("this is the dat!!", data)
     user_id = current_user.id
     new_message = ChannelMessage(
         user_id=user_id,
-        channel_id=channel_id,
+        channel_id=data["channelId"],
         _content=data["content"]
     )
     db.session.add(new_message)

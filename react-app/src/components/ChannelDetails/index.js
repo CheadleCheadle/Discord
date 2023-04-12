@@ -2,7 +2,7 @@ import {useParams} from "react-router-dom"
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory} from "react-router-dom";
-
+import { newChannelMessageAction } from "../../store/channels.js";
 export default function Channel({channel}) {
     const history = useHistory();
     const params = useParams();
@@ -12,9 +12,10 @@ export default function Channel({channel}) {
     const handleSubmit = (e) => {
         e.preventDefault();
         const newMessage = {
-            
-        }
-
+            channelId: channel.id,
+            content: message
+        };
+        dispatch(newChannelMessageAction(newMessage, channel.id));
     }
 
 
@@ -29,11 +30,11 @@ export default function Channel({channel}) {
         </div>
             <div>
                 <form onSubmit={handleSubmit}>
-                  <input type="text" placeholder={`Message`} value={message} onChange={(e) => setMessage(e.target.message)}/>
+                  <input type="text" placeholder={`Message`} value={message} onChange={(e) => setMessage(e.target.value)}/>
+                  <input type="submit" value = "Submit"/>
                 </form>
             </div>
         </>
     )
-
 
 }

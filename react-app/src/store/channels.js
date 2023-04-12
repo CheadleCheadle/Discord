@@ -45,13 +45,7 @@ export const newMessage = (message, channelId) => {
     }
 }
 
-export const newMessage = (message, channelId) => {
-    return {
-        type: NEW_MESSAGE,
-        message,
-        channelId
-    }
-}
+
 
 export const getServerChannels = (serverId) => async (dispatch) => {
     const response = await fetch(`/api/servers/${serverId}/channels`);
@@ -70,7 +64,6 @@ export const createChannelAction = (channel, serverId) => async (dispatch) => {
         body: JSON.stringify(channel)
     });
 
-    console.log("THIS IS THE RESPONSE", response);
 
     if (response.ok) {
       const data = await response.json();
@@ -107,23 +100,21 @@ export const deleteChannelAction = (channelId) => async (dispatch) => {
     }
 }
 
-<<<<<<< HEAD
-=======
 export const newChannelMessageAction = (message, channelId) => async (dispatch) => {
-    const response = await fetch(`/api/${channelId}/messages/new`, {
+    const response = await fetch(`/api/channels/${channelId}/messages/new`, {
         method: "POST",
         headers: {'Content-Type': 'Application/json'},
         body: JSON.stringify(message)
     })
+    
 
     if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         dispatch(newMessage(data, channelId));
         return data;
     }
 
 }
->>>>>>> serverCompo
 
 const initalState = { allChannels: {}, singleChannelId: null};
 
@@ -169,7 +160,8 @@ const channelReducer = (state = initalState, action) => {
         case NEW_MESSAGE: {
             newState = {...state};
             newState.allChannels = {...state.allChannels};
-            newState.allChannels[action.channelId].messages = [...state.allChannels[action.channelId], action.message ];
+            console.log("ACTION", action.message);
+            newState.allChannels[+action.channelId].channel_messages = [...state.allChannels[+action.channelId].channel_messages, action.message];
             return newState;
         }
         default:
