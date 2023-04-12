@@ -1,0 +1,9 @@
+.svr-channel-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+#root {
+display:flex;
+flex-direction: row;
+}

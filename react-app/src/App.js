@@ -7,6 +7,7 @@ import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import AddServerForm from "./components/AddServerForm";
 import AddChannelModal from "./components/AddChannelModal/index.js";
+import Server from "./components/ServerDetails/index";
 function App() {
  const dispatch = useDispatch();
 const sessionUser = useSelector(state => state.session.user)
@@ -25,6 +26,9 @@ const sessionUser = useSelector(state => state.session.user)
      </Route>
      <Route path="/signup">
       <SignupFormPage />
+     </Route>
+     <Route path="/server">
+       <Server sessionUser={sessionUser}/>
      </Route>
     </Switch> 
    )}

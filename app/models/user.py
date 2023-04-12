@@ -73,6 +73,7 @@ class User(db.Model, UserMixin):
         secondary="friends",
         primaryjoin=friends.c.user1_id == id,
         secondaryjoin=friends.c.user2_id == id,
+        backref="friends_with_me"
     )
 
     server_memberships = db.relationship(
@@ -80,7 +81,6 @@ class User(db.Model, UserMixin):
         secondary=server_memberships,
         back_populates="users",
     )
-
 
     @property
     def password(self):
