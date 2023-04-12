@@ -47,6 +47,8 @@ export const createChannelAction = (channel, serverId) => async (dispatch) => {
         body: JSON.stringify(channel)
     });
 
+    console.log("THIS IS THE RESPONSE", response);
+
     if (response.ok) {
       const data = await response.json();
         dispatch(createChannel(data));
@@ -87,7 +89,7 @@ const initalState = { allChannels: {}, singleChannelId: null};
 const channelReducer = (state = initalState, action) => {
     let newState = {};
     switch(action.type) {
-        case CREATE_SERVER: {
+        case CREATE_CHANNEL: {
             newState = {...state};
             newState.allChannels = {...state.allChannels};
             newState.allChannels[action.channel.id] = action.channel;

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { useModal } from "../../context/Modal.js";
+import { createChannelAction } from "../../store/channels";
 
 
 export default function AddChannelModal() {
     const dispatch = useDispatch();
+    const serverId = useSelector((state) => state.servers.singleServerId)
     const [name, setName] = useState("");
     const [type, setType] = useState("");
     const [maxUsers, setMaxUsers] = useState(0);
@@ -15,7 +17,9 @@ export default function AddChannelModal() {
     const handleSubmit = (e) => {
         e.preventDefault();
         validateBody()
-        //add dispatch to session action with new channel obj
+        const newChannel = {server_id: 1, name, type, max_users:maxUsers, topic};
+        dispatch(createChannelAction(newChannel, 1));
+        //add dispatch to session action with new channel obj
     }
 
     const handleDisable = () => {
@@ -28,7 +32,7 @@ export default function AddChannelModal() {
     const validateBody = () => {
         const tempErrors = [];
         if (name === "") {
-            tempErrors.push("Please Provide a name"):
+            tempErrors.push("Please Provide a name");
         }
         if (type === "") {
           tempErrors.push("Please Provide a type");
@@ -39,19 +43,20 @@ export default function AddChannelModal() {
         if (topic === "") {
           tempErrors.push("Please Provide a topic")
         }
-        return setErrors(...errors, ...tempErrors)
+        return setErrors( ...tempErrors)
     }
 
 
     return (
+    <>
     <h1>New Channel</h1>
-    <form>
+    <form onSubmit={handleSubmit}>
         <label>
         <input
             placeholder="Name"
             type="text"
             value={name}
-            onChange={() => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             required
         />
         </label>
@@ -60,7 +65,7 @@ export default function AddChannelModal() {
             placeholder="Type"
             type="text"
             value={type}
-            onChange={() => setType(e.target.value)}
+            onChange={(e) => setType(e.target.value)}
             required
         />
         </label>
@@ -69,7 +74,7 @@ export default function AddChannelModal() {
             placeholder="Max Users"
             type="text"
             value={maxUsers}
-            onChange={() => setMaxUsers(e.target.value)}
+            onChange={(e) => setMaxUsers(e.target.value)}
             required
         />
         </label>
@@ -78,12 +83,14 @@ export default function AddChannelModal() {
             placeholder="Topic"
             type="text"
             value={topic}
-            onChange={() => setTopic(e.target.value)}
+            onChange={(e) => setTopic(e.target.value)}
             required
         />
         </label>
+        <input type="submit" value="Create new Channel" />
     </form>
-    
+    </>
+
     )
 
 

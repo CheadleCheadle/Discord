@@ -8,7 +8,6 @@ function NavBarServer({ server }) {
  let divStyle = {
   backgroundImage: "url(" + server.icon_url + ")",
  };
- console.log("divStyle: ", divStyle);
  return (
   <>
    <div
