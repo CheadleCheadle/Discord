@@ -185,7 +185,6 @@ const channelReducer = (state = initalState, action) => {
                     }
                 }
             }
-            newState
             return newState;
         }
         default:
