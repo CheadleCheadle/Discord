@@ -60,13 +60,13 @@ export const getServerChannels = (serverId) => async (dispatch) => {
 export const createChannelAction = (channel, serverId) => async (dispatch) => {
     const response = await fetch(`/api/servers/${serverId}/channels/new`, {
         method: "POST",
-        headers: {'Content-Type': 'Application/json'},
+        headers: { 'Content-Type': 'Application/json' },
         body: JSON.stringify(channel)
     });
 
 
     if (response.ok) {
-      const data = await response.json();
+        const data = await response.json();
         dispatch(createChannel(data));
         return data
     }
@@ -75,7 +75,7 @@ export const createChannelAction = (channel, serverId) => async (dispatch) => {
 export const updateChannelAction = (channel) => async (dispatch) => {
     const response = await fetch(`api/channels/${channel.id}/edit`, {
         method: "PUT",
-        headers: {'Content-Type': 'Application/json'},
+        headers: { 'Content-Type': 'Application/json' },
         body: JSON.stringify(channel)
     });
 
@@ -89,7 +89,7 @@ export const updateChannelAction = (channel) => async (dispatch) => {
 export const deleteChannelAction = (channelId) => async (dispatch) => {
     const response = await fetch(`/api/channels/${channelId}`, {
         method: "DELETE",
-        headers: {'Content-Type': 'Application/json'},
+        headers: { 'Content-Type': 'Application/json' },
         body: null
     });
 
@@ -103,10 +103,10 @@ export const deleteChannelAction = (channelId) => async (dispatch) => {
 export const newChannelMessageAction = (message, channelId) => async (dispatch) => {
     const response = await fetch(`/api/channels/${channelId}/messages/new`, {
         method: "POST",
-        headers: {'Content-Type': 'Application/json'},
+        headers: { 'Content-Type': 'Application/json' },
         body: JSON.stringify(message)
     })
-    
+
 
     if (response.ok) {
         const data = await response.json();
@@ -116,52 +116,76 @@ export const newChannelMessageAction = (message, channelId) => async (dispatch) 
 
 }
 
-const initalState = { allChannels: {}, singleChannelId: null};
+const normalizeFn = (data) => {
+    const normalizeData = {};
+    data.forEach((val) => normalizeData[ val.id ] = val);
+    return normalizeData;
+};
+
+
+
+
+const initalState = { allChannels: {}, singleChannelId: null };
 
 const channelReducer = (state = initalState, action) => {
     let newState = {};
-    switch(action.type) {
+    switch (action.type) {
         case CREATE_CHANNEL: {
-            newState = {...state};
-            newState.allChannels = {...state.allChannels};
-            newState.allChannels[action.channel.id] = action.channel;
+            newState = { ...state };
+            newState.allChannels = { ...state.allChannels };
+            newState.allChannels[ action.channel.id ] = action.channel;
             newState.singleChannelId = action.channel.id;
             return newState;
         }
         case GET_ONE_CHANNEL: {
-            newState = {...state};
-            newState.allChannels = {...state.allChannels};
+            newState = { ...state };
+            newState.allChannels = { ...state.allChannels };
             newState.singleChannelId = action.channel.id;
             return newState;
         }
         case GET_ALL_CHANNELS: {
-            newState = {...state};
-            newState.allChannels = {...state.allChannels};
+            newState = { ...state };
+            newState.allChannels = { ...state.allChannels };
             newState.singleChannelId = null;
             action.channels.channels.forEach((channel) => {
-              newState.allChannels[channel.id] = channel;
+                newState.allChannels[ channel.id ] = channel;
+                const messages = newState.allChannels[ channel.id ].channel_messages;
+                newState.allChannels[ channel.id ].channel_messages = normalizeFn(messages);
             })
             return newState;
         }
         case EDIT_CHANNEL: {
-            newState = {...state};
-            newState.allChannels = {...state.allChannels};
+            newState = { ...state };
+            newState.allChannels = { ...state.allChannels };
             newState.singleChannelId = action.channel.id;
-            newState.allChannels[action.channel.id] = action.channel
+            newState.allChannels[ action.channel.id ] = action.channel
             return newState;
         }
         case DELETE_CHANNEL: {
-            newState = {...state};
-            newState.allChannels = {...state.allChannels};
+            newState = { ...state };
+            newState.allChannels = { ...state.allChannels };
             newState.singleChannelId = null;
-            delete newState.allChannels[action.channelId];
+            delete newState.allChannels[ action.channelId ];
             return newState;
         }
         case NEW_MESSAGE: {
-            newState = {...state};
-            newState.allChannels = {...state.allChannels};
-            console.log("ACTION", action.message);
-            newState.allChannels[+action.channelId].channel_messages = [...state.allChannels[+action.channelId].channel_messages, action.message];
+            newState = { ...state };
+            newState = {
+                ...state,
+                allChannels: {
+                    ...state.allChannels,
+                    [ action.channelId ]: {
+                        ...state.allChannels[ action.channelId ],
+                        channel_messages: {
+                            ...state.allChannels[ action.channelId ].channel_messages,
+                            [ action.message.id ]: {
+                                ...action.message
+                            }
+                        }
+                    }
+                }
+            }
+            newState
             return newState;
         }
         default:
