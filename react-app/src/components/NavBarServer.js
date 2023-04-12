@@ -1,31 +1,64 @@
-import {
- ContextMenuTrigger,
- ContextMenu,
- ContextMenuItem,
-} from "rctx-contextmenu";
+import React, { useState, useEffect, useRef } from "react";
+import OpenModalButton from "./OpenModalButton";
+import DeleteServerModal from "./DeleteServerModal";
+import EditServerForm from "./EditServerForm";
 
 function NavBarServer({ server }) {
+ const [showMenu, setShowMenu] = useState(false);
+ const ulRef = useRef();
+
+ const openMenu = () => {
+  if (showMenu) return;
+  setShowMenu(true);
+ };
+
+ useEffect(() => {
+  if (!showMenu) return;
+
+  const closeMenu = (e) => {
+   if (!ulRef.current.contains(e.target)) {
+    setShowMenu(false);
+   }
+  };
+
+  document.addEventListener("click", closeMenu);
+
+  return () => document.removeEventListener("click", closeMenu);
+ }, [showMenu]);
+
+ const ulClassName = "svr-profile-dropdown" + (showMenu ? "" : " hidden");
+ const closeMenu = () => setShowMenu(false);
+
  let divStyle = {
   backgroundImage: "url(" + server.icon_url + ")",
  };
- console.log("divStyle: ", divStyle);
+
  return (
   <>
-   <div
-    className="svr-ctx-container"
-    style={divStyle}
-    data-tooltip={server.name}
-   >
-    <ContextMenuTrigger id="my-context-menu-1">
-     <div className="svr-ctx-box"></div>
-    </ContextMenuTrigger>
-
-    <ContextMenu id="my-context-menu-1">
-     <ContextMenuItem disabled={true}>Menu Item 1</ContextMenuItem>
-     <ContextMenuItem>Menu Item 2</ContextMenuItem>
-     <ContextMenuItem>Menu Item 3</ContextMenuItem>
-     <ContextMenuItem>Menu Item 4</ContextMenuItem>
-    </ContextMenu>
+   <div className="dropdown">
+    {/* <button onClick={openMenu}>
+     <i className="fas fa-user-circle fa-3x svr-profile-btn-color" />
+    </button> */}
+    <button
+     onClick={openMenu}
+     className="svr-ctx-box "
+     style={divStyle}
+     data-tooltip={server.name}
+    ></button>
+    <div className={ulClassName} ref={ulRef}>
+     <div className="dropdown-content">{"Hello, " + "user.firstName"}</div>
+     <div className="dropdown-content">{"user.email"}</div>
+     <OpenModalButton
+      someN="svr-delete-button"
+      buttonText="Delete the Server"
+      modalComponent={<DeleteServerModal serverId={server.id} />}
+     />
+     <OpenModalButton
+      someN="svr-edit-button"
+      buttonText="Edit the Server"
+      modalComponent={<EditServerForm server={server} />}
+     />
+    </div>
    </div>
   </>
  );

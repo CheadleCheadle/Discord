@@ -107,10 +107,11 @@ def get_one_server(id):
 def delete_one_server(id):
     """Query for all servers and returns them in a list of user dictionaries
     """
-
-    server = Server.query.get(id)
+    print("Inside delete route: id ",id)
+    server = Server.query.get(+id)
+    print("server",server)
     if (server == None):
-        return {"errors": "Film not found"}, 404
+        return {"errors": "Server not found"}, 404
     else:
         try:
             db.session.delete(server)
