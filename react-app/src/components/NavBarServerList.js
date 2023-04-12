@@ -1,5 +1,6 @@
 import NavBarServer from "./NavBarServer";
-
+import AddChannelModal from "./AddChannelModal/index";
+import OpenModalMenuItem from "./OpenModalButton/";
 function NavBarServerList({ servers }) {
  return (
   <>
@@ -10,6 +11,10 @@ function NavBarServerList({ servers }) {
      </div>
     );
    })}
+     <OpenModalMenuItem 
+        itemText="New Channel"
+        modalComponent={<AddChannelModal />}
+     />
   </>
  );
 }
