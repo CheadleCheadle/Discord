@@ -3,6 +3,7 @@ const GET_ONE_CHANNEL = "channels/one";
 const CREATE_CHANNEL = "channels/new";
 const EDIT_CHANNEL = "channel/edit";
 const DELETE_CHANNEL = "channel/delete";
+const NEW_MESSAGE = "channel/message/new";
 
 export const loadServerChannels = (channels) => {
     return {
@@ -33,6 +34,14 @@ export const updateChannel = (channel) => {
 export const deleteChannel = (channelId) => {
     return {
         type: DELETE_CHANNEL,
+        channelId
+    }
+}
+
+export const newMessage = (message, channelId) => {
+    return {
+        type: NEW_MESSAGE,
+        message,
         channelId
     }
 }
@@ -91,6 +100,21 @@ export const deleteChannelAction = (channelId) => async (dispatch) => {
     }
 }
 
+export const newChannelMessageAction = (message, channelId) => async (dispatch) => {
+    const response = await fetch(`/api/${channelId}/messages/new`, {
+        method: "POST",
+        headers: {'Content-Type': 'Application/json'},
+        body: JSON.stringify(message)
+    })
+
+    if (response.ok) {
+        const data = response.json();
+        dispatch(newMessage(data, channelId));
+        return data;
+    }
+
+}
+
 const initalState = { allChannels: {}, singleChannelId: null};
 
 const channelReducer = (state = initalState, action) => {
@@ -131,7 +155,12 @@ const channelReducer = (state = initalState, action) => {
             newState.singleChannelId = null;
             delete newState.allChannels[action.channelId];
             return newState;
-
+        }
+        case NEW_MESSAGE: {
+            newState = {...state};
+            newState.allChannels = {...state.allChannels};
+            newState.allChannels[action.channelId].messages = [...state.allChannels[action.channelId], action.message ];
+            return newState;
         }
         default:
             return state;
