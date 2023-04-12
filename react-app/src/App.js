@@ -6,7 +6,7 @@ import LoginFormPage from "./components/LoginFormPage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import AddServerForm from "./components/AddServerForm";
-
+import AddChannelModal from "./components/AddChannelModal/index.js";
 function App() {
  const dispatch = useDispatch();
  const [isLoaded, setIsLoaded] = useState(false);
@@ -25,7 +25,10 @@ function App() {
      <Route path="/signup">
       <SignupFormPage />
      </Route>
-    </Switch>
+     <Route path="/channels/new">
+     <AddChannelModal />
+     </Route>
+    </Switch> 
    )}
   </>
  );

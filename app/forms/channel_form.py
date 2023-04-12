@@ -12,5 +12,4 @@ class ChannelForm(FlaskForm):
         'Max Users', validators=[DataRequired()])
     topic = StringField(
         'Topic', validators=[DataRequired()])
-    server_id = IntegerField('_server_id', validators=[DataRequired()])
     submit = SubmitField('submit')

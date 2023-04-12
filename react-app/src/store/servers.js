@@ -23,7 +23,7 @@ console.log('heres the response',response);
  }
 };
 
-const initialState = { allServers: {} };
+const initialState = { allServers: {}, singleServerId: null };
 
 const serverReducer = (state = initialState, action) => {
  //console.log("Inside serverReducer: ", action.type);
