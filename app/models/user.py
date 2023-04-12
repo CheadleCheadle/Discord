@@ -73,6 +73,7 @@ class User(db.Model, UserMixin):
         secondary="friends",
         primaryjoin=friends.c.user1_id == id,
         secondaryjoin=friends.c.user2_id == id,
+        backref="friends_with_me"
     )
 
     server_memberships = db.relationship(
@@ -80,7 +81,6 @@ class User(db.Model, UserMixin):
         secondary=server_memberships,
         back_populates="users",
     )
-
 
     @property
     def password(self):
@@ -94,6 +94,16 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
     # To handle recursive calls between a server getting info for its owner which causes its owner to get info for its servers. Hence, recursive loop
+
+    def add_friend(self, friend_lst, status):
+        if isinstance(friend_lst, list):
+            new_friendships = [friends.insert().values(
+                user1_id=self.id, user2_id=friend.id, status=status) for friend in friend_lst]
+            [db.engine.execute(friend) for friend in new_friendships]
+        else:
+            new_friendship = friends.insert().values(
+                user1_id=self.id, user2_id=friend_lst.id, status=status)
+            db.engine.execute(new_friendship)
 
     def to_safe_dict(self):
         return {

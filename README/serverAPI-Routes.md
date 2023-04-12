@@ -32,9 +32,7 @@ Returns all the servers.
        "topic": "Pets",
        "icon_url": "smthing.url",
        "description": "This discord is for people",
-
-       <!-- "server_id": 2,   ???-->
-
+       "server_id": 2,
        "owner_id": 1,
        "created_at": "2021-11-19 20:39:36",
        "members_num": 12

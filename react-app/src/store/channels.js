@@ -1,4 +1,5 @@
 const GET_ALL_CHANNELS = "channels/all";
+const GET_ONE_CHANNEL = "channels/one";
 const CREATE_CHANNEL = "channels/new";
 const EDIT_CHANNEL = "channel/edit";
 const DELETE_CHANNEL = "channel/delete";
@@ -9,6 +10,12 @@ export const loadServerChannels = (channels) => {
         channels
     }
 
+}
+export const loadServerChannel = (channel) => {
+    return {
+        type: GET_ONE_CHANNEL,
+        channel
+    }
 }
 export const createChannel = (channel) => {
     return {
@@ -93,6 +100,12 @@ const channelReducer = (state = initalState, action) => {
             newState = {...state};
             newState.allChannels = {...state.allChannels};
             newState.allChannels[action.channel.id] = action.channel;
+            newState.singleChannelId = action.channel.id;
+            return newState;
+        }
+        case GET_ONE_CHANNEL: {
+            newState = {...state};
+            newState.allChannels = {...state.allChannels};
             newState.singleChannelId = action.channel.id;
             return newState;
         }
