@@ -91,10 +91,15 @@ class Server(db.Model):
             new_members = [server_memberships.insert().values(
                 user_id=user.id, server_id=self.id, status=status) for user in users]
             [db.engine.execute(member) for member in new_members]
+        elif isinstance(users, dict):
+            new_member = server_memberships.insert().values(
+                user_id=users["id"], server_id=self.id, status=status)
+            db.engine.execute(new_member)
         else:
             new_member = server_memberships.insert().values(
                 user_id=users.id, server_id=self.id, status=status)
             db.engine.execute(new_member)
+
 
     def to_dict(self):
         return {
@@ -108,7 +113,7 @@ class Server(db.Model):
             "created_at": self._created_at,
             "owner": self.owner.to_safe_dict(),
             "channels": [channel.to_dict() for channel in self.channels],
-            "users": [user.to_dict() for user in self.users]
+            "users": [user.to_dict() for user in self.users],
         }
 
     def to_safe_dict(self):

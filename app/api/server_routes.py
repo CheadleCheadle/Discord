@@ -2,6 +2,7 @@ from flask import Blueprint, redirect, render_template, request
 from flask_login import current_user, login_required
 from app.models import db, Server, Channel
 from app.forms import ServerForm, ChannelForm
+import json
 
 server_routes = Blueprint('server', __name__)
 default_image = "https://d1lss44hh2trtw.cloudfront.net/assets/article/2022/12/01/discord-offer-new-server-subscription-90-10-revenue-split_feature.jpg"
@@ -143,8 +144,30 @@ def create_new_channel_by_server_id(server_id):
 
         return channel.to_safe_dict()
     return {"error": "error occurred"}
+
+
+
 @server_routes.route('/<int:server_id>/channels')
 @login_required
 def get_all_server_channels(server_id):
     all_channels = Channel.query.filter(Channel._server_id == server_id)
     return {"channel": [channel.to_safe_dict() for channel in all_channels]}
+
+
+
+
+
+# JOIN SERVER
+@server_routes.route('/join/<int:server_id>', methods=['POST'])
+@login_required
+def join_Server(server_id):
+    data = json.loads(request.data)
+    user = data["user"]
+    status = data["status"]
+    print('-------------',data, user, status)
+    server = Server.query.get(server_id)
+    print('IM THE SERVER', server.to_safe_dict())
+    new_server_membership = server.add_member(user, status)
+    return {'msg': f"Request is pending {server.owner.username}s approval"}
+
+
