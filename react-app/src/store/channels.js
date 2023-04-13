@@ -61,9 +61,12 @@ export const getServerChannels = (serverId) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
-        dispatch(loadServerChannels(data));
-        return data;
+        const normalizeData = normalizeFn(data.channel)
+        dispatch(loadServerChannels(normalizeData));
+        return normalizeData;
     }
+
+    return;
 }
 
 export const createChannelAction = (channel, serverId) => async (dispatch) => {
@@ -135,7 +138,7 @@ export const allMessagesAction = (channelId) => async (dispatch) => {
     }
 }
 
-const normalizeFn = (data) => {
+export const normalizeFn = (data) => {
     const normalizeData = {};
     data.forEach((val) => normalizeData[ val.id ] = val);
     return normalizeData;
@@ -163,14 +166,15 @@ const channelReducer = (state = initalState, action) => {
             return newState;
         }
         case GET_ALL_CHANNELS: {
-            newState = { ...state };
-            newState.allChannels = { ...state.allChannels };
-            newState.singleChannelId = null;
-            action.channels.channels.forEach((channel) => {
-                newState.allChannels[ channel.id ] = channel;
-                const messages = newState.allChannels[ channel.id ].channel_messages;
-                newState.allChannels[ channel.id ].channel_messages = normalizeFn(messages);
-            })
+            newState = {
+                ...state,
+                channels: {
+                    ...state.channels,
+                    allChannels: {
+                        ...action.channels
+                    }
+                }
+            };
             return newState;
         }
         case EDIT_CHANNEL: {

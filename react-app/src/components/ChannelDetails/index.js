@@ -9,8 +9,10 @@ export default function Channel({ channel }) {
     const params = useParams();
     const dispatch = useDispatch();
     const [ message, setMessage ] = useState("");
+    const [ startMessageFetch, setStartMessageFetch ] = useState(false)
     const channels = useSelector(state => state.channels);
     const channelId = channels.SingleChannelId;
+    // if (channel.id) setStartMessageFetch(true)
     //const channelId = useSelector(state => state.channels.SingleChannelId);
 
     console.log("Channel:", channel)
@@ -32,20 +34,20 @@ export default function Channel({ channel }) {
     // }, dispatch)
 
 
-    const dispatchFunc = useCallback(() => {
-        dispatch(allMessagesAction(channelId));
-    }, [dispatch])
+    // const dispatchFunc = useCallback(() => {
+    //     if (startMessageFetch) dispatch(allMessagesAction(channel.id));
+    // }, [ dispatch ])
 
-    useEffect(() => {
-        const updateMessages = setInterval(() => {
-            dispatchFunc();
-            console.log('Im updating')
-        }, 3000)
-        return () => {
-      clearTimeout(updateMessages);
+    // useEffect(() => {
+    //     const updateMessages = setInterval(() => {
+    //         dispatchFunc();
+    //         console.log('Im updating')
+    //     }, 3000)
+    //     return () => {
+    //         clearTimeout(updateMessages);
 
-    };
-    }, [dispatchFunc])
+    //     };
+    // }, [ dispatchFunc ])
 
 
     const channelsMessages = channel ? Object.values(channel.channel_messages) : []

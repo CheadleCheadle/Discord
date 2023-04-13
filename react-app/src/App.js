@@ -7,33 +7,62 @@ import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import AddServerForm from "./components/AddServerForm";
 import AddChannelModal from "./components/AddChannelModal/index.js";
+import MyServersPage from "./components/ServerDetails/MyServersPage";
 import Server from "./components/ServerDetails/index";
-function App() {
- const dispatch = useDispatch();
-const sessionUser = useSelector(state => state.session.user)
- const [isLoaded, setIsLoaded] = useState(false);
- useEffect(() => {
-  dispatch(authenticate()).then(() => setIsLoaded(true));
- }, [dispatch]);
+import { thunkLoadAllServers } from "./store/servers";
+import SplashPage from "./components/SplashPage.js";
+import NavBarServerList from "./components/NavBarServerList";
+import AllServersNavbar from "./components/ServerDetails/AllServersNavbar";
+import AllServersPage from "./components/ServerDetails/AllServersPage";
 
- return (
-  <>
-   <Navigation />
-   {isLoaded && (
-    <Switch>
-     <Route path="/servers/new">
-      <AddServerForm />
-     </Route>
-     <Route path="/signup">
-      <SignupFormPage />
-     </Route>
-       <Route path="/servers/:serverId">
-       <Server sessionUser={sessionUser}/>
-     </Route>
-    </Switch>
-   )}
-  </>
- );
+
+function App() {
+  const dispatch = useDispatch();
+  const sessionUser = useSelector(state => state.session.user)
+  const [ isLoaded, setIsLoaded ] = useState(false);
+  useEffect(() => {
+    dispatch(authenticate())
+      .then(() => dispatch(thunkLoadAllServers()))
+      .then(() => setIsLoaded(true));
+  }, [ dispatch ]);
+
+  const servers = useSelector(state => state.servers.allServers);
+  const serversArr = servers ? Object.keys(servers) : [];
+  // {!!sessionUser && (          )}
+  // {!!sessionUser && (          )}
+  // {!!sessionUser && (          )}
+
+  return (
+    <>
+      {isLoaded && (
+        <Switch>
+          <Route exact path='/'>
+            <SplashPage isLoaded={isLoaded} />
+          </Route>
+          {!!sessionUser && (
+            <Route exact path="/servers" component={MyServersPage} />
+          )}
+          {!!sessionUser && (
+            <Route path={"/servers/all"} component={AllServersPage} />
+          )}
+          {!!sessionUser && (
+            <Route exact path="/servers/new" component={AddServerForm} />
+          )}
+          {!!sessionUser && (
+            <Route path="/servers/:serverId">
+              <Server sessionUser={sessionUser} />
+            </Route>
+          )}
+          <Route exact path="/signup">
+            <SignupFormPage />
+          </Route>
+          <Route >
+            "404: Not Found"
+          </Route>
+        </Switch >
+      )}
+    </>
+  );
 }
 
 export default App;

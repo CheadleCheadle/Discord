@@ -1,3 +1,5 @@
+import { normalizeFn } from "./channels";
+
 // constants
 const SET_USER = "session/SET_USER";
 const REMOVE_USER = "session/REMOVE_USER";
@@ -43,6 +45,7 @@ export const login = (email, password) => async (dispatch) => {
 
 	if (response.ok) {
 		const data = await response.json();
+		console.log("dat========================================", data)
 		dispatch(setUser(data));
 		return null;
 	} else if (response.status < 500) {
@@ -51,7 +54,7 @@ export const login = (email, password) => async (dispatch) => {
 			return data.errors;
 		}
 	} else {
-		return ["An error occurred. Please try again."];
+		return [ "An error occurred. Please try again." ];
 	}
 };
 
@@ -90,13 +93,18 @@ export const signUp = (username, email, password) => async (dispatch) => {
 			return data.errors;
 		}
 	} else {
-		return ["An error occurred. Please try again."];
+		return [ "An error occurred. Please try again." ];
 	}
 };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case SET_USER:
+			console.log("ACTION.PAYLOAD==========================", action.payload)
+			action.payload.channel_messages = normalizeFn(action.payload.channel_messages)
+			action.payload.direct_messages = normalizeFn(action.payload.direct_messages)
+			action.payload.friends = normalizeFn(action.payload.friends)
+			action.payload.servers = normalizeFn(action.payload.servers)
 			return { user: action.payload };
 		case REMOVE_USER:
 			return { user: null };

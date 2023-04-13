@@ -2,26 +2,27 @@ import NavBarServer from "./NavBarServer";
 import AddChannelModal from "./AddChannelModal/index";
 import OpenModalMenuItem from "./OpenModalButton/";
 import Server from "../components/ServerDetails/index.js";
-import { useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
+import "./Navigation/Navigation.css"
 function NavBarServerList({ servers }) {
- const history = useHistory();
- const loadServer = (server) => {
-  history.push(`/servers/${server.id}`);
- };
- return (
-  <>
-   {servers.map((server) => {
-    return (
-     <div key={server.id} className="svr-nav-menu-item svr-dropdown-parent" onClick={() => loadServer(server)}>
-      <NavBarServer server={server} />
-     </div>
-    );
-   })}
-   <div className="svr-channel-nav-bar-container">
-    <div></div>
-   </div>
-  </>
- );
+
+  console.log(servers)
+  const history = useHistory();
+
+  return (
+    <>
+      {servers.map((server) => (
+        <NavLink to={`/servers/${server.id}`}>
+          <div key={server.id} className="svr-nav-menu-item svr-dropdown-parent">
+            <NavBarServer server={server} />
+          </div>
+        </NavLink >
+      ))}
+      <div className="svr-channel-nav-bar-container">
+        <div></div>
+      </div>
+    </>
+  );
 }
 
 export default NavBarServerList;

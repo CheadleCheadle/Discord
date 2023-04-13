@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import "./Server.css";
-import { loadServerChannel, loadServerChannels } from "../../store/channels.js"
+import { getServerChannels, loadServerChannel, loadServerChannels } from "../../store/channels.js"
 import { thunkLoadAllServers } from "../../store/servers";
 import Channel from "../ChannelDetails/index.js";
+import AllServersNavbar from "./AllServersNavbar";
 export default function Server({ sessionUser }) {
     const history = useHistory();
     const params = useParams();
@@ -13,7 +14,10 @@ export default function Server({ sessionUser }) {
     let { serverId } = params;
     serverId = parseInt(serverId);
     const server = useSelector(state => state.servers.allServers[ serverId ]);
+    const channelsArr = server ? Object.values(server.channels) : []
     let currentChannel = useSelector(state => state.channels.allChannels[ state.channels.singleChannelId ]);
+
+    const [ isLoaded, setIsLoaded ] = useState(false)
 
     const loadChannel = (channel) => {
         dispatch(loadServerChannel(channel))
@@ -22,48 +26,43 @@ export default function Server({ sessionUser }) {
     }
 
     useEffect(() => {
-        dispatch(loadServerChannels({ channels: server.channels }))
-        dispatch(loadServerChannel(server.channels[ 0 ]))
-
+        dispatch(loadServerChannels({ channels: server.channels, serverId }))
+        // dispatch(loadServerChannel(server.channels[ 0 ]))
     }, [ server ])
+
     //Make sure in the future to make sure that this dispatch fires somewhere else. Probs in nav files
     useEffect(() => {
-        dispatch(thunkLoadAllServers());
-    }, [])
+        dispatch(thunkLoadAllServers())
+            .then(() => dispatch(getServerChannels(serverId)))
+            .then(() => setIsLoaded(true));
+    }, [ dispatch ])
     return (
-
         <>
-            <div className="svr-channel-wrapper">
-                <div>
-                    {server?.channels.map((channel) => (
-                        <div key={channel.id} onClick={() => loadChannel(channel)}>
-                            {channel.name}
+            {isLoaded && (
+                <>
+                    <AllServersNavbar></AllServersNavbar>
+                    <div className="svr-channel-wrapper">
+                        <div>
+                            {channelsArr.map((channel) => (
+                                <div key={channel.id} onClick={() => loadChannel(channel)}>
+                                    {channel.name}
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
-                <div className="svr-channel-msgs">
-                    <Channel channel={currentChannel} />
-
-                </div>
-
-
-
-
-                <div>
-                    {server?.users.map((user) => (
-                        <div key={user.id}>
-                            {user.username}
-                            {user.photo_url}
+                        <div className="svr-channel-msgs">
+                            <Channel channel={currentChannel} />
                         </div>
-                    ))}
-                </div>
-
-            </div>
+                        <div>
+                            {server?.users.map((user) => (
+                                <div key={user.id}>
+                                    {user.username}
+                                    {user.photo_url}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </>
+            )}
         </>
-
-
-
-
     )
-
 }
