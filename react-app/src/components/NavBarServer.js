@@ -27,7 +27,6 @@ function NavBarServer({ server }) {
   }, [ showMenu ]);
 
   const ulClassName = "svr-profile-dropdown" + (showMenu ? "" : " hidden");
-  const closeMenu = () => setShowMenu(false);
 
   let divStyle = {
     backgroundImage: "url(" + server.icon_url + ")",

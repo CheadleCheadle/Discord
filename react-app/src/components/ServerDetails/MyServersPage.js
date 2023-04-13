@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import AllServersNavbar from "./AllServersNavbar";
-import { NavLink, Route, Switch } from "react-router-dom";
-import AddServerForm from "../AddServerForm";
-import Server from ".";
+import { Route, Switch } from "react-router-dom";
 import SingleServerPage from "./SingleServerPage";
-import Channel from "../ChannelDetails";
 const MyServersPage = () => {
   return (
     <>
@@ -13,6 +10,7 @@ const MyServersPage = () => {
         <Route path={'/servers/:serverId/'}>
           <SingleServerPage />
         </Route>
+
       </Switch>
     </>
   )

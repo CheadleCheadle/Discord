@@ -13,7 +13,7 @@ function NavBarServerList() {
   return (
     <>
       {servers.map((server) => (
-        <NavLink to={`/servers/${server.id}`}>
+        <NavLink key={server.name} to={`/servers/${server.id}`}>
           <div key={server.id} className="svr-nav-menu-item svr-dropdown-parent">
             <NavBarServer server={server} />
           </div>

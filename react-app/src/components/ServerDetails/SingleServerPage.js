@@ -29,21 +29,9 @@ const SingleServerPage = () => {
                 </NavLink>
               ))}
             </div>
-
-            {/* <div className="svr-channel-msgs">
-          <Channel channel={currentChannel} />
-          </div>
-          <div>
-          {server?.users.map((user) => (
-            <div key={user.id}>
-            {user.username}
-            {user.photo_url}
-            </div>
-            ))}
-          </div> */}
           </div>
           <Switch>
-            <Route path={`/servers/${serverId}/channels/:channelId`}>
+            <Route path={`/servers/:serverId/channels/:channelId`}>
               <Channel />
             </Route>
           </Switch>
