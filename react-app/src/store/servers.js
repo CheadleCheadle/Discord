@@ -111,10 +111,9 @@ export const thunkEditAServer = (data, id) => async (dispatch) => {
  let server;
  const response = await fetch(`/api/servers/${id}`, {
   method: "PUT",
-  headers: { "Content-Type": "application/json" },
+  headers: { "Content-Type": "Application/json" },
   body: JSON.stringify(data),
  });
- console.log("B thunkEditAServer response.json():", response.json());
  if (response.ok) {
   server = await response.json();
   dispatch(editAServer(server));
