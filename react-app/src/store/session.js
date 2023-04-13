@@ -45,7 +45,6 @@ export const login = (email, password) => async (dispatch) => {
 
 	if (response.ok) {
 		const data = await response.json();
-		console.log("dat========================================", data)
 		dispatch(setUser(data));
 		return null;
 	} else if (response.status < 500) {
@@ -100,7 +99,6 @@ export const signUp = (username, email, password) => async (dispatch) => {
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case SET_USER:
-			console.log("ACTION.PAYLOAD==========================", action.payload)
 			action.payload.channel_messages = normalizeFn(action.payload.channel_messages)
 			action.payload.direct_messages = normalizeFn(action.payload.direct_messages)
 			action.payload.friends = normalizeFn(action.payload.friends)

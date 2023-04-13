@@ -50,6 +50,9 @@ function App() {
           {!!sessionUser && (
             <Route exact path="/servers/new" component={AddServerForm} />
           )}
+          {/* {!!sessionUser && (
+            <Route path='/servers/:serverId/channels/:channelId' component={ChannelDetails}/>
+          )} */}
           {!!sessionUser && (
             <Route path="/servers/:serverId">
               <Server sessionUser={sessionUser} />
