@@ -13,9 +13,9 @@ export default function Channel() {
     const [ isLoaded, setIsLoaded ] = useState(false);
     useEffect(() => {
         dispatch(thunkUpdateSingleChannelId(channelId))
-            // .then(() => allMessagesAction(channelId))
+            .then(() => dispatch(allMessagesAction(channelId)))
             .then(() => setIsLoaded(true))
-    }, [ dispatch ])
+    }, [ dispatch, channelId ])
 
     const channel = useSelector(state => state.channels.allChannels[ channelId ])
     console.log("CHANNELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL", channel)

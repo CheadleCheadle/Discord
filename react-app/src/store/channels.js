@@ -132,7 +132,6 @@ export const newChannelMessageAction = (message, channelId) => async (dispatch) 
 
     if (response.ok) {
         const data = await response.json();
-        console.log("DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", data)
         dispatch(newMessage(data, channelId));
         return data;
     }
@@ -145,13 +144,13 @@ export const allMessagesAction = (channelId) => async (dispatch) => {
     console.log("RESPONSE", response)
     if (response.ok) {
         const data = await response.json();
-        console.log("DATA", data)
+        // const messages = data.length ? normalizeFn(data) : {}
         const payload = {
-            data,
+            messages: data,
             channelId
         }
         dispatch(allMessages(payload))
-        return data;
+        return channelId;
     }
 }
 
@@ -214,7 +213,6 @@ const channelReducer = (state = initalState, action) => {
             return newState;
         }
         case NEW_MESSAGE: {
-            console.log("ACCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC", action.message.content)
             newState = {
                 ...state,
                 allChannels: {
@@ -233,20 +231,19 @@ const channelReducer = (state = initalState, action) => {
             return newState;
         }
         case UPDATE_SINGLE_CHANNEL_ID: {
-            console.log("SINGLE CHANNEL ACTION", action)
             newState = { ...state }
             newState.singleChannelId = action.channelId
             return newState
         }
         case ALL_MESSAGES: {
-            // console.log("ALL MESSAGES ACTION", action)
+            console.log("ALL MESSAGES ACTION", action.payload)
             newState = {
                 ...state,
                 allChannels: {
                     ...state.allChannels,
                     [ action.payload.channelId ]: {
                         ...state.allChannels[ action.payload.channelId ],
-                        channel_messages: normalizeFn(action.payload.messages)
+                        channel_messages: { ...action.payload.messages }
 
                     }
                 }
