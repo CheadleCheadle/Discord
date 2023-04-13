@@ -12,43 +12,47 @@ import AddServerForm from "../AddServerForm";
 const Navigation = () => {
  const dispatch = useDispatch();
  const history = useHistory();
- const return_servers = useSelector((state) => state.servers.allServers);
+ //  const return_servers = useSelector((state) => state.servers.allServers);
 
  const sessionUser = useSelector((state) => state.session.user);
 
- const servers = Object.values(return_servers);
+ //  const servers = Object.values(return_servers);
+ let servers = sessionUser?.servers;
+ console.log("Inside Navigation servers", servers);
 
  useEffect(() => {
   dispatch(thunkLoadAllServers());
  }, [dispatch]);
-
- return (
-  <div className="svr-nav-bar">
-   <div className="svr-nav-server-list">
-    <NavBarServerList servers={servers} />
-   </div>
-   <div className="svr-nav-menu">
-    {/* <div>
+ //  console.log("Navigation servers: ", servers);
+ if (!servers) return null;
+ else
+  return (
+   <div className="svr-nav-bar">
+    <div className="svr-nav-server-list">
+     <NavBarServerList servers={servers} />
+    </div>
+    <div className="svr-nav-menu">
+     {/* <div>
      <NavLink exact to="/">
       Home
      </NavLink>
     </div> */}
 
-    <div className="svr-nav-menu-item svr-dropdown-parent">
-     <ProfileButton user={sessionUser} />
-    </div>
+     <div className="svr-nav-menu-item svr-dropdown-parent">
+      <ProfileButton user={sessionUser} />
+     </div>
 
-    <div className="svr-nav-menu-item">
-     {/* <Fab onClick={() => history.push("/servers/new")} /> */}
-     <OpenModalButton
-      someN="svr-new-server-button"
-      buttonText="create"
-      modalComponent={<AddServerForm user={sessionUser} />}
-     />
+     <div className="svr-nav-menu-item">
+      {/* <Fab onClick={() => history.push("/servers/new")} /> */}
+      <OpenModalButton
+       someN="svr-new-server-button"
+       buttonText="create"
+       modalComponent={<AddServerForm user={sessionUser} />}
+      />
+     </div>
     </div>
    </div>
-  </div>
- );
+  );
 };
 
 export default Navigation;

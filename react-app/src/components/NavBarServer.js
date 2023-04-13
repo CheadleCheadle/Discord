@@ -2,10 +2,20 @@ import React, { useState, useEffect, useRef } from "react";
 import OpenModalButton from "./OpenModalButton";
 import DeleteServerModal from "./DeleteServerModal";
 import EditServerForm from "./EditServerForm";
+import { useSelector, useDispatch } from "react-redux";
+import { thunkLoadAllServers } from "../store/servers";
 
-function NavBarServer({ server }) {
+function NavBarServer({ serverId }) {
  const [showMenu, setShowMenu] = useState(false);
  const ulRef = useRef();
+ const dispatch = useDispatch();
+ const return_servers = useSelector((state) => state.servers.allServers);
+ const server = return_servers[serverId];
+ //console.log("Inside NavBarServer server", server);
+
+ useEffect(() => {
+  dispatch(thunkLoadAllServers());
+ }, [dispatch]);
 
  const openMenu = () => {
   if (showMenu) return;
@@ -29,9 +39,15 @@ function NavBarServer({ server }) {
  const ulClassName = "svr-profile-dropdown" + (showMenu ? "" : " hidden");
  const closeMenu = () => setShowMenu(false);
 
- let divStyle = {
-  backgroundImage: "url(" + server.icon_url + ")",
+ let divStyle;
+
+ //  if (server)
+ divStyle = {
+  backgroundImage: "url(" + server?.icon_url + ")",
  };
+ //console.log("divStyle", divStyle);
+ //  if (!server) return null;
+ //  else
  return (
   <>
    <div className="dropdown">
@@ -42,7 +58,7 @@ function NavBarServer({ server }) {
      onClick={openMenu}
      className="svr-ctx-box "
      style={divStyle}
-     data-tooltip={server.name}
+     data-tooltip={server?.name}
     ></button>
     <div className={ulClassName} ref={ulRef}>
      <div className="dropdown-content">{"Hello, " + "user.firstName"}</div>
@@ -50,7 +66,7 @@ function NavBarServer({ server }) {
      <OpenModalButton
       someN="svr-delete-button"
       buttonText="Delete the Server"
-      modalComponent={<DeleteServerModal serverId={server.id} />}
+      modalComponent={<DeleteServerModal serverId={server?.id} />}
      />
      <OpenModalButton
       someN="svr-edit-button"
