@@ -80,6 +80,7 @@ function ChatRoom({ username, friendname }) {
         setMessages((messages) => [...messages, data.message]);
     });
 
+
     // Leave the chat room when the component unmounts
     return () => {
       socket.emit('leave', { username, friendname });
@@ -88,9 +89,7 @@ function ChatRoom({ username, friendname }) {
 
   const handleMessageSubmit = (event) => {
     event.preventDefault();
-    // const newMessage = { message: messageText };
     socket.emit('message', { username, friendname, message: messageText });
-    // setMessages( [...messages, newMessage]);
     setMessageText('');
   };
 
