@@ -3,6 +3,14 @@ const LOAD_ALL_SERVERS = "servers/LOAD_ALL_SERVER";
 //const ADD_A_SERVER = "servers/ADD_A_SERVER";
 const DELETE_A_SERVER = "servers/DELETE_A_SERVER";
 const EDIT_A_SERVER = "servers/EDIT_A_SERVER";
+const LOAD_CURRENT_SERVERID = "servers/LOAD_CURRENT_SERVERID";
+
+export const loadCurrentServerId = (id) => {
+ return {
+  type: LOAD_CURRENT_SERVERID,
+  id,
+ };
+};
 
 export const loadAllServers = (servers) => {
  return {
@@ -72,7 +80,7 @@ export const thunkAddAServer = (data) => async (dispatch) => {
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify(data),
  });
- console.log("B thunkAddAServer response.json():", response.json());
+ // console.log("B thunkAddAServer response.json():", response.json());
  if (response.ok) {
   server = await response.json();
   dispatch(editAServer(server));
@@ -127,19 +135,27 @@ export const thunkEditAServer = (data, id) => async (dispatch) => {
 
 const initialState = {
  allServers: {},
- singleServer: null,
+ singleServerId: null,
 };
 
 //*reducer
 const serverReducer = (state = initialState, action) => {
- //console.log("Inside serverReducer: ", action.type);
+ console.log("Inside serverReducer: ", action);
  let newState = {};
  switch (action.type) {
+  case LOAD_CURRENT_SERVERID:
+   newState = {
+    ...state,
+    allServers: { ...state.allServers },
+    singleServerId: action.id,
+    //id of the single server
+   };
+   return newState;
   case LOAD_ALL_SERVERS:
    newState = {
     ...state,
     allServers: {},
-    singleServer: state.singleServer,
+    singleServerId: state.singleServerId,
     //id of the single server
    };
    action.servers.servers.forEach((server) => {
@@ -151,7 +167,7 @@ const serverReducer = (state = initialState, action) => {
   //  newState = {
   //   ...state,
   //   allServers: { ...state.allServers },
-  //   singleServer: action.server.id,
+  //   singleServerId: action.server.id,
   //  };
   //  newState.allServers[action.server.id] = action.server;
   //  return newState;
@@ -160,7 +176,7 @@ const serverReducer = (state = initialState, action) => {
   //  newState = {
   //   ...state,
   //   allServers: { ...state.allServers },
-  //   singleServer: action.server.id,
+  //   singleServerId: action.server.id,
   //  };
   //  newState.allServers[action.server.id] = action.server;
   //  return newState;
@@ -169,7 +185,7 @@ const serverReducer = (state = initialState, action) => {
    newState = {
     ...state,
     allServers: { ...state.allServers },
-    singleServer: null,
+    singleServerId: null,
    };
    delete newState.allServers[action.id];
    return newState;
@@ -178,7 +194,7 @@ const serverReducer = (state = initialState, action) => {
    newState = {
     ...state,
     allServers: { ...state.allServers },
-    singleServer: action.server.id,
+    singleServerId: action.server.id,
    };
    newState.allServers[action.server.id] = action.server;
    return newState;

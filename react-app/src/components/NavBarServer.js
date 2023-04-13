@@ -3,7 +3,7 @@ import OpenModalButton from "./OpenModalButton";
 import DeleteServerModal from "./DeleteServerModal";
 import EditServerForm from "./EditServerForm";
 import { useSelector, useDispatch } from "react-redux";
-import { thunkLoadAllServers } from "../store/servers";
+import { thunkLoadAllServers, loadCurrentServerId } from "../store/servers";
 
 function NavBarServer({ serverId }) {
  const [showMenu, setShowMenu] = useState(false);
@@ -15,29 +15,12 @@ function NavBarServer({ serverId }) {
 
  useEffect(() => {
   dispatch(thunkLoadAllServers());
- }, [dispatch]);
+ }, [dispatch, serverId]);
 
- const openMenu = () => {
-  if (showMenu) return;
-  setShowMenu(true);
+ const handleClick = (e) => {
+  e.preventDefault();
+  dispatch(loadCurrentServerId(serverId));
  };
-
- useEffect(() => {
-  if (!showMenu) return;
-
-  const closeMenu = (e) => {
-   if (!ulRef.current.contains(e.target)) {
-    setShowMenu(false);
-   }
-  };
-
-  document.addEventListener("click", closeMenu);
-
-  return () => document.removeEventListener("click", closeMenu);
- }, [showMenu]);
-
- const ulClassName = "svr-profile-dropdown" + (showMenu ? "" : " hidden");
- const closeMenu = () => setShowMenu(false);
 
  let divStyle;
 
@@ -55,25 +38,12 @@ function NavBarServer({ serverId }) {
      <i className="fas fa-user-circle fa-3x svr-profile-btn-color" />
     </button> */}
     <button
-     onClick={openMenu}
+     onClick={handleClick}
      className="svr-ctx-box "
      style={divStyle}
      data-tooltip={server?.name}
     ></button>
-    <div className={ulClassName} ref={ulRef}>
-     <div className="dropdown-content">{"Hello, " + "user.firstName"}</div>
-     <div className="dropdown-content">{"user.email"}</div>
-     <OpenModalButton
-      someN="svr-delete-button"
-      buttonText="Delete the Server"
-      modalComponent={<DeleteServerModal serverId={server?.id} />}
-     />
-     <OpenModalButton
-      someN="svr-edit-button"
-      buttonText="Edit the Server"
-      modalComponent={<EditServerForm server={server} />}
-     />
-    </div>
+    {/* <div className={ulClassName} ref={ulRef}></div> */}
    </div>
   </>
  );

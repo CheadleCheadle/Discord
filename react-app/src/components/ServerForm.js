@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../context/Modal";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
  thunkLoadAllServers,
  thunkAddAServer,
@@ -39,7 +39,7 @@ const ServerForm = ({ formType, server }) => {
    setDescription(theServer.description);
    setMax_users(theServer.max_users);
   }
- }, []);
+ }, [formType]);
 
  const handleSubmit = (e) => {
   e.preventDefault();
@@ -49,15 +49,15 @@ const ServerForm = ({ formType, server }) => {
   if (formType === "AddServerForm") {
    const newServer = {
     icon_url: icon_url,
-    public_: public_ == "true" ? "True" : "False",
+    public_: public_ === "true" ? "True" : "False",
     name: name,
     max_users: max_users,
     description: description,
    };
    console.log("AddServerForm");
    return dispatch(thunkAddAServer(newServer)).then((server) => {
-    console.log("this");
-    console.log(server);
+    // console.log("this");
+    // console.log(server);
     history.push(`api/servers/`);
     closeModal();
    });
@@ -69,7 +69,7 @@ const ServerForm = ({ formType, server }) => {
   if (formType === "EditServerForm") {
    const editServer = {
     icon_url: icon_url,
-    public_: public_ == "true" ? "True" : "False",
+    public_: public_ === "true" ? "True" : "False",
     name: name,
     max_users: max_users,
     description: description,

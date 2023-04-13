@@ -39,7 +39,7 @@ function ProfileButton({ user }) {
 
  return (
   <>
-   <div className="dropdown">
+   <div className="dropdown svr-dropdown-btn">
     <button onClick={openMenu}>
      <i className="fas fa-user-circle fa-3x svr-profile-btn-color" />
     </button>
