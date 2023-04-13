@@ -8,7 +8,9 @@ export default function Friends() {
     const params = useParams();
     const dispatch = useDispatch();
     const friends = useSelector(state => state.session.user.friends);
-    console.log("Im the friends", friends)
+    const otherFriends = useSelector(state => state.session.user.friends_of_me)
+    const allFriends = [...friends, ...otherFriends];
+    console.log("Im the friends", allFriends)
     const handleFriend = (friend) => {
         //redirect to new route that will be defined in app.js
         console.log(friend)
@@ -17,7 +19,7 @@ export default function Friends() {
 
     return (
         <div className="svr-friends-list">
-        {friends.map((friend) => (
+        {allFriends.map((friend) => (
         <div key={friend.id} onClick={() => handleFriend(friend)}>
         {friend.username}
         </div>

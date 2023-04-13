@@ -33,9 +33,6 @@ const sessionUser = useSelector(state => state.session.user)
        <Route path="/servers/:serverId">
        <Server sessionUser={sessionUser}/>
      </Route>
-    <Route path="/testdm">
-    <Chat/>
-    </Route>
     <Route path = "/friends/:friendId">
        <FriendDisplay/>
     </Route>

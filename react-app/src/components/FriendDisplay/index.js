@@ -17,8 +17,10 @@ const normalizeFn = (data) => {
     return normalizeData;
 };
 
-    const friends = normalizeFn(useSelector(state => state.session.user.friends))
-    const friend = friends[friendId]
+    const friends = useSelector(state => state.session.user.friends)
+    const otherFriends = useSelector(state => state.session.user.friends_of_me)
+    const allFriends = normalizeFn([...friends, ...otherFriends]);
+    const friend = allFriends[friendId]
     const user = useSelector(state => state.session.user)
     console.log("Im the current user", user)
     const [ message, setMessage ] = useState("");
@@ -29,7 +31,7 @@ const normalizeFn = (data) => {
             {friend.username}
         </div>
         {/* <Chat friend={friend}/> */}
-        <ChatRoom friend={friend} user={user}/>
+        <ChatRoom friendname={friend.username} username={user.username}/>
 
         </>
     )
