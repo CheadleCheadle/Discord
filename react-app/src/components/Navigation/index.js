@@ -11,25 +11,22 @@ import ServerMenuBox from "../ServerMenuBox";
 const Navigation = () => {
  const dispatch = useDispatch();
  const return_servers = useSelector((state) => state.servers.allServers);
- const returnServers = Object.values(return_servers);
+ const servers = Object.values(return_servers);
 
- let servers = [];
+//  let servers = [];
  const sessionUser = useSelector((state) => state.session.user);
+//  console.log(sessionUser.servers)
  if (sessionUser) {
-  returnServers.forEach((server) =>
-   server.users.forEach((user) => {
-    if (user.id === sessionUser.id) servers.push(server);
-   })
-  );
+  // sessionUser.servers
  }
 
- console.log("Inside Navigation servers", servers);
+//  console.log("Inside Navigation servers", sessionUser.servers);
 
  useEffect(() => {
   dispatch(thunkLoadAllServers());
  }, [dispatch]);
  //  console.log("Navigation servers: ", servers);
- if (!servers) return null;
+ if (!sessionUser?.servers) return null;
  else
   return (
    <div className="whole-outer-container">

@@ -48,16 +48,15 @@ const ServerForm = ({ formType, server }) => {
 
   if (formType === "AddServerForm") {
    const newServer = {
-    icon_url: icon_url,
-    public_: public_ === "true" ? "True" : "False",
-    name: name,
-    max_users: max_users,
-    description: description,
+    icon_url,
+    name,
+    max_users,
+    description,
+    public_
    };
    console.log("AddServerForm");
    return dispatch(thunkAddAServer(newServer)).then((server) => {
-    // console.log("this");
-    // console.log(server);
+
     history.push(`api/servers/`);
     closeModal();
    });
@@ -80,7 +79,6 @@ const ServerForm = ({ formType, server }) => {
     .then((server) => {
      console.log("this");
      console.log(server);
-     history.push(`api/servers/`);
      closeModal();
     })
     .catch((res) => {
@@ -96,7 +94,6 @@ const ServerForm = ({ formType, server }) => {
      ? "Create a new Server"
      : "Update your Server"}
    </h2>
-
    <form className="new-spot-form" onSubmit={handleSubmit}>
     <div className="where-text"></div>
     <ul className="error-message">
