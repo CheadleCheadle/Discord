@@ -71,10 +71,18 @@ class User(db.Model, UserMixin):
     friends = db.relationship(
         "User",
         secondary="friends",
-        primaryjoin=friends.c.user1_id == id,
-        secondaryjoin=friends.c.user2_id == id,
-        backref="friends_with_me"
+        primaryjoin=(friends.c.user1_id == id),
+        secondaryjoin=(friends.c.user2_id == id),
+        backref=db.backref("friend", lazy="dynamic"),
+        lazy="dynamic"
     )
+
+    # friends_with_me = db.relationship(
+    #     "User",
+    #     secondary="friends",
+    #     primaryjoin=friends.c.user2_id == id,
+    #     secondaryjoin=friends.c.user1_id == id,
+    #     )
 
     server_memberships = db.relationship(
         "Server",
@@ -105,6 +113,7 @@ class User(db.Model, UserMixin):
                 user1_id=self.id, user2_id=friend_lst.id, status=status)
             db.engine.execute(new_friendship)
 
+
     def to_safe_dict(self):
         return {
             'id': self.id,
@@ -113,7 +122,7 @@ class User(db.Model, UserMixin):
             "firstname": self.firstname,
             "lastname": self.lastname,
             "photo_url": self.photo_url,
-            "active_status": self.active_status
+            "active_status": self.active_status,
         }
 
     def to_dict(self):
@@ -128,5 +137,6 @@ class User(db.Model, UserMixin):
             "servers": [server.to_safe_dict() for server in self.servers],
             "direct_messages": [dm.to_dict() for dm in self.direct_messages],
             "channel_messages": [message.to_dict() for message in self.channel_messages],
-            "friends": [friend.to_dict() for friend in self.friends],
+            "friends_of_me": [friend.to_dict() for friend in self.friend.all()],
+            "friends": [friend.to_safe_dict() for friend in self.friends]
         }

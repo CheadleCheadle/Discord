@@ -26,28 +26,35 @@ def user(id):
     return user.to_dict()
 
 
-@user_routes.route('/curr/messages/recipient/<int:recipient_id>')
+@user_routes.route('/curr/messages/recipient/<int:recipient_id>', methods=["POST"])
 @login_required
 def get_messages_from_user(recipient_id):
-    user_id = current_user.id
-    all_messages = DirectMessage.query.filter(
+    data = json.loads(request.data)
+    user_id = data["userId"]
+    all_messages1 = DirectMessage.query.filter(
         DirectMessage.user_id == user_id,
         DirectMessage.recipient_id == recipient_id
     )
+    all_messages_2 = DirectMessage.query.filter(
+        DirectMessage.recipient_id == user_id,
+        DirectMessage.user_id == recipient_id
+    )
+    all_messages = [x for n in (all_messages1, all_messages_2) for x in n]
+    filtered = [*set(all_messages)]
+    filtered.sort(key=lambda msg: msg._time_stamp)
+    return [message.to_safe_dict() for message in filtered]
 
-    return [message.to_safe_dict() for message in all_messages]
 # GET MESSAGES SENT FROM USER TO RECIPIENT
 
 
-@user_routes.route('/curr/messages/new', methods=['POST'])
+@user_routes.route('/messages/new/<int:recipient_id>', methods=['POST'])
 @login_required
-def create_direct_message():
+def create_direct_message(recipient_id):
     data = json.loads(request.data)
-    user_id = current_user.id
     # return data
     new_message = DirectMessage(
-        user_id=user_id,
-        recipient_id=data["recipient_id"],
+        user_id = data['userId'],
+        recipient_id=recipient_id,
         _content=data['content']
     )
     db.session.add(new_message)
