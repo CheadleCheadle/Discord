@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import ProfileButton from "../Navigation/ProfileButton";
 import NavBarServerList from "../NavBarServerList";
 import OpenModalButton from "../OpenModalButton";
@@ -8,8 +7,6 @@ import AddServerForm from "../AddServerForm";
 import "../Navigation/Navigation.css"
 
 const AllServersNavbar = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
   const return_servers = useSelector((state) => state.servers.allServers);
   const sessionUser = useSelector((state) => state.session.user);
   const servers = Object.values(return_servers);

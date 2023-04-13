@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import AllServersNavbar from "./AllServersNavbar";
-import { NavLink, Route, Switch } from "react-router-dom";
-import AddServerForm from "../AddServerForm";
-import Server from ".";
+import { Route, Switch } from "react-router-dom";
+import SingleServerPage from "./SingleServerPage";
 const MyServersPage = () => {
-
   return (
     <>
       <AllServersNavbar></AllServersNavbar>
+      <Switch>
+        <Route path={'/servers/:serverId/'}>
+          <SingleServerPage />
+        </Route>
+
+      </Switch>
     </>
   )
 }
