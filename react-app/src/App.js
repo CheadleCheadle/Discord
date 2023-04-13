@@ -30,6 +30,9 @@ function App() {
 
   const servers = useSelector(state => state.servers.allServers);
   const serversArr = servers ? Object.keys(servers) : [];
+
+  const user = useSelector(state => state.session.user)
+  const myServers = user ? Object.keys(user.servers) : []
   // {!!sessionUser && (          )}
   // {!!sessionUser && (          )}
   // {!!sessionUser && (          )}
@@ -50,23 +53,20 @@ function App() {
           {!!sessionUser && (
             <Route exact path="/servers/new" component={AddServerForm} />
           )}
-          {/* {!!sessionUser && (
-            <Route path='/servers/:serverId/channels/:channelId' component={ChannelDetails}/>
-          )} */}
           {!!sessionUser && (
-            <Route path="/servers/:serverId">
-              <Server sessionUser={sessionUser} />
-            </Route>
+            <Route path='/servers/:serverId/channels/:channelId' component={MyServersPage} />
           )}
           {!!sessionUser && (
-            <Route exact path="/friends">
-              <Friends></Friends>
-            </Route>
+            <Route path="/servers/" component={MyServersPage} />
           )}
           {!!sessionUser && (
-            <Route exact path="/friends/:friendId">
-              <FriendDisplay></FriendDisplay>
-            </Route>
+            <Route path="/servers/:serverId" component={MyServersPage} />
+          )}
+          {!!sessionUser && (
+            <Route exact path="/friends" component={Friends} />
+          )}
+          {!!sessionUser && (
+            <Route exact path="/friends/:friendId" component={FriendDisplay} />
           )}
           <Route exact path="/signup">
             <SignupFormPage />
