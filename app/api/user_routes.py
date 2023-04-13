@@ -61,3 +61,4 @@ def create_direct_message(recipient_id):
     db.session.commit()
     return new_message.to_safe_dict()
 # CREATE A NEW DIRECT MESSAGE
+
