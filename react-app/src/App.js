@@ -16,6 +16,8 @@ import AllServersNavbar from "./components/ServerDetails/AllServersNavbar";
 import AllServersPage from "./components/ServerDetails/AllServersPage";
 import Friends from "./components/Friends";
 import FriendDisplay from "./components/FriendDisplay";
+import SingleServerPage from "./components/ServerDetails/SingleServerPage";
+import Channel from "./components/ChannelDetails";
 
 
 function App() {
@@ -30,6 +32,9 @@ function App() {
 
   const servers = useSelector(state => state.servers.allServers);
   const serversArr = servers ? Object.keys(servers) : [];
+
+  const user = useSelector(state => state.session.user)
+  const myServers = user ? Object.keys(user.servers) : []
   // {!!sessionUser && (          )}
   // {!!sessionUser && (          )}
   // {!!sessionUser && (          )}
@@ -50,23 +55,16 @@ function App() {
           {!!sessionUser && (
             <Route exact path="/servers/new" component={AddServerForm} />
           )}
-          {/* {!!sessionUser && (
-            <Route path='/servers/:serverId/channels/:channelId' component={ChannelDetails}/>
-          )} */}
           {!!sessionUser && (
-            <Route path="/servers/:serverId">
-              <Server sessionUser={sessionUser} />
+            <Route path="/servers/">
+              <MyServersPage myServers={myServers} />
             </Route>
           )}
           {!!sessionUser && (
-            <Route exact path="/friends">
-              <Friends></Friends>
-            </Route>
+            <Route exact path="/friends" component={Friends} />
           )}
           {!!sessionUser && (
-            <Route exact path="/friends/:friendId">
-              <FriendDisplay></FriendDisplay>
-            </Route>
+            <Route exact path="/friends/:friendId" component={FriendDisplay} />
           )}
           <Route exact path="/signup">
             <SignupFormPage />

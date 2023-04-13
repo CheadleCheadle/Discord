@@ -6,25 +6,27 @@ import { newChannelMessageAction } from "../../store/channels.js";
 import { allMessagesAction } from "../../store/channels.js";
 import { update } from "lodash";
 export default function Channel({ channel }) {
-    const history = useHistory();
-    const params = useParams();
-    const dispatch = useDispatch();
-    const [ message, setMessage ] = useState("");
-    const [ startMessageFetch, setStartMessageFetch ] = useState(false)
-    const channels = useSelector(state => state.channels);
-    const channelId = channels.SingleChannelId;
+    // const history = useHistory();
+    const { serverId, channelId } = useParams();
+    console.log("PARAMSSSSSSSS=================", serverId, channelId)
+    // const channel = useSelector(state => state.)
+    // const dispatch = useDispatch();
+    // const [ message, setMessage ] = useState("");
+    // const [ startMessageFetch, setStartMessageFetch ] = useState(false)
+    // const channels = useSelector(state => state.channels);
+    // const channelId = channels.SingleChannelId;
     // if (channel.id) setStartMessageFetch(true)
     //const channelId = useSelector(state => state.channels.SingleChannelId);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const newMessage = {
-            channelId: channel.id,
-            content: message
-        };
-        dispatch(newChannelMessageAction(newMessage, channel.id));
-    }
-        // setReRenderMe(true);
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     const newMessage = {
+    //         channelId: channel.id,
+    //         content: message
+    //     };
+    //     dispatch(newChannelMessageAction(newMessage, channel.id));
+    // }
+    // setReRenderMe(true);
     // const memoizedDispatch = useMemo(() => {
     // }, [dispatch])
 
@@ -49,23 +51,22 @@ export default function Channel({ channel }) {
     //     };
     // }, [ dispatchFunc ])
 
-
-    const channelsMessages = channel ? Object.values(channel.channel_messages) : []
+    // {/* <div>
+    //     {channelsMessages.map((message) => (
+    //         <div key={message.id}>
+    //             {message.content}
+    //         </div>
+    //     ))}
+    // </div>
+    // <div>
+    //     <form onSubmit={handleSubmit}>
+    //         <input type="text" placeholder={`Message`} value={message} onChange={(e) => setMessage(e.target.value)} />
+    //         <input type="submit" value="Submit" />
+    //     </form>
+    // </div> */}
     return (
         <>
-            <div>
-                {channelsMessages.map((message) => (
-                    <div key={message.id}>
-                        {message.content}
-                    </div>
-                ))}
-            </div>
-            <div>
-                <form onSubmit={handleSubmit}>
-                    <input type="text" placeholder={`Message`} value={message} onChange={(e) => setMessage(e.target.value)} />
-                    <input type="submit" value="Submit" />
-                </form>
-            </div>
+            THIS
         </>
     )
 

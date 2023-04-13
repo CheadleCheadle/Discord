@@ -3,11 +3,18 @@ import AllServersNavbar from "./AllServersNavbar";
 import { NavLink, Route, Switch } from "react-router-dom";
 import AddServerForm from "../AddServerForm";
 import Server from ".";
-const MyServersPage = () => {
+import SingleServerPage from "./SingleServerPage";
+import Channel from "../ChannelDetails";
+const MyServersPage = (myServers) => {
 
   return (
     <>
       <AllServersNavbar></AllServersNavbar>
+      <Switch>
+        <Route path={'/servers/:serverId/'}>
+          <SingleServerPage />
+        </Route>
+      </Switch>
     </>
   )
 }
