@@ -82,13 +82,6 @@ def edit_a_server(id):
         server._max_users = form.data["max_users"]
         server._description = form.data["description"]
 
-        server.icon_url = form.data["icon_url"]
-        server.type = form.data["type"]
-        server.name = form.data["name"]
-        server.max_users = form.data["max_users"]
-        server.topic = form.data["topic"]
-        server.description = form.data["description"]
-
         try:
           db.session.commit()
           return server.to_dict(), 201

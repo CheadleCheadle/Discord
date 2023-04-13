@@ -4,16 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { newChannelMessageAction } from "../../store/channels.js";
 import { allMessagesAction } from "../../store/channels.js";
+import { update } from "lodash";
 export default function Channel({ channel }) {
     const history = useHistory();
     const params = useParams();
     const dispatch = useDispatch();
     const [ message, setMessage ] = useState("");
-    const channels = useSelector(state => state.channels);
-    const channelId = channels.SingleChannelId;
+    // const [reRenderMe, setReRenderMe] = useState(false);
+    // const channels = useSelector(state => state.channels);
+    // const channelId = channels.SingleChannelId;
     //const channelId = useSelector(state => state.channels.SingleChannelId);
 
-    console.log("Channel:", channel)
     const handleSubmit = (e) => {
         e.preventDefault();
         const newMessage = {
@@ -22,7 +23,7 @@ export default function Channel({ channel }) {
         };
         dispatch(newChannelMessageAction(newMessage, channel.id));
     }
-
+        // setReRenderMe(true);
     // const memoizedDispatch = useMemo(() => {
     // }, [dispatch])
 
@@ -32,20 +33,20 @@ export default function Channel({ channel }) {
     // }, dispatch)
 
 
-    const dispatchFunc = useCallback(() => {
-        dispatch(allMessagesAction(channelId));
-    }, [dispatch])
+    // const dispatchFunc = useCallback(() => {
+    //     dispatch(allMessagesAction(channelId));
+    // }, [dispatch])
 
-    useEffect(() => {
-        const updateMessages = setInterval(() => {
-            dispatchFunc();
-            console.log('Im updating')
-        }, 3000)
-        return () => {
-      clearTimeout(updateMessages);
+    // useEffect(() => {
+    //     const updateMessages = setInterval(() => {
+    //         dispatchFunc();
+    //         console.log('Im updating')
+    //     }, 3000)
+    //     return () => {
+    //   clearTimeout(updateMessages);
 
-    };
-    }, [dispatchFunc])
+    // };
+    // }, [reRenderMe])
 
 
     const channelsMessages = channel ? Object.values(channel.channel_messages) : []
