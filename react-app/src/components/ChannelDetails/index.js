@@ -10,9 +10,10 @@ export default function Channel({ channel }) {
     const params = useParams();
     const dispatch = useDispatch();
     const [ message, setMessage ] = useState("");
-    // const [reRenderMe, setReRenderMe] = useState(false);
-    // const channels = useSelector(state => state.channels);
-    // const channelId = channels.SingleChannelId;
+    const [ startMessageFetch, setStartMessageFetch ] = useState(false)
+    const channels = useSelector(state => state.channels);
+    const channelId = channels.SingleChannelId;
+    // if (channel.id) setStartMessageFetch(true)
     //const channelId = useSelector(state => state.channels.SingleChannelId);
 
     const handleSubmit = (e) => {
@@ -34,8 +35,8 @@ export default function Channel({ channel }) {
 
 
     // const dispatchFunc = useCallback(() => {
-    //     dispatch(allMessagesAction(channelId));
-    // }, [dispatch])
+    //     if (startMessageFetch) dispatch(allMessagesAction(channel.id));
+    // }, [ dispatch ])
 
     // useEffect(() => {
     //     const updateMessages = setInterval(() => {
@@ -43,10 +44,10 @@ export default function Channel({ channel }) {
     //         console.log('Im updating')
     //     }, 3000)
     //     return () => {
-    //   clearTimeout(updateMessages);
+    //         clearTimeout(updateMessages);
 
-    // };
-    // }, [reRenderMe])
+    //     };
+    // }, [ dispatchFunc ])
 
 
     const channelsMessages = channel ? Object.values(channel.channel_messages) : []
