@@ -4,10 +4,9 @@ from wtforms.validators import DataRequired
 
 
 class ServerForm(FlaskForm):
-    icon_url = StringField('Image Url' )
-    public  = BooleanField('Public')
+    icon_url = StringField('Image Url', validators=[DataRequired()])
+    public_ = StringField('Public', validators=[DataRequired()])
     name = StringField('Name', validators=[DataRequired()])
     max_users = IntegerField('Max Users', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
     submit = SubmitField('submit')
-

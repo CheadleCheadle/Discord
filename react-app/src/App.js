@@ -8,6 +8,9 @@ import Navigation from "./components/Navigation";
 import AddServerForm from "./components/AddServerForm";
 import AddChannelModal from "./components/AddChannelModal/index.js";
 import Server from "./components/ServerDetails/index";
+import Chat from "./components/DirectMessages/Chat.js";
+import Friends from "./components/Friends/index.js";
+import FriendDisplay from "./components/FriendDisplay/index.js";
 function App() {
  const dispatch = useDispatch();
 const sessionUser = useSelector(state => state.session.user)
@@ -30,7 +33,13 @@ const sessionUser = useSelector(state => state.session.user)
        <Route path="/servers/:serverId">
        <Server sessionUser={sessionUser}/>
      </Route>
-    </Switch> 
+    <Route path = "/friends/:friendId">
+       <FriendDisplay/>
+    </Route>
+       <Route path = "/friends">
+       <Friends />
+       </Route>
+    </Switch>
    )}
   </>
  );

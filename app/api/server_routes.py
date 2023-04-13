@@ -1,4 +1,4 @@
-from flask import Blueprint,redirect,render_template,request
+from flask import Blueprint, redirect, render_template, request
 from flask_login import current_user, login_required
 from app.models import db, Server, Channel
 from app.forms import ServerForm, ChannelForm
@@ -19,11 +19,12 @@ def get_current_servers():
 #Get all servers
 @server_routes.route("/")
 def get_all_servers():
-  """Query for all servers and returns them in a list of user dictionaries """
+    """Query for all servers and returns them in a list of user dictionaries """
 
-  servers = Server.query.all()
-  #return f"{servers[0].owner}"
-  return {'servers': [server.to_dict() for server in servers]}, 200
+    servers = Server.query.all()
+    # return f"{servers[0].owner}"
+    return {'servers': [server.to_dict() for server in servers]}, 200
+
 
 
 #Create new server
@@ -33,9 +34,8 @@ def add_new_server():
     """returns a new post form on get requests,
     validates and saves the new resource on post"""
 
-
     form = ServerForm()
-    form["csrf_token"].data=request.cookies["csrf_token"]
+    form["csrf_token"].data = request.cookies["csrf_token"]
     # print(form.author.choices)
     # query for data if needed in the form
 
@@ -67,7 +67,7 @@ def edit_a_server(id):
     validates and saves the new resource on post"""
 
     form = ServerForm()
-    form["csrf_token"].data=request.cookies["csrf_token"]
+    form["csrf_token"].data = request.cookies["csrf_token"]
     # print(form.author.choices)
     # query for data if needed in the form
 
@@ -81,7 +81,6 @@ def edit_a_server(id):
         server._name = form.data["name"]
         server._max_users = form.data["max_users"]
         server._description = form.data["description"]
-
 
         try:
           db.session.commit()
