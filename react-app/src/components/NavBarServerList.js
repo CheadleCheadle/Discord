@@ -4,9 +4,10 @@ import OpenModalMenuItem from "./OpenModalButton/";
 import Server from "../components/ServerDetails/index.js";
 import { NavLink, useHistory } from "react-router-dom";
 import "./Navigation/Navigation.css"
-function NavBarServerList({ servers }) {
-
-  console.log(servers)
+import { useSelector } from "react-redux";
+function NavBarServerList() {
+  const serversObj = useSelector(state => state.session.user.servers)
+  const servers = Object.values(serversObj)
   const history = useHistory();
 
   return (
