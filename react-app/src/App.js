@@ -16,8 +16,6 @@ import AllServersNavbar from "./components/ServerDetails/AllServersNavbar";
 import AllServersPage from "./components/ServerDetails/AllServersPage";
 import Friends from "./components/Friends";
 import FriendDisplay from "./components/FriendDisplay";
-import SingleServerPage from "./components/ServerDetails/SingleServerPage";
-import Channel from "./components/ChannelDetails";
 
 
 function App() {
@@ -56,9 +54,13 @@ function App() {
             <Route exact path="/servers/new" component={AddServerForm} />
           )}
           {!!sessionUser && (
-            <Route path="/servers/">
-              <MyServersPage myServers={myServers} />
-            </Route>
+            <Route path='/servers/:serverId/channels/:channelId' component={MyServersPage} />
+          )}
+          {!!sessionUser && (
+            <Route path="/servers/" component={MyServersPage} />
+          )}
+          {!!sessionUser && (
+            <Route path="/servers/:serverId" component={MyServersPage} />
           )}
           {!!sessionUser && (
             <Route exact path="/friends" component={Friends} />

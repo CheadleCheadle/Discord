@@ -5,8 +5,7 @@ import AddServerForm from "../AddServerForm";
 import Server from ".";
 import SingleServerPage from "./SingleServerPage";
 import Channel from "../ChannelDetails";
-const MyServersPage = (myServers) => {
-
+const MyServersPage = () => {
   return (
     <>
       <AllServersNavbar></AllServersNavbar>
