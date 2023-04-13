@@ -5,38 +5,7 @@ from flask import request
 
 socketio = SocketIO(cors_allowed_origins="*")
 
-# @socketio.on("chat")
-# def handle_chat(data):
-#     print(data)
-#     emit("chat", data, broadcast=True)
 
-
-
-# @socketio.on('connect')
-# def on_connect(obj):
-#     other_user_id = obj["other_user_id"]
-#     current_user_id = obj["userId"]
-#     room = f"{current_user_id}-{other_user_id}"
-#     print('This is the room', room)
-#     join_room(room)
-
-
-# @socketio.on('disconnect')
-# def on_disconnect():
-#     for room in list(request.namespace.rooms):
-#         leave_room(room)
-
-# @socketio.on('direct_message')
-# def on_direct_message(data):
-#     content = data['content']
-#     print('This is the data',data)
-#     room = data['room']
-#     emit('direct_message', {'content': content}, room=room)
-
-#Here, data is a dictionary containing the message content
-#  and the room name.
-#  The room parameter is used to specify the
-#  room to which the message should be sent.
 active_rooms = {}
 
 @socketio.on('connect')

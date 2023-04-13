@@ -31,7 +31,7 @@ const normalizeFn = (data) => {
             {friend.username}
         </div>
         {/* <Chat friend={friend}/> */}
-        <ChatRoom friendname={friend.username} username={user.username}/>
+        <ChatRoom friendname={friend.username} friend={friend} user={user} username={user.username}/>
 
         </>
     )
