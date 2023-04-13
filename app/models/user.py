@@ -137,6 +137,6 @@ class User(db.Model, UserMixin):
             "servers": [server.to_safe_dict() for server in self.servers],
             "direct_messages": [dm.to_dict() for dm in self.direct_messages],
             "channel_messages": [message.to_dict() for message in self.channel_messages],
-            "friends_of_me": [friend.to_dict() for friend in self.friend.all()],
-            "friends": [friend.to_safe_dict() for friend in self.friends]
+            "friends": [x for n in ([friend.to_safe_dict() for friend in self.friend.all()],[friend.to_safe_dict() for friend in self.friends]) for x in n]
+
         }

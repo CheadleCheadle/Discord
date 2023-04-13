@@ -14,6 +14,8 @@ import SplashPage from "./components/SplashPage.js";
 import NavBarServerList from "./components/NavBarServerList";
 import AllServersNavbar from "./components/ServerDetails/AllServersNavbar";
 import AllServersPage from "./components/ServerDetails/AllServersPage";
+import Friends from "./components/Friends";
+import FriendDisplay from "./components/FriendDisplay";
 
 
 function App() {
@@ -51,6 +53,16 @@ function App() {
           {!!sessionUser && (
             <Route path="/servers/:serverId">
               <Server sessionUser={sessionUser} />
+            </Route>
+          )}
+          {!!sessionUser && (
+            <Route exact path="/friends">
+              <Friends></Friends>
+            </Route>
+          )}
+          {!!sessionUser && (
+            <Route exact path="/friends/:friendId">
+              <FriendDisplay></FriendDisplay>
             </Route>
           )}
           <Route exact path="/signup">

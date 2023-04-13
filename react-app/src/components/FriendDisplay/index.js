@@ -11,19 +11,9 @@ export default function FriendDisplay() {
     let {friendId} = params;
     friendId = parseInt(friendId);
 
-const normalizeFn = (data) => {
-    const normalizeData = {};
-    data.forEach((val) => normalizeData[ val.id ] = val);
-    return normalizeData;
-};
-
     const friends = useSelector(state => state.session.user.friends)
-    const otherFriends = useSelector(state => state.session.user.friends_of_me)
-    const allFriends = normalizeFn([...friends, ...otherFriends]);
-    const friend = allFriends[friendId]
+    const friend = friends[friendId]
     const user = useSelector(state => state.session.user)
-    console.log("Im the current user", user)
-    const [ message, setMessage ] = useState("");
 
     return (
         <>
