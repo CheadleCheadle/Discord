@@ -4,8 +4,6 @@ import { useSelector } from "react-redux";
 import "./AllServers.css";
 import { useModal } from "../../context/Modal";
 import JoinServer from "./joinServer.js";
-import Friends from "../Friends";
-import { Switch } from "react-router-dom/cjs/react-router-dom.min";
 //Import join server form here so onclick calls the open modal with it...
 
 const AllServersPage = () => {

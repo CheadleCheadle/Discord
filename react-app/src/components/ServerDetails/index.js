@@ -40,7 +40,6 @@ export default function Server({ sessionUser }) {
         <>
             {isLoaded && (
                 <>
-                    <AllServersNavbar></AllServersNavbar>
                     <div className="svr-channel-wrapper">
                         <div>
                             {channelsArr.map((channel) => (

@@ -1,6 +1,6 @@
 import React from "react";
-import { useParams, Route, Switch, NavLink } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom"
+import { useSelector } from "react-redux";
 import "./friends.css";
 export default function Friends() {
     const friends = useSelector(state => state.session.user.friends);

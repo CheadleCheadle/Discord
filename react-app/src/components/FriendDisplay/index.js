@@ -1,9 +1,8 @@
 import { useParams } from "react-router-dom"
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import ChatRoom from "../DirectMessages/roomChat.js";
-import AllServersNavbar from "../ServerDetails/AllServersNavbar.js";
 
 export default function FriendDisplay() {
   const history = useHistory();
