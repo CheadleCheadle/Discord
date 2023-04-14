@@ -6,23 +6,21 @@ import ChatRoom from "../DirectMessages/roomChat.js";
 import AllServersNavbar from "../ServerDetails/AllServersNavbar.js";
 
 export default function FriendDisplay() {
-    const history = useHistory();
-    const params = useParams();
-    const dispatch = useDispatch();
-    let {friendId} = params;
-    friendId = parseInt(friendId);
+  const history = useHistory();
+  const params = useParams();
+  const dispatch = useDispatch();
+  let { friendId } = params;
+  friendId = parseInt(friendId);
 
-    const friends = useSelector(state => state.session.user.friends)
-    const friend = friends[friendId]
-    const user = useSelector(state => state.session.user)
-
-    return (
-        <>
-      <AllServersNavbar></AllServersNavbar>
-
-        <ChatRoom friendname={friend.username} friend={friend} user={user} username={user.username}/>
-
-        </>
-    )
-
+  const friends = useSelector(state => state.session.user.friends)
+  let friend;
+  useEffect(() => {
+    friend = friends[ friendId ]
+  }, [ friendId ])
+  friend = friends[ friendId ]
+  const user = useSelector(state => state.session.user)
+  console.log("FRIENDDDDDDDDDDDDDDDDDDDD", friend)
+  return (
+    <ChatRoom friendname={friend.username} friend={friend} user={user} username={user.username} />
+  )
 }
