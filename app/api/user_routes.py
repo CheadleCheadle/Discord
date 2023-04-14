@@ -42,7 +42,7 @@ def get_messages_from_user(recipient_id):
     all_messages = [x for n in (all_messages1, all_messages_2) for x in n]
     filtered = [*set(all_messages)]
     filtered.sort(key=lambda msg: msg._time_stamp)
-    return [message.to_safe_dict() for message in filtered]
+    return [message.to_dict() for message in filtered]
 
 # GET MESSAGES SENT FROM USER TO RECIPIENT
 
@@ -59,6 +59,5 @@ def create_direct_message(recipient_id):
     )
     db.session.add(new_message)
     db.session.commit()
-    return new_message.to_safe_dict()
+    return new_message.to_dict()
 # CREATE A NEW DIRECT MESSAGE
-

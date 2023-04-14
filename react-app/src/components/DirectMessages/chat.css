@@ -11,7 +11,28 @@
     gap: 1em;
 }
 
-.message {
+#message {
     display: flex;
     flex-direction: row;
+    gap: 1em;
+}
+
+#pfp-cont img {
+    width: 1.5em;
+    height: 1.5em;
+}
+#text-info {
+    display: flex;
+    flex-direction: column;
+}
+#text-info p {
+    font-size: .8em;
+}
+#name {
+    display: flex;
+    flex-direction: row;
+
+}
+#name p {
+    margin-right: .5em;
 }
