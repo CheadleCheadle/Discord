@@ -61,3 +61,7 @@ def create_direct_message(recipient_id):
     db.session.commit()
     return new_message.to_dict()
 # CREATE A NEW DIRECT MESSAGE
+
+# @user_routes.route('/<int:user_id/servers')
+# @login_required
+# def get_user_server(user_id):

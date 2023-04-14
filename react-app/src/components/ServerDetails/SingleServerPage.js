@@ -44,10 +44,10 @@ const SingleServerPage = () => {
             </Route>
           </Switch>
                 {/* Button for opening the modal to create a channel. May need to be moved */}
-        <OpenModalMenuItem
+        {/* <OpenModalMenuItem
         itemText="New Channel"
         modalComponent={<AddChannelModal />}
-        />
+        /> */}
           <div className="members-wrapper">
           <Members></Members>
           </div>

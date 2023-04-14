@@ -6,6 +6,8 @@ import OpenModalButton from "../OpenModalButton";
 import AddServerForm from "../AddServerForm";
 import "../Navigation/Navigation.css"
 import { NavLink, useHistory} from "react-router-dom/cjs/react-router-dom.min";
+import OpenModalMenuItem from "../OpenModalButton";
+import AddChannelModal from "../AddChannelModal";
 
 const AllServersNavbar = () => {
   const return_servers = useSelector((state) => state.servers.allServers);
@@ -33,6 +35,12 @@ const AllServersNavbar = () => {
               someN="svr-new-server-button"
               buttonText="create"
               modalComponent={<AddServerForm user={sessionUser} />}
+            />
+            </div>
+            <div className="svr-nav-menu-item">
+            <OpenModalMenuItem
+            itemText="New Channel"
+            modalComponent={<AddChannelModal />}
             />
           </div>
         </div>
