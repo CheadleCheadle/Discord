@@ -1,10 +1,59 @@
-body {
-  background: url("../static/splashpage-background.jpg");
-  background-size: 100% auto;
+#splash-page-top-half {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 60%;
+  place-content: center;
 }
 
-#splash-page-banner {
-  border: 2px solid black;
+#splash-page-content-h1 {
+  font-size: 50px;
+  font-weight: 800;
+}
+
+#splash-page-content-h2 {
+  width: 50%;
+  min-width: 600px;
+  font-size: 17px;
+  font-weight: 200;
+  line-height: 30px;
+  margin-top: 30px;
+}
+
+#splash-page-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+
+#splash-page-second-half {
+  display: flex;
+  height: 400px;
   width: 100vw;
+  border: 10px solid black;
+  background-color: black;
+
+}
+
+#full-splash-page {
+  display: flex;
+  flex-direction: column;
   height: 100vh;
+  width: 100vw;
+  background: url("../static/splashpage-background.jpg");
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+
+}
+
+#splash-page-button-container {
+  display: flex;
+  margin-top: 40px;
+  display: flex;
+  width: 50%;
+  min-width: 600px;
+  box-sizing: border-box;
+  justify-content: space-around;
 }
