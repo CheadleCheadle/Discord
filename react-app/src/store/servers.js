@@ -1,5 +1,5 @@
 import { normalizeFn } from "./channels";
-import { newUserServer } from "./session";
+import { deleteServers, newUserServer } from "./session";
 
 const LOAD_ALL_SERVERS = "servers/LOAD_ALL_SERVER";
 const LOAD_ONE_SERVER = "servers/LOAD_ONE_SERVER";
@@ -103,6 +103,7 @@ export const thunkDeleteAServer = (id) => async (dispatch) => {
   if (response.ok) {
     message = await response.json();
     dispatch(deleteAServer(+id));
+    dispatch(deleteServers(id));
 
     // console.log("reducer createASpot spot:", spot);
     return message;

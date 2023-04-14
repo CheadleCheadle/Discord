@@ -3,18 +3,25 @@ import React, { useState } from "react";
 import { thunkDeleteAServer } from "../store/servers";
 import { useDispatch } from "react-redux";
 import { useModal } from "../context/Modal";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 //import "./LoginForm.css";
 
 function DeleteServerModal({ serverId }) {
  const dispatch = useDispatch();
+ const history = useHistory()
  const [errors, setErrors] = useState([]);
  const { closeModal } = useModal();
 
  const handleDelete = () => {
   setErrors([]);
   console.log("Inside DeleteServerModal serverId: ", serverId);
+  history.replace("/servers");
   return dispatch(thunkDeleteAServer(serverId))
-   .then(closeModal)
+   .then(() => {
+    closeModal();
+    console.log("IM BEING hit")
+    history.replace("/servers");
+   })
    .catch(async (res) => {
     //const data = await res.json();
     // console.log("DeleteServerModal thunkDeleteAServer data", data);

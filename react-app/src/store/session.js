@@ -6,7 +6,14 @@ const REMOVE_USER = "session/REMOVE_USER";
 const JOIN_SERVER = "session/JOIN_SERVER";
 const NEW_DIRECT_MESSAGE = "session/user/directMessages/CREATE"
 const NEW_SERVER = "session/user/NEW"
+const DELETE_SERVERS = "session/user/DELETE"
 
+export const deleteServers = (serverId) => {
+	return {
+		type: DELETE_SERVERS,
+		serverId
+	}
+}
 export const newUserServer = (server) => {
 	return {
 		type: NEW_SERVER,
@@ -180,6 +187,18 @@ export default function reducer(state = initialState, action) {
 					}
 				}
 			}
+		case DELETE_SERVERS: {
+			 let newState = {
+				...state,
+				user: {
+					...state.user,
+					servers: {...state.user.servers}
+				}
+
+			}
+			delete newState.user.servers[action.serverId]
+			return newState;
+		}
 		default:
 			return state;
 	}

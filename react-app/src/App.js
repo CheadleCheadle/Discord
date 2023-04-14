@@ -42,9 +42,6 @@ function App() {
             <Route exact path="/servers/new" component={AddServerForm} />
           )}
           {!!sessionUser && (
-            <Route path="/servers/" component={MyServersPage} />
-          )}
-          {!!sessionUser && (
             <Route path="/servers/:serverId" component={MyServersPage} />
           )}
           {!!sessionUser && (
