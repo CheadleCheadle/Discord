@@ -5,11 +5,11 @@ from sqlalchemy.sql import text
 # Adds a demo user, you can add other users here if you want
 def seed_users():
     demo = User(
-        username='Demo', firstname='Demo', lastname='DEMO', photo_url="random.url", email='demo@aa.io', password='password')
+        username='Demo', firstname='Demo', lastname='DEMO', photo_url="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png", email='demo@aa.io', password='password')
     marnie = User(
-        username='marnie', firstname='Marnie', lastname='MARNIE', photo_url="random.url", email='marnie@aa.io', password='password')
+        username='marnie', firstname='Marnie', lastname='MARNIE', photo_url="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png", email='marnie@aa.io', password='password')
     bobbie = User(
-        username='bobbie', firstname='Bobbie', lastname='BOBBIE', photo_url="random.url", email='bobbie@aa.io', password='password')
+        username='bobbie', firstname='Bobbie', lastname='BOBBIE', photo_url="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png", email='bobbie@aa.io', password='password')
 
     person = db.session.add(demo)
     person2 = db.session.add(marnie)

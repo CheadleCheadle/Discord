@@ -16,15 +16,31 @@ export default function Friends() {
     }
 
     return (
+        <>
         <div className="svr-friends-list">
+            <h3>DIRECT MESSAGES</h3>
         {Object.values(friends).map((friend) => (
         <div key={friend.id} onClick={() => handleFriend(friend)}>
-        {friend.username}
+            <div className="usr-box">
+
+
+                <div id ="usr-img">
+                <img src={friend.photo_url}></img>
+                </div>
+
+                <div id="usr-name">
+                <p>{friend.username}</p>
+                </div>
+
+
+            </div>
+
+
         </div>
         )
         )}
         </div>
-
+        </>
 
 
     )
