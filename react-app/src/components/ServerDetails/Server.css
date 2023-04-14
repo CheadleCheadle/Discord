@@ -17,3 +17,13 @@
 display:flex;
 flex-direction: row;
 }
+
+#chnl-create button{
+    height: 2em;
+    color: red;
+}
+
+.chnl-container {
+    display: flex;
+    flex-direction: column;
+}

@@ -1,30 +1,39 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import AllServersNavbar from "./AllServersNavbar";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import SingleServerPage from "./SingleServerPage";
 import Friends from "../Friends";
+import FriendDisplay from "../FriendDisplay";
 import ServerMenuBox from "../ServerMenuBox";
-import Members from "./allMembers";
-const MyServersPage = () => {
-    const sessionUser = useSelector(state => state.session.user);
-  const servers = useSelector(state => state.servers.allServers);
+import { useSelector } from "react-redux";
 
+const MyServersPage = () => {
+  const sessionUser = useSelector(state => state.session.user);
+  const serversObj = useSelector(state => state.servers.allServers);
+  const servers = Object.values(serversObj)
+  const location = useLocation();
+  const [ serverMenuBoxBool, setServerMenuBoxBool ] = useState(false)
+
+  useEffect(() => {
+    if (location.pathname.slice(0, 8) === '/friends') setServerMenuBoxBool(false)
+    else setServerMenuBoxBool(true)
+  }, [ location ]);
   return (
     <>
       <AllServersNavbar></AllServersNavbar>
-      <div className="svr-channel-column">
-        <div className="svr-menu-box">
-          <ServerMenuBox servers={servers} user={sessionUser} />
-        </div>
-      <Friends></Friends>
-    {/* <Members></Members> */}
+      <div>
+        {serverMenuBoxBool && (
+          <div className="svr-menu-box">
+            <ServerMenuBox servers={servers} user={sessionUser} />
+          </div>
+        )}
+        <Friends></Friends>
       </div>
       <Switch>
-        <Route path={'/servers/:serverId/'}>
+        <Route path={'/servers/:serverId'}>
           <SingleServerPage />
         </Route>
-
+        <Route path={"/friends/:friendId"} component={FriendDisplay} />
       </Switch>
     </>
   )

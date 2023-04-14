@@ -76,6 +76,7 @@ export const getServerChannels = (serverId) => async (dispatch) => {
         for (let i in normalizeData) {
             normalizeData[ i ].channel_messages = normalizeFn(normalizeData[ i ].channel_messages)
         }
+        // console.log("IM THE CHANNELS FOR A SERVER:",  normalizeData);
         dispatch(loadServerChannels(normalizeData));
         return normalizeData;
     }
@@ -89,10 +90,12 @@ export const createChannelAction = (channel, serverId) => async (dispatch) => {
         headers: { 'Content-Type': 'Application/json' },
         body: JSON.stringify(channel)
     });
+    console.log("serverId",serverId)
 
 
     if (response.ok) {
         const data = await response.json();
+        console.log("IM THE NEW CHANNEL!", data);
         dispatch(createChannel(data));
         return data
     }
@@ -142,7 +145,7 @@ export const newChannelMessageAction = (message, channelId) => async (dispatch) 
 
 }
 
-export const allMessagesAction = (channelId) => async (dispatch) => {
+export const thunkGetAllMessages = (channelId) => async (dispatch) => {
     const response = await fetch(`/api/channels/${channelId}/messages`)
     if (response.ok) {
         const data = await response.json();
@@ -218,7 +221,6 @@ const channelReducer = (state = initalState, action) => {
             return newState;
         }
         case NEW_MESSAGE: {
-            console.log("STAAAAAAAAAAAAAAAAAAAAAAAATE", state)
             newState = {
                 ...state,
                 allChannels: {

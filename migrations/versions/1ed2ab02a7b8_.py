@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 76907f27280d
+Revision ID: 1ed2ab02a7b8
 Revises:
-Create Date: 2023-04-14 10:04:45.585903
+Create Date: 2023-04-14 14:16:36.897094
 
 """
 from alembic import op
@@ -13,7 +13,7 @@ environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
-revision = '76907f27280d'
+revision = '1ed2ab02a7b8'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -50,6 +50,7 @@ def upgrade():
     if environment == "production":
         op.execute(f"ALTER TABLE direct_messages SET SCHEMA {SCHEMA};")
 
+
     op.create_table('friends',
     sa.Column('user1_id', sa.Integer(), nullable=False),
     sa.Column('user2_id', sa.Integer(), nullable=False),
@@ -60,6 +61,7 @@ def upgrade():
     )
     if environment == "production":
         op.execute(f"ALTER TABLE friends SET SCHEMA {SCHEMA};")
+
 
     op.create_table('servers',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -101,6 +103,7 @@ def upgrade():
     if environment == "production":
         op.execute(f"ALTER TABLE server_memberships SET SCHEMA {SCHEMA};")
 
+
     op.create_table('channel_messages',
     sa.Column('_content', sa.Text(), nullable=False),
     sa.Column('_time_stamp', sa.DateTime(), nullable=False),
@@ -113,6 +116,8 @@ def upgrade():
     )
     if environment == "production":
         op.execute(f"ALTER TABLE channel_messages SET SCHEMA {SCHEMA};")
+
+
     # ### end Alembic commands ###
 
 
