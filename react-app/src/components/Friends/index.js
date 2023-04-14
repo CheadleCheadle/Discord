@@ -3,11 +3,14 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import "./friends.css";
+import ServerMenuBox from "../ServerMenuBox";
 export default function Friends() {
     const history = useHistory();
     const params = useParams();
     const dispatch = useDispatch();
     const friends = useSelector(state => state.session.user.friends);
+    const sessionUser = useSelector(state => state.session.user);
+  const servers = useSelector(state => state.servers.allServers);
     console.log(friends)
     const handleFriend = (friend) => {
         //redirect to new route that will be defined in app.js
@@ -18,6 +21,9 @@ export default function Friends() {
     return (
         <>
         <div className="svr-friends-list">
+        <div className="svr-menu-box">
+          <ServerMenuBox servers={servers} user={sessionUser} />
+        </div>
             <h3>DIRECT MESSAGES</h3>
         {Object.values(friends).map((friend) => (
         <div key={friend.id} onClick={() => handleFriend(friend)}>

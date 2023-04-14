@@ -3,12 +3,13 @@ import Channel from "../ChannelDetails";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Route, Switch, useParams } from "react-router-dom";
 import { getServerChannels } from "../../store/channels";
-
 const SingleServerPage = () => {
   const [ isLoaded, setIsLoaded ] = useState(false)
   const dispatch = useDispatch()
   const { serverId } = useParams();
-
+  const sessionUser = useSelector(state => state.session.user);
+  const servers = useSelector(state => state.servers.allServers);
+  console.log('servers-------------', servers);
   useEffect(() => {
     dispatch(getServerChannels(serverId))
       .then(() => setIsLoaded(true))
@@ -21,6 +22,7 @@ const SingleServerPage = () => {
     <>
       {isLoaded && (
         <>
+
           <div className="svr-channel-wrapper">
             <div>
               {channelsArr.map((channel) => (

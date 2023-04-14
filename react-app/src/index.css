@@ -6,18 +6,95 @@
 }
 
 body {
-  background-color:#313338;
+
+  background-color: #777;
+}
+
+.whole-outer-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
 }
 
 .svr-nav-bar {
+  margin: 0;
   padding-top: 10px;
   width: 80px;
   height: 100vh;
-  background-color:#1e1f22;
+  background-color: #444;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+
+.svr-channel-column {
+  width: 180px;
+  height: 100vh;
+}
+
+.svr-dropdown-parent {
+  position: relative;
+}
+
+.svr-menu-profile-dropdown {
+  width: 190px;
+  display: flex;
+  flex-direction: column;
+  width: 12em;
+  height: 10em;
+  position: absolute;
+  left: 50%;
+  top: calc(100% + .05rem);
+  /* top side of self container is at 50% of parent container */
+  transform: translateX(-92%);
+  /* gap: 10px; */
+  color: white;
+  background-color: #222;
+  padding-bottom: .15rem;
+  border-radius: 9px;
+  box-shadow: 0 2px 5px 0 gray;
+  z-index: 1;
+}
+
+
+.svr-menu-box {
+  padding: 5px;
+  font-size: 12pt;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  background-color: cadetblue;
+  position: relative;
+}
+
+.svr-dropdown-content {
+  font-weight: 400;
+  font-size: 14pt;
+  padding: .20rem .55rem;
+  color: white;
+  background-color: #222;
+}
+
+.svr-menu-name {
+  width: 80%;
+  font-size: 12pt;
+  font-weight: bold;
+  /* background-color: blueviolet; */
+}
+
+.svr-toggle-btn {
+  position: absolute;
+  right: 7px;
+}
+
+.down-close-btn {
+  background-color: transparent;
+  border-color: transparent;
+
+}
+
+
 
 .svr-nav-server-list {
   display: flex;
@@ -26,14 +103,12 @@ body {
   width: 100%;
   height: 82%;
   /* background-color: burlywood; */
-  background-color: #1e1f22;
 }
 
 .svr-nav-menu {
   width: 100%;
   height: 18%;
   /* background-color: aquamarine; */
-  background-color: #1e1f22;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -106,6 +181,16 @@ body {
   display: none;
 }
 
+.svr-dropdown-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
 .dropdown-content {
   font-weight: 400;
   font-size: 14pt;
@@ -139,9 +224,9 @@ body {
 /* .svr-ctx-container:hover {
   border-radius: 25%;
 } */
-/* .svr-ctx-box:hover {
+.svr-ctx-box:hover {
   border-radius: 25%;
-} */
+}
 
 
 .svr-ctx-box {
@@ -209,6 +294,7 @@ body {
   /* transition animation */
   transform-origin: left center;
   /* grow from bottom */
+  z-index: 1;
 }
 
 .svr-ctx-box::before {

@@ -5,7 +5,13 @@ const LOAD_ONE_SERVER = "servers/LOAD_ONE_SERVER";
 const ADD_A_SERVER = "servers/ADD_A_SERVER";
 const DELETE_A_SERVER = "servers/DELETE_A_SERVER";
 const EDIT_A_SERVER = "servers/EDIT_A_SERVER";
-
+const LOAD_ONE_SERVER_ID = "servers/ONE";
+export const loadOneServerId =(serverId) => {
+    return {
+      type: LOAD_ONE_SERVER_ID,
+      serverId
+    }
+}
 export const loadAllServers = (servers) => {
   return {
     type: LOAD_ALL_SERVERS,
@@ -123,12 +129,19 @@ export const thunkEditAServer = (data, id) => async (dispatch) => {
   }
 };
 
-const initialState = { allServers: {} };
+const initialState = { allServers: {}, singleServerId: null};
 
 const serverReducer = (state = initialState, action) => {
   //console.log("Inside serverReducer: ", action.type);
   let newState = {};
   switch (action.type) {
+    case LOAD_ONE_SERVER_ID: {
+      newState = {
+        ...state,
+        singleServerId: action.serverId
+      }
+      return newState;
+    }
     case LOAD_ALL_SERVERS:
       newState = {
         ...state,
