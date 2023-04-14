@@ -26,7 +26,6 @@ const SingleServerPage = () => {
     <>
       {isLoaded && (
         <>
-
           <div className="svr-channel-wrapper">
             <div>
               {channelsArr.map((channel) => (

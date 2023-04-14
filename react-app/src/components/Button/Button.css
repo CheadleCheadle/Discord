@@ -1,0 +1,37 @@
+:root {
+  --primary: white;
+}
+
+.btn {
+  padding: 8px 20px;
+  border-radius: 2px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+.btn--medium {
+  padding: 8px 20px;
+  font-size: 14px;
+}
+
+.btn--demo {
+  background-color: var(--site-green);
+  border-radius: 1rem;
+  background-color: black;
+  transition: 0.3s;
+  color: white;
+}
+
+.btn--primary {
+  background-color: var(--primary);
+  color: #242424;
+  border: 1px solid var(--primary);
+}
+
+.btn--demo:hover {
+  color: rgb(11, 117, 153);
+  box-shadow: -2px 2px 8px -3px black;
+  transition: 0.3s;
+}
