@@ -15,23 +15,23 @@ function ChatRoom({ username, friendname, friend, user }) {
   const dispatch = useDispatch()
   // const location = useLocation()
   console.log({ username, friendname, friend, user })
-  useEffect(() => {
-    async function fetchData() {
-      const current_messages = await fetch(`/api/users/curr/messages/recipient/${friend.id}`, {
-        method: "POST",
-        headers: { 'Content-Type': 'Application/json' },
-        body: JSON.stringify({ userId: user.id })
-      });
-      // const current_messages2 = await fetch(`/api/users/curr/messages/recipient/${user.id}`);
-      if (current_messages.ok) {
-        const data = await current_messages.json();
-        setMessages(data);
-      }
+
+  async function fetchData() {
+    const current_messages = await fetch(`/api/users/curr/messages/recipient/${friend.id}`, {
+      method: "POST",
+      headers: { 'Content-Type': 'Application/json' },
+      body: JSON.stringify({ userId: user.id })
+    });
+    // const current_messages2 = await fetch(`/api/users/curr/messages/recipient/${user.id}`);
+    if (current_messages.ok) {
+      const data = await current_messages.json();
+      setMessages(data);
     }
+  }
+
+  useEffect(() => {
     fetchData()
   }, [ messages.length ])
-
-
 
   useEffect(() => {
     // Join the chat room when the component mounts
@@ -41,30 +41,12 @@ function ChatRoom({ username, friendname, friend, user }) {
     // Handle incoming messages
     socket.on('message', (data) => {
       console.log('SENT BACK', data.message);
-      //dispatch new message to db -> make a fetch request to get latest messages, sort by date
-      //update messages with response
-
       setMessages((messages) => [ ...messages, data.message ]);
       fetchData()
-      // setMessages((messages) => [...messages]);
       console.log('UPDATEED MESSAGTE', messages)
     });
 
-    async function fetchData() {
-      const current_messages = await fetch(`/api/users/curr/messages/recipient/${friend.id}`, {
-        method: "POST",
-        headers: { 'Content-Type': 'Application/json' },
-        body: JSON.stringify({ userId: user.id })
-      });
-      // const current_messages2 = await fetch(`/api/users/curr/messages/recipient/${user.id}`);
-      if (current_messages.ok) {
-        const data = await current_messages.json();
-        setMessages(data);
-      }
-    }
-
     fetchData()
-
 
     // Leave the chat room when the component unmounts
     return () => {
@@ -72,25 +54,19 @@ function ChatRoom({ username, friendname, friend, user }) {
     };
   }, [ friendname ]);
 
-
-
-
   const handleMessageSubmit = async (event) => {
     event.preventDefault();
-
 
     const newMessage = { content: messageText, userId: user.id }
     const response = await fetch(`/api/users/messages/new/${friend.id}`, {
       method: "POST",
       headers: { 'Content-Type': 'Application/json' },
       body: JSON.stringify(newMessage)
-
     });
 
     if (response.ok) {
       const data = await response.json();
       console.log('NEW MESSAGE', data)
-
 
       socket.emit('message', { username, friendname, message: data });
       console.log(data)
