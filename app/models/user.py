@@ -48,7 +48,7 @@ class User(db.Model, UserMixin):
 
     if environment == "production":
 
-        direct_messages = db.relationship(
+        dms = db.relationship(
             "DirectMessage",
             secondary=f'{SCHEMA}.direct_messages',
             primaryjoin=DirectMessage.user_id == id,
@@ -57,7 +57,7 @@ class User(db.Model, UserMixin):
         )
     else:
 
-        direct_messages = db.relationship(
+        dms = db.relationship(
             "DirectMessage",
             secondary='direct_messages',
             primaryjoin=DirectMessage.user_id == id,
@@ -135,7 +135,7 @@ class User(db.Model, UserMixin):
             "photo_url": self.photo_url,
             "active_status": self.active_status,
             "servers": [server.to_safe_dict() for server in self.servers],
-            "direct_messages": [dm.to_dict() for dm in self.direct_messages],
+            "direct_messages": [dm.to_dict() for dm in self.dms],
             "channel_messages": [message.to_dict() for message in self.channel_messages],
             "friends": [x for n in ([friend.to_safe_dict() for friend in self.friend.all()],[friend.to_safe_dict() for friend in self.friends]) for x in n]
 
