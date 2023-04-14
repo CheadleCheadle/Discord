@@ -17,8 +17,8 @@ export default function AddChannelModal() {
     const handleSubmit = (e) => {
         e.preventDefault();
         validateBody()
-        const newChannel = {server_id: 1, name, type, max_users:maxUsers, topic};
-        dispatch(createChannelAction(newChannel, 1));
+        const newChannel = {server_id: serverId, name, type, max_users:maxUsers, topic};
+        dispatch(createChannelAction(newChannel, serverId));
         //add dispatch to session action with new channel obj
         closeModal()
     }

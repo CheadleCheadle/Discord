@@ -90,6 +90,7 @@ export const createChannelAction = (channel, serverId) => async (dispatch) => {
         headers: { 'Content-Type': 'Application/json' },
         body: JSON.stringify(channel)
     });
+    console.log("serverId",serverId)
 
 
     if (response.ok) {

@@ -11,14 +11,22 @@ export default function Channel() {
     const history = useHistory();
     const dispatch = useDispatch();
     const { serverId, channelId } = useParams();
+    // const channelId = useSelector(state => state.channels.SingleChannelId);
     const [ isLoaded, setIsLoaded ] = useState(false);
+    const channelId2 = useSelector(state => state.channels.SingleChannelId);
     useEffect(() => {
         dispatch(thunkUpdateSingleChannelId(channelId))
             .then(() => setIsLoaded(true))
     }, [ dispatch, channelId ])
 
     const channel = useSelector(state => state.channels.allChannels[ channelId ])
+    console.log("NEW CHANNEL>>?", channel)
+    //Conditional is needed because a newly created channel doesn't have messages
+    if (!channel.channel_messages) {
+        channel.channel_messages = {};
+    }
     const channelMessages = Object.values(channel.channel_messages)
+
     const [ message, setMessage ] = useState("");
     // const [ startMessageFetch, setStartMessageFetch ] = useState(false)
     // const channels = useSelector(state => state.channels);
