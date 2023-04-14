@@ -63,9 +63,6 @@ function App() {
             <Route path="/servers/:serverId" component={MyServersPage} />
           )}
           {!!sessionUser && (
-            <Route exact path="/friends" component={Friends} />
-          )}
-          {!!sessionUser && (
             <Route exact path="/friends/:friendId" component={FriendDisplay} />
           )}
           <Route exact path="/signup">

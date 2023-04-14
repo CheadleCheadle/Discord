@@ -62,7 +62,7 @@ body {
   font-size: 12pt;
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 10em;
   height: 40px;
   background-color: cadetblue;
   position: relative;

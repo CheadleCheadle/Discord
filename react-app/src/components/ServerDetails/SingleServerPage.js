@@ -3,6 +3,10 @@ import Channel from "../ChannelDetails";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Route, Switch, useParams } from "react-router-dom";
 import { getServerChannels } from "../../store/channels";
+import Members from "./allMembers";
+import ServerMenuBox from "../ServerMenuBox";
+import Friends from "../Friends";
+import "./Server.css"
 const SingleServerPage = () => {
   const [ isLoaded, setIsLoaded ] = useState(false)
   const dispatch = useDispatch()
@@ -37,6 +41,9 @@ const SingleServerPage = () => {
               <Channel />
             </Route>
           </Switch>
+          <div className="members-wrapper">
+          <Members></Members>
+          </div>
         </>
       )}
     </>
