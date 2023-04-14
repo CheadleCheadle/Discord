@@ -5,7 +5,14 @@ const SET_USER = "session/SET_USER";
 const REMOVE_USER = "session/REMOVE_USER";
 const JOIN_SERVER = "session/JOIN_SERVER";
 const NEW_DIRECT_MESSAGE = "session/user/directMessages/CREATE"
+const NEW_SERVER = "session/user/NEW"
 
+export const newUserServer = (server) => {
+	return {
+		type: NEW_SERVER,
+		server
+	}
+}
 const newDirectMessageAction = (data) => {
 	return {
 		type: NEW_DIRECT_MESSAGE,
@@ -151,6 +158,16 @@ export default function reducer(state = initialState, action) {
 			newState.friends = { ...state.user.friends }
 			newState.servers = { ...state.user.servers, [ action.userId ]: action.server };
 			return newState;
+		}
+		case NEW_SERVER: {
+			let newState = {...state};
+			newState.servers = {...state.user.servers, }
+
+			return {
+				...state,
+				user: {...state.user, servers: {...state.user.servers, [action.server.id]: action.server} }
+			};
+
 		}
 		case NEW_DIRECT_MESSAGE:
 			return {

@@ -29,16 +29,15 @@ const ServerForm = ({ formType, server }) => {
     max_users: max_users,
     description: description,
    };
-   console.log("AddServerForm");
+   console.log("server", newServer);
    return dispatch(thunkAddAServer(newServer)).then((server) => {
-    console.log("this");
-    console.log(server);
-    history.push(`api/servers/`);
+    console.log("new server",server);
+    history.push(`/servers/${server.id}`);
     closeModal();
    });
-   // .catch((res) => {
-   //   console.log(res)
-   // });
+  //  .catch((res) => {
+  //    console.log(res)
+  //  });
   }
 
   if (formType === "EditServerForm") {
@@ -157,7 +156,7 @@ const ServerForm = ({ formType, server }) => {
     </label>
 
     <button className={"signup-form-submit-button"} type="submit">
-     {formType === "NewSpotsForm" ? "Create Server" : "Update your Server"}
+     {formType === "AddServerForm" ? "Create Server" : "Update your Server"}
     </button>
    </form>
   </div>
