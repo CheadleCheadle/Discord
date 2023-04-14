@@ -7,6 +7,8 @@ import { getServerChannels, loadServerChannel, loadServerChannels } from "../../
 import { thunkLoadAllServers } from "../../store/servers";
 import Channel from "../ChannelDetails/index.js";
 import AllServersNavbar from "./AllServersNavbar";
+import Members from "./allMembers/index.js";
+import ServerMenuBox from "../ServerMenuBox";
 export default function Server({ sessionUser }) {
     const history = useHistory();
     const params = useParams();
@@ -16,6 +18,7 @@ export default function Server({ sessionUser }) {
     const server = useSelector(state => state.servers.allServers[ serverId ]);
     const channelsArr = server ? Object.values(server.channels) : []
     let currentChannel = useSelector(state => state.channels.allChannels[ state.channels.singleChannelId ]);
+  const servers = useSelector(state => state.servers.allServers);
 
     const [ isLoaded, setIsLoaded ] = useState(false)
 
@@ -38,9 +41,9 @@ export default function Server({ sessionUser }) {
     }, [ dispatch ])
     return (
         <>
+
             {isLoaded && (
                 <>
-                    <AllServersNavbar></AllServersNavbar>
                     <div className="svr-channel-wrapper">
                         <div>
                             {channelsArr.map((channel) => (
