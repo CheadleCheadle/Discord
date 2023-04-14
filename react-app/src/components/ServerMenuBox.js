@@ -13,10 +13,10 @@ export default function ServerMenuBox({ servers, user }) {
   const currUser = useSelector(state => state.session.user)
   const server = useSelector(state => state.servers.allServers[ state.servers.singleServerId ]);
   const [ showMenu, setShowMenu ] = useState(false);
-  const [ serverNameDisplay, setServerNameDisplay ] = useState(`Welcome, ${currUser.name}`)
+  const [ serverNameDisplay, setServerNameDisplay ] = useState(`Welcome, ${currUser.firstname}`)
 
   useEffect(() => {
-    if (location.pathname === '/servers') setServerNameDisplay(`Welcome, ${currUser.name}`)
+    if (location.pathname === '/servers') setServerNameDisplay(`Welcome, ${currUser.firstname}`)
     else if (server) setServerNameDisplay(server.name)
   }, [ location ])
 

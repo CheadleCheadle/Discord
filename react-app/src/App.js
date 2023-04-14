@@ -33,13 +33,13 @@ function App() {
             <Route exact path="/servers" component={MyServersPage} />
           )}
           {!!sessionUser && (
-            <Route path={"/servers/all"} component={AllServersPage} />
+            <Route path='/servers/:serverId/channels/:channelId' component={MyServersPage} />
+          )}
+          {!!sessionUser && (
+            <Route exact path={"/servers/all"} component={AllServersPage} />
           )}
           {!!sessionUser && (
             <Route exact path="/servers/new" component={AddServerForm} />
-          )}
-          {!!sessionUser && (
-            <Route path='/servers/:serverId/channels/:channelId' component={MyServersPage} />
           )}
           {!!sessionUser && (
             <Route path="/servers/" component={MyServersPage} />
