@@ -38,6 +38,10 @@ export const editAServer = (server) => {
     server,
   };
 };
+
+export const thunkLoadSingleServerId = () => async (dispatch) => {
+
+}
 export const thunkLoadAllServers = () => async (dispatch) => {
   const response = await fetch("/api/servers/");
   if (response.ok) {
@@ -123,7 +127,7 @@ export const thunkEditAServer = (data, id) => async (dispatch) => {
   }
 };
 
-const initialState = { allServers: {} };
+const initialState = { allServers: {}};
 
 const serverReducer = (state = initialState, action) => {
   //console.log("Inside serverReducer: ", action.type);
@@ -141,6 +145,7 @@ const serverReducer = (state = initialState, action) => {
         allServers: {},
       };
       newState.allServers[ action.server.id ] = action.server;
+
       return newState;
 
     case ADD_A_SERVER:
