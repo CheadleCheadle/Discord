@@ -72,10 +72,9 @@ export const getServerChannels = (serverId) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
-        console.log("THIS IS DATA", data);
         const normalizeData = normalizeFn(data.channel)
         for (let i in normalizeData) {
-            normalizeData[i].channel_messages = normalizeFn(normalizeData[i].channel_messages)
+            normalizeData[ i ].channel_messages = normalizeFn(normalizeData[ i ].channel_messages)
         }
         dispatch(loadServerChannels(normalizeData));
         return normalizeData;
@@ -145,15 +144,16 @@ export const newChannelMessageAction = (message, channelId) => async (dispatch) 
 
 export const allMessagesAction = (channelId) => async (dispatch) => {
     const response = await fetch(`/api/channels/${channelId}/messages`)
-
-    console.log("RESPONSE", response)
     if (response.ok) {
         const data = await response.json();
         // const messages = data.length ? normalizeFn(data) : {}
         const payload = {
-            messages: data,
+            data,
             channelId
         }
+        const channelMessages = normalizeFn(data.channel_messages)
+        data.channel_messages = channelMessages
+        console.log('I WANT THISSSSSSSSSSS', data.channel_messages)
         dispatch(allMessages(payload))
         return channelId;
     }
@@ -218,6 +218,7 @@ const channelReducer = (state = initalState, action) => {
             return newState;
         }
         case NEW_MESSAGE: {
+            console.log("STAAAAAAAAAAAAAAAAAAAAAAAATE", state)
             newState = {
                 ...state,
                 allChannels: {
@@ -248,7 +249,7 @@ const channelReducer = (state = initalState, action) => {
                     ...state.allChannels,
                     [ action.payload.channelId ]: {
                         ...state.allChannels[ action.payload.channelId ],
-                        channel_messages: { ...action.payload.messages }
+                        channel_messages: { ...action.payload.data.channel_messages }
 
                     }
                 }
