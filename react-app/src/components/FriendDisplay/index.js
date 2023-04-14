@@ -19,7 +19,7 @@ export default function FriendDisplay() {
     return (
         <>
       <AllServersNavbar></AllServersNavbar>
-        {/* <Chat friend={friend}/> */}
+
         <ChatRoom friendname={friend.username} friend={friend} user={user} username={user.username}/>
 
         </>

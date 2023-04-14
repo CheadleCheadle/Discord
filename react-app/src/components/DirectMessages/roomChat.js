@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import "./chat.css"
+import Friends from '../Friends';
 
 const socket = io.connect('http://localhost:5001');
 
@@ -79,6 +80,8 @@ function ChatRoom({ username, friendname, friend, user }) {
   };
 
   return (
+    <>
+    <Friends></Friends>
     <div className="chat-wrapper">
       <h1>Chat Room: {roomName}</h1>
       <div className="chat-history">
@@ -102,6 +105,7 @@ function ChatRoom({ username, friendname, friend, user }) {
         <button type="submit">Send</button>
       </form>
     </div>
+    </>
   );
 }
 
