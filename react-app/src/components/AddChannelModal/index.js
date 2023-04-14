@@ -92,7 +92,7 @@ export default function AddChannelModal() {
             required
         />
         </label>
-        <input type="submit" disabled={Object.values(errors).length} value="Create new Channel" />
+        <input type="submit" value="Create new Channel" />
     </form>
     </>
 

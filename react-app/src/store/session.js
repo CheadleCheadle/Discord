@@ -4,6 +4,14 @@ import { normalizeFn } from "./channels";
 const SET_USER = "session/SET_USER";
 const REMOVE_USER = "session/REMOVE_USER";
 const JOIN_SERVER = "session/JOIN_SERVER";
+const NEW_DIRECT_MESSAGE = "session/user/directMessages/CREATE"
+
+const newDirectMessageAction = (data) => {
+	return {
+		type: NEW_DIRECT_MESSAGE,
+		payload: data
+	}
+}
 
 const setUser = (user) => ({
 	type: SET_USER,
@@ -16,11 +24,17 @@ const removeUser = () => ({
 
 const joinServer = (userId, server) => {
 	return {
-		type:JOIN_SERVER,
+		type: JOIN_SERVER,
 		userId,
 		server,
 	}
 }
+
+export const thunkNewDirectMessage = (data) => async (dispatch) => {
+	console.log("MESSAGE", data)
+	dispatch(newDirectMessageAction(data))
+};
+
 
 const initialState = { user: null };
 
@@ -106,17 +120,17 @@ export const signUp = (username, email, password) => async (dispatch) => {
 };
 
 export const joinServerThunk = (serverId, user) => async (dispatch) => {
-    const response = await fetch(`/api/servers/join/${serverId}`, {
-        method: "POST",
-        headers: {"Content-Type": "Application/json"},
-        body: JSON.stringify({user, status: "pending"})
-    });
+	const response = await fetch(`/api/servers/join/${serverId}`, {
+		method: "POST",
+		headers: { "Content-Type": "Application/json" },
+		body: JSON.stringify({ user, status: "pending" })
+	});
 
-    if (response.ok) {
-        const data = await response.json();
-        console.log(response);
+	if (response.ok) {
+		const data = await response.json();
+		console.log(response);
 		dispatch(joinServer(user.id, data));
-    }
+	}
 }
 
 export default function reducer(state = initialState, action) {
@@ -130,13 +144,24 @@ export default function reducer(state = initialState, action) {
 		case REMOVE_USER:
 			return { user: null };
 		case JOIN_SERVER: {
-			let newState = {...state};
-			newState.user = {...state.user};
-			newState.channel_messages = {...state.user.channel_messages};
-			newState.direct_messages = {...state.user.direct_messages};
-			newState.friends = {...state.user.friends}
-			newState.servers = {...state.user.servers, [action.userId]: action.server};
+			let newState = { ...state };
+			newState.user = { ...state.user };
+			newState.channel_messages = { ...state.user.channel_messages };
+			newState.direct_messages = { ...state.user.direct_messages };
+			newState.friends = { ...state.user.friends }
+			newState.servers = { ...state.user.servers, [ action.userId ]: action.server };
 		}
+		case NEW_DIRECT_MESSAGE:
+			return {
+				...state,
+				user: {
+					...state.user,
+					direct_messages: {
+						...state.user.direct_messages,
+						[ action.payload.id ]: { ...action.payload }
+					}
+				}
+			}
 		default:
 			return state;
 	}

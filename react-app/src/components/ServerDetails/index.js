@@ -29,7 +29,7 @@ export default function Server({ sessionUser }) {
     }
 
     useEffect(() => {
-        dispatch(loadServerChannels({ channels: server.channels, serverId }))
+        // dispatch(loadServerChannels({ channels: server.channels, serverId }))
         // dispatch(loadServerChannel(server.channels[ 0 ]))
     }, [ server ])
 
