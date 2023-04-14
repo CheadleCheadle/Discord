@@ -2,8 +2,9 @@ import { useParams } from "react-router-dom"
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import Chat from "../DirectMessages/Chat.js";
 import ChatRoom from "../DirectMessages/roomChat.js";
+import AllServersNavbar from "../ServerDetails/AllServersNavbar.js";
+
 export default function FriendDisplay() {
     const history = useHistory();
     const params = useParams();
@@ -17,9 +18,7 @@ export default function FriendDisplay() {
 
     return (
         <>
-        <div>
-            {friend.username}
-        </div>
+      <AllServersNavbar></AllServersNavbar>
         {/* <Chat friend={friend}/> */}
         <ChatRoom friendname={friend.username} friend={friend} user={user} username={user.username}/>
 

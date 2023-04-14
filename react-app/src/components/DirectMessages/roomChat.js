@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
-
+import "./chat.css"
 
 const socket = io.connect('http://localhost:5001');
 
@@ -76,11 +76,14 @@ function ChatRoom({ username, friendname, friend, user }) {
   };
 
   return (
-    <div>
+    <div className="chat-wrapper">
       <h1>Chat Room: {roomName}</h1>
-      <div>
+      <div className="chat-history">
         {messages.map((message, index) => (
-          <div key={index}>{message.content}</div>
+          <div id="message" key={index}>
+            <img src="wasd"></img>
+            <p>{message.content}</p>
+            </div>
         ))}
       </div>
       <form onSubmit={handleMessageSubmit}>
