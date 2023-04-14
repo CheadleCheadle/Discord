@@ -9,7 +9,8 @@ export default function JoinServer({server}) {
  const { setModalContent, setOnModalClose } = useModal();
  const user = useSelector(state => state.session.user);
  const handleJoin =  () => {
-    dispatch(joinServerThunk(user.id));
+    dispatch(joinServerThunk(server.id, user));
+    history.replace(`/servers`)
  }
 return (
     <>

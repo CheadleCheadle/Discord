@@ -16,8 +16,9 @@ const removeUser = () => ({
 
 const joinServer = (userId, server) => {
 	return {
+		type:JOIN_SERVER,
 		userId,
-		server
+		server,
 	}
 }
 
@@ -104,8 +105,8 @@ export const signUp = (username, email, password) => async (dispatch) => {
 	}
 };
 
-export const joinServerThunk = (userId) => async (dispatch) => {
-    const response = await fetch(`/api/servers/join/${server.id}`, {
+export const joinServerThunk = (serverId, user) => async (dispatch) => {
+    const response = await fetch(`/api/servers/join/${serverId}`, {
         method: "POST",
         headers: {"Content-Type": "Application/json"},
         body: JSON.stringify({user, status: "pending"})
@@ -114,8 +115,7 @@ export const joinServerThunk = (userId) => async (dispatch) => {
     if (response.ok) {
         const data = await response.json();
         console.log(response);
-        history.replace(`/servers/${server.id}`);
-		dispatch()
+		dispatch(joinServer(user.id, data));
     }
 }
 
@@ -129,6 +129,14 @@ export default function reducer(state = initialState, action) {
 			return { user: action.payload };
 		case REMOVE_USER:
 			return { user: null };
+		case JOIN_SERVER: {
+			let newState = {...state};
+			newState.user = {...state.user};
+			newState.channel_messages = {...state.user.channel_messages};
+			newState.direct_messages = {...state.user.direct_messages};
+			newState.friends = {...state.user.friends}
+			newState.servers = {...state.user.servers, [action.userId]: action.server};
+		}
 		default:
 			return state;
 	}

@@ -19,7 +19,8 @@ export default function Channel() {
 
     const channel = useSelector(state => state.channels.allChannels[ channelId ])
     console.log("CHANNELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL", channel)
-    const channelMessages = Object.values(channel.channel_messages)
+    const channelMessages = Object.values(channel.channel_messages).length ? Object.values(channel.channel_messages) : []
+    console.log('```````````````````', channelMessages)
     const [ message, setMessage ] = useState("");
     // const [ startMessageFetch, setStartMessageFetch ] = useState(false)
     // const channels = useSelector(state => state.channels);
@@ -68,6 +69,7 @@ export default function Channel() {
                         {channelMessages.map((message) => (
                             <div key={message.id}>
                                 {message.content}
+
                             </div>
                         ))}
                     </div>

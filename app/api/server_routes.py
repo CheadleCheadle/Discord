@@ -151,7 +151,7 @@ def create_new_channel_by_server_id(server_id):
 @login_required
 def get_all_server_channels(server_id):
     all_channels = Channel.query.filter(Channel._server_id == server_id)
-    return {"channel": [channel.to_safe_dict() for channel in all_channels]}
+    return {"channel": [channel.to_dict() for channel in all_channels]}
 
 
 
@@ -168,6 +168,4 @@ def join_Server(server_id):
     server = Server.query.get(server_id)
     print('IM THE SERVER', server.to_safe_dict())
     new_server_membership = server.add_member(user, status)
-    return {'msg': f"Request is pending {server.owner.username}s approval"}
-
-
+    return server.to_dict()
