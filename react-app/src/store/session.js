@@ -3,6 +3,7 @@ import { normalizeFn } from "./channels";
 // constants
 const SET_USER = "session/SET_USER";
 const REMOVE_USER = "session/REMOVE_USER";
+const JOIN_SERVER = "session/JOIN_SERVER";
 
 const setUser = (user) => ({
 	type: SET_USER,
@@ -12,6 +13,13 @@ const setUser = (user) => ({
 const removeUser = () => ({
 	type: REMOVE_USER,
 });
+
+const joinServer = (userId, server) => {
+	return {
+		userId,
+		server
+	}
+}
 
 const initialState = { user: null };
 
@@ -95,6 +103,21 @@ export const signUp = (username, email, password) => async (dispatch) => {
 		return [ "An error occurred. Please try again." ];
 	}
 };
+
+export const joinServerThunk = (userId) => async (dispatch) => {
+    const response = await fetch(`/api/servers/join/${server.id}`, {
+        method: "POST",
+        headers: {"Content-Type": "Application/json"},
+        body: JSON.stringify({user, status: "pending"})
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        console.log(response);
+        history.replace(`/servers/${server.id}`);
+		dispatch()
+    }
+}
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {

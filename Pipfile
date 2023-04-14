@@ -28,6 +28,7 @@ wtforms = "==3.0.1"
 flask-socketio = "*"
 faker = "*"
 eventlet = "==0.30.2"
+email-validator = "*"
 
 [dev-packages]
 
