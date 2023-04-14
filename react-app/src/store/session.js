@@ -150,6 +150,7 @@ export default function reducer(state = initialState, action) {
 			newState.direct_messages = { ...state.user.direct_messages };
 			newState.friends = { ...state.user.friends }
 			newState.servers = { ...state.user.servers, [ action.userId ]: action.server };
+			return newState;
 		}
 		case NEW_DIRECT_MESSAGE:
 			return {

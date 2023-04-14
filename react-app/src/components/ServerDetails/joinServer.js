@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useModal } from "../../context/Modal";
+import { useModal,closeModal } from "../../context/Modal";
 import { useHistory, useParams } from "react-router-dom";
 import { joinServerThunk } from "../../store/session";
 export default function JoinServer({server}) {
@@ -10,6 +10,7 @@ export default function JoinServer({server}) {
  const user = useSelector(state => state.session.user);
  const handleJoin =  () => {
     dispatch(joinServerThunk(server.id, user));
+    setModalContent(null);
     history.replace(`/servers`)
  }
 return (
