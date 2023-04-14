@@ -23,10 +23,10 @@ function App() {
   const sessionUser = useSelector(state => state.session.user)
   const [ isLoaded, setIsLoaded ] = useState(false);
   useEffect(() => {
-    dispatch(authenticate())
-      .then(() => dispatch(thunkLoadAllServers()))
+    dispatch(thunkLoadAllServers())
+      .then(() => dispatch(authenticate()))
       .then(() => setIsLoaded(true));
-  }, [ dispatch ]);
+  }, [ dispatch, isLoaded ]);
 
   const servers = useSelector(state => state.servers.allServers);
   const serversArr = servers ? Object.keys(servers) : [];

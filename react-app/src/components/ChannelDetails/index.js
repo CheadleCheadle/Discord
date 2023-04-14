@@ -13,14 +13,11 @@ export default function Channel() {
     const [ isLoaded, setIsLoaded ] = useState(false);
     useEffect(() => {
         dispatch(thunkUpdateSingleChannelId(channelId))
-            .then(() => dispatch(allMessagesAction(channelId)))
             .then(() => setIsLoaded(true))
     }, [ dispatch, channelId ])
 
     const channel = useSelector(state => state.channels.allChannels[ channelId ])
-    console.log("CHANNELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL", channel)
-    const channelMessages = Object.values(channel.channel_messages).length ? Object.values(channel.channel_messages) : []
-    console.log('```````````````````', channelMessages)
+    const channelMessages = Object.values(channel.channel_messages)
     const [ message, setMessage ] = useState("");
     // const [ startMessageFetch, setStartMessageFetch ] = useState(false)
     // const channels = useSelector(state => state.channels);
