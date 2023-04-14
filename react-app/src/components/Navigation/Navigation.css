@@ -5,3 +5,41 @@
 .hidden {
   display: none;
 }
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  height: 70px;
+  width: 100vw;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  box-sizing: border-box;
+  z-index: 101;
+  justify-content: space-around;
+  background-color: transparent;
+}
+
+.navbar-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  max-width: 100vw;
+  align-content: center;
+}
+
+#site-logo {
+  height: 45px;
+}
+
+
+.navbar-logo {
+  color: #fff;
+  justify-self: start;
+  margin-left: 20px;
+  margin-top: 0px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
