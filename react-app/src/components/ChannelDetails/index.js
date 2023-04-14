@@ -6,6 +6,7 @@ import { allMessages, newChannelMessageAction, thunkGetAllMessages } from "../..
 // import { allMessagesAction } from "../../store/channels.js";
 import { update } from "lodash";
 import { thunkUpdateSingleChannelId } from "../../store/channels.js";
+import "./channel.css"
 export default function Channel() {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -62,19 +63,20 @@ export default function Channel() {
         <>
             {isLoaded && (
                 <>
-                    <div>
+                    <div className="chnl-messages-cont">
                         {channelMessages.map((message) => (
                             <div key={message.id}>
                                 {message.content}
 
                             </div>
                         ))}
-                    </div>
-                    <div>
+
+                    <div className="chnl-form-cont">
                         <form onSubmit={handleSubmit}>
                             <input type="text" placeholder={`Message`} value={message} onChange={(e) => setMessage(e.target.value)} />
                             <input type="submit" value="Submit" />
                         </form>
+                    </div>
                     </div>
                 </>
             )}

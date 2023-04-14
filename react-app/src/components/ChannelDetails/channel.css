@@ -1,0 +1,10 @@
+.chnl-form-cont {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.chnl-messages-cont {
+    display: flex;
+    flex-direction: column;
+}

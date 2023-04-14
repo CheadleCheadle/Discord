@@ -76,6 +76,7 @@ export const getServerChannels = (serverId) => async (dispatch) => {
         for (let i in normalizeData) {
             normalizeData[ i ].channel_messages = normalizeFn(normalizeData[ i ].channel_messages)
         }
+        // console.log("IM THE CHANNELS FOR A SERVER:",  normalizeData);
         dispatch(loadServerChannels(normalizeData));
         return normalizeData;
     }
@@ -93,6 +94,7 @@ export const createChannelAction = (channel, serverId) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
+        console.log("IM THE NEW CHANNEL!", data);
         dispatch(createChannel(data));
         return data
     }
