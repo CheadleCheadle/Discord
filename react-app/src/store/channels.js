@@ -1,3 +1,4 @@
+
 const GET_ALL_CHANNELS = "channels/all";
 const GET_ONE_CHANNEL = "channels/one";
 const CREATE_CHANNEL = "channels/new";
@@ -71,7 +72,11 @@ export const getServerChannels = (serverId) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
+        console.log("THIS IS DATA", data);
         const normalizeData = normalizeFn(data.channel)
+        for (let i in normalizeData) {
+            normalizeData[i].channel_messages = normalizeFn(normalizeData[i].channel_messages)
+        }
         dispatch(loadServerChannels(normalizeData));
         return normalizeData;
     }
