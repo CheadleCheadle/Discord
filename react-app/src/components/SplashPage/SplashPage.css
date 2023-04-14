@@ -1,0 +1,10 @@
+body {
+  background: url("../static/splashpage-background.jpg");
+  background-size: 100% auto;
+}
+
+#splash-page-banner {
+  border: 2px solid black;
+  width: 100vw;
+  height: 100vh;
+}
