@@ -1,6 +1,6 @@
 import React from 'react';
 import './Button.css';
-import { useModal } from '../../context/Modal';
+// import { useModal } from '../../context/Modal';
 
 const STYLES = [
   'btn--primary',
@@ -19,8 +19,8 @@ const Button = ({
   buttonSize,
   disableButton,
   value,
-  modalComponent,
-  onModalClose
+  // modalComponent,
+  // onModalClose
 }) => {
   const checkButtonStyle = STYLES.includes(buttonStyle) ? buttonStyle : STYLES[ 0 ];
   const checkButtonSize = SIZES.includes(buttonSize) ? buttonSize : SIZES[ 0 ];
