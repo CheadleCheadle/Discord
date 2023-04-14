@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import OpenModalButton from "./OpenModalButton";
 import DeleteServerModal from "./DeleteServerModal";
 import EditServerForm from "./EditServerForm";
+import { useSelector, useDispatch } from "react-redux";
+import { thunkLoadAllServers, loadCurrentServerId } from "../store/servers";
 
 function NavBarServer({ server }) {
   const [ showMenu, setShowMenu ] = useState(false);

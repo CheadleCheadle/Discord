@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../context/Modal";
-import { useHistory, useParams } from "react-router-dom";
-import { thunkAddAServer, thunkEditAServer } from "../store/servers";
+import { useHistory } from "react-router-dom";
+import {
+ thunkLoadAllServers,
+ thunkAddAServer,
+ thunkEditAServer,
+} from "../store/servers";
 
 const ServerForm = ({ formType, server }) => {
  const dispatch = useDispatch();
  const [icon_url, setIcon_url] = useState("");
- const [public_, setPublic_] = useState("false");
+ const [public_, setPublic_] = useState("true");
  const [name, setName] = useState("");
  const [max_users, setMax_users] = useState("");
  const [description, setDescription] = useState("");
@@ -16,6 +20,27 @@ const ServerForm = ({ formType, server }) => {
  const { closeModal } = useModal();
  const history = useHistory();
 
+ let theServer;
+ const return_servers = useSelector((state) => state.servers.allServers);
+
+ if (return_servers && server) theServer = return_servers[server.id];
+
+ useEffect(() => {
+  //  if (formType === "EditServerForm") {
+  dispatch(thunkLoadAllServers());
+ }, [dispatch]);
+
+ useEffect(() => {
+  if (formType === "EditServerForm") {
+   setIcon_url(theServer.icon_url);
+   let value_public = theServer._public ? "true" : "false";
+   setPublic_(value_public);
+   setName(theServer.name);
+   setDescription(theServer.description);
+   setMax_users(theServer.max_users);
+  }
+ }, [formType]);
+
  const handleSubmit = (e) => {
   e.preventDefault();
 
@@ -23,16 +48,15 @@ const ServerForm = ({ formType, server }) => {
 
   if (formType === "AddServerForm") {
    const newServer = {
-    icon_url: icon_url,
-    public_: public_ == "true" ? "True" : "False",
-    name: name,
-    max_users: max_users,
-    description: description,
+    icon_url,
+    name,
+    max_users,
+    description,
+    public_
    };
    console.log("AddServerForm");
    return dispatch(thunkAddAServer(newServer)).then((server) => {
-    console.log("this");
-    console.log(server);
+
     history.push(`api/servers/`);
     closeModal();
    });
@@ -42,21 +66,24 @@ const ServerForm = ({ formType, server }) => {
   }
 
   if (formType === "EditServerForm") {
-   setIcon_url(server.icon_url);
-   setPublic_(server.public);
-   setName(server.name);
-   setDescription(server.description);
-   setMax_users(server.max_users);
+   const editServer = {
+    icon_url: icon_url,
+    public_: public_ === "true" ? "True" : "False",
+    name: name,
+    max_users: max_users,
+    description: description,
+   };
+
    console.log("EditServerForm");
-   return dispatch(thunkEditAServer(server)).then((server) => {
-    console.log("this");
-    console.log(server);
-    history.push(`api/servers/`);
-    closeModal();
-   });
-   // .catch((res) => {
-   //   console.log(res)
-   // });
+   return dispatch(thunkEditAServer(editServer, theServer.id))
+    .then((server) => {
+     console.log("this");
+     console.log(server);
+     closeModal();
+    })
+    .catch((res) => {
+     console.log("res: ", res);
+    });
   }
  };
 
@@ -67,7 +94,6 @@ const ServerForm = ({ formType, server }) => {
      ? "Create a new Server"
      : "Update your Server"}
    </h2>
-
    <form className="new-spot-form" onSubmit={handleSubmit}>
     <div className="where-text"></div>
     <ul className="error-message">
