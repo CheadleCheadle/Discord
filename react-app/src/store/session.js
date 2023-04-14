@@ -99,7 +99,7 @@ export const logout = () => async (dispatch) => {
 	}
 };
 
-export const signUp = (username, email, password) => async (dispatch) => {
+export const signUp = (username, email, password, firstName, lastName) => async (dispatch) => {
 	const response = await fetch("/api/auth/signup", {
 		method: "POST",
 		headers: {
@@ -109,6 +109,8 @@ export const signUp = (username, email, password) => async (dispatch) => {
 			username,
 			email,
 			password,
+			firstName,
+			lastName
 		}),
 	});
 
@@ -160,12 +162,12 @@ export default function reducer(state = initialState, action) {
 			return newState;
 		}
 		case NEW_SERVER: {
-			let newState = {...state};
-			newState.servers = {...state.user.servers, }
+			let newState = { ...state };
+			newState.servers = { ...state.user.servers, }
 
 			return {
 				...state,
-				user: {...state.user, servers: {...state.user.servers, [action.server.id]: action.server} }
+				user: { ...state.user, servers: { ...state.user.servers, [ action.server.id ]: action.server } }
 			};
 
 		}
