@@ -25,7 +25,7 @@ class Server(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     _icon_url = db.Column(db.String, nullable=True)
-    _public = db.Column(db.Boolean, nullable=False)
+    _public = db.Column(db.String, nullable=False)
     _name = db.Column(db.String(100), nullable=False, unique=True)
     _max_users = db.Column(db.Integer, nullable=False)
     _description = db.Column(db.Text, nullable=False)
@@ -92,10 +92,12 @@ class Server(db.Model):
                 user_id=user.id, server_id=self.id, status=status) for user in users]
             [db.engine.execute(member) for member in new_members]
         elif isinstance(users, dict):
+            print('ELIF',users)
             new_member = server_memberships.insert().values(
                 user_id=users["id"], server_id=self.id, status=status)
             db.engine.execute(new_member)
         else:
+            print("ELSE", users)
             new_member = server_memberships.insert().values(
                 user_id=users.id, server_id=self.id, status=status)
             db.engine.execute(new_member)

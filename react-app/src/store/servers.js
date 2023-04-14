@@ -1,4 +1,5 @@
 import { normalizeFn } from "./channels";
+import { newUserServer } from "./session";
 
 const LOAD_ALL_SERVERS = "servers/LOAD_ALL_SERVER";
 const LOAD_ONE_SERVER = "servers/LOAD_ONE_SERVER";
@@ -81,6 +82,7 @@ export const thunkAddAServer = (data) => async (dispatch) => {
   if (response.ok) {
     server = await response.json();
     dispatch(addAServer(server));
+    dispatch(newUserServer(server));
 
     // console.log("reducer createASpot spot:", spot);
     return server;

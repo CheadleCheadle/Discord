@@ -22,12 +22,15 @@ const MyServersPage = () => {
     <>
       <AllServersNavbar></AllServersNavbar>
       <div>
+
         {serverMenuBoxBool && (
+          <>
           <div className="svr-menu-box">
             <ServerMenuBox servers={servers} user={sessionUser} />
           </div>
-        )}
         <Friends></Friends>
+        </>
+        )}
       </div>
       <Switch>
         <Route path={'/servers/:serverId'}>

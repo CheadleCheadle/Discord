@@ -43,30 +43,24 @@ def add_new_server():
     # query for data if needed in the form
 
     if form.validate_on_submit():
-        # Set values to be default upon creation. This way, it matches the real discord process.
-        params = {"_icon_url": form.data["icon_url"] or default_image,
-                  "_public": True,
-                  "_name": form.data["name"],
-                  "_max_users": 100,
-                  "_description": "",
-                  "_owner_id": current_user.id
-                  }
+        #Set values to be default upon creation. This way, it matches the real discord process.
+      params={ "_icon_url": form.data["icon_url"] or default_image,
+            "_public": form.data["public_"],
+            "_name": form.data["name"],
+            "_max_users": form.data["max_users"],
+            "_description": form.data["description"],
+            "_owner_id": current_user.id
+              }
 
-        new_server = Server(**params)
-        print(new_server)
-        try:
-            db.session.add(new_server)
-            curr_user = User.query.get(current_user.id)
-            new_server.add_member(curr_user, "Host")
-            db.session.commit()
-
-            return new_server.to_dict(), 201
-        except Exception as e:
-            return {"errors": str(e)}, 500
-
-    return {"errors": form.errors}, 400
-# Update server
-
+      new_server =Server(**params)
+      try:
+        db.session.add(new_server)
+        db.session.commit()
+        curr_user = User.query.get(current_user.id)
+        new_server.add_member(curr_user, "Host")
+        return new_server.to_dict(), 201
+      except Exception as e:
+        return {"errors": str(e)}, 500
 
 @login_required
 @server_routes.route('/<int:id>', methods=["PUT"])
