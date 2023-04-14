@@ -2,7 +2,7 @@ import { normalizeFn } from "./channels";
 
 const LOAD_ALL_SERVERS = "servers/LOAD_ALL_SERVER";
 //const LOAD_ONE_SERVER = "servers/LOAD_ONE_SERVER";
-//const ADD_A_SERVER = "servers/ADD_A_SERVER";
+const ADD_A_SERVER = "servers/ADD_A_SERVER";
 const DELETE_A_SERVER = "servers/DELETE_A_SERVER";
 const EDIT_A_SERVER = "servers/EDIT_A_SERVER";
 const LOAD_CURRENT_SERVERID = "servers/LOAD_CURRENT_SERVERID";
