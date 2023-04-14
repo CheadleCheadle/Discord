@@ -7,7 +7,8 @@ const STYLES = [
   'btn--demo',
 ];
 const SIZES = [
-  'btn--medium'
+  'btn--medium',
+  'btn--splash'
 ];
 
 

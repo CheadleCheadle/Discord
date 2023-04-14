@@ -6,8 +6,9 @@
 }
 
 body {
-
+  font-family: sans-serif, Arial, Helvetica, sans-serif;
   background-color: #777;
+  letter-spacing: 1px;
 }
 
 .whole-outer-container {
