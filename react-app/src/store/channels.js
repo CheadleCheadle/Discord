@@ -142,7 +142,7 @@ export const newChannelMessageAction = (message, channelId) => async (dispatch) 
 
 }
 
-export const allMessagesAction = (channelId) => async (dispatch) => {
+export const thunkGetAllMessages = (channelId) => async (dispatch) => {
     const response = await fetch(`/api/channels/${channelId}/messages`)
     if (response.ok) {
         const data = await response.json();
@@ -218,7 +218,6 @@ const channelReducer = (state = initalState, action) => {
             return newState;
         }
         case NEW_MESSAGE: {
-            console.log("STAAAAAAAAAAAAAAAAAAAAAAAATE", state)
             newState = {
                 ...state,
                 allChannels: {

@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom"
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { allMessages, allMessagesAction, newChannelMessageAction } from "../../store/channels.js";
+import { allMessages, newChannelMessageAction, thunkGetAllMessages } from "../../store/channels.js";
 // import { allMessagesAction } from "../../store/channels.js";
 import { update } from "lodash";
 import { thunkUpdateSingleChannelId } from "../../store/channels.js";
