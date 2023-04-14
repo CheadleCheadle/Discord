@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
@@ -9,20 +9,22 @@ import SignupFormModal from '../SignupFormModal';
 import { useModal } from '../../context/Modal';
 import LoginFormModal from '../LoginFormModal';
 import OpenModalButton from '../OpenModalButton';
-
+import "../Button/Button.css"
 function Navigation({ isLoaded }) {
+  const history = useHistory()
   const sessionUser = useSelector(state => state.session.user);
-  const loginButtonText = sessionUser ? "Login" : "Open Discord";
   const [ showMenu, setShowMenu ] = useState(false);
+  const [ loginButtonText, setLoginButtonText ] = useState('Login');
 
-  // const
-  // const onClick = () => {
-  //   if (onModalClose) setOnModalClose(onModalClose);
-  //   setModalContent(modalComponent);
-  //   if (onButtonClick) onButtonClick();
-  // };
+  useEffect(() => {
+    if (!sessionUser) setLoginButtonText('Open Discord')
+    else setLoginButtonText("Login")
+  }, [ sessionUser ])
 
   const closeMenu = () => setShowMenu(false)
+  const showDiscord = () => history.push("/servers")
+
+
   return (
     <div className='navbar'>
       <div className='nav-bar-container'>
@@ -31,19 +33,16 @@ function Navigation({ isLoaded }) {
       <div>
       </div>
       {isLoaded && (
-        <div>
-          {/* <ProfileButton user={sessionUser} />
-          <Button buttonStyle='btn--demo' modalComponent={LoginFormModal}>
-            {loginButtonText}
-          </Button> */}
+        <div className='btn-mobile'>
           <OpenModalButton
-            buttonText={loginButtonText}
-            onButtonClick={closeMenu}
-            modalComponent={<LoginFormModal />}
+            buttonText={sessionUser ? "Open Discord" : "Login"}
+            onButtonClick={sessionUser ? showDiscord : closeMenu}
+            modalComponent={sessionUser ? null : <LoginFormModal />}
+            modalCSSClass={'btn btn--demo btn--medium'}
           />
         </div>
       )}
-    </div>
+    </div >
   );
 }
 
