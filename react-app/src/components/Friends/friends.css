@@ -1,4 +1,23 @@
 .svr-friends-list {
     display: flex;
     flex-direction: column;
+    width: 12em;
+    gap: 1em;
+}
+
+
+.usr-box {
+    display: flex;
+    flex-direction: row;
+    gap: .5em;
+}
+#usr-img img{
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 2em;
+}
+#usr-name {
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
 }
