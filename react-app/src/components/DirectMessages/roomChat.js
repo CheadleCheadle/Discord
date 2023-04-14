@@ -11,7 +11,7 @@ function ChatRoom({ username, friendname, friend, user }) {
   const [ roomName, setRoomName ] = useState('');
   const [ messages, setMessages ] = useState([]);
   const [ messageText, setMessageText ] = useState('');
-  const location = useLocation()
+  // const location = useLocation()
   console.log({ username, friendname, friend, user })
 
   useEffect(() => {
@@ -39,8 +39,7 @@ function ChatRoom({ username, friendname, friend, user }) {
       // const current_messages2 = await fetch(`/api/users/curr/messages/recipient/${user.id}`);
       if (current_messages.ok) {
         const data = await current_messages.json();
-        // const data2 = await current_messages2.json();
-        console.log("here are the current messages:", data);
+
         setMessages(data);
 
       }
@@ -53,7 +52,7 @@ function ChatRoom({ username, friendname, friend, user }) {
     return () => {
       socket.emit('leave', { username, friendname });
     };
-  }, [ location ]);
+  }, [ friendname, username ]);
 
   const handleMessageSubmit = async (event) => {
     event.preventDefault();

@@ -11,15 +11,14 @@ export default function FriendDisplay() {
   const dispatch = useDispatch();
   let { friendId } = params;
   friendId = parseInt(friendId);
-
   const friends = useSelector(state => state.session.user.friends)
-  let friend;
+
+  let friend = friends[ friendId ];
   useEffect(() => {
     friend = friends[ friendId ]
   }, [ friendId ])
-  friend = friends[ friendId ]
+
   const user = useSelector(state => state.session.user)
-  console.log("FRIENDDDDDDDDDDDDDDDDDDDD", friend)
   return (
     <ChatRoom friendname={friend.username} friend={friend} user={user} username={user.username} />
   )
