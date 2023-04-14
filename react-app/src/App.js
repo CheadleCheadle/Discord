@@ -33,9 +33,6 @@ function App() {
 
   const user = useSelector(state => state.session.user)
   const myServers = user ? Object.keys(user.servers) : []
-  // {!!sessionUser && (          )}
-  // {!!sessionUser && (          )}
-  // {!!sessionUser && (          )}
 
   return (
     <>
