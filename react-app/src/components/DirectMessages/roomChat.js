@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import "./chat.css"
 import Friends from '../Friends';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import { useDispatch } from 'react-redux';
 
 const socket = io.connect('http://localhost:5001');
 
@@ -11,8 +12,26 @@ function ChatRoom({ username, friendname, friend, user }) {
   const [ roomName, setRoomName ] = useState('');
   const [ messages, setMessages ] = useState([]);
   const [ messageText, setMessageText ] = useState('');
+  const dispatch = useDispatch()
   // const location = useLocation()
   console.log({ username, friendname, friend, user })
+  useEffect(() => {
+    async function fetchData() {
+      const current_messages = await fetch(`/api/users/curr/messages/recipient/${friend.id}`, {
+        method: "POST",
+        headers: { 'Content-Type': 'Application/json' },
+        body: JSON.stringify({ userId: user.id })
+      });
+      // const current_messages2 = await fetch(`/api/users/curr/messages/recipient/${user.id}`);
+      if (current_messages.ok) {
+        const data = await current_messages.json();
+        setMessages(data);
+      }
+    }
+    fetchData()
+  }, [ messages.length ])
+
+
 
   useEffect(() => {
     // Join the chat room when the component mounts
@@ -26,6 +45,7 @@ function ChatRoom({ username, friendname, friend, user }) {
       //update messages with response
 
       setMessages((messages) => [ ...messages, data.message ]);
+      fetchData()
       // setMessages((messages) => [...messages]);
       console.log('UPDATEED MESSAGTE', messages)
     });
@@ -39,20 +59,21 @@ function ChatRoom({ username, friendname, friend, user }) {
       // const current_messages2 = await fetch(`/api/users/curr/messages/recipient/${user.id}`);
       if (current_messages.ok) {
         const data = await current_messages.json();
-
         setMessages(data);
-
       }
     }
-    fetchData()
 
+    fetchData()
 
 
     // Leave the chat room when the component unmounts
     return () => {
       socket.emit('leave', { username, friendname });
     };
-  }, [ friendname, username ]);
+  }, [ friendname ]);
+
+
+
 
   const handleMessageSubmit = async (event) => {
     event.preventDefault();
@@ -72,6 +93,8 @@ function ChatRoom({ username, friendname, friend, user }) {
 
 
       socket.emit('message', { username, friendname, message: data });
+      console.log(data)
+
       setMessageText('');
     }
   };

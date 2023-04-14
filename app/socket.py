@@ -19,8 +19,6 @@ def handle_join(data):
     """Join a chat room"""
     username = data['username']
     friendname = data['friendname']
-    # friendId = data["friendId"]
-    # userId = data["userId"]
     # room_name = f"{username}_{friendname}"
     room_name = str(len(username + friendname))
     join_room(room_name)
@@ -34,8 +32,6 @@ def handle_leave(data):
     """Leave a chat room"""
     username = data['username']
     friendname = data['friendname']
-    # friendId = data["friendId"]
-    # userId = data["userId"]
     # room_name = f"{username}_{friendname}"
     room_name = str(len(username + friendname))
     leave_room(room_name)
@@ -50,8 +46,6 @@ def handle_message(data):
     """Handle incoming messages"""
     username = data['username']
     friendname = data['friendname']
-    # friendId = data["friendId"]
-    # userId = data["userId"]
     # room_name = f"{username}_{friendname}"
     room_name = str(len(username + friendname))
     message = data['message']
