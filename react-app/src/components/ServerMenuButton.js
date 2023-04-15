@@ -20,6 +20,7 @@ function ServerMenuButton() {
  const openMenu = () => {
   if (showMenu) return;
   setShowMenu(true);
+  console.log("showMenu, ulClassName: ", showMenu, ulClassName);
  };
 
  useEffect(() => {
@@ -38,12 +39,15 @@ function ServerMenuButton() {
 
  const ulClassName = "svr-menu-profile-dropdown" + (showMenu ? "" : " hidden");
 
+ console.log("showMenu, ulClassName: ", showMenu, ulClassName);
+
  return (
   <>
    <div className="svr-dropdown-parent svr-toggle-btn ">
-    <button onClick={openMenu} className="down-close-btn">
+    <button className="down-close-btn">
+     {console.log("showMenu, ulClassName: ", showMenu, ulClassName)}
      {showMenu ? (
-      <i className="fa-solid fa-x fa-sm"></i>
+      <i className="fa-solid fa-x fa-sm" onClick={openMenu}></i>
      ) : (
       <i className="fa-solid fa-chevron-down fa-sm"></i>
      )}
