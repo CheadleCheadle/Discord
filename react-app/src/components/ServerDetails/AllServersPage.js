@@ -38,10 +38,10 @@ const AllServersPage = () => {
             </div>
             <span>{server.description}</span>
             <span>
-              <p>{server.users.length}</p>
+              <p>{server.users.length} Members</p>
             </span>
             <div>
-              <button>Join!</button>
+              <button onClick={() => handleClick(server)}>Join!</button>
               </div>
           </div>
         ))}
