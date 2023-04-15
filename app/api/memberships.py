@@ -11,9 +11,9 @@ membership_routes = Blueprint('memberships', __name__)
 def get_server_memberships():
     memberships = db.session.query(server_memberships).join(Server).join(User).filter(
         server_memberships.c.user_id == current_user.id).all()
-    membership_status = [{f"{membership.server_id}": {
+    membership_status = {f"{membership.server_id}": {
         "status": membership.status,
         "user_id": membership.user_id,
         "server_id": membership.server_id
-    }} for membership in memberships]
+    } for membership in memberships}
     return membership_status
