@@ -38,8 +38,8 @@ function ProfileButton({ user }) {
 
   };
 
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
   const closeMenu = () => setShowMenu(false);
+  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
     <>
@@ -48,30 +48,13 @@ function ProfileButton({ user }) {
           <i className="fas fa-user-circle fa-3x svr-profile-btn-color" />
         </button>
         <div className={ulClassName} ref={ulRef}>
-          {user ? (
-            <>
-              <div className="dropdown-content">{"Hello, " + user.firstName}</div>
-              <div className="dropdown-content">{user.email}</div>
-              <div className="dropdown-content logout-button-container">
-                <button className="logout-button" onClick={handleLogout}>
-                  Log Out
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <OpenModalButton
-                buttonText="Log In"
-                onButtonClick={closeMenu}
-                modalComponent={<LoginFormModal />}
-              />
-              <OpenModalButton
-                buttonText="Sign Up"
-                onButtonClick={closeMenu}
-                modalComponent={<SignupFormModal />}
-              />
-            </>
-          )}
+          <div className="dropdown-content">{"Hello, " + user.firstName}</div>
+          <div className="dropdown-content">{user.email}</div>
+          <div className="dropdown-content logout-button-container">
+            <button className="logout-button" onClick={handleLogout}>
+              Log Out
+            </button>
+          </div>
         </div>
       </div>
     </>

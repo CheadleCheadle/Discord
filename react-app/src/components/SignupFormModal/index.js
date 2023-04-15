@@ -13,15 +13,15 @@ function SignupFormModal() {
 	const history = useHistory();
 	const [ email, setEmail ] = useState("");
 	const [ username, setUsername ] = useState("");
-	const [ firstName, setFirstName ] = useState("");
-	const [ lastName, setLastName ] = useState("");
+	const [ firstname, setFirstName ] = useState("");
+	const [ lastname, setLastName ] = useState("");
 	const [ password, setPassword ] = useState("");
 	const [ confirmPassword, setConfirmPassword ] = useState("");
 	const [ errors, setErrors ] = useState([]);
 	const { closeModal } = useModal();
 
 	const disableBool = () => {
-		if (!email || !firstName || !username || !lastName || !password || !confirmPassword) return true
+		if (!email || !firstname || !username || !lastname || !password || !confirmPassword) return true
 		if (password !== confirmPassword) return true;
 		return false;
 	};
@@ -29,7 +29,9 @@ function SignupFormModal() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (password === confirmPassword) {
-			const data = await dispatch(signUp(username, email, password, firstName, lastName));
+			console.log(username, email, password, firstname, lastname)
+			const data = await dispatch(signUp(username, email, password, firstname, lastname));
+			console.log("DATA", data)
 			if (data) {
 				return setErrors(data.errors);
 			}
@@ -81,7 +83,7 @@ function SignupFormModal() {
 				<input
 					className='signup__input'
 					type="text"
-					value={firstName}
+					value={firstname}
 					onChange={(e) => setFirstName(e.target.value)}
 					required
 				/>
@@ -91,7 +93,7 @@ function SignupFormModal() {
 				<input
 					className='signup__input'
 					type="text"
-					value={lastName}
+					value={lastname}
 					onChange={(e) => setLastName(e.target.value)}
 					required
 				/>

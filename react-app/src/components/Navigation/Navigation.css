@@ -1,5 +1,13 @@
-.profile-dropdown {
-  position: absolute;
+div.profile-dropdown {
+  position: fixed;
+  left: 100px;
+  transform: translateY(280px);
+  z-index: 1000;
+}
+
+.dropdown {
+  border-radius: 2rem;
+  overflow: hidden;
 }
 
 .hidden {
