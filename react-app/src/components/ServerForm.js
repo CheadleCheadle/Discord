@@ -16,28 +16,42 @@ const ServerForm = ({ formType, server }) => {
  const { closeModal } = useModal();
  const history = useHistory();
 
+ let servers = useSelector((state) => state.servers.all);
+
+ console.log("state.servers.all, server", servers, server);
+
  const handleSubmit = (e) => {
   e.preventDefault();
 
   setBErrs([]);
 
   if (formType === "AddServerForm") {
+   //  const newServer = {
+   //   icon_url: icon_url,
+   //   public_: public_ == "true" ? "True" : "False",
+   //   name: name,
+   //   max_users: max_users,
+   //   description: description,
+   //  };
    const newServer = {
     icon_url: icon_url,
-    public_: public_ == "true" ? "True" : "False",
+    public_: "True",
     name: name,
-    max_users: max_users,
+    max_users: 100,
     description: description,
    };
    console.log("server", newServer);
-   return dispatch(thunkAddAServer(newServer)).then((server) => {
-    console.log("new server",server);
-    history.push(`/servers/${server.id}`);
-    closeModal();
-   });
-  //  .catch((res) => {
-  //    console.log(res)
-  //  });
+   return dispatch(thunkAddAServer(newServer))
+    .then((server) => {
+     console.log("new server", server);
+     history.push(`/servers/${server.id}`);
+     closeModal();
+    })
+    .catch(async (res) => {
+     const data = await res.json();
+     console.log("new server data: ", data);
+     //if (data && data.errors) setBErrs(data.errors);
+    });
   }
 
   if (formType === "EditServerForm") {
@@ -47,27 +61,29 @@ const ServerForm = ({ formType, server }) => {
    setDescription(server.description);
    setMax_users(server.max_users);
    console.log("EditServerForm");
-   return dispatch(thunkEditAServer(server)).then((server) => {
-    console.log("this");
-    console.log(server);
-    history.push(`api/servers/`);
-    closeModal();
-   });
-   // .catch((res) => {
-   //   console.log(res)
-   // });
+   return dispatch(thunkEditAServer(server))
+    .then((server) => {
+     console.log("this");
+     console.log(server);
+     history.push(`api/servers/`);
+     closeModal();
+    })
+    .catch(async (res) => {
+     let data = res.json();
+     console.log("update server data", data);
+    });
   }
  };
 
  return (
-  <div className="new-spot-form-container">
-   <h2>
+  <div className="svr-server-form-container">
+   <h3>
     {formType === "AddServerForm"
      ? "Create a new Server"
      : "Update your Server"}
-   </h2>
+   </h3>
 
-   <form className="new-spot-form" onSubmit={handleSubmit}>
+   <form className="svr-server-form" onSubmit={handleSubmit}>
     <div className="where-text"></div>
     <ul className="error-message">
      {bErrs?.name === "SequelizeValidationError" &&
@@ -78,48 +94,58 @@ const ServerForm = ({ formType, server }) => {
             </li>
           ))} */}
     </ul>
-    <label className="small-text">
-     Name
+    <label className="svr-form-label">
+     Server name:
      <input
+      className="svr-form-input"
       type="text"
       value={name}
       onChange={(e) => setName(e.target.value)}
       placeholder="Name"
+      required
      />
     </label>
-    <label>
-     <input
-      type="radio"
-      value="true"
-      name="public_"
-      checked={public_ === "true" ? "checked" : ""}
-      onChange={(e) => setPublic_(e.target.value)}
-     />
-     Public
-    </label>
-    <label>
-     <input
-      type="radio"
-      value="false"
-      name="public_"
-      checked={public_ === "false" ? "checked" : ""}
-      onChange={(e) => setPublic_(e.target.value)}
-     />
-     Private
-    </label>
-    {/* <p className="error-message">
-      {errors.filter((err) => err.includes("Street"))}
-     </p>
-     {<p className="error-message">{bErrs?.street}</p>} */}
-
-    <div className="city-state">
-     <label className="city-label small-text">
-      Icon URL
+    {formType === "AddServerForm" ? (
+     ""
+    ) : (
+     <label>
       <input
+       type="radio"
+       value="true"
+       name="public_"
+       checked={public_ === "true" ? "checked" : ""}
+       onChange={(e) => setPublic_(e.target.value)}
+       required
+      />
+      Public
+     </label>
+    )}
+    {formType === "AddServerForm" ? (
+     ""
+    ) : (
+     <label>
+      <input
+       type="radio"
+       value="false"
+       name="public_"
+       checked={public_ === "false" ? "checked" : ""}
+       onChange={(e) => setPublic_(e.target.value)}
+       required
+      />
+      Private
+     </label>
+    )}
+
+    <div className="svr-Icon-URL">
+     <label className="svr-form-label">
+      Icon URL:
+      <input
+       className="svr-form-input"
        type="text"
        value={icon_url}
        onChange={(e) => setIcon_url(e.target.value)}
        placeholder="Icon URL"
+       required
       />
       {/* <p className="error-message">
        {errors.filter((err) => err.includes("City"))}
@@ -127,35 +153,42 @@ const ServerForm = ({ formType, server }) => {
       {<p className="error-message">{bErrs?.city}</p>} */}
      </label>
     </div>
-    <div className="Lat-Lng">
-     <label className="lat-label small-text">
-      Max number of users
-      <input
-       type="number"
-       value={max_users}
-       onChange={(e) => setMax_users(e.target.value)}
-       placeholder="Max number of users"
-      />
-      {/* <p className="error-message">
+    <div className="max-number">
+     {formType === "AddServerForm" ? (
+      ""
+     ) : (
+      <label className="svr-form-label">
+       Max number of users:
+       <input
+        className="svr-form-input"
+        type="number"
+        value={max_users}
+        onChange={(e) => setMax_users(e.target.value)}
+        placeholder="Max number of users"
+        required
+       />
+      </label>
+     )}
+     {/* <p className="error-message">
        {errors.filter((err) => err.includes("Latitude"))}
       </p>
     {<p className="error-message">{bErrs?.lat}</p>}*/}
-     </label>
     </div>
-
-    <label className="small-text">
+    <label className="svr-form-label">
+     Description:
      <textarea
+      className="svr-form-input"
       value={description}
       onChange={(e) => setDescription(e.target.value)}
       placeholder="Description"
+      required
      />
      {/* <p className="error-message">
       {errors.filter((err) => err.includes("Description"))}
      </p> */}
      {/* {<p className="error-message">{bErrs?.description}</p>} */}
     </label>
-
-    <button className={"signup-form-submit-button"} type="submit">
+    <button className={"svr-form-button"} type="submit">
      {formType === "AddServerForm" ? "Create Server" : "Update your Server"}
     </button>
    </form>
