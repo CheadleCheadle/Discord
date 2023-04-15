@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, render_template, request
 from flask_login import current_user, login_required
-from app.models import db, Server, Channel, User
+from app.models import db, Server, Channel, User, server_memberships
 from app.forms import ServerForm, ChannelForm
 import json
 
@@ -43,16 +43,16 @@ def add_new_server():
     # query for data if needed in the form
 
     if form.validate_on_submit():
-        #Set values to be default upon creation. This way, it matches the real discord process.
-        params={ "_icon_url": form.data["icon_url"] or default_image,
-        "_public": form.data["public_"],
-        "_name": form.data["name"],
-        "_max_users": form.data["max_users"],
-        "_description": form.data["description"],
-        "_owner_id": current_user.id
-        }
+        # Set values to be default upon creation. This way, it matches the real discord process.
+        params = {"_icon_url": form.data["icon_url"] or default_image,
+                  "_public": form.data["public_"],
+                  "_name": form.data["name"],
+                  "_max_users": form.data["max_users"],
+                  "_description": form.data["description"],
+                  "_owner_id": current_user.id
+                  }
 
-        new_server =Server(**params)
+        new_server = Server(**params)
         try:
             db.session.add(new_server)
             db.session.commit()
@@ -168,8 +168,28 @@ def join_Server(server_id):
     data = json.loads(request.data)
     user = data["user"]
     status = data["status"]
-    print('-------------', data, user, status)
     server = Server.query.get(server_id)
-    print('IM THE SERVER', server.to_safe_dict())
     new_server_membership = server.add_member(user, status)
     return server.to_dict()
+
+
+@server_routes.route("/<int:server_id>/membership", methods=['GET', 'DELETE'])
+@login_required
+def join_server(server_id):
+
+    user_id = current_user.id
+    membership = db.session.query(
+        server_memberships).filter(server_memberships.c.user_id == user_id, server_memberships.c.server_id == server_id).first()
+    server = Server.query.get(server_id)
+    user = User.query.get(user_id)
+
+    # if request.method == 'DELETE':
+    #     host_bool = server._owner_id == user.id
+    #     return (server.to_safe_dict())
+
+    if membership:
+        return {'error': "Membership already exists"}, 409
+
+    server.add_member(user, "pending")
+    db.session.commit()
+    return {"Success": "Membership created."}, 201
