@@ -555,3 +555,13 @@ body {
   background-color: lightpink;
 
 } */
+
+.disabled-button {
+  background-color: #333;
+  color: #666;
+}
+
+.error-message {
+  font-size: 14pt;
+  color: #FF5A5F;
+}

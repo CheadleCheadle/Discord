@@ -9,15 +9,30 @@ const ServerForm = ({ formType, server }) => {
  const [icon_url, setIcon_url] = useState("");
  const [public_, setPublic_] = useState("True");
  const [name, setName] = useState("");
- const [max_users, setMax_users] = useState(0);
+ const [max_users, setMax_users] = useState();
  const [description, setDescription] = useState("");
+ const [disabled, setDisabled] = useState(false);
 
- const [bErrs, setBErrs] = useState([]);
+ const [errors, setErrors] = useState([]);
  const { closeModal } = useModal();
  const history = useHistory();
 
  let return_servers = useSelector((state) => state.servers);
  let servers = return_servers.allServers;
+
+ //  //validate url
+ //  const isValidUrl = (urlString) => {
+ //   var urlPattern = new RegExp(
+ //    "^(https?:\\/\\/)?" + // validate protocol
+ //     "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
+ //     "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
+ //     "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // validate port and path
+ //     "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
+ //     "(\\#[-a-z\\d_]*)?$",
+ //    "i"
+ //   ); // validate fragment locator
+ //   return !!urlPattern.test(urlString);
+ //  };
 
  console.log("state.servers.allServers, server", servers, server);
  useEffect(() => {
@@ -30,10 +45,43 @@ const ServerForm = ({ formType, server }) => {
   }
  }, [formType]);
 
+ useEffect(() => {
+  let errs = [];
+  setDisabled(true);
+  if (max_users < 3)
+   errs.push("Max number of members need to be greater than 2.");
+  if (max_users === null) errs.push("Max number of members is required");
+  //
+  // if (!isValidUrl(icon_url)) errs.push("A valid review Photo url is required");
+  // else {
+  //  const urlstrArr = icon_url.split(".");
+  //  console.log("urlstrArr", urlstrArr);
+  //  if (
+  //   urlstrArr[urlstrArr.length - 1] !== "jpg" &&
+  //   urlstrArr[urlstrArr.length - 1] !== "jpeg" &&
+  //   urlstrArr[urlstrArr.length - 1] !== "bmp" &&
+  //   urlstrArr[urlstrArr.length - 1] !== "gif" &&
+  //   urlstrArr[urlstrArr.length - 1] !== "png"
+  //  )
+  //   errs.push("A valid review Photo url is required");
+  // }
+  if (name.length > 100)
+   errs.push("Name need to be no more than 100 characters");
+  if (!public_) errs.push("Public or Private type is required");
+
+  // if (showErr) {
+  if (errs.length === 0) setDisabled(false);
+  //  if (run === false) setRun(true);
+  setErrors(errs);
+  // } else {
+  //  if (errs.length === 0) setRun(true);
+  //  else setRun(false);
+  // }
+ }, [name, public_, max_users, icon_url]);
+
  const handleSubmit = (e) => {
   e.preventDefault();
-
-  setBErrs([]);
+  setErrors([]);
 
   if (formType === "AddServerForm") {
    const newServer = {
@@ -44,7 +92,7 @@ const ServerForm = ({ formType, server }) => {
    };
 
    let public_value = public_ === "True" ? true : false;
-   newServer.public = public_value;
+   newServer.public_ = public_value;
    console.log("****************newServer", newServer);
    return dispatch(thunkAddAServer(newServer)).then((server) => {
     console.log("new server", server);
@@ -97,13 +145,13 @@ const ServerForm = ({ formType, server }) => {
    <form className="svr-server-form" onSubmit={handleSubmit}>
     <div className="where-text"></div>
     <ul className="error-message">
-     {bErrs?.name === "SequelizeValidationError" &&
-      bErrs?.errors.map((error, idx) => <li key={idx}>{error.message}</li>)}
-     {/* {bErrs?map((error, idx) => (
-            <li className="error-message" key={idx}>
-              {error}
-            </li>
-          ))} */}
+     {/* {bErrs?.name === "SequelizeValidationError" &&
+      bErrs?.errors.map((error, idx) => <li key={idx}>{error.message}</li>)} */}
+     {errors?.map((error, idx) => (
+      <li className="error-message" key={idx}>
+       {error}
+      </li>
+     ))}
     </ul>
     <label className="svr-form-label">
      Server name:
@@ -152,7 +200,7 @@ const ServerForm = ({ formType, server }) => {
       Icon URL:
       <input
        className="svr-form-input"
-       type="text"
+       type="url"
        value={icon_url}
        onChange={(e) => setIcon_url(e.target.value)}
        placeholder="Icon URL"
@@ -199,7 +247,13 @@ const ServerForm = ({ formType, server }) => {
      </p> */}
      {/* {<p className="error-message">{bErrs?.description}</p>} */}
     </label>
-    <button className={"svr-form-button"} type="submit">
+    <button
+     disabled={disabled}
+     className={
+      !disabled ? "svr-form-button" : "svr-form-button disabled-button"
+     }
+     type="submit"
+    >
      {formType === "AddServerForm" ? "Create Server" : "Update your Server"}
     </button>
    </form>
