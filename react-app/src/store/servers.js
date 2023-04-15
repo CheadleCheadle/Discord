@@ -91,13 +91,11 @@ export const thunkAddAServer = (data) => async (dispatch) => {
 
   if (response.ok) {
     server = await response.json();
+    console.log("OK RESPONSE",server)
     dispatch(addAServer(server));
     dispatch(newUserServer(server));
 
-    // console.log("reducer createASpot spot:", spot);
     return server;
-  } else {
-    return response;
   }
 };
 
@@ -199,38 +197,7 @@ const serverReducer = (state = initialState, action) => {
         allServers: { ...action.servers },
       };
       return newState;
-    case LOAD_ONE_SERVER:
-      newState = {
-        ...state,
-        allServers: {},
-      };
-      newState.allServers[action.server.id] = action.server;
-      return newState;
-
-    case ADD_A_SERVER:
-      newState = {
-        ...state,
-        allServers: { ...state.allServers },
-      };
-      newState.allServers[action.server.id] = action.server;
-      return newState;
-
-    case DELETE_A_SERVER:
-      newState = {
-        ...state,
-        allServers: { ...state.allServers },
-      };
-      delete newState.allServers[action.id];
-      return newState;
-
-    case EDIT_A_SERVER:
-      newState = {
-        ...state,
-        allServers: { ...state.allServers },
-      };
-      newState.allServers[action.server.id] = action.server;
-      return newState;
-
+      //--------------------------------------------------------------------------
     default:
       return state;
   }

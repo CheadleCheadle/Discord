@@ -16,7 +16,7 @@ const ServerForm = ({ formType, server }) => {
  const { closeModal } = useModal();
  const history = useHistory();
 
- let servers = useSelector((state) => state.servers.all);
+ let servers = useSelector((state) => state.servers.allServers);
 
  console.log("state.servers.all, server", servers, server);
 
@@ -43,15 +43,13 @@ const ServerForm = ({ formType, server }) => {
    console.log("server", newServer);
    return dispatch(thunkAddAServer(newServer))
     .then((server) => {
+      if (server instanceof Error) throw server
+
      console.log("new server", server);
      history.push(`/servers/${server.id}`);
      closeModal();
     })
-    .catch(async (res) => {
-     const data = await res.json();
-     console.log("new server data: ", data);
-     //if (data && data.errors) setBErrs(data.errors);
-    });
+
   }
 
   if (formType === "EditServerForm") {

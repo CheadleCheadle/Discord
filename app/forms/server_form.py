@@ -9,4 +9,3 @@ class ServerForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(message="name is required.")])
     max_users = IntegerField('Max Users', validators=[DataRequired(message="Please provide Max number of Users."),NumberRange(min=3, message="Max number of Users must be 3 or greater.")])
     description = TextAreaField('Description', validators=[DataRequired(message="Please provide description.")])
-    submit = SubmitField('submit')
