@@ -7,18 +7,28 @@ import { thunkAddAServer, thunkEditAServer } from "../store/servers";
 const ServerForm = ({ formType, server }) => {
  const dispatch = useDispatch();
  const [icon_url, setIcon_url] = useState("");
- const [public_, setPublic_] = useState("false");
+ const [public_, setPublic_] = useState("True");
  const [name, setName] = useState("");
- const [max_users, setMax_users] = useState("");
+ const [max_users, setMax_users] = useState(0);
  const [description, setDescription] = useState("");
 
  const [bErrs, setBErrs] = useState([]);
  const { closeModal } = useModal();
  const history = useHistory();
 
- let servers = useSelector((state) => state.servers.allServers);
+ let return_servers = useSelector((state) => state.servers);
+ let servers = return_servers.allServers;
 
- console.log("state.servers.all, server", servers, server);
+ console.log("state.servers.allServers, server", servers, server);
+ useEffect(() => {
+  if (formType === "EditServerForm") {
+   setIcon_url(server.icon_url);
+   server.public === true ? setPublic_("True") : setPublic_("False");
+   setName(server.name);
+   setDescription(server.description);
+   setMax_users(server.max_users);
+  }
+ }, [formType]);
 
  const handleSubmit = (e) => {
   e.preventDefault();
@@ -26,41 +36,47 @@ const ServerForm = ({ formType, server }) => {
   setBErrs([]);
 
   if (formType === "AddServerForm") {
-   //  const newServer = {
-   //   icon_url: icon_url,
-   //   public_: public_ == "true" ? "True" : "False",
-   //   name: name,
-   //   max_users: max_users,
-   //   description: description,
-   //  };
    const newServer = {
     icon_url: icon_url,
-    public_: public_ == "true" ? "True" : "False",
     name: name,
     max_users: 100,
     description: description,
    };
-   console.log("server", newServer);
-   return dispatch(thunkAddAServer(newServer))
-    .then((server) => {
-     console.log("new server", server);
-     history.push(`/servers/${server.id}`);
-     closeModal();
-    })
+
+   let public_value = public_ === "True" ? true : false;
+   newServer.public = public_value;
+   console.log("****************newServer", newServer);
+   return dispatch(thunkAddAServer(newServer)).then((server) => {
+    console.log("new server", server);
+    //history.push(`/servers/${server.id}`);
+    closeModal();
+   });
   }
 
   if (formType === "EditServerForm") {
-   setIcon_url(server.icon_url);
-   setPublic_(server.public);
-   setName(server.name);
-   setDescription(server.description);
-   setMax_users(server.max_users);
+   //  setIcon_url(server.icon_url);
+   //  setPublic_(server.public);
+   //  setName(server.name);
+   //  setDescription(server.description);
+   //  setMax_users(server.max_users);
+
+   const theServer = {
+    icon_url: icon_url,
+    name: name,
+    max_users: parseInt(max_users),
+    description: description,
+   };
+
+   let public_value = public_ === "True" ? true : false;
+   theServer._public = public_value;
+
    console.log("EditServerForm");
-   return dispatch(thunkEditAServer(server))
+   console.log("****************theServer", theServer);
+   return dispatch(thunkEditAServer(theServer, server.id))
     .then((server) => {
      console.log("this");
      console.log(server);
-     history.push(`api/servers/`);
+     //history.push(`api/servers/`);
      closeModal();
     })
     .catch(async (res) => {
@@ -106,9 +122,9 @@ const ServerForm = ({ formType, server }) => {
      <label>
       <input
        type="radio"
-       value="true"
+       value="True"
        name="public_"
-       checked={public_ === "true" ? "checked" : ""}
+       checked={public_ === "True" ? "checked" : ""}
        onChange={(e) => setPublic_(e.target.value)}
        required
       />
@@ -121,9 +137,9 @@ const ServerForm = ({ formType, server }) => {
      <label>
       <input
        type="radio"
-       value="false"
+       value="False"
        name="public_"
-       checked={public_ === "false" ? "checked" : ""}
+       checked={public_ === "False" ? "checked" : ""}
        onChange={(e) => setPublic_(e.target.value)}
        required
       />
