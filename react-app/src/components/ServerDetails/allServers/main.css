@@ -1,0 +1,43 @@
+.svr-all-servers-container {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 5em 12em;
+    row-gap: 5em;
+    column-gap: 1em;
+    justify-content: center;
+}
+
+.all-svr-image-cont img{
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+}
+.all-svr-image-cont {
+    height: 10em;
+    width: 100%;
+
+}
+.svr-all-servers-info {
+    width: 15em;
+    height: 20em;
+    background-color: #232428;
+    border-radius: 5px;
+}
+
+#server-description {
+}
+
+.svr-details {
+
+}
+
+#desc-members {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1em;
+    height: 10em;
+}
+
+#join-desc {
+
+}

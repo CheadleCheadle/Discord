@@ -21,7 +21,7 @@ const MyServersPage = () => {
   return (
     <>
       <AllServersNavbar></AllServersNavbar>
-      <div>
+      <div className="friends-column">
 
         {showFriends&& (
           <>

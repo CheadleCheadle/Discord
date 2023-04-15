@@ -7,7 +7,7 @@ import AddServerForm from "./components/AddServerForm";
 import MyServersPage from "./components/ServerDetails/MyServersPage";
 import { thunkLoadAllServers } from "./store/servers";
 import SplashPage from "./components/SplashPage";
-import AllServersPage from "./components/ServerDetails/AllServersPage";
+import AllServersPage from "./components/ServerDetails/allServers";
 import Friends from "./components/Friends";
 import FriendDisplay from "./components/FriendDisplay";
 
