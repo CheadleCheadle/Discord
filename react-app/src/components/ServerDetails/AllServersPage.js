@@ -33,8 +33,16 @@ const AllServersPage = () => {
       <div className="svr-all-servers-container">
         {servers.map((server) => (
           <div className="svr-all-servers-info" key={server.id} onClick={() => handleClick(server)}>
-            <h3>{server.name} {server.id}</h3>
-            <img src={server.icon_url} />
+            <div>
+              <img src={server.icon_url}></img>
+            </div>
+            <span>{server.description}</span>
+            <span>
+              <p>{server.users.length}</p>
+            </span>
+            <div>
+              <button>Join!</button>
+              </div>
           </div>
         ))}
       </div>
