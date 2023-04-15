@@ -25,7 +25,7 @@ class Server(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     _icon_url = db.Column(db.String, nullable=True)
-    _public = db.Column(db.String, nullable=False)
+    _public = db.Column(db.Boolean, nullable=False)
     _name = db.Column(db.String(100), nullable=False, unique=True)
     _max_users = db.Column(db.Integer, nullable=False)
     _description = db.Column(db.Text, nullable=False)
