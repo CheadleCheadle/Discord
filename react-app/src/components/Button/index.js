@@ -5,10 +5,12 @@ import './Button.css';
 const STYLES = [
   'btn--primary',
   'btn--demo',
+  'btn--login'
 ];
 const SIZES = [
   'btn--medium',
-  'btn--splash'
+  'btn--splash',
+  'btn--wide'
 ];
 
 

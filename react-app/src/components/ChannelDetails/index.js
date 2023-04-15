@@ -20,7 +20,6 @@ export default function Channel() {
     }, [ dispatch, channelId ])
 
     const channel = useSelector(state => state.channels.allChannels[ channelId ])
-    console.log("NEW CHANNEL>>?", channel)
     //Conditional is needed because a newly created channel doesn't have messages
     if (!channel.channel_messages) {
         channel.channel_messages = {};
@@ -79,12 +78,12 @@ export default function Channel() {
                             </div>
                         ))}
 
-                    <div className="chnl-form-cont">
-                        <form onSubmit={handleSubmit}>
-                            <input type="text" placeholder={`Message`} value={message} onChange={(e) => setMessage(e.target.value)} />
-                            <input type="submit" value="Submit" />
-                        </form>
-                    </div>
+                        <div className="chnl-form-cont">
+                            <form onSubmit={handleSubmit}>
+                                <input type="text" placeholder={`Message`} value={message} onChange={(e) => setMessage(e.target.value)} />
+                                <input type="submit" value="Submit" />
+                            </form>
+                        </div>
                     </div>
                 </>
             )}

@@ -4,6 +4,9 @@ import { useModal } from "../../context/Modal";
 import { login, signUp } from "../../store/session";
 import "./SignupForm.css";
 import { useHistory } from "react-router-dom";
+import Button from "../Button";
+import LoginFormModal from "../LoginFormModal";
+import OpenModalButton from "../OpenModalButton";
 
 function SignupFormModal() {
 	const dispatch = useDispatch();
@@ -16,6 +19,12 @@ function SignupFormModal() {
 	const [ confirmPassword, setConfirmPassword ] = useState("");
 	const [ errors, setErrors ] = useState([]);
 	const { closeModal } = useModal();
+
+	const disableBool = () => {
+		if (!email || !firstName || !username || !lastName || !password || !confirmPassword) return true
+		if (password !== confirmPassword) return true;
+		return false;
+	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -35,72 +44,92 @@ function SignupFormModal() {
 		}
 	};
 
+	const disableButtonBool = disableBool()
+
 	return (
-		<>
-			<h1>Sign Up</h1>
-			<form onSubmit={handleSubmit}>
-				<ul>
+		<div id='signup'>
+			<h1 id="signup__title">Create An Account</h1>
+			<form id='signup__form' onSubmit={handleSubmit}>
+				<ul id='signup__error-list'>
 					{errors.map((error, idx) => (
 						<li key={idx}>{error}</li>
 					))}
 				</ul>
-				<label>
+				<label id='signup__label'>
 					Email
-					<input
-						type="text"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-						required
-					/>
 				</label>
-				<label>
+				<input
+					className='signup__input'
+					type="text"
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
+					required
+				/>
+				<label id='signup__label'>
 					Username
-					<input
-						type="text"
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
-						required
-					/>
 				</label>
-				<label>
+				<input
+					className='signup__input'
+					type="text"
+					value={username}
+					onChange={(e) => setUsername(e.target.value)}
+					required
+				/>
+				<label id='signup__label'>
 					FirstName
-					<input
-						type="text"
-						value={firstName}
-						onChange={(e) => setFirstName(e.target.value)}
-						required
-					/>
 				</label>
-				<label>
+				<input
+					className='signup__input'
+					type="text"
+					value={firstName}
+					onChange={(e) => setFirstName(e.target.value)}
+					required
+				/>
+				<label id='signup__label'>
 					LastName
-					<input
-						type="text"
-						value={lastName}
-						onChange={(e) => setLastName(e.target.value)}
-						required
-					/>
 				</label>
-				<label>
+				<input
+					className='signup__input'
+					type="text"
+					value={lastName}
+					onChange={(e) => setLastName(e.target.value)}
+					required
+				/>
+				<label id='signup__label'>
 					Password
-					<input
-						type="password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						required
-					/>
 				</label>
-				<label>
+				<input
+					className='signup__input'
+					type="password"
+					value={password}
+					onChange={(e) => setPassword(e.target.value)}
+					required
+				/>
+				<label id='signup__label'>
 					Confirm Password
-					<input
-						type="password"
-						value={confirmPassword}
-						onChange={(e) => setConfirmPassword(e.target.value)}
-						required
-					/>
 				</label>
-				<button type="submit">Sign Up</button>
+				<input
+					className='signup__input'
+					type="password"
+					value={confirmPassword}
+					onChange={(e) => setConfirmPassword(e.target.value)}
+					required
+				/>
 			</form>
-		</>
+			<Button
+				disableButton={disableButtonBool}
+				buttonStyle='btn--login'
+				buttonSize='btn--wide'
+				onClick={handleSubmit}
+			>
+				Sign Up
+			</Button>
+			<OpenModalButton
+				buttonText={'Have An Account? Login Here'}
+				modalCSSClass={'login-form-link'}
+				modalComponent={<LoginFormModal />}
+			/>
+		</div>
 	);
 }
 

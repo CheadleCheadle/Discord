@@ -6,23 +6,20 @@ import { useModal } from "../context/Modal";
 //import "./LoginForm.css";
 
 function DeleteServerModal({ serverId }) {
- const dispatch = useDispatch();
- const [errors, setErrors] = useState([]);
- const { closeModal } = useModal();
+  const dispatch = useDispatch();
+  const [ errors, setErrors ] = useState([]);
+  const { closeModal } = useModal();
 
- const handleDelete = () => {
-  setErrors([]);
-  console.log("Inside DeleteServerModal serverId: ", serverId);
-  return dispatch(thunkDeleteAServer(serverId))
-   .then(closeModal)
-   .catch(async (res) => {
-    //const data = await res.json();
-    // console.log("DeleteServerModal thunkDeleteAServer data", data);
-    //if (data && data.errors) setErrors(data.errors);
-    closeModal();
-   });
- };
+  const handleDelete = () => {
+    setErrors([]);
+    return dispatch(thunkDeleteAServer(serverId))
+      .then(closeModal)
+      .catch(async (res) => {
+        closeModal();
+      });
+  };
 
+<<<<<<< HEAD
  return (
   <div className="svr-delete-server-form-container">
    <div>
@@ -31,15 +28,26 @@ function DeleteServerModal({ serverId }) {
    <div>
     <p>Are you sure you want to remove this server?</p>
    </div>
+=======
+  return (
+    <div className="delete-review-form-container">
+      <div>
+        <h1>Confirm Delete</h1>
+      </div>
+      <div>
+        <p>Are you sure you want to remove this server?</p>
+      </div>
+>>>>>>> login/singup-modals-css
 
-   <div>
-    <ul>
-     {errors.map((error, idx) => (
-      <li key={idx}>{error}</li>
-     ))}
-    </ul>
-   </div>
+      <div>
+        <ul>
+          {errors.map((error, idx) => (
+            <li key={idx}>{error}</li>
+          ))}
+        </ul>
+      </div>
 
+<<<<<<< HEAD
    <button className="svr-delete-server-button" onClick={() => handleDelete()}>
     Yes (Delete Server)
    </button>
@@ -52,6 +60,17 @@ function DeleteServerModal({ serverId }) {
    </button>
   </div>
  );
+=======
+      <button className="delete-review-button" onClick={() => handleDelete()}>
+        Yes (Delete Server)
+      </button>
+
+      <button className="cancel-delete-review-button" onClick={() => closeModal()}>
+        No (Keep Server)
+      </button>
+    </div>
+  );
+>>>>>>> login/singup-modals-css
 }
 
 export default DeleteServerModal;

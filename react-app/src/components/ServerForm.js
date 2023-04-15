@@ -35,7 +35,7 @@ const ServerForm = ({ formType, server }) => {
    //  };
    const newServer = {
     icon_url: icon_url,
-    public_: "True",
+    public_: public_ == "true" ? "True" : "False",
     name: name,
     max_users: 100,
     description: description,
@@ -43,13 +43,10 @@ const ServerForm = ({ formType, server }) => {
    console.log("server", newServer);
    return dispatch(thunkAddAServer(newServer))
     .then((server) => {
-      if (server instanceof Error) throw server
-
      console.log("new server", server);
      history.push(`/servers/${server.id}`);
      closeModal();
     })
-
   }
 
   if (formType === "EditServerForm") {

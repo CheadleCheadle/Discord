@@ -45,9 +45,9 @@ def add_new_server():
     if form.validate_on_submit():
         #Set values to be default upon creation. This way, it matches the real discord process.
         params={ "_icon_url": form.data["icon_url"] or default_image,
-        "_public": "Private",
+        "_public": form.data["public_"],
         "_name": form.data["name"],
-        "_max_users": 100,
+        "_max_users": form.data["max_users"],
         "_description": form.data["description"],
         "_owner_id": current_user.id
         }

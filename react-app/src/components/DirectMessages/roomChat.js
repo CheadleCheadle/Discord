@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import io from "socket.io-client";
-import "./chat.css";
-import Friends from "../Friends";
-import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import io from 'socket.io-client';
+import "./chat.css"
+import Friends from '../Friends';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import { useDispatch } from 'react-redux';
 
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect('http://localhost:5001');
 
 function ChatRoom({ username, friendname, friend, user }) {
  const [roomName, setRoomName] = useState("");
