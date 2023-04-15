@@ -9,21 +9,32 @@ import AddChannelModal from "../AddChannelModal";
 import ServerMenuBox from "../ServerMenuBox";
 import Friends from "../Friends";
 import "./Server.css"
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { loadOneServerId } from "../../store/servers";
 const SingleServerPage = () => {
   const [ isLoaded, setIsLoaded ] = useState(false)
-  const dispatch = useDispatch()
   const { serverId } = useParams();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const userServers = useSelector(state => state.session.user.servers);
+  //For redirecting user when they aren't a member of a server...
+  if (isNaN(+serverId) || !userServers[serverId]) {
+    history.replace("/servers")
+}
+
   const sessionUser = useSelector(state => state.session.user);
+
   const servers = useSelector(state => state.servers.allServers);
-  console.log('servers-------------', servers);
+
+
+  const channelsArr = Object.values(useSelector(state => state.channels.allChannels));
+
   useEffect(() => {
     dispatch(getServerChannels(serverId))
-      .then(() => setIsLoaded(true))
+    .then(dispatch(loadOneServerId(serverId)))
+    .then(() => setIsLoaded(true))
   }, [ dispatch, serverId ])
 
-  const server = useSelector(state => state.servers.allServers[ serverId ])
-  // const channelsArr = Object.values(server.channels)
-  const channelsArr = Object.values(useSelector(state => state.channels.allChannels));
 
   return (
     <>
@@ -60,5 +71,6 @@ const SingleServerPage = () => {
     </>
   )
 }
+
 
 export default SingleServerPage

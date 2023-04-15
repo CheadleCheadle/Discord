@@ -9,8 +9,11 @@ export default function Members() {
     const params = useParams();
     const dispatch = useDispatch();
 
-     const members = useSelector(state => state.servers.allServers[state.servers.singleServerId].users);
-     console.log("IM THE MEMBERS!")
+    let members = useSelector(state => state.servers.allServers[state.servers.singleServerId].users);
+    // if (!members) {
+    //     members = [];
+    // }
+     console.log("IM THE MEMBERS!", members)
 
      return (
         <>

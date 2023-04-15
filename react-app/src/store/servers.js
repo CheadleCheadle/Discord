@@ -164,6 +164,7 @@ const serverReducer = (state = initialState, action) => {
         allServers: { ...state.allServers },
       };
       newState.allServers[ action.server.id ] = action.server;
+      newState.singleServerId = action.server.id;
       return newState;
 
     case DELETE_A_SERVER:
