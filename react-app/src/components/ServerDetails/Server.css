@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: row;
     gap: 5px;
+    background-color: #2b2d31;
+    width: 15em;
 }
 
 .members-wrapper {
@@ -26,4 +28,7 @@ flex-direction: row;
 .chnl-container {
     display: flex;
     flex-direction: column;
+}
+.friends-column {
+    background-color: #2b2d31;
 }
