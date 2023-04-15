@@ -21,7 +21,7 @@ export default function ServerMenuBox({ servers, user }) {
  console.log("SERERE", server);
  useEffect(() => {
   if (servers.length !== 0) {
-   dispatch(loadOneServerId(server.id));
+   dispatch(loadOneServerId(servers[1].id));
   }
  }, [dispatch]);
 
@@ -46,6 +46,38 @@ export default function ServerMenuBox({ servers, user }) {
 
   const ulClassName = "svr-menu-profile-dropdown" + (showMenu ? "" : " hidden");
 
+<<<<<<< HEAD
+  return (
+    <>
+      <div className="svr-menu-name">
+        {serverNameDisplay}
+      </div>
+      <div className="svr-dropdown-parent svr-toggle-btn ">
+        <button onClick={openMenu} className="down-close-btn">
+          {showMenu ? (
+            <i className="fa-solid fa-x fa-sm"></i>
+          ) : (
+            <i className="fa-solid fa-chevron-down fa-sm"></i>
+          )}
+        </button>
+        <div className={ulClassName} ref={ulRef}>
+          <div className="dropdown-content">{`Hello,${user?.firstname}`}</div>
+          <div className="dropdown-content">{`${user?.email}`}</div>
+          <OpenModalButton
+            someN="svr-delete-button"
+            buttonText="Delete the Server"
+            modalComponent={<DeleteServerModal serverId={server?.id} />}
+          />
+          <OpenModalButton
+            someN="svr-edit-button"
+            buttonText="Edit the Server"
+            modalComponent={<EditServerForm server={server} />}
+          />
+        </div>
+      </div>
+    </>
+  );
+=======
  return (
   <>
    <div className="svr-menu-name">
@@ -63,13 +95,13 @@ export default function ServerMenuBox({ servers, user }) {
      <div className="svr-dropdown-content">{`Hello,${user?.firstname}`}</div>
      <div className="svr-dropdown-content">{`${user?.email}`}</div>
      <OpenModalButton
-      modalCSSClass="svr-dropdown-content"
+      ="svr-dropdown-content"
       // for button css styling
       buttonText="Delete the Server"
       modalComponent={<DeleteServerModal serverId={server?.id} />}
      />
      <OpenModalButton
-      modalCSSClass=" svr-dropdown-content"
+      =" svr-dropdown-content"
       // for button css styling
       buttonText="Edit the Server"
       modalComponent={<EditServerForm server={server} />}
@@ -78,4 +110,5 @@ export default function ServerMenuBox({ servers, user }) {
    </div>
   </>
  );
+>>>>>>> serverDropdown
 }

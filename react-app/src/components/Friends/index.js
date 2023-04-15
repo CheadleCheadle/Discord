@@ -1,40 +1,9 @@
-<<<<<<< HEAD
-import React from "react";
-import { NavLink } from "react-router-dom"
-import { useSelector } from "react-redux";
-=======
 import { useParams } from "react-router-dom";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
->>>>>>> serverDropdown
 import "./friends.css";
 export default function Friends() {
-<<<<<<< HEAD
-    const friends = useSelector(state => state.session.user.friends);
-
-    return (
-        <>
-            <div className="svr-friends-list">
-                <h3>DIRECT MESSAGES</h3>
-                {Object.values(friends).map((friend) => (
-                    <NavLink to={`/friends/${friend.id}`}>
-                        <div key={friend.id}>
-                            <div className="usr-box">
-                                <div id="usr-img">
-                                    <img src={friend.photo_url}></img>
-                                </div>
-                                <div id="usr-name">
-                                    <p>{friend.username}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </NavLink>
-                ))}
-            </div>
-        </>
-    )
-=======
  const history = useHistory();
  const params = useParams();
  const dispatch = useDispatch();
@@ -74,5 +43,4 @@ export default function Friends() {
    </div>
   </>
  );
->>>>>>> serverDropdown
 }

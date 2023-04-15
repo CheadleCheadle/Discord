@@ -1,7 +1,3 @@
-import React, { useState, useEffect } from "react";
-import io from "socket.io-client";
-import "./chat.css";
-import Friends from "../Friends";
 
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';

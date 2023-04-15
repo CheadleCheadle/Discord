@@ -152,6 +152,7 @@ body {
   color: white;
   background-color: #444;
   position: relative;
+  flex-direction: column;
 }
 
 .svr-menu-name {

@@ -30,7 +30,10 @@ const SingleServerPage = () => {
       {isLoaded && (
         <>
           <div className="svr-channel-wrapper">
+        <div className="svr-menu-box">
+            <ServerMenuBox servers={servers} user={sessionUser} />
             <div className="chnl-container">
+
               {channelsArr.map((channel) => (
                 <NavLink key={channel.id} to={`/servers/${serverId}/channels/${channel.id}`} >
                   {channel.name} {channel.id}
@@ -38,6 +41,7 @@ const SingleServerPage = () => {
               ))}
             </div>
           </div>
+              </div>
           <Switch>
             <Route path={`/servers/:serverId/channels/:channelId`}>
               <Channel />
