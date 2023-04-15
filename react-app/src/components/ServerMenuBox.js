@@ -14,15 +14,15 @@ export default function ServerMenuBox({ servers, user }) {
  //  const serverId = return_servers_state.singleServerId;
  //  const server = return_servers[serverId];
 
- const server = useSelector(state => state.servers.allServers[state.servers.singleServerId]);
- console.log("SERERE", server)
+ const server = useSelector(
+  (state) => state.servers.allServers[state.servers.singleServerId]
+ );
+ console.log("SERERE", server);
  useEffect(() => {
   if (servers.length !== 0) {
    dispatch(loadOneServerId(servers[1].id));
   }
  }, [dispatch]);
-
-
 
  const openMenu = () => {
   if (showMenu) return;
@@ -59,15 +59,17 @@ export default function ServerMenuBox({ servers, user }) {
      )}
     </button>
     <div className={ulClassName} ref={ulRef}>
-     <div className="dropdown-content">{`Hello,${user?.firstname}`}</div>
-     <div className="dropdown-content">{`${user?.email}`}</div>
+     <div className="svr-dropdown-content">{`Hello,${user?.firstname}`}</div>
+     <div className="svr-dropdown-content">{`${user?.email}`}</div>
      <OpenModalButton
-      someN="svr-delete-button"
+      btnClassName="svr-dropdown-content"
+      // for button css styling
       buttonText="Delete the Server"
       modalComponent={<DeleteServerModal serverId={server?.id} />}
      />
      <OpenModalButton
-      someN="svr-edit-button"
+      btnClassName=" svr-dropdown-content"
+      // for button css styling
       buttonText="Edit the Server"
       modalComponent={<EditServerForm server={server} />}
      />

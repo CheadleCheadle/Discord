@@ -1,23 +1,78 @@
 .svr-friends-list {
+    font-size: 12pt;
     display: flex;
     flex-direction: column;
-    width: 12em;
-    gap: 1em;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: palevioletred;
+
 }
 
+.drt-usr-msg-box {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    height: 30px;
+    font-family: sans-serif;
+    padding: 0 6px;
+    font-size: 10pt;
+    font-weight: 600;
+    color: white;
+    gap: 15px;
+    background-color: #444;
+    margin: 2px;
+    border-radius: 5px;
+}
+
+.drt-usr-msg-box:hover {
+    background-color: #666;
+}
+
+.drt-msg-light-color {
+    background-color: #666;
+
+}
+
+.drt-msg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: #444;
+}
+
+.drt-msg-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border-color: burlywood;
+}
 
 .usr-box {
+    width: 100%;
     display: flex;
+    align-items: center;
     flex-direction: row;
-    gap: .5em;
+    font-family: sans-serif;
+    font-size: 12pt;
+    font-weight: 400;
+    font-size: 14pt;
+    padding: .20rem .55rem;
+    color: white;
+    background-color: #222;
 }
-#usr-img img{
-    width: 1.5em;
-    height: 1.5em;
+
+#usr-img img {
+    height: 1em;
     border-radius: 2em;
 }
+
 #usr-name {
-display: flex;
-flex-direction: column;
-justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-size: 12pt;
+    font-weight: 600;
 }
