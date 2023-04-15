@@ -69,6 +69,8 @@ def sign_up():
             firstname=form.data['firstname'],
             lastname=form.data["lastname"]
         )
+
+        print(user.to_safe_dict())
         db.session.add(user)
         db.session.commit()
         login_user(user)

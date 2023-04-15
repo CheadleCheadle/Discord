@@ -113,16 +113,14 @@ export const signUp = (username, email, password, firstname, lastname) => async 
 		}),
 	});
 
+	console.log("DAATA,", response)
+	const data = await response.json()
+	console.log("DATA", data)
 	if (response.ok) {
-		const data = await response.json();
 		dispatch(setUser(data));
 		return null;
-	} else if (response.status < 500) {
-		const data = await response.json();
-		return data
-	} else {
-		return [ "An error occurred. Please try again." ];
 	}
+	return data
 };
 
 export const joinServerThunk = (serverId, user) => async (dispatch) => {
