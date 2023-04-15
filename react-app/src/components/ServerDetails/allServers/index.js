@@ -6,17 +6,28 @@ import { useModal } from "../../../context/Modal";
 import JoinServer from "../joinServer.js";
 //Import join server form here so onclick calls the open modal with it...
 import "./main.css"
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 const AllServersPage = () => {
   const servers = Object.values(useSelector(state => state.servers.allServers));
   const myServers = useSelector(state => state.session.user.servers);
-  console.log("THESE ARE MYSERVERS", myServers)
   const { setModalContent, setOnModalClose } = useModal();
+  const history = useHistory();
   const handleJoinedServers = (server) => {
       for ( let x in myServers) {
-        console.log(x);
-        if (server.id === x.id) return true
+        if (server.id === +x) return true
       }
       return false;
+  }
+
+  const memberships = async () => {
+    const memberships = await fetch(`/api/memberships/curr`);
+    const jsonif = await memberships.json();
+    console.log("HERE ARE THE MEMBERSHIPS", jsonif);
+  }
+  memberships()
+  const handleGoToServer = (serverId) => {
+    setModalContent(null);
+    history.push(`/servers/${serverId}`);
   }
   const handleClick = (server) => {
     //open modal to join new server will be pending
@@ -28,7 +39,7 @@ const AllServersPage = () => {
       <AllServersNavbar />
       <div className="svr-all-servers-container">
         {servers.map((server) => (
-          <div className="svr-all-servers-info" key={server.id} onClick={() => handleClick(server)}>
+          <div className="svr-all-servers-info" key={server.id}>
             <div className="all-svr-image-cont">
               <img src={server.icon_url}></img>
             </div>
@@ -40,7 +51,7 @@ const AllServersPage = () => {
               <p>🟢{server.users.length} Members</p>
 
             <div id ="button-container">
-              {handleJoinedServers(server) ? <button>Go to server!</button> : <button onClick={() => handleClick(server)}>Join!</button>}
+              {handleJoinedServers(server) ? <button onClick={() => handleGoToServer(server.id) }>Go to server!</button> : <button onClick={() => handleClick(server)}>Join!</button>}
               </div>
             </div>
               </div>
