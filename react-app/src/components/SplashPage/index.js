@@ -13,7 +13,7 @@ const SplashPage = (isLoaded) => {
 
   const history = useHistory()
   const [ showMenu, setShowMenu ] = useState(false);
-  const demoUser = async () => {
+  const demoUser = () => {
     dispatch(login("demo@aa.io", "password"))
       .then(() => history.push('/servers'))
   }

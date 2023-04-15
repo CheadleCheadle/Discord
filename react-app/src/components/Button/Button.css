@@ -42,8 +42,32 @@
   border: 1px solid var(--primary);
 }
 
-.btn--demo:hover {
+.btn--demo:enabled:hover {
   color: rgb(11, 117, 153);
   box-shadow: -2px 2px 8px -3px black;
   transition: 0.3s;
+}
+
+.btn--login {
+  background-color: rgb(3, 101, 167);
+  border-radius: 0.25rem;
+  height: 36px;
+  margin-top: 20px;
+  color: white;
+  transition: 0.3s;
+}
+
+.btn--wide {
+  width: 440px;
+  box-sizing: border-box;
+}
+
+.btn--login:enabled:hover {
+  transition: 0.3s;
+  background: rgb(67, 67, 187);
+}
+
+.btn[disabled] {
+  opacity: 0.5;
+  cursor: default;
 }

@@ -38,7 +38,6 @@ const joinServer = (userId, server) => {
 }
 
 export const thunkNewDirectMessage = (data) => async (dispatch) => {
-	console.log("MESSAGE", data)
 	dispatch(newDirectMessageAction(data))
 };
 
@@ -135,7 +134,6 @@ export const joinServerThunk = (serverId, user) => async (dispatch) => {
 
 	if (response.ok) {
 		const data = await response.json();
-		console.log(response);
 		dispatch(joinServer(user.id, data));
 	}
 }

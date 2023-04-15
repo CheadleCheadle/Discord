@@ -15,7 +15,6 @@ const SingleServerPage = () => {
   const { serverId } = useParams();
   const sessionUser = useSelector(state => state.session.user);
   const servers = useSelector(state => state.servers.allServers);
-  console.log('servers-------------', servers);
   useEffect(() => {
     dispatch(getServerChannels(serverId))
       .then(() => setIsLoaded(true))
@@ -43,13 +42,13 @@ const SingleServerPage = () => {
               <Channel />
             </Route>
           </Switch>
-                {/* Button for opening the modal to create a channel. May need to be moved */}
-        {/* <OpenModalMenuItem
+          {/* Button for opening the modal to create a channel. May need to be moved */}
+          {/* <OpenModalMenuItem
         itemText="New Channel"
         modalComponent={<AddChannelModal />}
         /> */}
           <div className="members-wrapper">
-          <Members></Members>
+            <Members></Members>
           </div>
         </>
       )}

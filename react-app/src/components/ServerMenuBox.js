@@ -14,24 +14,19 @@ export default function ServerMenuBox({ servers, user }) {
   const server = useSelector(state => state.servers.allServers[ state.servers.singleServerId ]);
   const [ showMenu, setShowMenu ] = useState(false);
   const [ serverNameDisplay, setServerNameDisplay ] = useState(`Welcome, ${currUser.firstname}`)
+  useEffect(() => {
+    if (servers.length !== 0) {
+      dispatch(loadOneServerId(servers[ 1 ].id));
+    }
+  }, [ dispatch ]);
 
- const server = useSelector(
-  (state) => state.servers.allServers[state.servers.singleServerId]
- );
- console.log("SERERE", server);
- useEffect(() => {
-  if (servers.length !== 0) {
-   dispatch(loadOneServerId(servers[1].id));
-  }
- }, [dispatch]);
+  const openMenu = () => {
+    if (showMenu) return;
+    setShowMenu(true);
+  };
 
- const openMenu = () => {
-  if (showMenu) return;
-  setShowMenu(true);
- };
-
- useEffect(() => {
-  if (!showMenu) return;
+  useEffect(() => {
+    if (!showMenu) return;
 
     const closeMenu = (e) => {
       if (!ulRef.current.contains(e.target)) {
@@ -46,11 +41,10 @@ export default function ServerMenuBox({ servers, user }) {
 
   const ulClassName = "svr-menu-profile-dropdown" + (showMenu ? "" : " hidden");
 
-<<<<<<< HEAD
   return (
     <>
       <div className="svr-menu-name">
-        {serverNameDisplay}
+        {server ? server.name : "You have not joined a server yet!"}
       </div>
       <div className="svr-dropdown-parent svr-toggle-btn ">
         <button onClick={openMenu} className="down-close-btn">
@@ -61,15 +55,17 @@ export default function ServerMenuBox({ servers, user }) {
           )}
         </button>
         <div className={ulClassName} ref={ulRef}>
-          <div className="dropdown-content">{`Hello,${user?.firstname}`}</div>
-          <div className="dropdown-content">{`${user?.email}`}</div>
+          <div className="svr-dropdown-content">{`Hello,${user?.firstname}`}</div>
+          <div className="svr-dropdown-content">{`${user?.email}`}</div>
           <OpenModalButton
-            someN="svr-delete-button"
+            modalCSSClass="svr-dropdown-content"
+            // for button css styling
             buttonText="Delete the Server"
             modalComponent={<DeleteServerModal serverId={server?.id} />}
           />
           <OpenModalButton
-            someN="svr-edit-button"
+            modalCSSClass=" svr-dropdown-content"
+            // for button css styling
             buttonText="Edit the Server"
             modalComponent={<EditServerForm server={server} />}
           />
@@ -77,38 +73,4 @@ export default function ServerMenuBox({ servers, user }) {
       </div>
     </>
   );
-=======
- return (
-  <>
-   <div className="svr-menu-name">
-    {server ? server.name : "You have not joined a server yet!"}
-   </div>
-   <div className="svr-dropdown-parent svr-toggle-btn ">
-    <button onClick={openMenu} className="down-close-btn">
-     {showMenu ? (
-      <i className="fa-solid fa-x fa-sm"></i>
-     ) : (
-      <i className="fa-solid fa-chevron-down fa-sm"></i>
-     )}
-    </button>
-    <div className={ulClassName} ref={ulRef}>
-     <div className="svr-dropdown-content">{`Hello,${user?.firstname}`}</div>
-     <div className="svr-dropdown-content">{`${user?.email}`}</div>
-     <OpenModalButton
-      btnClassName="svr-dropdown-content"
-      // for button css styling
-      buttonText="Delete the Server"
-      modalComponent={<DeleteServerModal serverId={server?.id} />}
-     />
-     <OpenModalButton
-      btnClassName=" svr-dropdown-content"
-      // for button css styling
-      buttonText="Edit the Server"
-      modalComponent={<EditServerForm server={server} />}
-     />
-    </div>
-   </div>
-  </>
- );
->>>>>>> serverDropdown
 }

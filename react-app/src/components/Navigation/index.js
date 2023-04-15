@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import ProfileButton from './ProfileButton';
 import './Navigation.css';
-import Button from '../Button';
 import SiteLogo from './SiteLogo';
-import SignupFormModal from '../SignupFormModal';
-import { useModal } from '../../context/Modal';
 import LoginFormModal from '../LoginFormModal';
 import OpenModalButton from '../OpenModalButton';
 import "../Button/Button.css"
