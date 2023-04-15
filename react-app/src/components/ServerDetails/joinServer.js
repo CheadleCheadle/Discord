@@ -11,6 +11,7 @@ export default function JoinServer({server}) {
  const handleJoin =  () => {
     dispatch(joinServerThunk(server.id, user));
     setModalContent();
+    history.replace(`/servers`);
  }
 return (
     <>

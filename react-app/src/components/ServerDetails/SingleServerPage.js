@@ -47,7 +47,7 @@ const SingleServerPage = () => {
        </div>
        <div className="chnl-container">
         {channelsArr.map((channel) => (
-         <div className="chnl-container-item">
+         <div key={channel.id} className="chnl-container-item">
           <NavLink
            key={channel.id}
            to={`/servers/${serverId}/channels/${channel.id}`}

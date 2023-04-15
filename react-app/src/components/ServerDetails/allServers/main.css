@@ -57,4 +57,5 @@ justify-content: space-between;
     width: 5em;
     border-radius: 5px;
     font-weight: bold;
+    cursor: pointer;
 }
