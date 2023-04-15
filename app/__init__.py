@@ -1,14 +1,15 @@
 import os
-from flask import Flask, render_template,request, redirect
+from flask import Flask, render_template, request, redirect
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
 from .models import db, User, DirectMessage
-from .api import channel_routes, user_routes, auth_routes, server_routes
+from .api import channel_routes, user_routes, auth_routes, server_routes, membership_routes
 from .seeds import seed_commands
 from .config import Config
 from .socket import socketio
+
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
@@ -26,6 +27,7 @@ def load_user(id):
 app.cli.add_command(seed_commands)
 
 app.config.from_object(Config)
+app.register_blueprint(membership_routes, url_prefix='/api/memberships')
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(server_routes, url_prefix='/api/servers')
@@ -102,6 +104,7 @@ def react_root(path):
 @app.errorhandler(404)
 def not_found(e):
     return app.send_static_file('index.html')
+
 
 if __name__ == '__main__':
     socketio.run(app)
