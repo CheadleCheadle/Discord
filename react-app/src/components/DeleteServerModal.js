@@ -19,7 +19,6 @@ function DeleteServerModal({ serverId }) {
       });
   };
 
-<<<<<<< HEAD
  return (
   <div className="svr-delete-server-form-container">
    <div>
@@ -28,16 +27,6 @@ function DeleteServerModal({ serverId }) {
    <div>
     <p>Are you sure you want to remove this server?</p>
    </div>
-=======
-  return (
-    <div className="delete-review-form-container">
-      <div>
-        <h1>Confirm Delete</h1>
-      </div>
-      <div>
-        <p>Are you sure you want to remove this server?</p>
-      </div>
->>>>>>> login/singup-modals-css
 
       <div>
         <ul>
@@ -47,7 +36,6 @@ function DeleteServerModal({ serverId }) {
         </ul>
       </div>
 
-<<<<<<< HEAD
    <button className="svr-delete-server-button" onClick={() => handleDelete()}>
     Yes (Delete Server)
    </button>
@@ -60,17 +48,6 @@ function DeleteServerModal({ serverId }) {
    </button>
   </div>
  );
-=======
-      <button className="delete-review-button" onClick={() => handleDelete()}>
-        Yes (Delete Server)
-      </button>
-
-      <button className="cancel-delete-review-button" onClick={() => closeModal()}>
-        No (Keep Server)
-      </button>
-    </div>
-  );
->>>>>>> login/singup-modals-css
 }
 
 export default DeleteServerModal;
