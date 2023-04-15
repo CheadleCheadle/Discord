@@ -42,18 +42,19 @@ body {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 82%;
+  height: 75%;
   /* background-color: burlywood; */
 }
 
 .svr-nav-menu {
   width: 100%;
-  height: 18%;
+  height: 25%;
   /* background-color: aquamarine; */
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  align-content: center;
+  align-items: center;
+  gap: 3px;
 }
 
 .svr-profile-btn {
@@ -74,7 +75,7 @@ body {
 .svr-nav-menu-item {
   display: flex;
   justify-content: center;
-  align-content: center;
+  align-items: center;
   position: relative;
 }
 
@@ -140,20 +141,7 @@ body {
 /* ********************* */
 
 
-.svr-menu-box {
-  width: 95%;
-  display: flex;
-  justify-content: space-between;
-  padding: 5px;
-  font-size: 12pt;
-  display: flex;
-  align-items: center;
-  height: 35px;
-  color: white;
-  background-color: #444;
-  position: relative;
-  flex-direction: column;
-}
+
 
 .svr-menu-name {
   width: 100%;
@@ -219,53 +207,6 @@ body {
 }
 
 
-/* ********************* */
-/*   rctx-contextmenu    */
-/* ********************* */
-/* .svr-ctx-container { */
-.svr-ctx-box {
-  display: flex;
-  align-content: center;
-  background-size: cover;
-  background-position: center;
-  /* background-image: "https://source.unsplash.com/nKC772R_qog"; */
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-bottom: 10px;
-  position: relative;
-}
-
-/* .svr-ctx-container:hover {
-  border-radius: 25%;
-} */
-.svr-ctx-box:hover {
-  border-radius: 25%;
-}
-
-
-.svr-ctx-box {
-  text-align: center;
-  font-size: 2pt;
-  background-color: cornflowerblue;
-  color: transparent;
-}
-
-.menu-trigger {
-  background-color: aqua;
-  border-radius: 50%;
-
-}
-
-.contextmenu {
-  background-color: red;
-
-}
-
-.contextmenu__item {
-  background-color: lightpink;
-
-}
 
 
 
@@ -397,3 +338,221 @@ body {
 }
 
 /* this hidden need always stay at bottom */
+
+/* ********************* */
+/*   DeleteServerModal   */
+/* ********************* */
+
+.svr-delete-server-form-container {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border-radius: 9px;
+  margin: 10px;
+}
+
+.svr-cancel-delete-server-button,
+.svr-delete-server-button {
+  display: block;
+  width: 100%;
+  margin-top: 0.4rem;
+  height: 40px;
+  color: white;
+  border-radius: 9px;
+}
+
+.svr-delete-server-button {
+  color: red;
+  background-color: #444;
+  border-color: #444;
+}
+
+.svr-cancel-delete-server-button {
+  background-color: green;
+  border-color: green;
+}
+
+/* ********************* */
+/*     EditServerForm    */
+/* ********************* */
+
+#modal-content {
+  border-radius: 9px;
+  color: white;
+  background-color: #666;
+}
+
+.svr-channel-form-container,
+.svr-server-form-container {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+}
+
+.svr-channel-server-form,
+.svr-server-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 10px;
+  max-width: 500px;
+  border-radius: 15px;
+}
+
+.svr-channel-form-label,
+.svr-form-label,
+.svr-form-input,
+.svr-form-button {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.2rem;
+  border-radius: 5px;
+  padding: 2px;
+  border: none;
+
+}
+
+.svr-nav-menu-item {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.svr-channel-form-button,
+.svr-form-button {
+  font-weight: 600;
+  margin: 15px 0;
+  padding: 8px;
+  box-shadow: 0 4px 5px 0 #5e63f1;
+}
+
+.svr-channel-form-input,
+.svr-form-input {
+  background-color: rgb(127, 150, 253);
+}
+
+.svr-new-channel-button,
+.svr-new-server-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: white;
+  background-color: rgb(2, 208, 2);
+  overflow: hidden;
+}
+
+.svr-new-channel-button {
+  background-color: #5e63f1;
+}
+
+/* ********************* */
+/*   SingleServerPage    */
+/*   AddChannelModal     */
+/* ********************* */
+
+.svr-dropdown-btn-menu-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 7px;
+}
+
+.svr-menu-name {
+  padding: 5px;
+}
+
+.svr-menu-box {
+  width: 210px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #444;
+  padding: 10px;
+  font-size: 12pt;
+  display: flex;
+  align-items: center;
+  height: 35px;
+  color: white;
+  background-color: #333;
+  position: relative;
+}
+
+.chnl-container-item {
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  color: white;
+  background-color: #555;
+  border-radius: 5px;
+
+}
+
+.down-close-btn {
+  color: white;
+}
+
+/* ********************* */
+/*      All members      */
+/* ********************* */
+
+.members-wrapper-box {
+  padding: 20px;
+
+}
+
+
+/* ********************* */
+/*   rctx-contextmenu    */
+/* ********************* */
+/* .svr-ctx-container { */
+.svr-ctx-box {
+  display: flex;
+  align-content: center;
+  background-size: cover;
+  background-position: center;
+  /* background-image: "https://source.unsplash.com/nKC772R_qog"; */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+/* .svr-ctx-container:hover {
+  border-radius: 25%;
+} */
+.svr-ctx-box:hover {
+  border-radius: 25%;
+}
+
+
+.svr-ctx-box {
+  text-align: center;
+  font-size: 2pt;
+  background-color: cornflowerblue;
+  color: transparent;
+}
+
+/* .menu-trigger {
+  background-color: aqua;
+  border-radius: 50%;
+
+}
+
+.contextmenu {
+  background-color: red;
+
+}
+
+.contextmenu__item {
+  background-color: lightpink;
+
+} */
