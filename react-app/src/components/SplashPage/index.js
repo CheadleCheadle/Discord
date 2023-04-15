@@ -10,10 +10,8 @@ import OpenModalButton from '../OpenModalButton'
 
 const SplashPage = (isLoaded) => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.session.user)
+
   const history = useHistory()
-
-
   const [ showMenu, setShowMenu ] = useState(false);
   const demoUser = async () => {
     dispatch(login("demo@aa.io", "password"))

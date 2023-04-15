@@ -37,7 +37,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     firstname = db.Column(db.String(40), nullable=False)
     lastname = db.Column(db.String(40), nullable=False)
-    photo_url = db.Column(db.String(255), nullable=False)
+    photo_url = db.Column(db.String(255))
     email = db.Column(db.String(255), nullable=False, unique=True)
     active_status = db.Column(db.Boolean, unique=False, default=False)
     hashed_password = db.Column(db.String(255), nullable=False)
@@ -113,7 +113,6 @@ class User(db.Model, UserMixin):
                 user1_id=self.id, user2_id=friend_lst.id, status=status)
             db.engine.execute(new_friendship)
 
-
     def to_safe_dict(self):
         return {
             'id': self.id,
@@ -137,6 +136,6 @@ class User(db.Model, UserMixin):
             "servers": [server.to_safe_dict() for server in self.servers],
             "direct_messages": [dm.to_dict() for dm in self.direct_messages],
             "channel_messages": [message.to_dict() for message in self.channel_messages],
-            "friends": [x for n in ([friend.to_safe_dict() for friend in self.friend.all()],[friend.to_safe_dict() for friend in self.friends]) for x in n]
+            "friends": [x for n in ([friend.to_safe_dict() for friend in self.friend.all()], [friend.to_safe_dict() for friend in self.friends]) for x in n]
 
         }

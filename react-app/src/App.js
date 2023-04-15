@@ -42,17 +42,11 @@ function App() {
             <Route exact path="/servers/new" component={AddServerForm} />
           )}
           {!!sessionUser && (
-            <Route path="/servers/" component={MyServersPage} />
-          )}
-          {!!sessionUser && (
             <Route path="/servers/:serverId" component={MyServersPage} />
           )}
           {!!sessionUser && (
             <Route exact path="/friends/:friendId" component={MyServersPage} />
           )}
-          <Route exact path="/signup">
-            <SignupFormPage />
-          </Route>
           <Route>
             "404: Not Found"
           </Route>
