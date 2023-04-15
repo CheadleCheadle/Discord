@@ -18,6 +18,13 @@ const AllServersPage = () => {
       }
       return false;
   }
+
+  const memberships = async () => {
+    const memberships = await fetch(`/api/memberships/curr`);
+    const jsonif = await memberships.json();
+    console.log("HERE ARE THE MEMBERSHIPS", jsonif);
+  }
+  memberships()
   const handleGoToServer = (serverId) => {
     setModalContent(null);
     history.push(`/servers/${serverId}`);
