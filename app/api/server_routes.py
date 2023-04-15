@@ -183,9 +183,17 @@ def join_server(server_id):
     server = Server.query.get(server_id)
     user = User.query.get(user_id)
 
-    # if request.method == 'DELETE':
-    #     host_bool = server._owner_id == user.id
-    #     return (server.to_safe_dict())
+    if request.method == 'DELETE':
+        if not server or not user or not membership:
+            return {"Error": "Resources not found."}, 404
+        host_bool = server.owner_id == user.id
+        user_bool = membership.user_id == user.id
+        if not (host_bool or user_bool):
+            return {"Restricted": "Permission Denied"}, 401
+        print("333333333333333333333333333", membership.user_id)
+        server.users.remove(user)
+        db.session.commit()
+        return {"Success": "Membership deleted."}, 202
 
     if membership:
         return {'error': "Membership already exists"}, 409

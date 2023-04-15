@@ -79,6 +79,10 @@ class Server(db.Model):
     def description(self):
         return self._description
 
+    @property
+    def owner_id(self):
+        return self._owner_id
+
     @description.setter
     def description(self, new_description):
         self._description = new_description
