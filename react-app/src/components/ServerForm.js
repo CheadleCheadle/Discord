@@ -67,8 +67,8 @@ const ServerForm = ({ formType, server }) => {
     description: description,
    };
 
-   let public_value = public_ === "True" ? true : false;
-   theServer._public = public_value;
+   let public_value = public_ === "True" ? "true" : "false";
+   theServer.public_ = public_value;
 
    console.log("EditServerForm");
    console.log("****************theServer", theServer);

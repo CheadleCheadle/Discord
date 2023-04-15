@@ -76,11 +76,9 @@ def edit_a_server(id):
 
     if form.validate_on_submit():
         server = Server.query.get(id)
-
         if server.check_owner(current_user):
-
             server._icon_url = form.data["icon_url"]
-            server._public = form.data["public"]
+            server._public = form.data["public_"]
             server._name = form.data["name"]
             server._max_users = form.data["max_users"]
             server._description = form.data["description"]
@@ -92,7 +90,6 @@ def edit_a_server(id):
                 return {"errors": str(e)}, 500
         else:
             return {"Message": "Forbidden"}, 403
-
     return {"errors": form.errors}, 400
 
 # Get single server
