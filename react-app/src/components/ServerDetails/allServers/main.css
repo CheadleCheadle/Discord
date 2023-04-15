@@ -36,8 +36,25 @@
     flex-direction: column;
     row-gap: 1em;
     height: 10em;
+    justify-content: space-around;
+    padding: 0em 1em 1em 1em;
+    color: #b0bac1;
 }
 
 #join-desc {
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+}
 
+#button-container {
+    display: flex;
+    justify-content: flex-end;
+}
+#button-container button {
+    background-color: #b0bac1;
+    height: 3em;
+    width: 5em;
+    border-radius: 5px;
+    font-weight: bold;
 }

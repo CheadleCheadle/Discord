@@ -8,7 +8,16 @@ import JoinServer from "../joinServer.js";
 import "./main.css"
 const AllServersPage = () => {
   const servers = Object.values(useSelector(state => state.servers.allServers));
+  const myServers = useSelector(state => state.session.user.servers);
+  console.log("THESE ARE MYSERVERS", myServers)
   const { setModalContent, setOnModalClose } = useModal();
+  const handleJoinedServers = (server) => {
+      for ( let x in myServers) {
+        console.log(x);
+        if (server.id === x.id) return true
+      }
+      return false;
+  }
   const handleClick = (server) => {
     //open modal to join new server will be pending
     setModalContent(<JoinServer server={server} />)
@@ -27,13 +36,13 @@ const AllServersPage = () => {
               <div id="desc-members">
             <span id="server-description">{server.description}</span>
             <div id="join-desc" >
-            <span>
-              <p>{server.users.length} Members</p>
-            </span>
-            </div>
+
+              <p>🟢{server.users.length} Members</p>
+
             <div id ="button-container">
-              <button onClick={() => handleClick(server)}>Join!</button>
+              {handleJoinedServers(server) ? <button>Go to server!</button> : <button onClick={() => handleClick(server)}>Join!</button>}
               </div>
+            </div>
               </div>
 
           </div>
