@@ -9,12 +9,13 @@ import JoinServer from "../joinServer.js";
 import "./main.css"
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { getMembershipsThunk, newMembershipThunk } from "../../../store/session";
+import ServerForm from "../../ServerForm";
 const AllServersPage = () => {
   const dispatch = useDispatch()
   const [ isLoaded, setIsLoaded ] = useState(false);
-  const [ memberships, setMemberships ] = useState({})
   const servers = Object.values(useSelector(state => state.servers.allServers));
   const myServers = useSelector(state => state.session.user.servers);
+  const memberships = useSelector(state => state.session.memberships);
   const { setModalContent, setOnModalClose } = useModal();
   const history = useHistory();
   const handleJoinedServers = (server) => {
@@ -24,7 +25,29 @@ const AllServersPage = () => {
     return false;
   }
 
+  const renderConditionally = (server) => {
+    console.log("My Memberships",memberships);
+    console.log("My servers:", myServers)
+    console.log(server.id);
+    if (memberships[server.id]) {
 
+      console.log("WORKs", memberships[server.id])
+      if (memberships[server.id].status !== "Pending") {
+      return (
+      <button onClick={() => handleGoToServer(server.id)}>Go to server!</button>
+      )
+      } else {
+        return (
+          <p>Pending...</p>
+          )
+        }
+      } else {
+        return (
+        <button onClick={() => handleClick(server)}>Join!</button>
+      )
+    }
+  }
+  // renderConditionally();
   const handleGoToServer = (serverId) => {
     setModalContent(null);
     history.push(`/servers/${serverId}`);
@@ -34,6 +57,10 @@ const AllServersPage = () => {
     setModalContent(<JoinServer server={server} />)
 
   }
+
+  useEffect(() => {
+    dispatch(getMembershipsThunk());
+  },[])
 
   return (
     <>
@@ -52,7 +79,7 @@ const AllServersPage = () => {
                 <p>🟢{server.users.length} Members</p>
 
                 <div id="button-container">
-                  {handleJoinedServers(server) ? <button onClick={() => handleGoToServer(server.id)}>Go to server!</button> : <button onClick={() => handleClick(server)}>Join!</button>}
+                  {renderConditionally(server)}
                 </div>
               </div>
             </div>
