@@ -11,17 +11,17 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { getMembershipsThunk, newMembershipThunk } from "../../../store/session";
 const AllServersPage = () => {
   const dispatch = useDispatch()
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [memberships, setMemberships] = useState({})
+  const [ isLoaded, setIsLoaded ] = useState(false);
+  const [ memberships, setMemberships ] = useState({})
   const servers = Object.values(useSelector(state => state.servers.allServers));
   const myServers = useSelector(state => state.session.user.servers);
   const { setModalContent, setOnModalClose } = useModal();
   const history = useHistory();
   const handleJoinedServers = (server) => {
-      for ( let x in myServers) {
-        if (server.id === +x) return true
-      }
-      return false;
+    for (let x in myServers) {
+      if (server.id === +x) return true
+    }
+    return false;
   }
 
 
@@ -34,11 +34,7 @@ const AllServersPage = () => {
     setModalContent(<JoinServer server={server} />)
 
   }
-  useEffect(() => {
 
-    dispatch(getMembershipsThunk());
-
-  }, [dispatch])
   return (
     <>
       <AllServersNavbar />
@@ -49,17 +45,17 @@ const AllServersPage = () => {
               <img src={server.icon_url}></img>
             </div>
 
-              <div id="desc-members">
-            <span id="server-description">{server.description}</span>
-            <div id="join-desc" >
+            <div id="desc-members">
+              <span id="server-description">{server.description}</span>
+              <div id="join-desc" >
 
-              <p>🟢{server.users.length} Members</p>
+                <p>🟢{server.users.length} Members</p>
 
-            <div id ="button-container">
-              {handleJoinedServers(server) ? <button onClick={() => handleGoToServer(server.id) }>Go to server!</button> : <button onClick={() => handleClick(server)}>Join!</button>}
+                <div id="button-container">
+                  {handleJoinedServers(server) ? <button onClick={() => handleGoToServer(server.id)}>Go to server!</button> : <button onClick={() => handleClick(server)}>Join!</button>}
+                </div>
               </div>
             </div>
-              </div>
 
           </div>
 

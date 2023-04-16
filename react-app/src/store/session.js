@@ -1,4 +1,5 @@
 import { normalizeFn } from "./channels";
+import { thunkLoadAllServers, thunkLoadCurrentServers } from "./servers";
 
 // constants
 const SET_USER = "session/SET_USER";
@@ -11,7 +12,7 @@ const CREATE_MEMBERSHIP = "session/new/membership";
 
 const newMembership = (membership) => {
 	return {
-		type:CREATE_MEMBERSHIP,
+		type: CREATE_MEMBERSHIP,
 		membership
 	}
 }
@@ -87,8 +88,8 @@ export const login = (email, password) => async (dispatch) => {
 
 	if (response.ok) {
 		const data = await response.json();
-		dispatch(setUser(data));
-		dispatch(getMembershipsThunk());
+		await dispatch(setUser(data));
+		await dispatch(getMembershipsThunk());
 		return null;
 	} else if (response.status < 500) {
 		const data = await response.json();
@@ -129,7 +130,8 @@ export const signUp = (username, email, password, firstname, lastname) => async 
 
 	if (response.ok) {
 		const data = await response.json();
-		dispatch(setUser(data));
+		await dispatch(setUser(data));
+		await dispatch(getMembershipsThunk());
 		return null;
 	} else if (response.status < 500) {
 		const data = await response.json();
@@ -154,32 +156,33 @@ export const joinServerThunk = (serverId, user) => async (dispatch) => {
 }
 export const getMembershipsThunk = () => async (dispatch) => {
 	const response = await fetch(`/api/memberships/curr`);
-    const memberships = await response.json();
-    console.log("HERE ARE THE MEMBERSHIPS", memberships);
+	const memberships = await response.json();
+	console.log("HERE ARE THE MEMBERSHIPS", memberships);
 	dispatch(getMemberships(memberships));
 }
 
 export const newMembershipThunk = (serverId) => async (dispatch) => {
 	const response = await fetch(`/api/servers/${serverId}/memebership`)
-	if (response.ok){
+	if (response.ok) {
 		const membership = await response.json();
 		dispatch(newMembership(membership));
 		return membership;
 	}
-	}
+}
 
 const initialState = { user: null, memberships: {} };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case SET_USER:
+			console.log("THISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS", action.payload)
 			action.payload.channel_messages = normalizeFn(action.payload.channel_messages)
 			action.payload.direct_messages = normalizeFn(action.payload.direct_messages)
 			action.payload.friends = normalizeFn(action.payload.friends)
 			action.payload.servers = normalizeFn(action.payload.servers)
 			return { ...state, user: action.payload };
 		case REMOVE_USER:
-				return { user: null };
+			return { user: null };
 
 		case NEW_SERVER: {
 			let newState = { ...state };
@@ -211,7 +214,7 @@ export default function reducer(state = initialState, action) {
 		case CREATE_MEMBERSHIP: {
 			return {
 				...state,
-				memberships: {...state.memberships, [action.membership.serverId]: action.membership}
+				memberships: { ...state.memberships, [ action.membership.serverId ]: action.membership }
 			}
 		}
 		default:

@@ -28,6 +28,25 @@ export const loadCurrentServers = (servers) => {
   };
 };
 
+export const thunkLoadCurrentServers = () => async (dispatch) => {
+  const response = await fetch("/api/servers/current")
+  if (response.ok) {
+    const servers = await response.json();
+    const serversNormalized = normalizeFn(servers.servers);
+    for (let serverId in serversNormalized) {
+      const channels = serversNormalized[ serverId ].channels;
+      serversNormalized[ serverId ].channels = normalizeFn(channels);
+      for (const channelId in serversNormalized[ serverId ].channels) {
+        const messages =
+          serversNormalized[ serverId ].channels[ channelId ].channel_messages;
+        serversNormalized[ serverId ].channels[ channelId ].channel_messages =
+          normalizeFn(messages);
+      }
+    }
+    dispatch(loadCurrentServers(servers))
+  }
+}
+
 export const loadOneServer = (server) => {
   return {
     type: LOAD_ONE_SERVER,
@@ -59,12 +78,11 @@ export const thunkLoadAllServers = () => async (dispatch) => {
     const servers = await response.json();
     const serversNormalized = normalizeFn(servers.servers);
     for (let serverId in serversNormalized) {
-      const channels = serversNormalized[serverId].channels;
-      serversNormalized[serverId].channels = normalizeFn(channels);
-      for (const channelId in serversNormalized[serverId].channels) {
-        const messages =
-          serversNormalized[serverId].channels[channelId].channel_messages;
-        serversNormalized[serverId].channels[channelId].channel_messages =
+      const channels = serversNormalized[ serverId ].channels;
+      serversNormalized[ serverId ].channels = normalizeFn(channels);
+      for (const channelId in serversNormalized[ serverId ].channels) {
+        const messages = serversNormalized[ serverId ].channels[ channelId ].channel_messages;
+        serversNormalized[ serverId ].channels[ channelId ].channel_messages =
           normalizeFn(messages);
       }
     }
@@ -91,7 +109,7 @@ export const thunkAddAServer = (data) => async (dispatch) => {
 
   if (response.ok) {
     server = await response.json();
-    console.log("OK RESPONSE",server)
+    console.log("OK RESPONSE", server)
     dispatch(addAServer(server));
     dispatch(newUserServer(server));
 
@@ -163,7 +181,7 @@ const serverReducer = (state = initialState, action) => {
         ...state,
         allServers: {},
       };
-      newState.allServers[action.server.id] = action.server;
+      newState.allServers[ action.server.id ] = action.server;
       return newState;
 
     case ADD_A_SERVER:
@@ -171,7 +189,7 @@ const serverReducer = (state = initialState, action) => {
         ...state,
         allServers: { ...state.allServers },
       };
-      newState.allServers[action.server.id] = action.server;
+      newState.allServers[ action.server.id ] = action.server;
       newState.singleServerId = action.server.id;
       return newState;
 
@@ -180,7 +198,7 @@ const serverReducer = (state = initialState, action) => {
         ...state,
         allServers: { ...state.allServers },
       };
-      delete newState.allServers[action.id];
+      delete newState.allServers[ action.id ];
       return newState;
 
     case EDIT_A_SERVER:
@@ -188,7 +206,7 @@ const serverReducer = (state = initialState, action) => {
         ...state,
         allServers: { ...state.allServers },
       };
-      newState.allServers[action.server.id] = action.server;
+      newState.allServers[ action.server.id ] = action.server;
       return newState;
 
     case LOAD_ALL_SERVERS:
@@ -197,7 +215,16 @@ const serverReducer = (state = initialState, action) => {
         allServers: { ...action.servers },
       };
       return newState;
-      //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    case LOAD_ALL_CURRENT_SERVERS:
+      console.log("ACTION", action.servers)
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          servers: action.servers
+        }
+      }
     default:
       return state;
   }

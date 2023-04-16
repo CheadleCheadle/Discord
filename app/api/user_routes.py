@@ -53,7 +53,7 @@ def create_direct_message(recipient_id):
     data = json.loads(request.data)
     # return data
     new_message = DirectMessage(
-        user_id = data['userId'],
+        user_id=data['userId'],
         recipient_id=recipient_id,
         _content=data['content']
     )
