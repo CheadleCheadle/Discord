@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../context/Modal";
 import { useHistory, useParams } from "react-router-dom";
 import { thunkAddAServer, thunkEditAServer } from "../store/servers";
+import { joinServerThunk } from "../store/session";
 
 const ServerForm = ({ formType, server }) => {
  const dispatch = useDispatch();
@@ -17,7 +18,7 @@ const ServerForm = ({ formType, server }) => {
  const history = useHistory();
 
  let servers = useSelector((state) => state.servers.allServers);
-
+ const user = useSelector(state => state.session.user);
  console.log("state.servers.all, server", servers, server);
 
  const handleSubmit = (e) => {
@@ -26,13 +27,6 @@ const ServerForm = ({ formType, server }) => {
   setBErrs([]);
 
   if (formType === "AddServerForm") {
-   //  const newServer = {
-   //   icon_url: icon_url,
-   //   public_: public_ == "true" ? "True" : "False",
-   //   name: name,
-   //   max_users: max_users,
-   //   description: description,
-   //  };
    const newServer = {
     icon_url: icon_url,
     public_: public_ == "true" ? "True" : "False",
@@ -40,7 +34,6 @@ const ServerForm = ({ formType, server }) => {
     max_users: 100,
     description: description,
    };
-   console.log("server", newServer);
    return dispatch(thunkAddAServer(newServer))
     .then((server) => {
      console.log("new server", server);

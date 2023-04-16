@@ -1,5 +1,5 @@
 import { normalizeFn } from "./channels";
-import { newUserServer } from "./session";
+import { newMembership, newUserServer } from "./session";
 
 const LOAD_ALL_SERVERS = "servers/LOAD_ALL_SERVER";
 const LOAD_ALL_CURRENT_SERVERS = "servers/LOAD_ALL_CURRENT_SERVERS";
@@ -110,10 +110,11 @@ export const thunkAddAServer = (data) => async (dispatch) => {
   if (response.ok) {
     server = await response.json();
     console.log("OK RESPONSE", server)
-    dispatch(addAServer(server));
-    dispatch(newUserServer(server));
+    dispatch(addAServer(server.new_server));
+    dispatch(newUserServer(server.new_server));
+    dispatch(newMembership(server.new_membership))
 
-    return server;
+    return server.new_server;
   }
 };
 

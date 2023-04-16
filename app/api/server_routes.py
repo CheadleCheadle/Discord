@@ -60,7 +60,8 @@ def add_new_server():
             db.session.commit()
             curr_user = User.query.get(current_user.id)
             new_server.add_member(curr_user, "Host")
-            return new_server.to_dict(), 201
+            new_membership = db.session.query(server_memberships).join(Server).filter(server_memberships.c.user_id == curr_user.id, server_memberships.c.server_id == new_server.id).first()
+            return {"new_server":new_server.to_dict(), "new_membership": {"status": new_membership.status, "userId": new_membership.user_id, "serverId": new_membership.server_id}}, 201
         except Exception as e:
             return {"errors": str(e)}, 500
 
@@ -203,6 +204,6 @@ def join_server(server_id):
     if membership:
         return {'error': "Membership already exists"}, 409
 
-    server.add_member(user, "pending")
+    server.add_member(user, "Pending")
     db.session.commit()
     return {"status": membership.status, "userId": membership.user_id, "serverId": membership.server_id},  201

@@ -10,7 +10,7 @@ const NEW_SERVER = "session/user/NEW"
 const GET_MEMBERSHIPS = "session/memberships";
 const CREATE_MEMBERSHIP = "session/new/membership";
 
-const newMembership = (membership) => {
+export const newMembership = (membership) => {
 	return {
 		type: CREATE_MEMBERSHIP,
 		membership
@@ -141,12 +141,14 @@ export const signUp = (username, email, password, firstname, lastname) => async 
 	}
 };
 
-export const joinServerThunk = (serverId, user) => async (dispatch) => {
-	const response = await fetch(`/api/servers/join/${serverId}`, {
-		method: "POST",
-		headers: { "Content-Type": "Application/json" },
-		body: JSON.stringify({ user, status: "pending" })
-	});
+export const joinServerThunk = (serverId, user, flag=false) => async (dispatch) => {
+	let newMembership;
+	if (flag) {
+		 newMembership = {user, status:"Host"}
+	} else {
+		 newMembership = {user, status:"Pending"}
+	}
+	const response = await fetch(`/api/servers/${serverId}/membership`);
 
 	if (response.ok) {
 		const data = await response.json();
