@@ -46,6 +46,9 @@ const AllServersNavbar = () => {
               modalComponent={<AddChannelModal />}
             />
           </div>
+          <div>
+            <button onClick={() => history.push('/servers/all')}className="svr-new-channel-button">🧭</button>
+          </div>
         </div>
       </div>
     </>

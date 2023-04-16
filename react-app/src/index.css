@@ -78,6 +78,7 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
+  cursor: pointer;
 }
 
 /* ********************* */
@@ -369,6 +370,7 @@ body {
   background-color: #444;
   border-color: #444;
 }
+
 
 .svr-cancel-delete-server-button {
   background-color: green;

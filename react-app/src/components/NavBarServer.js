@@ -40,20 +40,6 @@ function NavBarServer({ server }) {
           style={divStyle}
           data-tooltip={server.name}
         ></button>
-        {/* <div className={ulClassName} ref={ulRef}> */}
-        {/* <div className="dropdown-content">{"Hello, " + "user.firstName"}</div>
-          <div className="dropdown-content">{"user.email"}</div>
-          <OpenModalButton
-            someN="svr-delete-button"
-            buttonText="Delete the Server"
-            modalComponent={<DeleteServerModal serverId={server.id} />}
-          />
-          <OpenModalButton
-            someN="svr-edit-button"
-            buttonText="Edit the Server"
-            modalComponent={<EditServerForm server={server} />}
-          /> */}
-        {/* </div> */}
       </div>
     </>
   );
