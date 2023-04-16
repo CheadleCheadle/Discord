@@ -1,8 +1,9 @@
 from flask import Blueprint, jsonify, session, request
-from app.models import User, db
+from app.models import User, db, Server, server_memberships
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
+from sqlalchemy import or_, and_
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -24,7 +25,13 @@ def authenticate():
     Authenticates a user.
     """
     if current_user.is_authenticated:
-        return current_user.to_dict()
+        all_servers = db.session.query(Server).join(
+            server_memberships).filter(server_memberships.c.status != "Pending", server_memberships.c.user_id == current_user.id).all()
+
+        servers_list = [server.to_dict() for server in all_servers]
+        curr_user_dict = current_user.to_dict()
+        curr_user_dict["servers"] = servers_list
+        return curr_user_dict
     return {'errors': ['Unauthorized']}
 
 
@@ -41,7 +48,17 @@ def login():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
         login_user(user)
-        return user.to_dict()
+        # all_servers = db.session.query(Server).join(server_memberships).filter(and_(and_(server_memberships.c.status == "Member", server_memberships.c.status == "Host"),
+        #                                                                             server_memberships.c.user_id == user.id)).all()
+        all_servers = db.session.query(Server).join(
+            server_memberships).filter(server_memberships.c.status != "Pending", server_memberships.c.user_id == user.id)
+
+        user_dict = user.to_dict()
+
+        servers_obj = [server.to_dict() for server in all_servers]
+        print("==========================================", servers_obj)
+        user_dict["servers"] = servers_obj
+        return user_dict
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 

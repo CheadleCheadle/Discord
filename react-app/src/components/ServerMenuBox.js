@@ -16,7 +16,7 @@ export default function ServerMenuBox({ servers, user }) {
   const [ serverNameDisplay, setServerNameDisplay ] = useState(`Welcome, ${currUser.firstname}`)
   useEffect(() => {
     if (servers.length !== 0) {
-      dispatch(loadOneServerId(servers[ 1 ].id));
+      dispatch(loadOneServerId(server.id));
     }
   }, [ dispatch ]);
 

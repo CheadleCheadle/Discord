@@ -1,8 +1,7 @@
-from app.models import db, environment, SCHEMA, add_prefix_for_prod, DirectMessage, ChannelMessage
-from .server import server_memberships
+from app.models import db, environment, SCHEMA, add_prefix_for_prod, DirectMessage, ChannelMessage, Server, server_memberships
+
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from .messages import DirectMessage
 
 friends = db.Table(
     "friends",
@@ -136,6 +135,5 @@ class User(db.Model, UserMixin):
             "servers": [server.to_safe_dict() for server in self.servers],
             "direct_messages": [dm.to_dict() for dm in self.direct_messages],
             "channel_messages": [message.to_dict() for message in self.channel_messages],
-            "friends": [x for n in ([friend.to_safe_dict() for friend in self.friend.all()], [friend.to_safe_dict() for friend in self.friends]) for x in n]
-
+            "friends": [x for n in ([friend.to_safe_dict() for friend in self.friend.all()], [friend.to_safe_dict() for friend in self.friends]) for x in n],
         }

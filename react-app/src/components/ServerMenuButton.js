@@ -13,6 +13,8 @@ function ServerMenuButton() {
  const return_servers = return_servers_state.allServers;
  const serverId = return_servers_state.singleServer;
  const server = return_servers[serverId];
+
+ console.log("EDITEDSERVER", server);
  useEffect(() => {
   dispatch(thunkLoadAllServers());
  }, [dispatch]);

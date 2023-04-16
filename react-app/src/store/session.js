@@ -1,4 +1,5 @@
 import { normalizeFn } from "./channels";
+import { thunkLoadAllServers, thunkLoadCurrentServers } from "./servers";
 
 // constants
 const SET_USER = "session/SET_USER";
@@ -6,7 +7,27 @@ const REMOVE_USER = "session/REMOVE_USER";
 const JOIN_SERVER = "session/JOIN_SERVER";
 const NEW_DIRECT_MESSAGE = "session/user/directMessages/CREATE"
 const NEW_SERVER = "session/user/NEW"
-
+const GET_MEMBERSHIPS = "session/memberships";
+const CREATE_MEMBERSHIP = "session/new/membership";
+const DELETE_SERVER = "session/delete"
+export const deleteUserServer = (serverId) => {
+	return {
+		type: DELETE_SERVER,
+		serverId
+	}
+}
+export const newMembership = (membership) => {
+	return {
+		type: CREATE_MEMBERSHIP,
+		membership
+	}
+}
+const getMemberships = (memberships) => {
+	return {
+		type: GET_MEMBERSHIPS,
+		memberships
+	}
+}
 export const newUserServer = (server) => {
 	return {
 		type: NEW_SERVER,
@@ -42,7 +63,6 @@ export const thunkNewDirectMessage = (data) => async (dispatch) => {
 };
 
 
-const initialState = { user: null };
 
 export const authenticate = () => async (dispatch) => {
 	const response = await fetch("/api/auth/", {
@@ -74,7 +94,8 @@ export const login = (email, password) => async (dispatch) => {
 
 	if (response.ok) {
 		const data = await response.json();
-		dispatch(setUser(data));
+		await dispatch(setUser(data));
+		await dispatch(getMembershipsThunk());
 		return null;
 	} else if (response.status < 500) {
 		const data = await response.json();
@@ -115,43 +136,59 @@ export const signUp = (username, email, password, firstname, lastname) => async 
 
 	const data = await response.json()
 	if (response.ok) {
+		const data = await response.json();
+		await dispatch(setUser(data));
+		await dispatch(getMembershipsThunk());
 		return null;
 	}
 	return data
 };
 
-export const joinServerThunk = (serverId, user) => async (dispatch) => {
-	const response = await fetch(`/api/servers/join/${serverId}`, {
-		method: "POST",
-		headers: { "Content-Type": "Application/json" },
-		body: JSON.stringify({ user, status: "pending" })
-	});
+export const joinServerThunk = (serverId, user, flag=false) => async (dispatch) => {
+	let newMembership;
+	if (flag) {
+		 newMembership = {user, status:"Host"}
+	} else {
+		 newMembership = {user, status:"Pending"}
+	}
+	const response = await fetch(`/api/servers/${serverId}/membership`);
 
 	if (response.ok) {
 		const data = await response.json();
-		dispatch(joinServer(user.id, data));
+		console.log("IM THE MEMBERSHIP", data);
+		dispatch(newMembership(data));
 	}
 }
+export const getMembershipsThunk = () => async (dispatch) => {
+	const response = await fetch(`/api/memberships/curr`);
+	const memberships = await response.json();
+	console.log("HERE ARE THE MEMBERSHIPS", memberships);
+	dispatch(getMemberships(memberships));
+}
+
+export const newMembershipThunk = (serverId) => async (dispatch) => {
+	const response = await fetch(`/api/servers/${serverId}/memebership`)
+	if (response.ok) {
+		const membership = await response.json();
+		dispatch(newMembership(membership));
+		return membership;
+	}
+}
+
+const initialState = { user: null, memberships: {} };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case SET_USER:
+			console.log("THISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS", action.payload)
 			action.payload.channel_messages = normalizeFn(action.payload.channel_messages)
 			action.payload.direct_messages = normalizeFn(action.payload.direct_messages)
 			action.payload.friends = normalizeFn(action.payload.friends)
 			action.payload.servers = normalizeFn(action.payload.servers)
-			return { user: action.payload };
+			return { ...state, user: action.payload };
 		case REMOVE_USER:
 			return { user: null };
-		case JOIN_SERVER: {
-			let newState = { ...state };
-			newState.user = { ...state.user };
-			newState.channel_messages = { ...state.user.channel_messages };
-			newState.direct_messages = { ...state.user.direct_messages };
-			newState.friends = { ...state.user.friends }
-			newState.servers = { ...state.user.servers, [ action.userId ]: action.server };
-			return newState;
-		}
+
 		case NEW_SERVER: {
 			let newState = { ...state };
 			newState.servers = { ...state.user.servers, }
@@ -173,6 +210,29 @@ export default function reducer(state = initialState, action) {
 					}
 				}
 			}
+		case GET_MEMBERSHIPS: {
+			return {
+				...state,
+				memberships: action.memberships
+			}
+		}
+		case CREATE_MEMBERSHIP: {
+			return {
+				...state,
+				memberships: { ...state.memberships, [ action.membership.serverId ]: action.membership }
+			}
+		}
+		case DELETE_SERVER: {
+			let newState = {
+				...state,
+				user: {...state.user, servers: {...state.user.servers}},
+				memberships: {...state.memberships}
+			};
+			delete newState.memberships[action.serverId];
+			delete newState.user.servers[action.serverId];
+			return newState;
+
+		}
 		default:
 			return state;
 	}
