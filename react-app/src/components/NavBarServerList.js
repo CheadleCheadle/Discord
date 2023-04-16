@@ -3,6 +3,8 @@ import { NavLink, useHistory } from "react-router-dom";
 import "./Navigation/Navigation.css"
 import { useSelector, useDispatch } from "react-redux";
 import { loadOneServerId } from "../store/servers";
+import { useEffect } from "react";
+import { getMembershipsThunk } from "../store/session";
 
 function NavBarServerList() {
   const serversObj = useSelector(state => state.session.user.servers)
@@ -15,6 +17,8 @@ function NavBarServerList() {
   const handleClick = (server) => {
     dispatch(loadOneServerId(server.id));
   }
+
+
   return (
     <>
       {servers.map((server) => (

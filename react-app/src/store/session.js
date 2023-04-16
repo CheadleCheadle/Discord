@@ -10,6 +10,13 @@ const NEW_SERVER = "session/user/NEW"
 const GET_MEMBERSHIPS = "session/memberships";
 const CREATE_MEMBERSHIP = "session/new/membership";
 const DELETE_SERVER = "session/delete"
+const EDIT_SERVER = "session/servers/edit"
+export const editServer = (server) => {
+	return {
+		type: EDIT_SERVER,
+		server
+	}
+}
 export const deleteUserServer = (serverId) => {
 	return {
 		type: DELETE_SERVER,
@@ -232,6 +239,15 @@ export default function reducer(state = initialState, action) {
 			delete newState.user.servers[action.serverId];
 			return newState;
 
+		}
+		case EDIT_SERVER : {
+			let newState =  {
+				...state,
+				user: {...state.user, servers: {...state.user.servers}}
+			}
+			console.log("SERVERID", action.server.id);
+			newState.user.servers[action.server.id] = action.server;
+			return newState;
 		}
 		default:
 			return state;

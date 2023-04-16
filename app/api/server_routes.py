@@ -95,7 +95,7 @@ def edit_a_server(id):
                 return {"errors": str(e)}, 500
         else:
             return {"Message": "Forbidden"}, 403
-
+    print(form.errors)
     return {"errors": form.errors}, 400
 
 # Get single server

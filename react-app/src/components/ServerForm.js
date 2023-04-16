@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../context/Modal";
 import { useHistory, useParams } from "react-router-dom";
 import { thunkAddAServer, thunkEditAServer } from "../store/servers";
+import { editServer } from "../store/session";
 
 const ServerForm = ({ formType, server }) => {
  const dispatch = useDispatch();
@@ -120,16 +121,13 @@ const ServerForm = ({ formType, server }) => {
 
    console.log("EditServerForm");
    console.log("****************theServer", theServer);
-    dispatch(thunkEditAServer(theServer, server.id))
-    .then((server) => {
-     console.log("this");
-     console.log(server);
-     //history.push(`api/servers/`);
+   dispatch(thunkEditAServer(theServer, server.id))
+   .then((server) => {
+      dispatch(editServer(server))
      closeModal();
     })
     .catch(async (res) => {
      let data = res.json();
-     console.log("update server data", data);
     });
   }
  };
