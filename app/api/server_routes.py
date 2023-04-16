@@ -13,13 +13,13 @@ default_image = "https://d1lss44hh2trtw.cloudfront.net/assets/article/2022/12/01
 def get_current_servers():
     """Query for all servers and returns them in a list of user dictionaries
     """
-    servers = Server.query.filter(Server._owner_id == current_user.id).all()
-
+    # servers = Server.query.filter(Server._owner_id == current_user.id).all()
+    allServers = db.session.query(Server).join(server_memberships).filter(server_memberships.c.status == "Member" or server_memberships.c.status == "Host")
+    print('----------------------------------------', allServers)
     # print({'servers': [server.to_dict() for server in servers]})
-    return {'servers': [server.to_dict() for server in servers]}
+    return {'servers': [server.to_dict() for server in allServers]}
 
 # Get all servers
-
 
 @server_routes.route("/")
 def get_all_servers():
@@ -169,8 +169,10 @@ def join_Server(server_id):
     user = data["user"]
     status = data["status"]
     server = Server.query.get(server_id)
-    new_server_membership = server.add_member(user, status)
-    return server.to_dict()
+    server.add_member(user, status)
+    membership = db.session.query(
+    server_memberships).filter(server_memberships.c.user_id == user_id, server_memberships.c.server_id == server_id).first()
+    return { "status": membership.status, "userId": membership.user_id, "serverId": membership.server_id},  201
 
 
 @server_routes.route("/<int:server_id>/membership", methods=['GET', 'DELETE'])
@@ -185,12 +187,13 @@ def join_server(server_id):
 
     if request.method == 'DELETE':
         if not server or not user or not membership:
-            return {"Error": "Resources not found."}, 404
+            return {"errors": "Resources not found."}, 404
         host_bool = server.owner_id == user.id
+        if (host_bool):
+            return {"errors": "Permission Denied"}, 401
         user_bool = membership.user_id == user.id
-        if not (host_bool or user_bool):
-            return {"Restricted": "Permission Denied"}, 401
-        print("333333333333333333333333333", membership.user_id)
+        if not (user_bool):
+            return {"errors": "Permission Denied"}, 401
         server.users.remove(user)
         db.session.commit()
         return {"Success": "Membership deleted."}, 202
@@ -200,4 +203,4 @@ def join_server(server_id):
 
     server.add_member(user, "pending")
     db.session.commit()
-    return {"Success": "Membership created."}, 201
+    return { "status": membership.status, "userId": membership.user_id, "serverId": membership.server_id},  201

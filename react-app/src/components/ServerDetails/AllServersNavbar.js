@@ -27,9 +27,9 @@ const AllServersNavbar = () => {
      <NavBarServerList servers={servers} />
     </div>
     <div className="svr-nav-menu">
-     <div className="svr-nav-menu-item svr-dropdown-parent">
+     {/* <div className="svr-nav-menu-item svr-dropdown-parent"> */}
       <ProfileButton user={sessionUser} />
-     </div>
+     {/* </div> */}
      <div className="svr-nav-menu-item">
       <OpenModalButton
        modalCSSClass="svr-new-server-button"

@@ -6,7 +6,21 @@ const REMOVE_USER = "session/REMOVE_USER";
 const JOIN_SERVER = "session/JOIN_SERVER";
 const NEW_DIRECT_MESSAGE = "session/user/directMessages/CREATE"
 const NEW_SERVER = "session/user/NEW"
+const GET_MEMBERSHIPS = "session/memberships";
+const CREATE_MEMBERSHIP = "session/new/membership";
 
+const newMembership = (membership) => {
+	return {
+		type:CREATE_MEMBERSHIP,
+		membership
+	}
+}
+const getMemberships = (memberships) => {
+	return {
+		type: GET_MEMBERSHIPS,
+		memberships
+	}
+}
 export const newUserServer = (server) => {
 	return {
 		type: NEW_SERVER,
@@ -42,7 +56,6 @@ export const thunkNewDirectMessage = (data) => async (dispatch) => {
 };
 
 
-const initialState = { user: null };
 
 export const authenticate = () => async (dispatch) => {
 	const response = await fetch("/api/auth/", {
@@ -75,6 +88,7 @@ export const login = (email, password) => async (dispatch) => {
 	if (response.ok) {
 		const data = await response.json();
 		dispatch(setUser(data));
+		dispatch(getMembershipsThunk());
 		return null;
 	} else if (response.status < 500) {
 		const data = await response.json();
@@ -134,9 +148,27 @@ export const joinServerThunk = (serverId, user) => async (dispatch) => {
 
 	if (response.ok) {
 		const data = await response.json();
-		dispatch(joinServer(user.id, data));
+		console.log("IM THE MEMBERSHIP", data);
+		dispatch(newMembership(data));
 	}
 }
+export const getMembershipsThunk = () => async (dispatch) => {
+	const response = await fetch(`/api/memberships/curr`);
+    const memberships = await response.json();
+    console.log("HERE ARE THE MEMBERSHIPS", memberships);
+	dispatch(getMemberships(memberships));
+}
+
+export const newMembershipThunk = (serverId) => async (dispatch) => {
+	const response = await fetch(`/api/servers/${serverId}/memebership`)
+	if (response.ok){
+		const membership = await response.json();
+		dispatch(newMembership(membership));
+		return membership;
+	}
+	}
+
+const initialState = { user: null, memberships: {} };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
@@ -145,18 +177,10 @@ export default function reducer(state = initialState, action) {
 			action.payload.direct_messages = normalizeFn(action.payload.direct_messages)
 			action.payload.friends = normalizeFn(action.payload.friends)
 			action.payload.servers = normalizeFn(action.payload.servers)
-			return { user: action.payload };
+			return { ...state, user: action.payload };
 		case REMOVE_USER:
-			return { user: null };
-		case JOIN_SERVER: {
-			let newState = { ...state };
-			newState.user = { ...state.user };
-			newState.channel_messages = { ...state.user.channel_messages };
-			newState.direct_messages = { ...state.user.direct_messages };
-			newState.friends = { ...state.user.friends }
-			newState.servers = { ...state.user.servers, [ action.userId ]: action.server };
-			return newState;
-		}
+				return { user: null };
+
 		case NEW_SERVER: {
 			let newState = { ...state };
 			newState.servers = { ...state.user.servers, }
@@ -178,6 +202,18 @@ export default function reducer(state = initialState, action) {
 					}
 				}
 			}
+		case GET_MEMBERSHIPS: {
+			return {
+				...state,
+				memberships: action.memberships
+			}
+		}
+		case CREATE_MEMBERSHIP: {
+			return {
+				...state,
+				memberships: {...state.memberships, [action.membership.serverId]: action.membership}
+			}
+		}
 		default:
 			return state;
 	}

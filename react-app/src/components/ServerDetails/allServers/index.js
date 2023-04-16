@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AllServersNavbar from "../AllServersNavbar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./AllServers.css";
 import { useModal } from "../../../context/Modal";
 import JoinServer from "../joinServer.js";
+
 //Import join server form here so onclick calls the open modal with it...
 import "./main.css"
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { getMembershipsThunk, newMembershipThunk } from "../../../store/session";
 const AllServersPage = () => {
+  const dispatch = useDispatch()
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [memberships, setMemberships] = useState({})
   const servers = Object.values(useSelector(state => state.servers.allServers));
   const myServers = useSelector(state => state.session.user.servers);
   const { setModalContent, setOnModalClose } = useModal();
@@ -19,12 +24,7 @@ const AllServersPage = () => {
       return false;
   }
 
-  const memberships = async () => {
-    const memberships = await fetch(`/api/memberships/curr`);
-    const jsonif = await memberships.json();
-    console.log("HERE ARE THE MEMBERSHIPS", jsonif);
-  }
-  memberships()
+
   const handleGoToServer = (serverId) => {
     setModalContent(null);
     history.push(`/servers/${serverId}`);
@@ -34,6 +34,11 @@ const AllServersPage = () => {
     setModalContent(<JoinServer server={server} />)
 
   }
+  useEffect(() => {
+
+    dispatch(getMembershipsThunk());
+
+  }, [dispatch])
   return (
     <>
       <AllServersNavbar />
