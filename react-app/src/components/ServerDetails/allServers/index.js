@@ -64,7 +64,7 @@ const AllServersPage = () => {
 
   return (
     <>
-      <AllServersNavbar />
+      {/* <AllServersNavbar /> */}
       <div className="svr-all-servers-container">
         {servers.map((server) => (
           <div className="svr-all-servers-info" key={server.id}>

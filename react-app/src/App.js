@@ -36,9 +36,6 @@ function App() {
             <Route path='/servers/:serverId/channels/:channelId' component={MyServersPage} />
           )}
           {!!sessionUser && (
-            <Route exact path={"/servers/all"} component={AllServersPage} />
-          )}
-          {!!sessionUser && (
             <Route exact path="/servers/new" component={AddServerForm} />
           )}
           {!!sessionUser && (

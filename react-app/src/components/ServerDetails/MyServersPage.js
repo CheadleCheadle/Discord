@@ -7,6 +7,7 @@ import FriendDisplay from "../FriendDisplay";
 import ServerMenuBox from "../ServerMenuBox";
 import { useDispatch, useSelector } from "react-redux";
 import { getMembershipsThunk } from "../../store/session";
+import AllServersPage from "./allServers";
 
 const MyServersPage = () => {
   const dispatch = useDispatch()
@@ -41,6 +42,7 @@ const MyServersPage = () => {
               <SingleServerPage />
             </Route>
             <Route path={"/friends/:friendId"} component={FriendDisplay} />
+            <Route exact path={"/servers"} component={AllServersPage} />
           </Switch>
         </>
       )}
