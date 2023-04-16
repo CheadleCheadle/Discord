@@ -32,6 +32,7 @@ def edit_channel_by_channel_id(channel_id):
 
     form = ChannelForm()
 
+    print("-----------------------------------------------------------------------------------")
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         channel_to_edit._name = form.data["name"]

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal.js";
 import { createChannelAction } from "../../store/channels";
+import { updateChannelAction } from "../../store/channels";
 
-export default function AddChannelModal() {
+export default function AddChannelModal({channel, flag}) {
  const dispatch = useDispatch();
  const serverId = useSelector((state) => state.servers.singleServerId);
  const [name, setName] = useState("");
@@ -12,10 +13,31 @@ export default function AddChannelModal() {
  const [topic, setTopic] = useState("");
  let [errors, setErrors] = useState([]);
  const { closeModal } = useModal();
-
+const currentChannelId = useSelector(state => state.channels.singleChannelId);
+ useEffect(() => {
+    if (channel) {
+    setName(channel.name);
+    setType(channel.type);
+    setMaxUsers(channel.max_users);
+    setTopic(channel.topic);
+    }
+ }, [flag])
  const handleSubmit = (e) => {
   e.preventDefault();
   validateBody();
+  if (flag) {
+    console.log("WHERE EDITINGIN")
+    const updatedChannel = {
+        name,
+        type,
+        max_users: maxUsers,
+        topic
+    }
+    console.log("CHANNEL TO EDIT", updatedChannel)
+    dispatch(updateChannelAction(updatedChannel, currentChannelId));
+    closeModal();
+  } else {
+
   const newChannel = {
    server_id: serverId,
    name,
@@ -24,8 +46,8 @@ export default function AddChannelModal() {
    topic,
   };
   dispatch(createChannelAction(newChannel, serverId));
-  //add dispatch to session action with new channel obj
   closeModal();
+}
  };
 
  const handleDisable = () => {
@@ -58,7 +80,7 @@ export default function AddChannelModal() {
 
  return (
   <div className="svr-channel-form-container">
-   <h3>New Channel</h3>
+   {flag ? <h3>Edit Channel</h3> : <h3>New Channel</h3>}
    <form className="svr-channel-server-form" onSubmit={handleSubmit}>
     <label className="svr-channel-form-label">
      <input
@@ -103,7 +125,7 @@ export default function AddChannelModal() {
     <input
      className={"svr-channel-form-button"}
      type="submit"
-     value="Create new Channel"
+     value={flag ? "Update Channel" : "Create new Channel"}
     />
    </form>
   </div>

@@ -24,29 +24,6 @@ const AllServersPage = () => {
     }
     return false;
   }
-
-  const renderConditionally = (server) => {
-    console.log("My Memberships",memberships);
-    console.log("My servers:", myServers)
-    console.log(server.id);
-    if (memberships[server.id]) {
-
-      console.log("WORKs", memberships[server.id])
-      if (memberships[server.id].status !== "Pending") {
-      return (
-      <button onClick={() => handleGoToServer(server.id)}>Go to server!</button>
-      )
-      } else {
-        return (
-          <p>Pending...</p>
-          )
-        }
-      } else {
-        return (
-        <button onClick={() => handleClick(server)}>Join!</button>
-      )
-    }
-  }
   // renderConditionally();
   const handleGoToServer = (serverId) => {
     setModalContent(null);
@@ -57,6 +34,32 @@ const AllServersPage = () => {
     setModalContent(<JoinServer server={server} />)
 
   }
+
+  const renderConditionally = (server) => {
+    console.log("My Memberships",memberships);
+    console.log("My servers:", myServers)
+    console.log(server);
+    if (memberships[server.id]) {
+
+      console.log("WORKs", memberships[server.id])
+      if (memberships[server.id].status !== "Pending") {
+        return (
+          <button onClick={() => handleGoToServer(server.id)}>Go to server!</button>
+          )
+        } else {
+          return (
+            <p>Pending...</p>
+            )
+          }
+        } else {
+          return (
+            <button onClick={() => handleClick(server)}>Join!</button>
+            )
+          }
+        }
+  useEffect(() => {
+  }, [renderConditionally, memberships, servers])
+
 
   useEffect(() => {
     dispatch(getMembershipsThunk());
@@ -79,7 +82,12 @@ const AllServersPage = () => {
                 <p>🟢{server.users.length} Members</p>
 
                 <div id="button-container">
-                  {renderConditionally(server)}
+
+
+
+
+
+                  {/* {server.public ? renderConditionally(server) : <p>Private Server</p>} */}
                 </div>
               </div>
             </div>

@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import Channel from "../ChannelDetails";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Route, Switch, useParams } from "react-router-dom";
-import { getServerChannels } from "../../store/channels";
+import { getServerChannels, updateSingleChannelId } from "../../store/channels";
 import Members from "./allMembers";
 import OpenModalMenuItem from "../OpenModalButton";
 import AddChannelModal from "../AddChannelModal";
+import DeleteEditChannel from "./DeleteEditChannel";
+import  OpenModalButton  from "../OpenModalButton"
 import ServerMenuBox from "../ServerMenuBox";
 import Friends from "../Friends";
 import "./Server.css"
@@ -25,6 +27,10 @@ const SingleServerPage = () => {
   const sessionUser = useSelector(state => state.session.user);
 
   const servers = useSelector(state => state.servers.allServers);
+
+
+
+
 
 
   const channelsArr = Object.values(useSelector(state => state.channels.allChannels));
@@ -61,8 +67,12 @@ const SingleServerPage = () => {
             color: "white",
            }}
           >
-           {channel.name} {channel.id}
+           {channel.name}
           </NavLink>
+          <OpenModalButton buttonText="Delete" modalComponent={<DeleteEditChannel channelId={channel.id} serverId={serverId}></DeleteEditChannel>}/>
+          <OpenModalButton edit={true} channelId={channel.id} buttonText="Edit" modalComponent={<AddChannelModal channel={channel} flag={true}/>}/>
+
+
          </div>
         ))}
        </div>

@@ -19,6 +19,40 @@ export default function ServerMenuBox({ servers, user }) {
       dispatch(loadOneServerId(server.id));
     }
   }, [ dispatch ]);
+  console.log(server.owner_id, currUser.id)
+
+  const renderDelete = () => {
+    if (server.owner_id == currUser.id) {
+
+      return (
+          <>
+          <OpenModalButton
+            modalCSSClass="svr-dropdown-content"
+            // for button css styling
+            buttonText="Delete the Server"
+            modalComponent={<DeleteServerModal serverId={server?.id} />}
+          />
+          <OpenModalButton
+            modalCSSClass=" svr-dropdown-content"
+            // for button css styling
+            buttonText="Edit the Server"
+            modalComponent={<EditServerForm server={server} />}
+
+          />
+          </>
+      )
+    } else {
+      return (
+        <div>
+          <h3>{server.name}</h3>
+          <p>{server.description}</p>
+        </div>
+      )
+    }
+  }
+  useEffect(() => {
+    renderDelete();
+  }, [renderDelete, server])
 
 
   const openMenu = () => {
@@ -53,23 +87,12 @@ export default function ServerMenuBox({ servers, user }) {
             <i className="fa-solid fa-x fa-sm"></i>
           ) : (
             <i className="fa-solid fa-chevron-down fa-sm"></i>
-          )}
+          )}\
         </button>
         <div className={ulClassName} ref={ulRef}>
           <div className="svr-dropdown-content">{`Hello,${user?.firstname}`}</div>
           <div className="svr-dropdown-content">{`${user?.email}`}</div>
-          <OpenModalButton
-            modalCSSClass="svr-dropdown-content"
-            // for button css styling
-            buttonText="Delete the Server"
-            modalComponent={<DeleteServerModal serverId={server?.id} />}
-          />
-          <OpenModalButton
-            modalCSSClass=" svr-dropdown-content"
-            // for button css styling
-            buttonText="Edit the Server"
-            modalComponent={<EditServerForm server={server} />}
-          />
+            {renderDelete()}
         </div>
       </div>
     </>

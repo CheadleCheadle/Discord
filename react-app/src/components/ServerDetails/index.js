@@ -47,6 +47,7 @@ export default function Server({ sessionUser }) {
                     <div className="svr-channel-wrapper">
                         <div>
                             {channelsArr.map((channel) => (
+
                                 <div key={channel.id} onClick={() => loadChannel(channel)}>
                                     {channel.name}
                                 </div>
