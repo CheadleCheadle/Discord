@@ -75,7 +75,7 @@ def upgrade():
     sa.UniqueConstraint('_name')
     )
     if environment == "production":
-        op.execute(f"ALTER TABLE servers servers SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE servers SCHEMA {SCHEMA};")
 
     op.create_table('channels',
     sa.Column('id', sa.Integer(), nullable=False),
