@@ -178,15 +178,26 @@ def join_Server(server_id):
     return {"status": membership.status, "userId": membership.user_id, "serverId": membership.server_id},  201
 
 
-@server_routes.route("/<int:server_id>/membership", methods=['GET', 'DELETE'])
+@server_routes.route("/<int:server_id>/membership", methods=['GET', 'DELETE', "POST"])
 @login_required
 def join_server(server_id):
+    server = Server.query.get(server_id)
+
+    if request.method == 'POST':
+        data = json.loads(request.data)
+        add_user_id = data["userId"]
+        new_member = User.query.get(add_user_id)
+        post_membership = db.session.execute(
+            server_memberships.update().where(server_memberships.c.user_id == add_user_id).where(server_memberships.c.server_id == server_id).values(status="Member"))
+        db.session.commit()
+
+        return {"status": 'Member', "userId": new_member.id, "serverId": server.id},  201
 
     user_id = current_user.id
+    user = User.query.get(user_id)
+
     membership = db.session.query(
         server_memberships).filter(server_memberships.c.user_id == user_id, server_memberships.c.server_id == server_id).first()
-    server = Server.query.get(server_id)
-    user = User.query.get(user_id)
 
     if request.method == 'DELETE':
         if not server or not user or not membership:
