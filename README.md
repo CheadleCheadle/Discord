@@ -4,11 +4,13 @@ Create Servers, Channels, Direct Messages and more! Built using Python and React
 
 [Discord!][live]
 
-[live]: https://discord-wa36.onrender.com
 [Features | Redux Store][wiki-features]
+
 [API Routes][wiki-routes]
+
 [Database Schema][wiki-db-schema]
 
+[live]: https://discord-wa36.onrender.com
 [wiki-routes]:https://github.com/CheadleCheadle/Discord/wiki/API-Routes
 [wiki-features]:https://github.com/CheadleCheadle/Discord/wiki/Redux-Store-Shape-&-Feature-List
 [wiki-db-schema]:https://github.com/CheadleCheadle/Discord/wiki/Database-Design
