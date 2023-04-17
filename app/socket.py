@@ -3,7 +3,17 @@ import os
 from flask import request
 
 
-socketio = SocketIO(cors_allowed_origins="*")
+# configure cors_allowed_origins
+if os.environ.get('FLASK_ENV') == 'production':
+    origins = [
+        'http://discord-wa36.onrender.com',
+        'https://discord-wa36.onrender.com'
+    ]
+else:
+    origins = "*"
+
+# initialize your socket instance
+socketio = SocketIO(cors_allowed_origins=origins)
 
 active_rooms = {}
 
