@@ -1,4 +1,4 @@
-.chnl-form-cont {
+/* .chnl-form-cont {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -14,4 +14,38 @@
 #all-msgs p{
     font-size: 1em;
     color: white;
+} */
+
+.chnl-form-cont {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    left: 25em;
+    bottom: 2em;
+
+}
+
+.chnl-messages-cont {
+    flex-direction: column;
+    padding: 20px;
+    width: 76.5em;
+    height: 52em;
+    overflow-y: scroll;
+    color: white;
+}
+
+#all-msgs p {
+    max-width: 100%;
+    width: max-content;
+    font-size: 1em;
+    color: white;
+}
+
+#all-msgs {
+    padding: 15px 8px;
+
+}
+
+#submit-form input{
 }
