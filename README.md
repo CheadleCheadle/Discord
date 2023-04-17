@@ -76,8 +76,18 @@ end
 - Implements Redux for state management
 - Uses RESTful requests to query Flask
 
-
+## To-do
+ * Implement create and delete for friendships
+ * Implement search for servers and users
+ * Implement server roles
+ 
+ ## To launc the application locally:
+ * Clone the repository
+ * Open the root folder and type "pipenv install" to install dependencies
+ * Open the frontend folder called 'react-app' and type "npm install"
+ * In the root folder, type "pipenv run flask run" to start the flask server on localhost:5000
+ * Inside the 'react-app' folder type "npm start" to start the react frontend server on localhost:3000
+ * The application should now be running!
 ## Screenshot
 ![new](https://user-images.githubusercontent.com/108553712/232428796-732b1da7-079c-4595-8e2c-e3b27355d90c.PNG)
-
-
+If you wish to stop using the application, you can close it by hitting ctrl + c inside of both the root and frontend folders.
