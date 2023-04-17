@@ -68,5 +68,7 @@ end
 - Uses RESTful requests to query Flask
 
 
-## Screenshot![splash-page](https://user-images.githubusercontent.com/108553712/232428462-37d01bf4-8b6f-48c7-9ef9-bc63efb08c8f.PNG)
+## Screenshot
+![new](https://user-images.githubusercontent.com/108553712/232428796-732b1da7-079c-4595-8e2c-e3b27355d90c.PNG)
+
 
