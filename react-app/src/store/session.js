@@ -157,14 +157,12 @@ export const signUp = (username, email, password, firstname, lastname) => async 
 		}),
 	});
 
-	const data = await response.json()
 	if (response.ok) {
 		const data = await response.json();
 		await dispatch(setUser(data));
 		await dispatch(getMembershipsThunk());
-		return null;
+		return data
 	}
-	return data
 };
 
 export const joinServerThunk = (server) => async (dispatch) => {

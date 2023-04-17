@@ -98,8 +98,15 @@ def sign_up():
             email=form.data['email'],
             password=form.data['password'],
             firstname=form.data['firstname'],
-            lastname=form.data["lastname"]
+            lastname=form.data["lastname"],
+            photo_url="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png"
         )
+        all_servers = db.session.query(Server).join(
+            server_memberships).filter(server_memberships.c.status != "Pending", server_memberships.c.user_id == user.id)
+        dicted = [server.to_dict() for server in all_servers]
+        for server in dicted:
+            server["memberships"] = get_all_memberships(server["id"])
+            print("SERVER---------------------", server["memberships"])
 
         print(user.to_safe_dict())
         db.session.add(user)

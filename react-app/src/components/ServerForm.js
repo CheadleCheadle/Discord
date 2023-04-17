@@ -21,19 +21,7 @@ const ServerForm = ({ formType, server }) => {
  let return_servers = useSelector((state) => state.servers);
  let servers = return_servers.allServers;
 
- //  //validate url
- //  const isValidUrl = (urlString) => {
- //   var urlPattern = new RegExp(
- //    "^(https?:\\/\\/)?" + // validate protocol
- //     "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
- //     "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
- //     "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // validate port and path
- //     "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
- //     "(\\#[-a-z\\d_]*)?$",
- //    "i"
- //   ); // validate fragment locator
- //   return !!urlPattern.test(urlString);
- //  };
+
 
  console.log("state.servers.allServers, server", servers, server);
  useEffect(() => {
@@ -53,19 +41,7 @@ const ServerForm = ({ formType, server }) => {
    errs.push("Max number of members need to be greater than 2.");
   if (max_users === null) errs.push("Max number of members is required");
   //
-  // if (!isValidUrl(icon_url)) errs.push("A valid review Photo url is required");
-  // else {
-  //  const urlstrArr = icon_url.split(".");
-  //  console.log("urlstrArr", urlstrArr);
-  //  if (
-  //   urlstrArr[urlstrArr.length - 1] !== "jpg" &&
-  //   urlstrArr[urlstrArr.length - 1] !== "jpeg" &&
-  //   urlstrArr[urlstrArr.length - 1] !== "bmp" &&
-  //   urlstrArr[urlstrArr.length - 1] !== "gif" &&
-  //   urlstrArr[urlstrArr.length - 1] !== "png"
-  //  )
-  //   errs.push("A valid review Photo url is required");
-  // }
+
   if (name.length > 100)
    errs.push("Name need to be no more than 100 characters");
   if (!public_) errs.push("Public or Private type is required");

@@ -32,7 +32,7 @@ function SignupFormModal() {
 			console.log(username, email, password, firstname, lastname)
 			const data = await dispatch(signUp(username, email, password, firstname, lastname));
 			console.log("DATA", data)
-			if (data) {
+			if (data.errors) {
 				return setErrors(data.errors);
 			}
 			await dispatch(login(email, password))
@@ -53,7 +53,7 @@ function SignupFormModal() {
 			<h1 id="signup__title">Create An Account</h1>
 			<form id='signup__form' onSubmit={handleSubmit}>
 				<ul id='signup__error-list'>
-					{errors.map((error, idx) => (
+					{errors?.map((error, idx) => (
 						<li key={idx}>{error}</li>
 					))}
 				</ul>
