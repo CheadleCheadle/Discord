@@ -1,9 +1,8 @@
 .svr-channel-wrapper {
-    display: flex;
+    width: 300px;
     flex-direction: column;
     gap: 5px;
     background-color: #2b2d31;
-    width: 15em;
     align-items: center;
 }
 
@@ -11,25 +10,47 @@
     display: flex;
     gap: 2em;
 }
-#member-info img{
+
+#member-info img {
     width: 1.5em;
     height: 1.5em;
 }
 
 #root {
-display:flex;
-flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 
-#chnl-create button{
+#chnl-create button {
     height: 2em;
     color: red;
 }
 
-.chnl-container {
+.chnl-container-item {
+    width: 220px;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    color: white;
 }
+
+.chnl-form-content form {
+    position: fixed;
+    bottom: 0;
+}
+
+.chnl-name {
+    width: max-content;
+}
+
 .friends-column {
     background-color: #2b2d31;
+}
+
+.single-svr-chnl-delete-btn,
+.single-svr-chnl-edit-btn {
+    display: block;
+    border-radius: 5px;
+    padding: 0 1px;
 }

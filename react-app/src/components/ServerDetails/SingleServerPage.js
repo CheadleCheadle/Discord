@@ -7,40 +7,36 @@ import Members from "./allMembers";
 import OpenModalMenuItem from "../OpenModalButton";
 import AddChannelModal from "../AddChannelModal";
 import DeleteEditChannel from "./DeleteEditChannel";
-import  OpenModalButton  from "../OpenModalButton"
+import OpenModalButton from "../OpenModalButton";
 import ServerMenuBox from "../ServerMenuBox";
 import Friends from "../Friends";
-import "./Server.css"
+import "./Server.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { loadOneServerId } from "../../store/servers";
 const SingleServerPage = () => {
-  const [ isLoaded, setIsLoaded ] = useState(false)
-  const { serverId } = useParams();
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const userServers = useSelector(state => state.session.user.servers);
-  //For redirecting user when they aren't a member of a server...
-  if (isNaN(+serverId) || !userServers[serverId]) {
-    history.replace("/servers")
-}
+ const [isLoaded, setIsLoaded] = useState(false);
+ const { serverId } = useParams();
+ const history = useHistory();
+ const dispatch = useDispatch();
+ const userServers = useSelector((state) => state.session.user.servers);
+ //For redirecting user when they aren't a member of a server...
+ if (isNaN(+serverId) || !userServers[serverId]) {
+  history.replace("/servers");
+ }
 
-  const sessionUser = useSelector(state => state.session.user);
+ const sessionUser = useSelector((state) => state.session.user);
 
-  const servers = useSelector(state => state.servers.allServers);
+ const servers = useSelector((state) => state.servers.allServers);
 
+ const channelsArr = Object.values(
+  useSelector((state) => state.channels.allChannels)
+ );
 
-
-
-
-
-  const channelsArr = Object.values(useSelector(state => state.channels.allChannels));
-
-  useEffect(() => {
-    dispatch(getServerChannels(serverId))
-    .then(dispatch(loadOneServerId(serverId)))
-    .then(() => setIsLoaded(true))
-  }, [ dispatch, serverId ])
-
+ useEffect(() => {
+  dispatch(getServerChannels(serverId))
+   .then(dispatch(loadOneServerId(serverId)))
+   .then(() => setIsLoaded(true));
+ }, [dispatch, serverId]);
 
  return (
   <>
@@ -54,26 +50,36 @@ const SingleServerPage = () => {
        <div className="chnl-container">
         {channelsArr.map((channel) => (
          <div key={channel.id} className="chnl-container-item">
-           <p>#️{channel.type}</p>
+          <div>#️{channel.type}</div>
           <NavLink
            key={channel.id}
            to={`/servers/${serverId}/channels/${channel.id}`}
            style={{
-            width: "100%",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between",
             alignItems: "center",
-            padding: "5px",
             color: "white",
            }}
           >
-          <p>{channel.name}</p>
+           <div className="chnl-name">{channel.name}</div>
           </NavLink>
-          <OpenModalButton buttonText="Delete" modalComponent={<DeleteEditChannel channelId={channel.id} serverId={serverId}></DeleteEditChannel>}/>
-          <OpenModalButton edit={true} channelId={channel.id} buttonText="Edit" modalComponent={<AddChannelModal channel={channel} flag={true}/>}/>
-
-
+          <OpenModalButton
+           buttonText="Delete"
+           modalCSSClass="single-svr-chnl-delete-btn"
+           modalComponent={
+            <DeleteEditChannel
+             channelId={channel.id}
+             serverId={serverId}
+            ></DeleteEditChannel>
+           }
+          />
+          <OpenModalButton
+           edit={true}
+           channelId={channel.id}
+           buttonText="Edit"
+           modalCSSClass="single-svr-chnl-edit-btn"
+           modalComponent={<AddChannelModal channel={channel} flag={true} />}
+          />
          </div>
         ))}
        </div>
@@ -89,7 +95,7 @@ const SingleServerPage = () => {
         itemText="New Channel"
         modalComponent={<AddChannelModal />}
         /> */}
-      <Members></Members>
+     <Members></Members>
     </>
    )}
   </>

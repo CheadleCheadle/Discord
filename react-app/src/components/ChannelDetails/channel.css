@@ -5,13 +5,15 @@
 }
 
 .chnl-messages-cont {
-    display: flex;
     flex-direction: column;
-    margin-left: 20em;
-    margin-right: 20em;
+    padding: 20px;
+    /* margin-left: 20em;
+    margin-right: 20em; */
 }
 
-#all-msgs p{
+#all-msgs p {
+    max-width: 300px;
+    width: max-content;
     font-size: 1em;
     color: white;
 }
