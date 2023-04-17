@@ -45,4 +45,4 @@ def handle_message(data):
     room_name = f"{username}_{friendname}"
     message = data['message']
     print(f"{message} from {username} to {friendname}")
-    emit('message', {'message': message}, room=room_name)
+    emit('recieve_message', {'message': message}, room=room_name)

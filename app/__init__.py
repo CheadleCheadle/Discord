@@ -10,6 +10,10 @@ from .seeds import seed_commands
 from .config import Config
 from .socket import socketio
 
+import logging
+
+logging.basicConfig()
+logging.getLogger('sqlalchemy').setLevel(logging.ERROR)
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 

@@ -45,6 +45,7 @@ function ChatRoom({ username, friendname, friend, user }) {
    console.log("SENT BACK", data.message);
    fetchData();
    setMessages((messages) => [...messages, data.message]);
+   window.location.reload();
    console.log("UPDATEED MESSAGTE", messages);
   });
 
@@ -69,7 +70,7 @@ function ChatRoom({ username, friendname, friend, user }) {
   if (response.ok) {
    const data = await response.json();
    console.log("NEW MESSAGE", data);
-
+    window.location.reload()
    socket.emit("message", { username, friendname, message: data });
    console.log(data);
 
