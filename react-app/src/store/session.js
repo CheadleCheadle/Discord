@@ -1,5 +1,5 @@
 import { normalizeFn } from "./channels";
-import { thunkLoadAllServers, thunkLoadCurrentServers } from "./servers";
+import { thunkAddAServer, thunkLoadAllServers, thunkLoadCurrentServers } from "./servers";
 
 // constants
 const SET_USER = "session/SET_USER";
@@ -167,12 +167,16 @@ export const signUp = (username, email, password, firstname, lastname) => async 
 	return data
 };
 
-export const joinServerThunk = (serverId) => async (dispatch) => {
-	const response = await fetch(`/api/servers/${serverId}/membership`);
-
+export const joinServerThunk = (server) => async (dispatch) => {
+	const response = await fetch(`/api/servers/${server.id}/membership`);
+		console.log("RESPONSE", response)
 	if (response.ok) {
 		const data = await response.json();
-		dispatch(newMembership(data));
+		console.log("DATA", data)
+		dispatch(thunkAddAServer(server)).then(() => {
+			dispatch(newMembership(data))
+		})
+		return data;
 	}
 }
 
@@ -242,13 +246,16 @@ export default function reducer(state = initialState, action) {
 			// 	memberships: { ...state.memberships, [ action.membership.serverId ]: action.membership }}
 			// }
 			// return newState;
+			console.log("THIS IS THE MEMBERSHIP INSIDE OF THE REDUCER", action.membership);
+			console.log("ERROR CAUSER", state.user.servers);
 			return {
 				...state,
 				user: {...state.user,
 					 servers: {...state.user.servers, [action.membership.serverId] : {...state.user.servers[action.membership.serverId],
-						memberships: {...state.user.servers[action.membership.serverId].memberships, [action.membership.userId]: action.membership}
+						memberships: {...state.user.servers[action.membership.serverId].memberships, [action.membership.userId]: {...action.membership}}
 					}},
-					 memberships: {...state.memberships, [action.membership.serverId]: action.membership}}
+				},
+				memberships: {...state.memberships, [action.membership.serverId]: {...action.membership}}
 			}
 		}
 		case DELETE_SERVER: {

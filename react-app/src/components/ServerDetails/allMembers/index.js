@@ -20,6 +20,7 @@ export default function Members() {
  console.log("IM THE MEMBERS!", members);
 
  const handleAccept = (member) => {
+    window.location.reload();
     dispatch(changeMembershipStatusThunk(serverId, member.id ))
  }
 

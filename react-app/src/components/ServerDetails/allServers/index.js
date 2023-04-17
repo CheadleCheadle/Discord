@@ -6,6 +6,7 @@ import { useRef } from "react";
 import "./AllServers.css";
 import "./main.css"
 import { joinServerThunk } from "../../../store/session";
+import { thunkAddAServer } from "../../../store/servers";
 
 const AllServersPage = () => {
   const dispatch = useDispatch()
@@ -13,8 +14,9 @@ const AllServersPage = () => {
   const memberships = useSelector(state => state.session.memberships);
   const [ isLoaded, setIsLoaded ] = useState(false);
   const serverElement = useRef();
-  const joinServer = (serverId) => {
-    dispatch(joinServerThunk(serverId))
+  const joinServer = (server) => {
+			window.location.reload();
+    dispatch(joinServerThunk(server));
   };
 
   useEffect(() => {
@@ -39,7 +41,7 @@ const AllServersPage = () => {
                     <Button
                       buttonSize={'btn--demo'}
                       disableButton={memberships[ server.id ] ? true : false}
-                      onClick={memberships[ server.id ] ? null : () => joinServer(server.id)}
+                      onClick={memberships[ server.id ] ? null : () => joinServer(server)}
                     >
                       {memberships[ server.id ] ? memberships[ server.id ].status : 'Join Server'}
                     </Button>

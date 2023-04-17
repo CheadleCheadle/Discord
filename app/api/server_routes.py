@@ -71,12 +71,14 @@ def add_new_server():
             db.session.add(new_server)
             db.session.commit()
             curr_user = User.query.get(current_user.id)
+            # return curr_user
             new_server.add_member(curr_user, "Host")
             # server = new_server.to_dict()
             # server["memberships"] = get_all_memberships(new_server.id)
             new_membership = db.session.query(server_memberships).join(Server).filter(server_memberships.c.user_id == curr_user.id, server_memberships.c.server_id == new_server.id).first()
             return {"new_server":new_server.to_dict(), "new_membership": {"status": new_membership.status, "userId": new_membership.user_id, "serverId": new_membership.server_id}}, 201
         except Exception as e:
+            print(']]]]]]]]]]]]]]]]]]]]]]]]]]]]]',{"errors": str(e)})
             return {"errors": str(e)}, 500
 
 
