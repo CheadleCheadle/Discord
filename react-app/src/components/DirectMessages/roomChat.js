@@ -129,7 +129,7 @@ import Friends from '../Friends';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import { useDispatch } from 'react-redux';
 
-const socket = io.connect('http://localhost:5001');
+const socket = io.connect('https://discord-wa36.onrender.com/');
 
 function ChatRoom({ username, friendname, friend, user }) {
   const [ roomName, setRoomName ] = useState("");
