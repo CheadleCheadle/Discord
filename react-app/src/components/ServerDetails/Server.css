@@ -1,4 +1,4 @@
-/* .svr-channel-wrapper {
+ .svr-channel-wrapper {
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -7,7 +7,7 @@
     align-items: center;
 }
 
-.members-wrapper {
+/* .members-wrapper {
     display: flex;
     gap: 2em;
 }
@@ -32,14 +32,15 @@ flex-direction: row;
 }
 .friends-column {
     background-color: #2b2d31;
-} */
-.svr-channel-wrapper {
+}  */
+/* .svr-channel-wrapper {
     width: 300px;
     flex-direction: column;
     gap: 5px;
     background-color: #2b2d31;
     align-items: center;
-}
+    justify-content: center;
+} */
 
 .members-wrapper {
     display: flex;

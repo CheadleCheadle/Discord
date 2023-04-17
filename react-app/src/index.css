@@ -485,7 +485,7 @@ body {
 }
 
 .chnl-container-item {
-  width: 13em;
+  width: 14em;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

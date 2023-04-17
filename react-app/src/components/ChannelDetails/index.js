@@ -113,8 +113,9 @@ export default function Channel() {
    {isLoaded && (
     <>
      <div className="chnl-messages-cont">
+         {!channelMessages.length ? <h1>Be the first to send a message!</h1> : null}
       {channelMessages.map((message) => (
-       <div id="all-msgs" key={message.id}>
+          <div id="all-msgs" key={message.id}>
         {message.content}
        </div>
       ))}

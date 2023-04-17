@@ -47,5 +47,9 @@
 
 }
 
-#submit-form input{
+.chnl-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
 }
