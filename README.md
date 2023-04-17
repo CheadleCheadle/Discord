@@ -5,8 +5,15 @@ Create Servers, Channels, Direct Messages and more! Built using Python and React
 [Discord!][live]
 
 [live]: https://discord-wa36.onrender.com
+[Features | Redux Store][wiki-features]
+[API Routes][wiki-routes]
+[Database Schema][wiki-db-schema]
 
-## Features
+[wiki-routes]:https://github.com/CheadleCheadle/Discord/wiki/API-Routes
+[wiki-features]:https://github.com/CheadleCheadle/Discord/wiki/Redux-Store-Shape-&-Feature-List
+[wiki-db-schema]:https://github.com/CheadleCheadle/Discord/wiki/Database-Design
+
+## Main Features
 
 This Discord clone utilizes flask-socketio as well as the socket-io package from Javascript
 to render messages between clients in real time! Additionally, it allows for creating, updating and deleting both servers
