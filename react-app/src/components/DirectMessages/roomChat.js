@@ -13,21 +13,7 @@ function ChatRoom({ username, friendname, friend, user }) {
   const [ messageText, setMessageText ] = useState("");
   const [ isLoaded, setIsLoaded ] = useState(false)
   const dispatch = useDispatch();
-  // const location = useLocation()
-  // async function fetchData() {
-  //   const current_messages = await fetch(
-  //     `/api/users/curr/messages/recipient/${friend.id}`,
-  //     {
-  //       method: "POST",
-  //       headers: { "Content-Type": "Application/json" },
-  //       body: JSON.stringify({ userId: user.id }),
-  //     }
-  //   );
-  //   if (current_messages.ok) {
-  //     const data = await current_messages.json();
-  //     setMessages(data);
-  //   }
-  // }
+
 
   const fetchMessagesThunk = (userId) => async (dispatch) => {
     const current_messages2 = await fetch(`/api/users/curr/messages/recipient/${userId}`);
@@ -45,7 +31,6 @@ function ChatRoom({ username, friendname, friend, user }) {
     if (response.ok) {
       const data = await response.json();
       const charCode2 = charCode(username, friendname)
-      console.log("STEP ONE 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111", data)
       socket.emit("message", { username, friendname, message: data, charCode2 });
       setMessageText("");
     }
@@ -69,7 +54,6 @@ function ChatRoom({ username, friendname, friend, user }) {
 
     // Handle incoming messages
     socket.on("new_message", (data) => {
-      console.log("THIS IS STEP 3333333333333333333333333333333333333333333333333333333", data)
       setMessages((messages) => [ ...messages, data.message ]);
     });
 
