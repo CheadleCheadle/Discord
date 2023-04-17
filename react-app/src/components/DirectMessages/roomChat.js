@@ -8,108 +8,117 @@ import { useDispatch } from 'react-redux';
 const socket = io.connect('http://localhost:5001');
 
 function ChatRoom({ username, friendname, friend, user }) {
- const [roomName, setRoomName] = useState("");
- const [messages, setMessages] = useState([]);
- const [messageText, setMessageText] = useState("");
- const dispatch = useDispatch();
- // const location = useLocation()
- console.log({ username, friendname, friend, user });
+  const [ roomName, setRoomName ] = useState("");
+  const [ messages, setMessages ] = useState([]);
+  const [ messageText, setMessageText ] = useState("");
+  const [ isLoaded, setIsLoaded ] = useState(false)
+  const dispatch = useDispatch();
+  // const location = useLocation()
+  // async function fetchData() {
+  //   const current_messages = await fetch(
+  //     `/api/users/curr/messages/recipient/${friend.id}`,
+  //     {
+  //       method: "POST",
+  //       headers: { "Content-Type": "Application/json" },
+  //       body: JSON.stringify({ userId: user.id }),
+  //     }
+  //   );
+  //   if (current_messages.ok) {
+  //     const data = await current_messages.json();
+  //     setMessages(data);
+  //   }
+  // }
 
- async function fetchData() {
-  const current_messages = await fetch(
-   `/api/users/curr/messages/recipient/${friend.id}`,
-   {
-    method: "POST",
-    headers: { "Content-Type": "Application/json" },
-    body: JSON.stringify({ userId: user.id }),
-   }
-  );
-  // const current_messages2 = await fetch(`/api/users/curr/messages/recipient/${user.id}`);
-  if (current_messages.ok) {
-   const data = await current_messages.json();
-   setMessages(data);
+  const fetchMessagesThunk = (userId) => async (dispatch) => {
+    const current_messages2 = await fetch(`/api/users/curr/messages/recipient/${userId}`);
+    const res = await current_messages2.json()
+    return res
   }
- }
 
- useEffect(() => {
-  fetchData();
- }, [messages.length]);
+  const sendMessagesThunk = () => async (dispatch) => {
+    const newMessage = { content: messageText, userId: user.id };
+    const response = await fetch(`/api/users/messages/new/${friend.id}`, {
+      method: "POST",
+      headers: { "Content-Type": "Application/json" },
+      body: JSON.stringify(newMessage),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      const charCode2 = charCode(username, friendname)
+      console.log("STEP ONE 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111", data)
+      socket.emit("message", { username, friendname, message: data, charCode2 });
+      setMessageText("");
+    }
+  }
 
- useEffect(() => {
-  // Join the chat room when the component mounts
-  socket.emit("join", { username, friendname });
-  setRoomName(`${username}_${friendname}`);
+  const charCode = (username, friendname) => {
+    let sum = 0;
+    let unique = username.concat(friendname)
+    for (let i = 0; i < unique.length; i++) { sum += unique.charCodeAt(i) }
+    return sum;
+  }
 
-  // Handle incoming messages
-  socket.on("message", (data) => {
-   console.log("SENT BACK", data.message);
-   fetchData();
-   setMessages((messages) => [...messages, data.message]);
+  useEffect(() => {
+    dispatch(fetchMessagesThunk(friend.id))
+      .then((res) => setMessages(res))
+      .then(() => setIsLoaded(true))
+    // Join the chat room when the component mounts
+    const charCode2 = charCode(username, friendname)
+    setRoomName(charCode2);
+    socket.emit("join", { username, friendname, charCode2 });
 
-   console.log("UPDATEED MESSAGTE", messages);
-  });
+    // Handle incoming messages
+    socket.on("new_message", (data) => {
+      console.log("THIS IS STEP 3333333333333333333333333333333333333333333333333333333", data)
+      setMessages((messages) => [ ...messages, data.message ]);
+    });
 
-//   fetchData();
+    // Leave the chat room when the component unmounts
+    return () => {
 
-  // Leave the chat room when the component unmounts
-  return () => {
-   socket.emit("leave", { username, friendname });
+      const charCode2 = charCode(username, friendname)
+      socket.emit("leave", { username, friendname, charCode2 });
+    };
+  }, [ friendname ]);
+
+  const handleMessageSubmit = (event) => {
+    event.preventDefault();
+    dispatch(sendMessagesThunk());
   };
- }, [friendname]);
 
- const handleMessageSubmit = async (event) => {
-  event.preventDefault();
+  const handleInputChange = (event) => {
+    setMessageText(event.target.value);
+  };
 
-  const newMessage = { content: messageText, userId: user.id };
-  const response = await fetch(`/api/users/messages/new/${friend.id}`, {
-   method: "POST",
-   headers: { "Content-Type": "Application/json" },
-   body: JSON.stringify(newMessage),
-  });
-
-  if (response.ok) {
-   const data = await response.json();
-   console.log("NEW MESSAGE", data);
-
-   socket.emit("message", { username, friendname, message: data });
-   console.log(data);
-
-   setMessageText("");
-  }
- };
-
- const handleInputChange = (event) => {
-  setMessageText(event.target.value);
- };
-
- return (
-  <>
-   {/* <Friends></Friends> */}
-   <div className="chat-wrapper">
-    <h1>Chat Room: {roomName}</h1>
-    <div className="chat-history">
-     {messages.map((message, index) => (
-      <div id="message" key={index}>
-       <div id="pfp-cont">
-        <img src={message.sender.photo_url}></img>
-       </div>
-       <div id="text-info">
-        <div id="name">
-         <p>{message.sender.username}</p>
-         <p>{message.time_stamp.slice(0, 17)}</p>
+  return (
+    <>
+      {isLoaded && (
+        <div className="chat-wrapper">
+          <h1>Chat Room: {roomName}</h1>
+          <div className="chat-history">
+            {messages.map((message) => (
+              <div id="message">
+                <div id="pfp-cont">
+                  <img src={message.sender.photo_url}></img>
+                </div>
+                <div id="text-info">
+                  <div id="name">
+                    <p>{message.sender.username}</p>
+                    <p>{message.time_stamp.slice(0, 17)}</p>
+                  </div>
+                  <h3>{message.content}</h3>
+                </div>
+              </div>
+            ))}
+          </div>
+          <form onSubmit={handleMessageSubmit}>
+            <input type="text" value={messageText} onChange={handleInputChange} />
+            <button type="submit">Send</button>
+          </form>
         </div>
-        <h3>{message.content}</h3>
-       </div>
-      </div>
-     ))}
-    </div>
-    <form onSubmit={handleMessageSubmit}>
-     <input type="text" value={messageText} onChange={handleInputChange} />
-     <button type="submit">Send</button>
-    </form>
-   </div>
-  </>
- );
+      )}
+    </>
+  );
 }
 
 export default ChatRoom;

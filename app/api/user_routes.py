@@ -26,11 +26,10 @@ def user(id):
     return user.to_dict()
 
 
-@user_routes.route('/curr/messages/recipient/<int:recipient_id>', methods=["POST"])
+@user_routes.route('/curr/messages/recipient/<int:recipient_id>')
 @login_required
 def get_messages_from_user(recipient_id):
-    data = json.loads(request.data)
-    user_id = data["userId"]
+    user_id = current_user.id
     all_messages1 = DirectMessage.query.filter(
         DirectMessage.user_id == user_id,
         DirectMessage.recipient_id == recipient_id
