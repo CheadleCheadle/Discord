@@ -18,11 +18,10 @@ def handle_join(data):
     """Join a chat room"""
     username = data['username']
     friendname = data['friendname']
-    room_name = f"{username}_{friendname}"
-    join_room(room_name)
-    active_rooms[room_name] = 1
-    print(f"{username} joined room {room_name}")
-    emit('room_joined', {'room_name': room_name})
+    char_code = data["charCode2"]
+    join_room(char_code)
+    active_rooms[char_code] = 1
+    emit('room_joined', {'room_name': char_code})
 
 
 @socketio.on('leave')
@@ -30,11 +29,11 @@ def handle_leave(data):
     """Leave a chat room"""
     username = data['username']
     friendname = data['friendname']
-    room_name = f"{username}_{friendname}"
-    leave_room(room_name)
-    active_rooms.pop(room_name, None)
-    print(f"{username} left room {room_name}")
-    emit('room_left', {'room_name': room_name})
+    char_code = data["charCode2"]
+
+    leave_room(char_code)
+    active_rooms.pop(char_code, None)
+    emit('room_left', {'room_name': char_code})
 
 
 @socketio.on('message')
@@ -42,7 +41,14 @@ def handle_message(data):
     """Handle incoming messages"""
     username = data['username']
     friendname = data['friendname']
-    room_name = f"{username}_{friendname}"
+    char_code = data['charCode2']
     message = data['message']
-    print(f"{message} from {username} to {friendname}")
-    emit('message', {'message': message}, room=room_name)
+    print("step-2-22222222222222222222222222222222222222222222222222222222222222222222222222222", char_code)
+    emit('new_message', {'message': message},
+         broadcast=True, room=char_code)
+
+
+# @socketio.on("send_message")
+# def handle_new_message(data):
+#     print("User is connected")
+#     emit("receive_message", {"message": "Message Received"})

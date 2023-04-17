@@ -7,7 +7,7 @@ import Members from "./allMembers";
 import OpenModalMenuItem from "../OpenModalButton";
 import AddChannelModal from "../AddChannelModal";
 import DeleteEditChannel from "./DeleteEditChannel";
-import  OpenModalButton  from "../OpenModalButton"
+import OpenModalButton from "../OpenModalButton"
 import ServerMenuBox from "../ServerMenuBox";
 import Friends from "../Friends";
 import "./Server.css"
@@ -20,9 +20,9 @@ const SingleServerPage = () => {
   const dispatch = useDispatch();
   const userServers = useSelector(state => state.session.user.servers);
   //For redirecting user when they aren't a member of a server...
-  if (isNaN(+serverId) || !userServers[serverId]) {
+  if (isNaN(+serverId) || !userServers[ serverId ]) {
     history.replace("/servers")
-}
+  }
 
   const sessionUser = useSelector(state => state.session.user);
 
@@ -37,64 +37,83 @@ const SingleServerPage = () => {
 
   useEffect(() => {
     dispatch(getServerChannels(serverId))
-    .then(dispatch(loadOneServerId(serverId)))
-    .then(() => setIsLoaded(true))
+      .then(dispatch(loadOneServerId(serverId)))
+      .then(() => setIsLoaded(true))
   }, [ dispatch, serverId ])
 
 
- return (
-  <>
-   {isLoaded && (
+  return (
     <>
-     <div className="svr-channel-wrapper">
-      <div className="svr-menu-box">
-       <div className="svr-dropdown-btn-menu-box">
-        <ServerMenuBox servers={servers} user={sessionUser} />
-       </div>
-       <div className="chnl-container">
-        {channelsArr.map((channel) => (
-         <div key={channel.id} className="chnl-container-item">
-          <NavLink
-           key={channel.id}
-           to={`/servers/${serverId}/channels/${channel.id}`}
-           style={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "5px",
-            color: "white",
-           }}
-          >
-           {channel.name}
-          </NavLink>
-          <OpenModalButton buttonText="Delete" modalComponent={<DeleteEditChannel channelId={channel.id} serverId={serverId}></DeleteEditChannel>}/>
-          <OpenModalButton edit={true} channelId={channel.id} buttonText="Edit" modalComponent={<AddChannelModal channel={channel} flag={true}/>}/>
+      {isLoaded && (
+        <>
+          <div className="svr-channel-wrapper">
+            <div className="svr-menu-box">
+              <div className="svr-dropdown-btn-menu-box">
+                <ServerMenuBox servers={servers} user={sessionUser} />
+              </div>
+              <div className="chnl-container">
+                {channelsArr.map((channel) => (
+                  <div key={channel.id} className="chnl-container-item">
+                    <NavLink
+                      key={channel.id}
+                      to={`/servers/${serverId}/channels/${channel.id}`}
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        padding: "5px",
+                        color: "white",
+                      }}
+                    >
+                      {channel.name}
+                    </NavLink>
+                    <OpenModalButton buttonText="Delete" modalComponent={<DeleteEditChannel channelId={channel.id} serverId={serverId}></DeleteEditChannel>} />
+                    <OpenModalButton edit={true} channelId={channel.id} buttonText="Edit" modalComponent={<AddChannelModal channel={channel} flag={true} />} />
 
 
-         </div>
-        ))}
-       </div>
-      </div>
-     </div>
-     <Switch>
-      <Route path={`/servers/:serverId/channels/:channelId`}>
-       <Channel />
-      </Route>
-     </Switch>
-     {/* Button for opening the modal to create a channel. May need to be moved */}
-     {/* <OpenModalMenuItem
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <Switch>
+            <Route path={`/servers/:serverId/channels/:channelId`}>
+              <Channel />
+            </Route>
+          </Switch>
+          {/* Button for opening the modal to create a channel. May need to be moved */}
+          {/* <OpenModalMenuItem
         itemText="New Channel"
         modalComponent={<AddChannelModal />}
         /> */}
-     <div className="members-wrapper">
-      <Members></Members>
-     </div>
+          <div className="members-wrapper">
+            <Members></Members>
+          </div>
+        </>
+      )}
     </>
-   )}
-  </>
- );
+  );
 };
 
 export default SingleServerPage;
+
+
+// return {
+//   ...state,
+//   user: {
+//     ...state.user,
+//     servers: {
+//       ...state.users.servers,
+//       [action.membership.serverId]: {
+//         ...state.users.servers[action.membership.serverId],
+//         memberships: {
+//           ...state.users.servers[action.membership.serverId].memberships: {
+//             ...
+//           }
+//         }
+//       }
+//     }
+//   }
+// }

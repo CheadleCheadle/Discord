@@ -144,21 +144,15 @@ export const signUp = (username, email, password, firstname, lastname) => async 
 	return data
 };
 
-export const joinServerThunk = (serverId, user, flag=false) => async (dispatch) => {
-	let newMembership;
-	if (flag) {
-		 newMembership = {user, status:"Host"}
-	} else {
-		 newMembership = {user, status:"Pending"}
-	}
+export const joinServerThunk = (serverId) => async (dispatch) => {
 	const response = await fetch(`/api/servers/${serverId}/membership`);
 
 	if (response.ok) {
 		const data = await response.json();
-		console.log("IM THE MEMBERSHIP", data);
 		dispatch(newMembership(data));
 	}
 }
+
 export const getMembershipsThunk = () => async (dispatch) => {
 	const response = await fetch(`/api/memberships/curr`);
 	const memberships = await response.json();
@@ -225,11 +219,11 @@ export default function reducer(state = initialState, action) {
 		case DELETE_SERVER: {
 			let newState = {
 				...state,
-				user: {...state.user, servers: {...state.user.servers}},
-				memberships: {...state.memberships}
+				user: { ...state.user, servers: { ...state.user.servers } },
+				memberships: { ...state.memberships }
 			};
-			delete newState.memberships[action.serverId];
-			delete newState.user.servers[action.serverId];
+			delete newState.memberships[ action.serverId ];
+			delete newState.user.servers[ action.serverId ];
 			return newState;
 
 		}
