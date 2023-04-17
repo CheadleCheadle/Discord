@@ -81,7 +81,7 @@ end
  * Implement search for servers and users
  * Implement server roles
  
- ## To launc the application locally:
+ ## To launch the application locally:
  * Clone the repository
  * Open the root folder and type "pipenv install" to install dependencies
  * Open the frontend folder called 'react-app' and type "npm install"
