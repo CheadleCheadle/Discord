@@ -17,3 +17,17 @@ def get_server_memberships():
         "server_id": membership.server_id
     } for membership in memberships}
     return membership_status
+
+
+@membership_routes.route('/servers/<int:server_id>')
+@login_required
+def get_all_memberships(server_id):
+
+    memberships = db.session.query(server_memberships).join(Server).join(User).where(server_memberships.c.server_id == server_id).all()
+    print('------------------------',memberships, "serverId:", server_id)
+    membership_status = {f"{membership.user_id}": {
+        "status": membership.status,
+        "user_id": membership.user_id,
+        "server_id": membership.server_id
+    } for membership in memberships}
+    return membership_status

@@ -76,7 +76,9 @@ export const thunkLoadAllServers = () => async (dispatch) => {
   const response = await fetch("/api/servers/");
   if (response.ok) {
     const servers = await response.json();
+    console.log("BEFORE", servers)
     const serversNormalized = normalizeFn(servers.servers);
+    console.log("AFTER", serversNormalized)
     for (let serverId in serversNormalized) {
       const channels = serversNormalized[ serverId ].channels;
       serversNormalized[ serverId ].channels = normalizeFn(channels);

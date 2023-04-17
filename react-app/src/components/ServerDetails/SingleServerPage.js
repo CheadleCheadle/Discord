@@ -54,6 +54,7 @@ const SingleServerPage = () => {
        <div className="chnl-container">
         {channelsArr.map((channel) => (
          <div key={channel.id} className="chnl-container-item">
+           <p>#️{channel.type}</p>
           <NavLink
            key={channel.id}
            to={`/servers/${serverId}/channels/${channel.id}`}
@@ -67,7 +68,7 @@ const SingleServerPage = () => {
             color: "white",
            }}
           >
-           {channel.name}
+          <p>{channel.name}</p>
           </NavLink>
           <OpenModalButton buttonText="Delete" modalComponent={<DeleteEditChannel channelId={channel.id} serverId={serverId}></DeleteEditChannel>}/>
           <OpenModalButton edit={true} channelId={channel.id} buttonText="Edit" modalComponent={<AddChannelModal channel={channel} flag={true}/>}/>
@@ -88,9 +89,7 @@ const SingleServerPage = () => {
         itemText="New Channel"
         modalComponent={<AddChannelModal />}
         /> */}
-     <div className="members-wrapper">
       <Members></Members>
-     </div>
     </>
    )}
   </>

@@ -1,0 +1,54 @@
+.member-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.members-cont {
+    right: 0em;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 12em;
+    background-color: #2b2d31;
+    height: 100%;
+    align-items: flex-start;
+    padding: 2em;
+}
+
+.members-wrapper-box {
+
+}
+
+#members-info {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 2em;
+    margin-top: 1em;
+    text-align: center;
+}
+
+#members-info p {
+    text-align: center;
+    color:#ffffff;
+}
+
+
+#mbr-image img {
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 10px;
+    margin-right: .5em;
+}
+
+#status {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+#accept-button {
+    border-radius: 5px;
+    font-weight: bold;
+    margin-left: 1em;
+    height: 2em;
+}

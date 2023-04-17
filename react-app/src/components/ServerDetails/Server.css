@@ -1,9 +1,10 @@
 .svr-channel-wrapper {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 5px;
     background-color: #2b2d31;
     width: 15em;
+    align-items: center;
 }
 
 .members-wrapper {

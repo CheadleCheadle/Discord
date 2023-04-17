@@ -2,6 +2,7 @@ from flask import Blueprint, redirect, render_template, request
 from flask_login import current_user, login_required
 from app.models import db, Server, Channel, User, server_memberships
 from app.forms import ServerForm, ChannelForm
+from .memberships import get_all_memberships
 import json
 
 server_routes = Blueprint('server', __name__)
@@ -18,7 +19,12 @@ def get_current_servers():
         server_memberships.c.status != "Pending")
     print('----------------------------------------', allServers)
     # print({'servers': [server.to_dict() for server in servers]})
-    return {'servers': [server.to_dict() for server in allServers]}
+    server = new_server.to_dict()
+    server["memberships"] = get_all_memberships(new_server.id)
+    dicted = [server.to_dict() for server in allServers]
+    for theServer in dicted:
+        theServer["memberships"] = get_all_memberships(theServer["id"])
+    return {'servers': dicted}
 
 # Get all servers
 
@@ -29,6 +35,12 @@ def get_all_servers():
 
     servers = Server.query.all()
     # return f"{servers[0].owner}"
+    dicted = [server.to_dict() for server in servers]
+    for server in dicted:
+        print(server)
+        server["memberships"] = get_all_memberships(server["id"])
+
+
     return {'servers': [server.to_dict() for server in servers]}, 200
 
 
@@ -60,6 +72,8 @@ def add_new_server():
             db.session.commit()
             curr_user = User.query.get(current_user.id)
             new_server.add_member(curr_user, "Host")
+            # server = new_server.to_dict()
+            # server["memberships"] = get_all_memberships(new_server.id)
             new_membership = db.session.query(server_memberships).join(Server).filter(server_memberships.c.user_id == curr_user.id, server_memberships.c.server_id == new_server.id).first()
             return {"new_server":new_server.to_dict(), "new_membership": {"status": new_membership.status, "userId": new_membership.user_id, "serverId": new_membership.server_id}}, 201
         except Exception as e:
@@ -217,4 +231,4 @@ def join_server(server_id):
 
     server.add_member(user, "Pending")
     db.session.commit()
-    return {"status": membership.status, "userId": membership.user_id, "serverId": membership.server_id},  201
+    return {"status": 'Pending', "userId": user_id, "serverId": server_id},  201

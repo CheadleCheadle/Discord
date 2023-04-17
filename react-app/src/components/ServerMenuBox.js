@@ -87,7 +87,7 @@ export default function ServerMenuBox({ servers, user }) {
             <i className="fa-solid fa-x fa-sm"></i>
           ) : (
             <i className="fa-solid fa-chevron-down fa-sm"></i>
-          )}\
+          )}
         </button>
         <div className={ulClassName} ref={ulRef}>
           <div className="svr-dropdown-content">{`Hello,${user?.firstname}`}</div>

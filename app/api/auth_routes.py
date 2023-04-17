@@ -4,6 +4,7 @@ from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
 from sqlalchemy import or_, and_
+from .memberships import get_all_memberships
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -29,8 +30,16 @@ def authenticate():
             server_memberships).filter(server_memberships.c.status != "Pending", server_memberships.c.user_id == current_user.id).all()
 
         servers_list = [server.to_dict() for server in all_servers]
+
+        for server in servers_list:
+            server["memberships"] = get_all_memberships(server["id"])
+            print(server["memberships"], "===============================================")
+
         curr_user_dict = current_user.to_dict()
         curr_user_dict["servers"] = servers_list
+
+
+
         return curr_user_dict
     return {'errors': ['Unauthorized']}
 
@@ -52,12 +61,17 @@ def login():
         #                                                                             server_memberships.c.user_id == user.id)).all()
         all_servers = db.session.query(Server).join(
             server_memberships).filter(server_memberships.c.status != "Pending", server_memberships.c.user_id == user.id)
+        dicted = [server.to_dict() for server in all_servers]
+
+        for server in dicted:
+            server["memberships"] = get_all_memberships(server["id"])
+            print("SERVER!!!!!!!!!!!!!!!!!!!!!", server["memberships"])
 
         user_dict = user.to_dict()
 
-        servers_obj = [server.to_dict() for server in all_servers]
-        print("==========================================", servers_obj)
-        user_dict["servers"] = servers_obj
+
+        user_dict["servers"] = dicted
+
         return user_dict
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 

@@ -163,7 +163,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  right: 0px;
+  right: -3em;
 }
 
 .down-close-btn {
@@ -474,19 +474,18 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: #444;
+  background-color: #2b2d31;
   padding: 10px;
   font-size: 12pt;
   display: flex;
   align-items: center;
   height: 35px;
   color: white;
-  background-color: #333;
   position: relative;
 }
 
 .chnl-container-item {
-  width: 220px;
+  width: 13em;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -506,10 +505,7 @@ body {
 /*      All members      */
 /* ********************* */
 
-.members-wrapper-box {
-  padding: 20px;
 
-}
 
 
 /* ********************* */
