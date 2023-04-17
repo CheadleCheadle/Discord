@@ -27,11 +27,7 @@ export default function Channel() {
     const channelMessages = Object.values(channel.channel_messages)
 
     const [ message, setMessage ] = useState("");
-    // const [ startMessageFetch, setStartMessageFetch ] = useState(false)
-    // const channels = useSelector(state => state.channels);
-    // const channelId = channels.SingleChannelId;
-    // if (channel.id) setStartMessageFetch(true)
-    //const channelId = useSelector(state => state.channels.SingleChannelId);
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -41,30 +37,7 @@ export default function Channel() {
         };
         dispatch(newChannelMessageAction(newMessage, channelId));
     }
-    // setReRenderMe(true);
-    // const memoizedDispatch = useMemo(() => {
-    // }, [dispatch])
 
-    // useEffect(() => {
-    //     memoizedDispatch(allMessageAction(channel.id))
-    // }, [memoizedDispatch]);
-    // }, dispatch)
-
-
-    // const dispatchFunc = useCallback(() => {
-    //     if (startMessageFetch) dispatch(allMessagesAction(channel.id));
-    // }, [ dispatch ])
-
-    // useEffect(() => {
-    //     const updateMessages = setInterval(() => {
-    //         dispatchFunc();
-    //         console.log('Im updating')
-    //     }, 3000)
-    //     return () => {
-    //         clearTimeout(updateMessages);
-
-    //     };
-    // }, [ dispatchFunc ])
 
     return (
         <>
@@ -72,9 +45,8 @@ export default function Channel() {
                 <>
                     <div className="chnl-messages-cont">
                         {channelMessages.map((message) => (
-                            <div key={message.id}>
-                                {message.content}
-
+                            <div id="all-msgs" key={message.id}>
+                                <p>{message.content}</p>
                             </div>
                         ))}
 

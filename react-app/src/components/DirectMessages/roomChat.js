@@ -43,12 +43,12 @@ function ChatRoom({ username, friendname, friend, user }) {
   // Handle incoming messages
   socket.on("message", (data) => {
    console.log("SENT BACK", data.message);
-   setMessages((messages) => [...messages, data.message]);
    fetchData();
+   setMessages((messages) => [...messages, data.message]);
    console.log("UPDATEED MESSAGTE", messages);
   });
 
-  fetchData();
+//   fetchData();
 
   // Leave the chat room when the component unmounts
   return () => {
