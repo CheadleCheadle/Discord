@@ -18,7 +18,7 @@ export default function Server({ sessionUser }) {
     const server = useSelector(state => state.servers.allServers[ serverId ]);
     const channelsArr = server ? Object.values(server.channels) : []
     let currentChannel = useSelector(state => state.channels.allChannels[ state.channels.singleChannelId ]);
-  const servers = useSelector(state => state.servers.allServers);
+    const servers = useSelector(state => state.servers.allServers);
 
     const [ isLoaded, setIsLoaded ] = useState(false)
 
@@ -29,44 +29,39 @@ export default function Server({ sessionUser }) {
     }
 
     useEffect(() => {
-        // dispatch(loadServerChannels({ channels: server.channels, serverId }))
-        // dispatch(loadServerChannel(server.channels[ 0 ]))
-    }, [ server ])
-
-    //Make sure in the future to make sure that this dispatch fires somewhere else. Probs in nav files
-    useEffect(() => {
         dispatch(thunkLoadAllServers())
             .then(() => dispatch(getServerChannels(serverId)))
             .then(() => setIsLoaded(true));
     }, [ dispatch ])
+
     return (
         <>
 
-            {isLoaded && (
-                <>
-                    <div className="svr-channel-wrapper">
-                        <div>
-                            {channelsArr.map((channel) => (
+        {isLoaded && (
+            <>
+            <div className="svr-channel-wrapper">
+            <div>
+            {channelsArr.map((channel) => (
 
-                                <div key={channel.id} onClick={() => loadChannel(channel)}>
-                                    {channel.name}
-                                </div>
-                            ))}
-                        </div>
-                        <div className="svr-channel-msgs">
-                            <Channel channel={currentChannel} />
-                        </div>
-                        <div>
-                            {server?.users.map((user) => (
-                                <div key={user.id}>
-                                    {user.username}
-                                    {user.photo_url}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </>
-            )}
+                <div key={channel.id} onClick={() => loadChannel(channel)}>
+                {channel.name}
+                </div>
+            ))}
+            </div>
+            <div className="svr-channel-msgs">
+            <Channel channel={currentChannel} />
+            </div>
+            <div>
+            {server?.users.map((user) => (
+                <div key={user.id}>
+                {user.username}
+                {user.photo_url}
+                </div>
+            ))}
+            </div>
+            </div>
+            </>
+        )}
         </>
     )
 }

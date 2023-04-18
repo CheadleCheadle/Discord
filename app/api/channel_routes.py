@@ -9,8 +9,6 @@ import json
 channel_routes = Blueprint('channel', __name__)
 
 
-# def membership_required():
-#     def inner_func():
 
 @channel_routes.route('/<int:channel_id>', methods=['GET', 'DELETE'])
 @login_required

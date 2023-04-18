@@ -57,15 +57,12 @@ def login():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
         login_user(user)
-        # all_servers = db.session.query(Server).join(server_memberships).filter(and_(and_(server_memberships.c.status == "Member", server_memberships.c.status == "Host"),
-        #                                                                             server_memberships.c.user_id == user.id)).all()
         all_servers = db.session.query(Server).join(
             server_memberships).filter(server_memberships.c.status != "Pending", server_memberships.c.user_id == user.id)
         dicted = [server.to_dict() for server in all_servers]
 
         for server in dicted:
             server["memberships"] = get_all_memberships(server["id"])
-            print("SERVER!!!!!!!!!!!!!!!!!!!!!", server["memberships"])
 
         user_dict = user.to_dict()
 
@@ -106,9 +103,7 @@ def sign_up():
         dicted = [server.to_dict() for server in all_servers]
         for server in dicted:
             server["memberships"] = get_all_memberships(server["id"])
-            print("SERVER---------------------", server["memberships"])
 
-        print(user.to_safe_dict())
         db.session.add(user)
         db.session.commit()
         login_user(user)

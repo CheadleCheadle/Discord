@@ -14,7 +14,6 @@ function ServerMenuButton() {
  const serverId = return_servers_state.singleServer;
  const server = return_servers[serverId];
 
- console.log("EDITEDSERVER", server);
  useEffect(() => {
   dispatch(thunkLoadAllServers());
  }, [dispatch]);
@@ -22,7 +21,6 @@ function ServerMenuButton() {
  const openMenu = () => {
   if (showMenu) return;
   setShowMenu(true);
-  console.log("showMenu, ulClassName: ", showMenu, ulClassName);
  };
 
  useEffect(() => {
@@ -41,13 +39,11 @@ function ServerMenuButton() {
 
  const ulClassName = "svr-menu-profile-dropdown" + (showMenu ? "" : " hidden");
 
- console.log("showMenu, ulClassName: ", showMenu, ulClassName);
 
  return (
   <>
    <div className="svr-dropdown-parent svr-toggle-btn ">
     <button className="down-close-btn">
-     {console.log("showMenu, ulClassName: ", showMenu, ulClassName)}
      {showMenu ? (
       <i className="fa-solid fa-x fa-sm" onClick={openMenu}></i>
      ) : (

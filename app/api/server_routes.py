@@ -17,8 +17,6 @@ def get_current_servers():
     # servers = Server.query.filter(Server._owner_id == current_user.id).all()
     allServers = db.session.query(Server).join(server_memberships).filter(
         server_memberships.c.status != "Pending")
-    print('----------------------------------------', allServers)
-    # print({'servers': [server.to_dict() for server in servers]})
     server = new_server.to_dict()
     server["memberships"] = get_all_memberships(new_server.id)
     dicted = [server.to_dict() for server in allServers]
@@ -34,7 +32,6 @@ def get_all_servers():
     """Query for all servers and returns them in a list of user dictionaries """
 
     servers = Server.query.all()
-    # return f"{servers[0].owner}"
     dicted = [server.to_dict() for server in servers]
     for server in dicted:
         print(server)
@@ -53,7 +50,6 @@ def add_new_server():
 
     form = ServerForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
-    # print(form.author.choices)
     # query for data if needed in the form
 
     if form.validate_on_submit():
@@ -71,10 +67,7 @@ def add_new_server():
             db.session.add(new_server)
             db.session.commit()
             curr_user = User.query.get(current_user.id)
-            # return curr_user
             new_server.add_member(curr_user, "Host")
-            # server = new_server.to_dict()
-            # server["memberships"] = get_all_memberships(new_server.id)
             new_membership = db.session.query(server_memberships).join(Server).filter(server_memberships.c.user_id == curr_user.id, server_memberships.c.server_id == new_server.id).first()
             return {"new_server":new_server.to_dict(), "new_membership": {"status": new_membership.status, "userId": new_membership.user_id, "serverId": new_membership.server_id}}, 201
         except Exception as e:
@@ -90,7 +83,6 @@ def edit_a_server(id):
 
     form = ServerForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
-    # print(form.author.choices)
     # query for data if needed in the form
 
     if form.validate_on_submit():
@@ -111,7 +103,6 @@ def edit_a_server(id):
                 return {"errors": str(e)}, 500
         else:
             return {"Message": "Forbidden"}, 403
-    print(form.errors)
     return {"errors": form.errors}, 400
 
 # Get single server

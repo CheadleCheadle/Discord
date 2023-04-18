@@ -14,9 +14,9 @@ const AllServersPage = () => {
   const memberships = useSelector(state => state.session.memberships);
   const [ isLoaded, setIsLoaded ] = useState(false);
   const serverElement = useRef();
-  const joinServer = async (server) => {
+  const joinServer = (server) => {
 			window.location.reload();
-    await dispatch(joinServerThunk(server));
+     dispatch(joinServerThunk(server));
   };
 
   useEffect(() => {

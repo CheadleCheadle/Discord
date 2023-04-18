@@ -1,21 +1,3 @@
-/* .chnl-form-cont {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.chnl-messages-cont {
-    display: flex;
-    flex-direction: column;
-    margin-left: 20em;
-    margin-right: 20em;
-}
-
-#all-msgs p{
-    font-size: 1em;
-    color: white;
-} */
-
 .chnl-form-cont {
     display: flex;
     flex-direction: column;

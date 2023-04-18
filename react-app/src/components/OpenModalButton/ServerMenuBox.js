@@ -15,10 +15,6 @@ export default function ServerMenuBox({ servers, user }) {
   const [ showMenu, setShowMenu ] = useState(false);
   const [ serverNameDisplay, setServerNameDisplay ] = useState(`Welcome, ${currUser.firstname}`)
 
-//  const server = useSelector(
-//   (state) => state.servers.allServers[state.servers.singleServerId]
-//  );
- console.log("SERERE", server);
  useEffect(() => {
   if (servers.length !== 0) {
    dispatch(loadOneServerId(servers[1].id));
@@ -46,7 +42,6 @@ export default function ServerMenuBox({ servers, user }) {
 
   const ulClassName = "svr-menu-profile-dropdown" + (showMenu ? "" : " hidden");
 
-<<<<<<< HEAD
   return (
     <>
       <div className="svr-menu-name">
@@ -77,7 +72,6 @@ export default function ServerMenuBox({ servers, user }) {
       </div>
     </>
   );
-=======
  return (
   <>
    <div className="svr-menu-name">
@@ -110,5 +104,4 @@ export default function ServerMenuBox({ servers, user }) {
    </div>
   </>
  );
->>>>>>> serverDropdown
 }

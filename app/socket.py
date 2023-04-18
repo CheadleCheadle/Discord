@@ -12,7 +12,6 @@ if os.environ.get('FLASK_ENV') == 'production':
 else:
     origins = "*"
 
-# initialize your socket instance
 socketio = SocketIO(cors_allowed_origins=origins)
 
 active_rooms = {}

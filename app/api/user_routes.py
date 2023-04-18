@@ -50,7 +50,6 @@ def get_messages_from_user(recipient_id):
 @login_required
 def create_direct_message(recipient_id):
     data = json.loads(request.data)
-    # return data
     new_message = DirectMessage(
         user_id=data['userId'],
         recipient_id=recipient_id,
@@ -61,6 +60,3 @@ def create_direct_message(recipient_id):
     return new_message.to_dict()
 # CREATE A NEW DIRECT MESSAGE
 
-# @user_routes.route('/<int:user_id/servers')
-# @login_required
-# def get_user_server(user_id):

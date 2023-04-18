@@ -19,7 +19,6 @@ export default function ServerMenuBox({ servers, user }) {
       dispatch(loadOneServerId(server.id));
     }
   }, [ dispatch ]);
-  console.log(server.owner_id, currUser.id)
 
   const renderDelete = () => {
     if (server.owner_id == currUser.id) {

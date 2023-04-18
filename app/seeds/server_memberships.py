@@ -8,7 +8,6 @@ def seed_server_memberships():
     users_list = User.query.all()
     servers_list[0].add_member(users_list[0], 'Host')
     servers_list[1].add_member(users_list[2], "Member")
-    # servers_list[0].add_member(users_list[0], "Host")
     servers_list[3].add_member(users_list[0], "Host")
     servers_list[1].add_member(users_list[1], "Host")
     servers_list[2].add_member(users_list[2], "Host")

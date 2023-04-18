@@ -47,8 +47,5 @@ const SplashPage = (isLoaded) => {
     </div>
   )
 }
-// {/* <div id='splash-page-second-half'>
-//   <div></div>
-// </div> */}
 
 export default SplashPage

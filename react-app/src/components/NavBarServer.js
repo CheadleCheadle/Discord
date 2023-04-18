@@ -16,9 +16,7 @@ function NavBarServer({ server }) {
     if (!showMenu) return;
 
     const closeMenu = (e) => {
-      // if (!ulRef.current.contains(e.target)) {
       setShowMenu(false);
-      // }
     };
 
     document.addEventListener("click", closeMenu);
@@ -26,7 +24,6 @@ function NavBarServer({ server }) {
     return () => document.removeEventListener("click", closeMenu);
   }, [ showMenu ]);
 
-  //  const ulClassName = "svr-profile-dropdown" + (showMenu ? "" : " hidden");
 
   let divStyle = {
     backgroundImage: "url(" + server.icon_url + ")",

@@ -80,12 +80,6 @@ class User(db.Model, UserMixin):
         lazy="dynamic"
     )
 
-    # friends_with_me = db.relationship(
-    #     "User",
-    #     secondary="friends",
-    #     primaryjoin=friends.c.user2_id == id,
-    #     secondaryjoin=friends.c.user1_id == id,
-    #     )
 
     server_memberships = db.relationship(
         "Server",

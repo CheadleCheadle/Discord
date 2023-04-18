@@ -1,10 +1,8 @@
-// frontend/src/components/DeleteReviewModal.js
 import React, { useState } from "react";
 import { thunkDeleteAServer } from "../store/servers";
 import { useDispatch } from "react-redux";
 import { useModal } from "../context/Modal";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-//import "./LoginForm.css";
 
 function DeleteServerModal({ serverId }) {
   const dispatch = useDispatch();

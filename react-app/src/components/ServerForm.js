@@ -23,7 +23,6 @@ const ServerForm = ({ formType, server }) => {
 
 
 
- console.log("state.servers.allServers, server", servers, server);
  useEffect(() => {
   if (formType === "EditServerForm") {
    setIcon_url(server.icon_url);
@@ -40,20 +39,13 @@ const ServerForm = ({ formType, server }) => {
   if (max_users < 3)
    errs.push("Max number of members need to be greater than 2.");
   if (max_users === null) errs.push("Max number of members is required");
-  //
 
   if (name.length > 100)
    errs.push("Name need to be no more than 100 characters");
   if (!public_) errs.push("Public or Private type is required");
 
-  // if (showErr) {
   if (errs.length === 0) setDisabled(false);
-  //  if (run === false) setRun(true);
   setErrors(errs);
-  // } else {
-  //  if (errs.length === 0) setRun(true);
-  //  else setRun(false);
-  // }
  }, [name, public_, max_users, icon_url]);
 
  const handleSubmit = (e) => {
@@ -70,20 +62,12 @@ const ServerForm = ({ formType, server }) => {
 
    let public_value = public_ === "True" ? true : false;
    newServer.public_ = public_value;
-   console.log("****************newServer", newServer);
     dispatch(thunkAddAServer(newServer)).then((server) => {
-    console.log("new server", server);
-    //history.push(`/servers/${server.id}`);
     closeModal();
    });
   }
 
   if (formType === "EditServerForm") {
-   //  setIcon_url(server.icon_url);
-   //  setPublic_(server.public);
-   //  setName(server.name);
-   //  setDescription(server.description);
-   //  setMax_users(server.max_users);
 
    const theServer = {
     icon_url: icon_url,
@@ -95,8 +79,6 @@ const ServerForm = ({ formType, server }) => {
    let public_value = public_ === "True" ? true : false;
    theServer.public_ = public_value;
 
-   console.log("EditServerForm");
-   console.log("****************theServer", theServer);
    dispatch(thunkEditAServer(theServer, server.id))
    .then((server) => {
       dispatch(editServer(server))
