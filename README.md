@@ -1,7 +1,10 @@
 # Discord
 
 Create Servers, Channels, Direct Messages and more! Built using Python and React.js.
-
+## Contributors
+* https://github.com/usr1l
+* https://github.com/ChunyiKoo
+* https://github.com/CheadleCheadle
 [Discord!][live]
 
 [Features | Redux Store][wiki-features]
