@@ -20,9 +20,7 @@ Create Servers, Channels, Direct Messages and more! Built using Python and React
 
 ## Main Features
 
-This Discord clone utilizes flask-socketio as well as the socket-io package from Javascript
-to render messages between clients in real time! Additionally, it allows for creating, updating and deleting both servers
-and channels as well as server memberships.
+This clone aims to hit all the core functionality of Discord including real time communication with web-sockets, servers, channels and more!
 
 ## WebSocket Implementation
 ```
@@ -73,11 +71,16 @@ end
 ```
 (full websocket implementation can be found in /components/DirectMessages)
 
-## Front End
+## Technologies Used
 
-- Uses React.js
-- Implements Redux for state management
-- Uses RESTful requests to query Flask
+-  React.js
+-  Redux for state management
+-  Uses RESTful convention
+-  Flask
+-  SQLAlchemy
+-  WTforms
+-  PostgreSQL
+-  SocketIO
 
 ## To-do
  * Implement create and delete for friendships
