@@ -1,7 +1,8 @@
 from flask_socketio import SocketIO, emit, join_room, leave_room
 import os
 from flask import request
-from app.models import DirectMessage, db
+from app.models import DirectMessage, db, ChannelMessage
+from flask_login import login_required, current_user
 import json
 from datetime import datetime
 # configure cors_allowed_origins
@@ -20,13 +21,41 @@ active_rooms = {}
 
 @socketio.on('connect')
 def handle_connect():
-    print('Client connected 11111111111111111111111111111111111111111111')
+    print('Client connected')
+
+@socketio.on('channel_join')
+def handle_channel_join(data):
+    """Join a channel"""
+    print("I joined a channel room!, 1111111111111111111111111111111111111")
+    channel_name = data['channelName']
+    join_room(channel_name)
+    active_rooms[channel_name] = 1
+
+
+@socketio.on('channel_message')
+def handle_channel_message(data):
+    """Handle channel messages"""
+    print('22222222222222222222222222222222222222222')
+    channel = data['channel']
+    print("THIS IS THE CHANNEL", channel)
+    channel_name = channel['name']
+    message = data['message']
+    user_id = data['userId']
+    new_message = ChannelMessage(
+        user_id=user_id,
+        channel_id = channel['id'],
+        _content= message
+    )
+    db.session.add(new_message)
+    db.session.commit()
+    the_message = new_message.to_dict()
+    the_message["time_stamp"] = str(the_message["time_stamp"])
+    emit('new_channel_message', the_message, broadcast=True, room=channel_name)
 
 
 @socketio.on('join')
 def handle_join(data):
     """Join a chat room"""
-    print("333333333333333333333333333333333333")
     username = data['username']
     friendname = data['friendname']
     char_code = data["charCode2"]
@@ -38,8 +67,6 @@ def handle_join(data):
 @socketio.on('leave')
 def handle_leave(data):
     """Leave a chat room"""
-    username = data['username']
-    friendname = data['friendname']
     char_code = data["charCode2"]
 
     leave_room(char_code)

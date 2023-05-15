@@ -5,12 +5,14 @@ import serverReducer from "./servers";
 import channelsReducer from "./channels";
 import memberReducer from "./members";
 import messageReducer from "./directmessages";
+import channelMessageReducer from "./channelmessages";
 const rootReducer = combineReducers({
  session,
  servers: serverReducer,
  channels: channelsReducer,
  members: memberReducer,
  messages: messageReducer,
+ channelMessages: channelMessageReducer,
 });
 
 let enhancer;

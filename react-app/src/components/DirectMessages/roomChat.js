@@ -4,7 +4,7 @@ import "./chat.css"
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMessagesThunk, sendMessage} from '../../store/directmessages';
 
-const socket = io.connect('http://localhost:5001');
+export const socket = io.connect('http://localhost:5001');
 
 function ChatRoom({friend, user }) {
     const dispatch = useDispatch();
@@ -45,7 +45,7 @@ function ChatRoom({friend, user }) {
         return () => {
 
             const charCode2 = charCode(username, friendname)
-            socket.emit("leave", { username, friendname, charCode2 });
+            socket.emit("leave", {charCode2 });
         };
     }, [friendname]);
 

@@ -2,7 +2,6 @@ import { normalizeFn } from "./channels";
 
 const GET_ALL_MESSAGES = "directmessages/all";
 const SEND_MESSAGE = "directmessages/send";
-const ADD_MESSAGE = "directmessages/add";
 const getMessages = (messages) => {
     return {
         type: GET_ALL_MESSAGES,
@@ -49,8 +48,6 @@ export const fetchMessagesThunk = (userId) => async (dispatch) => {
 const initialState = { messages: {} };
 
 const messageReducer = (state = initialState, action) => {
-    let newState = {};
-
     switch (action.type) {
         case GET_ALL_MESSAGES: {
             return {
