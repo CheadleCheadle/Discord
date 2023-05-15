@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import "./chat.css"
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMessagesThunk, sendMessageThunk, sendMessage} from '../../store/directmessages';
+import { fetchMessagesThunk, sendMessage} from '../../store/directmessages';
 
 const socket = io.connect('http://localhost:5001');
 
 function ChatRoom({friend, user }) {
+    const dispatch = useDispatch();
+
     const [roomName, setRoomName] = useState("");
     const [messageText, setMessageText] = useState("");
     const [isLoaded, setIsLoaded] = useState(false)
@@ -15,8 +17,6 @@ function ChatRoom({friend, user }) {
     const messagesObject = useSelector(state => state.messages);
     const messages = Object.values(messagesObject.messages);
 
-    console.log("messages:----", messages);
-    const dispatch = useDispatch();
 
     const charCode = (username, friendname) => {
         let sum = 0;
@@ -27,15 +27,17 @@ function ChatRoom({friend, user }) {
 
     useEffect(() => {
         dispatch(fetchMessagesThunk(friend.id))
-            .then(() => setIsLoaded(true))
+        .then(() => setIsLoaded(true))
         // Join the chat room when the component mounts
+
+        // Generates a unique roomname out of the current user's name and friend's name.
         const charCode2 = charCode(username, friendname)
         setRoomName(charCode2);
         socket.emit("join", { username, friendname, charCode2});
 
         // Handle incoming messages
         socket.on("new_message", (data) => {
-            console.log("Ive recieved a new message:", data);
+            // Upon recieving a message a dispatch is made to update the store.
             dispatch(sendMessage(data));
         });
 
@@ -45,11 +47,10 @@ function ChatRoom({friend, user }) {
             const charCode2 = charCode(username, friendname)
             socket.emit("leave", { username, friendname, charCode2 });
         };
-    }, []);
+    }, [friendname]);
 
     const handleMessageSubmit = (event) => {
         event.preventDefault();
-        dispatch(sendMessage(messageText));
         const charCode2 = charCode(username, friendname)
         socket.emit("message", { userId: user.id, friendId: friend.id, username, friendname, message: messageText, charCode2})
         setMessageText("");
@@ -66,15 +67,16 @@ function ChatRoom({friend, user }) {
                     <h1>Chat Room: {roomName}</h1>
                     <div className="chat-history">
                         {messages.map((message) => (
+
                             <div id="message">
-                                {/* <div id="pfp-cont">
+                                <div id="pfp-cont">
                                     <img src={message.sender.photo_url}></img>
-                                </div> */}
+                                </div>
                                 <div id="text-info">
-                                    {/* <div id="name">
+                                    <div id="name">
                                         <p>{message.sender.username}</p>
                                         <p>{message.time_stamp.slice(0, 17)}</p>
-                                    </div> */}
+                                    </div>
                                     <h3>{message.content}</h3>
                                 </div>
                             </div>
