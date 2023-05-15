@@ -2,7 +2,7 @@ import { normalizeFn } from "./channels";
 
 const GET_ALL_MESSAGES = "directmessages/all";
 const SEND_MESSAGE = "directmessages/send";
-
+const ADD_MESSAGE = "directmessages/add";
 const getMessages = (messages) => {
     return {
         type: GET_ALL_MESSAGES,
@@ -10,12 +10,14 @@ const getMessages = (messages) => {
     };
 }
 
-const sendMessage = (message) => {
+export const sendMessage = (message) => {
     return {
         type: SEND_MESSAGE,
         message
     }
 }
+
+
 
 export const sendMessageThunk = (userId, friendId, content) => async (dispatch) => {
     const newMessage = { content, userId};
@@ -32,7 +34,7 @@ export const sendMessageThunk = (userId, friendId, content) => async (dispatch) 
     }
 }
 
-export const fetchMessages = (userId) => async (dispatch) => {
+export const fetchMessagesThunk = (userId) => async (dispatch) => {
     const response = await fetch(`/api/users/curr/messages/recipient/${userId}`);
 
     if (response.ok) {
@@ -59,7 +61,7 @@ const messageReducer = (state = initialState, action) => {
         case SEND_MESSAGE: {
             return {
                 ...state,
-                messsages: {...state.messages, [action.message.id]: action.message}
+                messages: {...state.messages, [action.message.id]: action.message}
             }
         }
         default:

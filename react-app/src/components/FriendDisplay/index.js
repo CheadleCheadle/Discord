@@ -19,6 +19,6 @@ export default function FriendDisplay() {
 
   const user = useSelector(state => state.session.user)
   return (
-    <ChatRoom friendname={friend.username} friend={friend} user={user} username={user.username} />
+    <ChatRoom  friend={friend} user={user}/>
   )
 }

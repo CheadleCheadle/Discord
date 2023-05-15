@@ -1,8 +1,9 @@
 from flask_socketio import SocketIO, emit, join_room, leave_room
 import os
 from flask import request
-
-
+from app.models import DirectMessage, db
+import json
+from datetime import datetime
 # configure cors_allowed_origins
 if os.environ.get('FLASK_ENV') == 'production':
     origins = [
@@ -19,12 +20,13 @@ active_rooms = {}
 
 @socketio.on('connect')
 def handle_connect():
-    print('Client connected')
+    print('Client connected 11111111111111111111111111111111111111111111')
 
 
 @socketio.on('join')
 def handle_join(data):
     """Join a chat room"""
+    print("333333333333333333333333333333333333")
     username = data['username']
     friendname = data['friendname']
     char_code = data["charCode2"]
@@ -50,8 +52,18 @@ def handle_message(data):
     """Handle incoming messages"""
     username = data['username']
     friendname = data['friendname']
+    user_id = data["userId"]
+    recipient_id = data["friendId"]
     char_code = data['charCode2']
     message = data['message']
-    print("step-2-22222222222222222222222222222222222222222222222222222222222222222222222222222", char_code)
-    emit('new_message', {'message': message},
+    new_message = DirectMessage(
+        user_id = data["userId"],
+        recipient_id=data["friendId"],
+        _content = message,
+    )
+    db.session.add(new_message)
+    db.session.commit()
+    the_message = new_message.to_dict()
+    the_message["time_stamp"] = str(the_message["time_stamp"])
+    emit('new_message', the_message,
          broadcast=True, room=char_code)
