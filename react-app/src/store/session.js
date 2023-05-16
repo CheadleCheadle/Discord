@@ -176,14 +176,9 @@ export const signUp = (username, email, password, firstname, lastname) => async 
 
 export const joinServerThunk = (server) => async (dispatch) => {
 	const response = await fetch(`/api/servers/${server.id}/membership`);
-		console.log("RESPONSE", response)
 	if (response.ok) {
 		const data = await response.json();
-		console.log("DATA", data)
-		// dispatch(thunkAddAServer(server)).then(() => {
-		// 	dispatch(newMembership(data))
-		// })
-		dispatch(newMembership(data));
+		dispatch(getMembershipsThunk());
 		return data;
 	}
 }
@@ -265,16 +260,20 @@ export default function reducer(state = initialState, action) {
 			// 	memberships: { ...state.memberships, [ action.membership.serverId ]: action.membership }}
 			// }
 			// return newState;
-			console.log("THIS IS THE MEMBERSHIP INSIDE OF THE REDUCER", action.membership);
-			console.log("ERROR CAUSER", state.user.servers);
+			// console.log("THIS IS THE MEMBERSHIP INSIDE OF THE REDUCER", action.membership);
+			// console.log("ERROR CAUSER", state.user.servers);
+			// return {
+			// 	...state,
+			// 	user: {...state.user,
+			// 		 servers: {...state.user.servers, [action.membership.serverId] : {...state.user.servers[action.membership.serverId],
+			// 			memberships: {...state.user.servers[action.membership.serverId].memberships, [action.membership.userId]: {...action.membership}}
+			// 		}},
+			// 	},
+			// 	memberships: {...state.memberships, [action.membership.serverId]: {...action.membership}}
+			// }
 			return {
 				...state,
-				user: {...state.user,
-					 servers: {...state.user.servers, [action.membership.serverId] : {...state.user.servers[action.membership.serverId],
-						memberships: {...state.user.servers[action.membership.serverId].memberships, [action.membership.userId]: {...action.membership}}
-					}},
-				},
-				memberships: {...state.memberships, [action.membership.serverId]: {...action.membership}}
+				memberships: {...state.memberships, [action.membership.id]: action.membership}
 			}
 		}
 		case DELETE_SERVER: {
