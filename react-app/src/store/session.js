@@ -1,3 +1,4 @@
+import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
 import { normalizeFn } from "./channels";
 import { thunkAddAServer, thunkLoadAllServers, thunkLoadCurrentServers } from "./servers";
 
@@ -11,6 +12,7 @@ const GET_MEMBERSHIPS = "session/memberships";
 const CREATE_MEMBERSHIP = "session/new/membership";
 const DELETE_SERVER = "session/delete"
 const EDIT_SERVER = "session/servers/edit"
+const GET_ONLINE_USERS = "session/onlineUsers";
 export const editServer = (server) => {
 	return {
 		type: EDIT_SERVER,
@@ -64,6 +66,13 @@ const joinServer = (userId, serverId, status) => {
 		userId,
 		serverId,
 		status
+	}
+}
+
+const getOnlineUsers = (users) => {
+	return {
+		type: GET_ONLINE_USERS,
+		users
 	}
 }
 
@@ -194,7 +203,18 @@ export const newMembershipThunk = (serverId) => async (dispatch) => {
 	}
 }
 
-const initialState = { user: null, memberships: {} };
+export const getOnlineUsersThunk = () => async (dispatch) => {
+	const response = await fetch(`/api/users/online`);
+	if (response.ok) {
+		const data = await response.json();
+		console.log("Im a user", data);
+		// const users = normalizeFn(data);
+		dispatch(getOnlineUsers(data))
+		return data;
+	}
+}
+
+const initialState = { user: null, onlineUsers: {}, memberships: {} };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
@@ -285,6 +305,12 @@ export default function reducer(state = initialState, action) {
 			}
 		}
 		newState.user.servers[action.serverId].memberships[action.userId].status = action.status
+	}
+	case GET_ONLINE_USERS: {
+		return {
+			...state,
+			onlineUsers: {...action.users}
+		}
 	}
 		default:
 			return state;

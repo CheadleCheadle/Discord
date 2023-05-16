@@ -7,7 +7,6 @@ import  { socket } from "../DirectMessages/roomChat.js";
 import "./channel.css";
 import { fetchChannelMessagesThunk, sendChannelMessage} from "../../store/channelmessages.js";
 export default function Channel() {
- const history = useHistory();
  const dispatch = useDispatch();
  const { serverId, channelId } = useParams();
  const user = useSelector(state => state.session.user);
@@ -16,10 +15,8 @@ export default function Channel() {
  const channel = useSelector((state) => state.channels.allChannels[channelId]);
  const channelMessagesObj = (useSelector(state => state.channelMessages));
  const channelMessages = Object.values(channelMessagesObj.messages)
-  console.log("here are the messages channel", channelMessages)
 
  useEffect(() => {
-
   dispatch(thunkUpdateSingleChannelId(channelId))
   dispatch(fetchChannelMessagesThunk(channelId))
   .then(() => {
@@ -33,7 +30,7 @@ export default function Channel() {
     console.log("New channel message", data);
     dispatch(sendChannelMessage(data));
   })
-
+  // Leave the channel when component unmounts
   return () => {
     const charCode2 = channel.name;
     socket.emit("leave", {charCode2})
@@ -45,10 +42,6 @@ export default function Channel() {
 
  const handleSubmit = (e) => {
   e.preventDefault();
-  const newMessage = {
-   channelId,
-   content: message,
-  };
   socket.emit("channel_message", {channel, message, userId:user.id});
   setMessage("")
  };
@@ -62,6 +55,7 @@ export default function Channel() {
       {channelMessages.map((message) => (
           <div id="all-msgs" key={message.id}>
         {message.content}
+        <p>{message.time_stamp}</p>
        </div>
       ))}
 

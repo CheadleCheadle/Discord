@@ -1,9 +1,9 @@
 from flask_socketio import SocketIO, emit, join_room, leave_room
 import os
+from .api import user_routes
 from flask import request
 from app.models import DirectMessage, db, ChannelMessage
-from flask_login import login_required, current_user
-import json
+from flask_login import current_user, login_required
 from datetime import datetime
 # configure cors_allowed_origins
 if os.environ.get('FLASK_ENV') == 'production':
@@ -17,13 +17,30 @@ else:
 socketio = SocketIO(cors_allowed_origins=origins)
 
 active_rooms = {}
+online_users = {}
+
+@user_routes.route('/online')
+@login_required
+def get_online_users():
+    print('Client connected111111111111111111111111111111111111111111111111111111111111111111111111111111')
+    return {'users': list(online_users.values())}
+
 
 
 @socketio.on('connect')
 def handle_connect():
-    print('Client connected')
+    print('Client connected22222222222222222')
+    # online_users[request.sid] = {"user": current_user.to_dict()}
+    # emit('online_users', {'users': list(online_users.values())}, broadcast=True)
+
+@socketio.on('disconnect')
+@login_required
+def handle_disconnect():
+    del online_users[request.sid]
+    emit('online_users', {'users': list(online_users.values())}, broadcast=True)
 
 @socketio.on('channel_join')
+@login_required
 def handle_channel_join(data):
     """Join a channel"""
     print("I joined a channel room!, 1111111111111111111111111111111111111")
