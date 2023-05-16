@@ -6,14 +6,11 @@ import { useRef } from "react";
 import "./AllServers.css";
 import "./main.css"
 import { joinServerThunk } from "../../../store/session";
-import { thunkAddAServer } from "../../../store/servers";
-import { normalizeFn } from "../../../store/channels";
 const AllServersPage = () => {
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch()
   const servers = Object.values(useSelector(state => state.servers.allServers));
-  // const memberships = Object.values(useSelector(state => state.session.memberships))
-  // .filter(membership => membership.user_id === user.id);
+
   const memberships = useSelector(state => state.session.memberships);
   const [ isLoaded, setIsLoaded ] = useState(false);
   const serverElement = useRef();
@@ -23,25 +20,6 @@ const AllServersPage = () => {
 
   const RenderStatusButton = ({server}) => {
     const membershipsArray = Object.values(memberships);
-    console.log("my memberships", membershipsArray);
-    // for (let membership of Object.values(memberships)) {
-
-    //   console.log("current membership", membership)
-    //   if (membership.server_id === server.id && membership.user_id === user.id) {
-    //     return (
-    //       <span>{membership.status}</span>
-    //     )
-    //   } else {
-    //     return (
-    //       <Button
-    //       buttonSize={'btn--demo'}
-    //       onClick={() => joinServer(server)}
-    //       >
-    //         Click me
-    //       </Button>
-    //     )
-    //   }
-    // }
     for (let i = 0; i < membershipsArray.length; i++) {
       const membership = membershipsArray[i];
       console.log(membership);

@@ -14,9 +14,11 @@ import Friends from "../Friends";
 import "./Server.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { loadOneServerId } from "../../store/servers";
+import { getMembersThunk } from "../../store/members";
 const SingleServerPage = () => {
  const [isLoaded, setIsLoaded] = useState(false);
- const { serverId } = useParams();
+ let { serverId } = useParams();
+ serverId = parseInt(serverId);
  const history = useHistory();
  const dispatch = useDispatch();
  const userServers = useSelector((state) => state.session.user.servers);
@@ -34,6 +36,7 @@ const SingleServerPage = () => {
  );
 
  useEffect(() => {
+  console.log("This is the serverId", serverId, typeof serverId);
   dispatch(getServerChannels(serverId))
    .then(dispatch(loadOneServerId(serverId)))
    .then(() => setIsLoaded(true));

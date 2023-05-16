@@ -60,12 +60,13 @@ const removeUser = () => ({
 	type: REMOVE_USER,
 });
 
-const joinServer = (userId, serverId, status) => {
+const joinServer = (userId, serverId, status, membershipId) => {
 	return {
 		type: JOIN_SERVER,
 		userId,
 		serverId,
-		status
+		status,
+		membershipId
 	}
 }
 
@@ -80,7 +81,7 @@ export const thunkNewDirectMessage = (data) => async (dispatch) => {
 	dispatch(newDirectMessageAction(data))
 };
 
-export const changeMembershipStatusThunk = (serverId, userId) => async dispatch => {
+export const changeMembershipStatusThunk = (serverId, userId, membershipId) => async dispatch => {
 	const response = await fetch(`/api/servers/${serverId}/membership`, {
 		method: "POST",
 		headers: {
@@ -91,7 +92,7 @@ export const changeMembershipStatusThunk = (serverId, userId) => async dispatch 
 
 	if (response.ok) {
 		const data = await response.json();
-		dispatch(joinServer(data.userId, data.serverId, data.status));
+		dispatch(joinServer(data.userId, data.serverId, data.status, membershipId));
 		return data;
 	}
 }
@@ -297,14 +298,20 @@ export default function reducer(state = initialState, action) {
 			return newState;
 		}
 		case JOIN_SERVER: {
-			let newState = {
-				...state,
-				user: {...state.user, servers: {...state.user.servers,
-					 memberships: {...state.user.servers[action.serverId].memberships}
-					}
-			}
+		// 	let newState = {
+		// 		...state,
+		// 		user: {...state.user, servers: {...state.user.servers,
+		// 			 memberships: {...state.user.servers[action.serverId].memberships}
+		// 			}
+		// 	}
+		// }
+		// newState.user.servers[action.serverId].memberships[action.userId].status = action.status
+		let newState = {
+			...state,
+			memberships: {...state.memberships}
 		}
-		newState.user.servers[action.serverId].memberships[action.userId].status = action.status
+		newState.memberships[action.membershipId].status = action.status;
+		return newState;
 	}
 	case GET_ONLINE_USERS: {
 		return {

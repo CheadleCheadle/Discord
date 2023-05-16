@@ -15,7 +15,8 @@ def get_server_memberships():
     membership_status = {f"{membership.id}": {
         "status": membership.status,
         "user_id": membership.user_id,
-        "server_id": membership.server_id
+        "server_id": membership.server_id,
+        "id": membership.id,
     } for membership in memberships}
     return membership_status
 
