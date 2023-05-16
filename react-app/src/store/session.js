@@ -180,9 +180,10 @@ export const joinServerThunk = (server) => async (dispatch) => {
 	if (response.ok) {
 		const data = await response.json();
 		console.log("DATA", data)
-		dispatch(thunkAddAServer(server)).then(() => {
-			dispatch(newMembership(data))
-		})
+		// dispatch(thunkAddAServer(server)).then(() => {
+		// 	dispatch(newMembership(data))
+		// })
+		dispatch(newMembership(data));
 		return data;
 	}
 }

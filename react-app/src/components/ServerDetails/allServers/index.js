@@ -15,7 +15,7 @@ const AllServersPage = () => {
   const [ isLoaded, setIsLoaded ] = useState(false);
   const serverElement = useRef();
   const joinServer = (server) => {
-			window.location.reload();
+			// window.location.reload()
      dispatch(joinServerThunk(server));
   };
 
