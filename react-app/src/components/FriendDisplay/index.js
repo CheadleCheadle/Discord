@@ -12,8 +12,8 @@ export default function FriendDisplay() {
   let { friendId } = params;
   friendId = parseInt(friendId);
   const friends = useSelector(state => state.session.user.friends)
-  const onlineUsers = Object.values(useSelector(state => state.session.onlineUsers));
-  console.log("here are the online users", onlineUsers);
+  // const onlineUsers = Object.values(useSelector(state => state.session.onlineUsers));
+  // console.log("here are the online users", onlineUsers);
   useEffect(() => {
     // dispatch(getOnlineUsersThunk())
     // socket.on('online_users', (data) => {

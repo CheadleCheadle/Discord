@@ -34,13 +34,11 @@ def handle_connect():
     # emit('online_users', {'users': list(online_users.values())}, broadcast=True)
 
 @socketio.on('disconnect')
-@login_required
 def handle_disconnect():
     del online_users[request.sid]
     emit('online_users', {'users': list(online_users.values())}, broadcast=True)
 
 @socketio.on('channel_join')
-@login_required
 def handle_channel_join(data):
     """Join a channel"""
     print("I joined a channel room!, 1111111111111111111111111111111111111")
