@@ -3,25 +3,38 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./main.css"
 import { getMembersThunk } from "../../../store/members";
-import { changeMembershipStatusThunk } from "../../../store/session";
+import { changeMembershipStatusThunk, newMembership} from "../../../store/session";
+import { socket } from "../../DirectMessages/roomChat";
 
 
 export default function Members() {
     const dispatch = useDispatch();
     const serverId = useSelector(state => state.servers.singleServerId);
-    const [members, memberships] = useMembers(serverId);
+    const memberships = Object.values(useSelector(state => state.session.memberships))
+        .filter(membership => membership.server_id === +serverId);
+
+    const members = Object.values(useSelector(state => state.members.members));
+
+   // const [members, memberships] = useMembers(serverId);
     const [host, setHost] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    console.log("Here are the members", members);
-    console.log("Here are the memberships", memberships);
-    console.log("Data", host)
+
     useEffect(() => {
         dispatch(getMembersThunk(serverId))
         .then(() => {
             setIsLoaded(true)
         });
-    }, [])
+
+        socket.on('new_member', (data) => {
+            console.log("NEW MEMBER", data, typeof(data));
+            //dispatch a thunk to add to memberships
+           const timer =  setTimeout(() => {
+                dispatch(newMembership(data));
+            }, 500)
+            return () => clearTimeout(timer);
+        });
+    }, [dispatch])
 
     const handleAccept = (member) => {
         let theMembership;

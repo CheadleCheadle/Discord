@@ -26,7 +26,6 @@ export const deleteUserServer = (serverId) => {
 	}
 }
 export const newMembership = (membership) => {
-	console.log("IM THE NEW MEMBERSHIP FOR BOTH MEMBERSHIPS")
 	return {
 		type: CREATE_MEMBERSHIP,
 		membership

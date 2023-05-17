@@ -6,6 +6,8 @@ import { useRef } from "react";
 import "./AllServers.css";
 import "./main.css"
 import { joinServerThunk } from "../../../store/session";
+import { socket } from "../../DirectMessages/roomChat";
+import { getMembersThunk } from "../../../store/members";
 const AllServersPage = () => {
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch()
@@ -15,14 +17,15 @@ const AllServersPage = () => {
   const [ isLoaded, setIsLoaded ] = useState(false);
   const serverElement = useRef();
   const joinServer = (server) => {
-    dispatch(joinServerThunk(server));
+    // dispatch(joinServerThunk(server));
+    socket.emit('join_server', {serverId: server.id, userId: user.id});
+    dispatch(getMembershipsThunk());
   };
 
   const RenderStatusButton = ({server}) => {
     const membershipsArray = Object.values(memberships);
     for (let i = 0; i < membershipsArray.length; i++) {
       const membership = membershipsArray[i];
-      console.log(membership);
       if (membership.server_id === server.id && membership.user_id === user.id) {
          return (
           <span>{membership.status}</span>

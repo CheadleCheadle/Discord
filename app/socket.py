@@ -2,9 +2,10 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 import os
 from .api import user_routes
 from flask import request
-from app.models import DirectMessage, db, ChannelMessage
+from app.models import DirectMessage, db, ChannelMessage, User, server_memberships, Server
 from flask_login import current_user, login_required
 from datetime import datetime
+import json
 # configure cors_allowed_origins
 if os.environ.get('FLASK_ENV') == 'production':
     origins = [
@@ -24,6 +25,53 @@ online_users = {}
 def get_online_users():
     print('Client connected111111111111111111111111111111111111111111111111111111111111111111111111111111')
     return {'users': list(online_users.values())}
+
+
+@socketio.on('join_server')
+def join_server(data):
+    server_id = data["serverId"]
+    server = Server.query.get(server_id)
+
+    if request.method == 'POST':
+        add_user_id = data["userId"]
+        new_member = User.query.get(add_user_id)
+        post_membership = db.session.execute(
+            server_memberships.update().where(server_memberships.c.user_id == add_user_id).where(server_memberships.c.server_id == server_id).values(status="Member"))
+        db.session.commit()
+
+        return {"status": 'Member', "userId": new_member.id, "serverId": server.id},  201
+
+    user_id = data["userId"]
+    user = User.query.get(user_id)
+
+    membership = db.session.query(
+        server_memberships).filter(server_memberships.c.user_id == user_id, server_memberships.c.server_id == server_id).first()
+
+    if request.method == 'DELETE':
+        if not server or not user or not membership:
+            return {"errors": "Resources not found."}, 404
+        host_bool = server.owner_id == user.id
+        if (host_bool):
+            return {"errors": "Permission Denied"}, 401
+        user_bool = membership.user_id == user.id
+        if not (user_bool):
+            return {"errors": "Permission Denied"}, 401
+        server.users.remove(user)
+        db.session.commit()
+        return {"Success": "Membership deleted."}, 202
+
+    if membership:
+        return {'error': "Membership already exists"}, 409
+
+    server.add_member(user, "Pending")
+    db.session.commit()
+
+    new_membership = db.session.query(
+        server_memberships).filter(server_memberships.c.user_id == user_id, server_memberships.c.server_id == server_id).first()
+    converted_membership = dict(new_membership)
+    emit("new_member", converted_membership, broadcast=True)
+    # return {"status": 'Pending', "userId": user_id, "serverId": server_id},  201
+
 
 
 
