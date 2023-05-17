@@ -69,10 +69,14 @@ def join_server(data):
     new_membership = db.session.query(
         server_memberships).filter(server_memberships.c.user_id == user_id, server_memberships.c.server_id == server_id).first()
     converted_membership = dict(new_membership)
-    emit("new_member", converted_membership, broadcast=True)
+    emit("new_member", {"membership": converted_membership, "user": user.to_safe_dict()}, broadcast=True)
     # return {"status": 'Pending', "userId": user_id, "serverId": server_id},  201
 
-
+@socketio.on('server_joined')
+def handle_joined(data):
+    membership = data["membership"]
+    print("000000000000000000000000000000000000000", membership)
+    emit('joined', membership, broadcast=True)
 
 
 @socketio.on('connect')

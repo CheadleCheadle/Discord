@@ -2,107 +2,84 @@ import { useParams } from "react-router-dom";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./main.css"
-import { getMembersThunk } from "../../../store/members";
+import { fetchAllMembersThunk, getMembersThunk, newPending } from "../../../store/members";
 import { changeMembershipStatusThunk, newMembership} from "../../../store/session";
 import { socket } from "../../DirectMessages/roomChat";
-
+import { newMember } from "../../../store/members";
 
 export default function Members() {
     const dispatch = useDispatch();
+    const user = useSelector(state => state.session.user);
     const serverId = useSelector(state => state.servers.singleServerId);
-    const memberships = Object.values(useSelector(state => state.session.memberships))
-        .filter(membership => membership.server_id === +serverId);
-
-    const members = Object.values(useSelector(state => state.members.members));
-
-   // const [members, memberships] = useMembers(serverId);
-    const [host, setHost] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
-
-
+    const host = useSelector(state => state.members.host);
+    const members = Object.values(useSelector(state => state.members.members));
+    const pending = Object.values(useSelector(state => state.members.pending));
+    const memberships = Object.values(useSelector(state => state.session.memberships));
     useEffect(() => {
-        dispatch(getMembersThunk(serverId))
-        .then(() => {
-            setIsLoaded(true)
-        });
+            setIsLoaded(true);
+
 
         socket.on('new_member', (data) => {
-            console.log("NEW MEMBER", data, typeof(data));
-            //dispatch a thunk to add to memberships
-           const timer =  setTimeout(() => {
-                dispatch(newMembership(data));
-            }, 500)
-            return () => clearTimeout(timer);
-        });
-    }, [dispatch])
+                dispatch(newMembership(data.membership));
+                dispatch(newPending(data.user));
+            });
+        }, [dispatch])
 
-    const handleAccept = (member) => {
-        let theMembership;
-        memberships.forEach(membership => {
-            if (membership.user_id === member.id && membership.status === "Pending") {
-                theMembership = membership;
-            }
-        })
-        console.log("THIS IS THE MEMBERSHIP ID!!!", theMembership);
-        if (theMembership) {
-            dispatch(changeMembershipStatusThunk(serverId, member.id, theMembership.id))
+        const handleAccept = (member) => {
+            let theMembership;
+            memberships.forEach(membership => {
+                if (membership.user_id === member.id && membership.status === "Pending") {
+                    theMembership = membership;
+                }
+            })
+            if (theMembership) {
+                dispatch(newMember(member));
+                dispatch(changeMembershipStatusThunk(serverId, member.id, theMembership.id))
+                .then(() => {
+                    let updatedMembership;
+                    memberships.forEach(membership => {
+                if (membership.user_id === member.id && membership.status === "Member") {
+                    updatedMembership = membership;
+                }
+            })
+                    socket.emit('server_joined', {membership: updatedMembership});
+                })
+
         }
     }
 
-    const filteredHost = useMemo(() => {
-        const filtered = members.filter(member => {
-            for (let i = 0; i < memberships.length; i++) {
-                const membership = memberships[i];
-                if (+membership.user_id === +member.id && membership.status === "Host") {
-                    return true;
-                }
-            }
-        });
-        return filtered;
-    }, [members]);
+    // const handlePending = () => {
+    //     return (
 
-    const filteredMembers = useMemo(() => {
-        const filtered = members.filter(member => {
-            for (let i = 0; i < memberships.length; i++) {
-                const membership = memberships[i];
-                if (+membership.user_id === +member.id && membership.status === "Member") {
-                    return true;
-                }
-            }
-        });
-        return filtered;
-    })
+    //         {pending.length ? <span id="status">Pending - {pending.length}</span> : null}
+    //         {pending.map((member) => (
+    //             <div id="members-info" key={member.id}>
+    //             <div id="mbr-image">
+    //             <img src={member.photo_url}></img>
+    //             </div>
+    //             <p>{member.username}</p>
+    //             <button onClick={() => handleAccept(member)} id="accept-button">Accept?</button>
+    //             </div>
+    //         ))}
+    //     )
+    // }
 
-    const filteredPending = useMemo(() => {
-        const filtered = members.filter(member => {
-            for (let i = 0; i < memberships.length; i++) {
-                const membership = memberships[i];
-                if (+membership.user_id === +member.id && membership.status === "Pending") {
-                    return true;
-                }
-            }
-        });
-        return filtered;
-    })
 
-    console.log("filtered host", filteredHost)
-    console.log("filtered members", filteredMembers);
-    console.log("filtered pending", filteredPending);
 
   return ( isLoaded &&
         <div className="members-cont">
 
         <span id="status">Host - 1</span>
-        {filteredHost.map((member) => (
-            <div id="members-info"key={member.id}>
+            <div id="members-info"key={host.id}>
             <div id ="mbr-image">
-            <img src={member.photo_url}></img>
+            <img src={host.photo_url}></img>
             </div>
-            <p>{member.username}</p>
+            <p>{host.username}</p>
             </div>
-        ))}
-        {filteredMembers.length ? <span id="status">Members - {filteredMembers.length}</span> : null}
-        {filteredMembers.map((member) => (
+
+        {members.length ? <span id="status">Members - {members.length}</span> : null}
+        {members.map((member) => (
             <div id="members-info" key={member.id}>
             <div id="mbr-image">
             <img src={member.photo_url}></img>
@@ -110,8 +87,8 @@ export default function Members() {
             <p>{member.username}</p>
             </div>
         ))}
-        {filteredPending.length ? <span id="status">Pending - {filteredPending.length}</span> : null}
-        {filteredPending.map((member) => (
+        {pending.length && host.id === user.id ? <span id="status">Pending - {pending.length}</span> : null}
+        {host.id === user.id && pending.map((member) => (
             <div id="members-info" key={member.id}>
             <div id="mbr-image">
             <img src={member.photo_url}></img>
@@ -120,6 +97,7 @@ export default function Members() {
             <button onClick={() => handleAccept(member)} id="accept-button">Accept?</button>
             </div>
         ))}
+
         </div>
 
     );

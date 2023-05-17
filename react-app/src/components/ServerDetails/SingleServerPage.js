@@ -14,7 +14,7 @@ import Friends from "../Friends";
 import "./Server.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { loadOneServerId } from "../../store/servers";
-import { getMembersThunk } from "../../store/members";
+import { fetchAllMembersThunk, getMembersThunk } from "../../store/members";
 const SingleServerPage = () => {
  const [isLoaded, setIsLoaded] = useState(false);
  let { serverId } = useParams();
@@ -39,6 +39,7 @@ const SingleServerPage = () => {
   console.log("This is the serverId", serverId, typeof serverId);
   dispatch(getServerChannels(serverId))
    .then(dispatch(loadOneServerId(serverId)))
+   .then(dispatch(fetchAllMembersThunk(serverId)))
    .then(() => setIsLoaded(true));
  }, [dispatch, serverId]);
 

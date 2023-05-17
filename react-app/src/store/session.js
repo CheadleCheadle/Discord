@@ -13,6 +13,7 @@ const CREATE_MEMBERSHIP = "session/new/membership";
 const DELETE_SERVER = "session/delete"
 const EDIT_SERVER = "session/servers/edit"
 const GET_ONLINE_USERS = "session/onlineUsers";
+const UPDATE_MEMBERSHIP = "session/membership/update"
 export const editServer = (server) => {
 	return {
 		type: EDIT_SERVER,
@@ -73,6 +74,13 @@ const getOnlineUsers = (users) => {
 	return {
 		type: GET_ONLINE_USERS,
 		users
+	}
+}
+
+export const updateMembership = (membership) => {
+	return {
+		type: UPDATE_MEMBERSHIP,
+		membership
 	}
 }
 
@@ -317,6 +325,14 @@ export default function reducer(state = initialState, action) {
 			...state,
 			onlineUsers: {...action.users}
 		}
+	}
+	case UPDATE_MEMBERSHIP: {
+		let newState = {
+			...state,
+			memberships: {...state.memberships}
+		};
+		newState.memberships[action.membership.id] = action.membership;
+		return newState;
 	}
 		default:
 			return state;

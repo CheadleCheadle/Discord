@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../../Button";
-import { getMembershipsThunk, newMembershipThunk } from "../../../store/session";
+import { getMembershipsThunk, newMembershipThunk, updateMembership } from "../../../store/session";
 import { useRef } from "react";
 import "./AllServers.css";
 import "./main.css"
@@ -19,8 +19,19 @@ const AllServersPage = () => {
   const joinServer = (server) => {
     // dispatch(joinServerThunk(server));
     socket.emit('join_server', {serverId: server.id, userId: user.id});
+    //May need to change so it updates the status of that membership or whatever...
     dispatch(getMembershipsThunk());
   };
+
+  useEffect(() => {
+     socket.on('joined', (data) => {
+       console.log("I was accepted just now!", data);
+       dispatch(updateMembership(data));
+       //Should update membership with the new status...
+       //Will need to pass data along with the websocket,
+       //Then dispatch an action to update the membership
+     });
+  }, [])
 
   const RenderStatusButton = ({server}) => {
     const membershipsArray = Object.values(memberships);
