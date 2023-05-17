@@ -260,25 +260,7 @@ export default function reducer(state = initialState, action) {
 			}
 		}
 		case CREATE_MEMBERSHIP: {
-			// let newState =  {
-			// 	...state,
-			// 	user: {...state.user. servers: {...state.user.servers,
-			// 		 [action.membership.serverId]: {...state.user.servers[action.membership.serverId],
-			// 			memberships: {...state.user.servers[action.membership.userId], [action.membership.userId]: action.membership}},
-			// 	memberships: { ...state.memberships, [ action.membership.serverId ]: action.membership }}
-			// }
-			// return newState;
-			// console.log("THIS IS THE MEMBERSHIP INSIDE OF THE REDUCER", action.membership);
-			// console.log("ERROR CAUSER", state.user.servers);
-			// return {
-			// 	...state,
-			// 	user: {...state.user,
-			// 		 servers: {...state.user.servers, [action.membership.serverId] : {...state.user.servers[action.membership.serverId],
-			// 			memberships: {...state.user.servers[action.membership.serverId].memberships, [action.membership.userId]: {...action.membership}}
-			// 		}},
-			// 	},
-			// 	memberships: {...state.memberships, [action.membership.serverId]: {...action.membership}}
-			// }
+
 			return {
 				...state,
 				memberships: {...state.memberships, [action.membership.id]: action.membership}
@@ -305,14 +287,6 @@ export default function reducer(state = initialState, action) {
 			return newState;
 		}
 		case JOIN_SERVER: {
-		// 	let newState = {
-		// 		...state,
-		// 		user: {...state.user, servers: {...state.user.servers,
-		// 			 memberships: {...state.user.servers[action.serverId].memberships}
-		// 			}
-		// 	}
-		// }
-		// newState.user.servers[action.serverId].memberships[action.userId].status = action.status
 		let newState = {
 			...state,
 			memberships: {...state.memberships}

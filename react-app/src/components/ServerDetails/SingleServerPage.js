@@ -95,7 +95,7 @@ const SingleServerPage = () => {
        <Channel />
       </Route>
      </Switch>
-     <Members></Members>
+     <Members isLoaded={isLoaded}></Members>
     </>
    )}
   </>

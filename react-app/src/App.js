@@ -10,6 +10,7 @@ import SplashPage from "./components/SplashPage";
 import AllServersPage from "./components/ServerDetails/allServers";
 import Friends from "./components/Friends";
 import FriendDisplay from "./components/FriendDisplay";
+import { socket } from "./components/DirectMessages/roomChat";
 
 
 function App() {
@@ -20,6 +21,10 @@ function App() {
     dispatch(thunkLoadAllServers())
       .then(() => dispatch(authenticate()))
       .then(() => setIsLoaded(true));
+
+    socket.on('joined', (data) => {
+      dispatch(authenticate());
+    })
   }, [ dispatch, isLoaded ]);
 
   return (
