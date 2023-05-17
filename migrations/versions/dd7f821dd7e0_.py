@@ -1,12 +1,17 @@
 """empty message
 
 Revision ID: dd7f821dd7e0
-Revises: 
+Revises:
 Create Date: 2023-05-17 15:48:20.276928
 
 """
 from alembic import op
 import sqlalchemy as sa
+
+
+import os
+environment = os.getenv("FLASK_ENV")
+SCHEMA = os.environ.get("SCHEMA")
 
 
 # revision identifiers, used by Alembic.
@@ -31,6 +36,9 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
+    if environment == "production":
+        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
+
     op.create_table('direct_messages',
     sa.Column('_content', sa.Text(), nullable=False),
     sa.Column('_time_stamp', sa.DateTime(), nullable=False),
@@ -41,6 +49,9 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    if environment == "production":
+        op.execute(f"ALTER TABLE direct_messages SET SCHEMA {SCHEMA};")
+
     op.create_table('friends',
     sa.Column('user1_id', sa.Integer(), nullable=False),
     sa.Column('user2_id', sa.Integer(), nullable=False),
@@ -49,6 +60,9 @@ def upgrade():
     sa.ForeignKeyConstraint(['user2_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('user1_id', 'user2_id')
     )
+    if environment == "production":
+        op.execute(f"ALTER TABLE friends SET SCHEMA {SCHEMA};")
+
     op.create_table('servers',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('_icon_url', sa.String(), nullable=True),
@@ -62,6 +76,9 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('_name')
     )
+    if environment == "production":
+        op.execute(f"ALTER TABLE servers SET SCHEMA {SCHEMA};")
+
     op.create_table('channels',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('_server_id', sa.Integer(), nullable=False),
@@ -72,6 +89,9 @@ def upgrade():
     sa.ForeignKeyConstraint(['_server_id'], ['servers.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    if environment == "production":
+        op.execute(f"ALTER TABLE channels SET SCHEMA {SCHEMA};")
+
     op.create_table('server_memberships',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
@@ -81,6 +101,9 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    if environment == "production":
+        op.execute(f"ALTER TABLE server_memberships SET SCHEMA {SCHEMA};")
+
     op.create_table('channel_messages',
     sa.Column('_content', sa.Text(), nullable=False),
     sa.Column('_time_stamp', sa.DateTime(), nullable=False),
@@ -91,6 +114,9 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    if environment == "production":
+        op.execute(f"ALTER TABLE channel_messages SET SCHEMA {SCHEMA};")
+
     # ### end Alembic commands ###
 
 
