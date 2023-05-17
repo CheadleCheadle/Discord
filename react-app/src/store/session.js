@@ -1,3 +1,4 @@
+import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
 import { normalizeFn } from "./channels";
 import { thunkAddAServer, thunkLoadAllServers, thunkLoadCurrentServers } from "./servers";
 
@@ -11,6 +12,8 @@ const GET_MEMBERSHIPS = "session/memberships";
 const CREATE_MEMBERSHIP = "session/new/membership";
 const DELETE_SERVER = "session/delete"
 const EDIT_SERVER = "session/servers/edit"
+const GET_ONLINE_USERS = "session/onlineUsers";
+const UPDATE_MEMBERSHIP = "session/membership/update"
 export const editServer = (server) => {
 	return {
 		type: EDIT_SERVER,
@@ -24,7 +27,6 @@ export const deleteUserServer = (serverId) => {
 	}
 }
 export const newMembership = (membership) => {
-	console.log("IM THE NEW MEMBERSHIP FOR BOTH MEMBERSHIPS")
 	return {
 		type: CREATE_MEMBERSHIP,
 		membership
@@ -58,12 +60,27 @@ const removeUser = () => ({
 	type: REMOVE_USER,
 });
 
-const joinServer = (userId, serverId, status) => {
+const joinServer = (userId, serverId, status, membershipId) => {
 	return {
 		type: JOIN_SERVER,
 		userId,
 		serverId,
-		status
+		status,
+		membershipId
+	}
+}
+
+const getOnlineUsers = (users) => {
+	return {
+		type: GET_ONLINE_USERS,
+		users
+	}
+}
+
+export const updateMembership = (membership) => {
+	return {
+		type: UPDATE_MEMBERSHIP,
+		membership
 	}
 }
 
@@ -71,7 +88,7 @@ export const thunkNewDirectMessage = (data) => async (dispatch) => {
 	dispatch(newDirectMessageAction(data))
 };
 
-export const changeMembershipStatusThunk = (serverId, userId) => async dispatch => {
+export const changeMembershipStatusThunk = (serverId, userId, membershipId) => async dispatch => {
 	const response = await fetch(`/api/servers/${serverId}/membership`, {
 		method: "POST",
 		headers: {
@@ -82,7 +99,7 @@ export const changeMembershipStatusThunk = (serverId, userId) => async dispatch 
 
 	if (response.ok) {
 		const data = await response.json();
-		dispatch(joinServer(data.userId, data.serverId, data.status));
+		dispatch(joinServer(data.userId, data.serverId, data.status, membershipId));
 		return data;
 	}
 }
@@ -167,13 +184,9 @@ export const signUp = (username, email, password, firstname, lastname) => async 
 
 export const joinServerThunk = (server) => async (dispatch) => {
 	const response = await fetch(`/api/servers/${server.id}/membership`);
-		console.log("RESPONSE", response)
 	if (response.ok) {
 		const data = await response.json();
-		console.log("DATA", data)
-		dispatch(thunkAddAServer(server)).then(() => {
-			dispatch(newMembership(data))
-		})
+		dispatch(getMembershipsThunk());
 		return data;
 	}
 }
@@ -194,7 +207,18 @@ export const newMembershipThunk = (serverId) => async (dispatch) => {
 	}
 }
 
-const initialState = { user: null, memberships: {} };
+export const getOnlineUsersThunk = () => async (dispatch) => {
+	const response = await fetch(`/api/users/online`);
+	if (response.ok) {
+		const data = await response.json();
+		console.log("Im a user", data);
+		// const users = normalizeFn(data);
+		dispatch(getOnlineUsers(data))
+		return data;
+	}
+}
+
+const initialState = { user: null, onlineUsers: {}, memberships: {} };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
@@ -236,24 +260,10 @@ export default function reducer(state = initialState, action) {
 			}
 		}
 		case CREATE_MEMBERSHIP: {
-			// let newState =  {
-			// 	...state,
-			// 	user: {...state.user. servers: {...state.user.servers,
-			// 		 [action.membership.serverId]: {...state.user.servers[action.membership.serverId],
-			// 			memberships: {...state.user.servers[action.membership.userId], [action.membership.userId]: action.membership}},
-			// 	memberships: { ...state.memberships, [ action.membership.serverId ]: action.membership }}
-			// }
-			// return newState;
-			console.log("THIS IS THE MEMBERSHIP INSIDE OF THE REDUCER", action.membership);
-			console.log("ERROR CAUSER", state.user.servers);
+
 			return {
 				...state,
-				user: {...state.user,
-					 servers: {...state.user.servers, [action.membership.serverId] : {...state.user.servers[action.membership.serverId],
-						memberships: {...state.user.servers[action.membership.serverId].memberships, [action.membership.userId]: {...action.membership}}
-					}},
-				},
-				memberships: {...state.memberships, [action.membership.serverId]: {...action.membership}}
+				memberships: {...state.memberships, [action.membership.id]: action.membership}
 			}
 		}
 		case DELETE_SERVER: {
@@ -277,14 +287,26 @@ export default function reducer(state = initialState, action) {
 			return newState;
 		}
 		case JOIN_SERVER: {
-			let newState = {
-				...state,
-				user: {...state.user, servers: {...state.user.servers,
-					 memberships: {...state.user.servers[action.serverId].memberships}
-					}
-			}
+		let newState = {
+			...state,
+			memberships: {...state.memberships}
 		}
-		newState.user.servers[action.serverId].memberships[action.userId].status = action.status
+		newState.memberships[action.membershipId].status = action.status;
+		return newState;
+	}
+	case GET_ONLINE_USERS: {
+		return {
+			...state,
+			onlineUsers: {...action.users}
+		}
+	}
+	case UPDATE_MEMBERSHIP: {
+		let newState = {
+			...state,
+			memberships: {...state.memberships}
+		};
+		newState.memberships[action.membership.id] = action.membership;
+		return newState;
 	}
 		default:
 			return state;

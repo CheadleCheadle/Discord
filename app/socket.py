@@ -1,8 +1,11 @@
 from flask_socketio import SocketIO, emit, join_room, leave_room
 import os
+from .api import user_routes
 from flask import request
-
-
+from app.models import DirectMessage, db, ChannelMessage, User, server_memberships, Server
+from flask_login import current_user, login_required
+from datetime import datetime
+import json
 # configure cors_allowed_origins
 if os.environ.get('FLASK_ENV') == 'production':
     origins = [
@@ -15,11 +18,114 @@ else:
 socketio = SocketIO(cors_allowed_origins=origins)
 
 active_rooms = {}
+online_users = {}
+
+@user_routes.route('/online')
+@login_required
+def get_online_users():
+    print('Client connected111111111111111111111111111111111111111111111111111111111111111111111111111111')
+    return {'users': list(online_users.values())}
+
+@socketio.on('join_server_room')
+def join_server_room(data):
+    room_name = data["roomName"]
+    user = data["user"]
+    print("9999999999999999999999999",user["username"], " joined ", room_name)
+    join_room(room_name)
+    active_rooms[room_name] = 1
+    emit("join_message", {"Joined":"I joined the server room"})
+
+
+@socketio.on('join_server')
+def join_server(data):
+    server_id = data["serverId"]
+    server = Server.query.get(server_id)
+    room_name = data["roomName"]
+    if request.method == 'POST':
+        add_user_id = data["userId"]
+        new_member = User.query.get(add_user_id)
+        post_membership = db.session.execute(
+            server_memberships.update().where(server_memberships.c.user_id == add_user_id).where(server_memberships.c.server_id == server_id).values(status="Member"))
+        db.session.commit()
+
+        return {"status": 'Member', "userId": new_member.id, "serverId": server.id},  201
+
+    user_id = data["userId"]
+    user = User.query.get(user_id)
+
+    membership = db.session.query(
+        server_memberships).filter(server_memberships.c.user_id == user_id, server_memberships.c.server_id == server_id).first()
+
+    if request.method == 'DELETE':
+        if not server or not user or not membership:
+            return {"errors": "Resources not found."}, 404
+        host_bool = server.owner_id == user.id
+        if (host_bool):
+            return {"errors": "Permission Denied"}, 401
+        user_bool = membership.user_id == user.id
+        if not (user_bool):
+            return {"errors": "Permission Denied"}, 401
+        server.users.remove(user)
+        db.session.commit()
+        return {"Success": "Membership deleted."}, 202
+
+    if membership:
+        return {'error': "Membership already exists"}, 409
+
+    server.add_member(user, "Pending")
+    db.session.commit()
+
+    new_membership = db.session.query(
+        server_memberships).filter(server_memberships.c.user_id == user_id, server_memberships.c.server_id == server_id).first()
+    converted_membership = dict(new_membership)
+    emit("new_member", {"membership": converted_membership, "user": user.to_safe_dict()}, room=room_name, broadcast=True)
+
+@socketio.on('server_joined')
+def handle_joined(data):
+    membership = data["membership"]
+    room_name = data["roomName"]
+    emit('joined', membership, room=room_name, broadcast=True)
 
 
 @socketio.on('connect')
 def handle_connect():
-    print('Client connected')
+    print('Client connected22222222222222222')
+    # online_users[request.sid] = {"user": current_user.to_dict()}
+    # emit('online_users', {'users': list(online_users.values())}, broadcast=True)
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    del online_users[request.sid]
+    emit('online_users', {'users': list(online_users.values())}, broadcast=True)
+
+@socketio.on('channel_join')
+def handle_channel_join(data):
+    """Join a channel"""
+    print("I joined a channel room!, 1111111111111111111111111111111111111")
+    channel_name = data['channelName']
+    join_room(channel_name)
+    active_rooms[channel_name] = 1
+
+
+@socketio.on('channel_message')
+def handle_channel_message(data):
+    """Handle channel messages"""
+    print('22222222222222222222222222222222222222222')
+    channel = data['channel']
+    print("THIS IS THE CHANNEL", channel)
+    channel_name = channel['name']
+    message = data['message']
+    user_id = data['userId']
+    new_message = ChannelMessage(
+        user_id=user_id,
+        channel_id = channel['id'],
+        _content= message
+    )
+    db.session.add(new_message)
+    db.session.commit()
+    the_message = new_message.to_dict()
+    the_message["time_stamp"] = str(the_message["time_stamp"])
+    emit('new_channel_message', the_message, broadcast=True, room=channel_name)
 
 
 @socketio.on('join')
@@ -36,8 +142,6 @@ def handle_join(data):
 @socketio.on('leave')
 def handle_leave(data):
     """Leave a chat room"""
-    username = data['username']
-    friendname = data['friendname']
     char_code = data["charCode2"]
 
     leave_room(char_code)
@@ -50,8 +154,18 @@ def handle_message(data):
     """Handle incoming messages"""
     username = data['username']
     friendname = data['friendname']
+    user_id = data["userId"]
+    recipient_id = data["friendId"]
     char_code = data['charCode2']
     message = data['message']
-    print("step-2-22222222222222222222222222222222222222222222222222222222222222222222222222222", char_code)
-    emit('new_message', {'message': message},
+    new_message = DirectMessage(
+        user_id = data["userId"],
+        recipient_id=data["friendId"],
+        _content = message,
+    )
+    db.session.add(new_message)
+    db.session.commit()
+    the_message = new_message.to_dict()
+    the_message["time_stamp"] = str(the_message["time_stamp"])
+    emit('new_message', the_message,
          broadcast=True, room=char_code)

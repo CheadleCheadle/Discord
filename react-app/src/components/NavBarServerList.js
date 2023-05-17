@@ -9,10 +9,6 @@ import { getMembershipsThunk } from "../store/session";
 function NavBarServerList() {
   const serversObj = useSelector(state => state.session.user.servers)
   const servers = Object.values(serversObj)
-  // const memberships = useSelector(state => state.session.memberships)
-  // const membershipKeys = Object.keys(memberships)
-  // console.log("==========================================================================", serversList, memberships, membershipKeys)
-  // const servers = serversList.filter(val => membershipKeys.includes(val.id))
   const dispatch = useDispatch();
   const handleClick = (server) => {
     dispatch(loadOneServerId(server.id));

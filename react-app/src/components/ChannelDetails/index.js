@@ -1,46 +1,49 @@
 import { useParams } from "react-router-dom";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import {
- allMessages,
- newChannelMessageAction,
- thunkGetAllMessages,
-} from "../../store/channels.js";
-// import { allMessagesAction } from "../../store/channels.js";
-import { update } from "lodash";
 import { thunkUpdateSingleChannelId } from "../../store/channels.js";
+import  { socket } from "../DirectMessages/roomChat.js";
 import "./channel.css";
+import { fetchChannelMessagesThunk, sendChannelMessage} from "../../store/channelmessages.js";
 export default function Channel() {
- const history = useHistory();
  const dispatch = useDispatch();
  const { serverId, channelId } = useParams();
- // const channelId = useSelector(state => state.channels.SingleChannelId);
+ const user = useSelector(state => state.session.user);
  const [isLoaded, setIsLoaded] = useState(false);
- const channelId2 = useSelector((state) => state.channels.SingleChannelId);
+ const [message, setMessage] = useState("");
+ const channel = useSelector((state) => state.channels.allChannels[channelId]);
+ const channelMessagesObj = (useSelector(state => state.channelMessages));
+ const channelMessages = Object.values(channelMessagesObj.messages)
+
  useEffect(() => {
-  dispatch(thunkUpdateSingleChannelId(channelId)).then(() => setIsLoaded(true));
+  dispatch(thunkUpdateSingleChannelId(channelId))
+  dispatch(fetchChannelMessagesThunk(channelId))
+  .then(() => {
+    setIsLoaded(true);
+  })
+
+  socket.emit("channel_join", {channelName: channel.name});
+
+  //Handle incoming messages
+  socket.on("new_channel_message", (data) => {
+    console.log("New channel message", data);
+    dispatch(sendChannelMessage(data));
+  })
+  // Leave the channel when component unmounts
+  return () => {
+    const charCode2 = channel.name;
+    socket.emit("leave", {charCode2})
+  }
  }, [dispatch, channelId]);
 
- const channel = useSelector((state) => state.channels.allChannels[channelId]);
- //Conditional is needed because a newly created channel doesn't have messages
- if (!channel.channel_messages) {
-  channel.channel_messages = {};
- }
- const channelMessages = Object.values(channel.channel_messages);
 
- const [message, setMessage] = useState("");
+
 
  const handleSubmit = (e) => {
   e.preventDefault();
-  const newMessage = {
-   channelId,
-   content: message,
-  };
-  dispatch(newChannelMessageAction(newMessage, channelId));
+  socket.emit("channel_message", {channel, message, userId:user.id});
   setMessage("")
-
-
  };
 
  return (
@@ -52,6 +55,7 @@ export default function Channel() {
       {channelMessages.map((message) => (
           <div id="all-msgs" key={message.id}>
         {message.content}
+        <p>{message.time_stamp}</p>
        </div>
       ))}
 

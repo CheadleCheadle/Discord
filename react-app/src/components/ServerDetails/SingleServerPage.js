@@ -14,17 +14,22 @@ import Friends from "../Friends";
 import "./Server.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { loadOneServerId } from "../../store/servers";
+import { fetchAllMembersThunk, getMembersThunk } from "../../store/members";
+import { socket } from "../DirectMessages/roomChat";
 const SingleServerPage = () => {
  const [isLoaded, setIsLoaded] = useState(false);
- const { serverId } = useParams();
+ let { serverId } = useParams();
+ serverId = parseInt(serverId);
  const history = useHistory();
  const dispatch = useDispatch();
+ const user = useSelector(state => state.session.user);
  const userServers = useSelector((state) => state.session.user.servers);
  //For redirecting user when they aren't a member of a server...
  if (isNaN(+serverId) || !userServers[serverId]) {
   history.replace("/servers");
  }
 
+  const roomName = String(serverId);
  const sessionUser = useSelector((state) => state.session.user);
 
  const servers = useSelector((state) => state.servers.allServers);
@@ -34,9 +39,13 @@ const SingleServerPage = () => {
  );
 
  useEffect(() => {
+  console.log("This is the serverId", serverId, typeof serverId);
   dispatch(getServerChannels(serverId))
    .then(dispatch(loadOneServerId(serverId)))
+   .then(dispatch(fetchAllMembersThunk(serverId)))
    .then(() => setIsLoaded(true));
+
+    socket.emit("join_server_room", {roomName, user});
  }, [dispatch, serverId]);
 
  return (
@@ -91,7 +100,7 @@ const SingleServerPage = () => {
        <Channel />
       </Route>
      </Switch>
-     <Members></Members>
+     <Members isLoaded={isLoaded}></Members>
     </>
    )}
   </>
