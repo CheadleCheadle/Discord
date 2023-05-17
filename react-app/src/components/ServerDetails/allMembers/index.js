@@ -16,9 +16,13 @@ export default function Members() {
     const members = Object.values(useSelector(state => state.members.members));
     const pending = Object.values(useSelector(state => state.members.pending));
     const memberships = Object.values(useSelector(state => state.session.memberships));
+    const roomName = String(serverId);
     useEffect(() => {
             setIsLoaded(true);
 
+        socket.on('join_message', (data) => {
+            console.log(data);
+        })
 
         socket.on('new_member', (data) => {
                 dispatch(newMembership(data.membership));
@@ -43,7 +47,7 @@ export default function Members() {
                     updatedMembership = membership;
                 }
             })
-                    socket.emit('server_joined', {membership: updatedMembership});
+                    socket.emit('server_joined', {membership: updatedMembership, roomName});
                 })
 
         }

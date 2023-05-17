@@ -18,7 +18,10 @@ const AllServersPage = () => {
   const serverElement = useRef();
   const joinServer = (server) => {
     // dispatch(joinServerThunk(server));
-    socket.emit('join_server', {serverId: server.id, userId: user.id});
+    const roomName = String(server.id);
+    console.log("THIS IS THE ROOM NAME", roomName);
+    socket.emit('join_server_room', {roomName, user});
+    socket.emit('join_server', {serverId: server.id, userId: user.id, roomName});
     //May need to change so it updates the status of that membership or whatever...
     dispatch(getMembershipsThunk());
   };
@@ -31,6 +34,9 @@ const AllServersPage = () => {
        //Will need to pass data along with the websocket,
        //Then dispatch an action to update the membership
      });
+      socket.on('join_message', (data) => {
+            console.log(data);
+        })
   }, [])
 
   const RenderStatusButton = ({server}) => {

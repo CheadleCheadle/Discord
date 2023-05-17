@@ -26,12 +26,21 @@ def get_online_users():
     print('Client connected111111111111111111111111111111111111111111111111111111111111111111111111111111')
     return {'users': list(online_users.values())}
 
+@socketio.on('join_server_room')
+def join_server_room(data):
+    room_name = data["roomName"]
+    user = data["user"]
+    print("9999999999999999999999999",user["username"], " joined ", room_name)
+    join_room(room_name)
+    active_rooms[room_name] = 1
+    emit("join_message", {"Joined":"I joined the server room"})
+
 
 @socketio.on('join_server')
 def join_server(data):
     server_id = data["serverId"]
     server = Server.query.get(server_id)
-
+    room_name = data["roomName"]
     if request.method == 'POST':
         add_user_id = data["userId"]
         new_member = User.query.get(add_user_id)
@@ -69,14 +78,13 @@ def join_server(data):
     new_membership = db.session.query(
         server_memberships).filter(server_memberships.c.user_id == user_id, server_memberships.c.server_id == server_id).first()
     converted_membership = dict(new_membership)
-    emit("new_member", {"membership": converted_membership, "user": user.to_safe_dict()}, broadcast=True)
-    # return {"status": 'Pending', "userId": user_id, "serverId": server_id},  201
+    emit("new_member", {"membership": converted_membership, "user": user.to_safe_dict()}, room=room_name, broadcast=True)
 
 @socketio.on('server_joined')
 def handle_joined(data):
     membership = data["membership"]
-    print("000000000000000000000000000000000000000", membership)
-    emit('joined', membership, broadcast=True)
+    room_name = data["roomName"]
+    emit('joined', membership, room=room_name, broadcast=True)
 
 
 @socketio.on('connect')
