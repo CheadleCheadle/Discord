@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../../Button";
-import { getMembershipsThunk, newMembershipThunk, updateMembership } from "../../../store/session";
+import { getMembershipsThunk, updateMembership, newMembership } from "../../../store/session";
 import { useRef } from "react";
 import "./AllServers.css";
 import "./main.css"
@@ -23,8 +23,11 @@ const AllServersPage = () => {
     socket.emit('join_server_room', {roomName, user});
     socket.emit('join_server', {serverId: server.id, userId: user.id, roomName});
     //May need to change so it updates the status of that membership or whatever...
-    dispatch(getMembershipsThunk());
+
+    // dispatch(getMembershipsThunk());
   };
+
+
 
   useEffect(() => {
      socket.on('joined', (data) => {
@@ -37,6 +40,11 @@ const AllServersPage = () => {
       socket.on('join_message', (data) => {
             console.log(data);
         })
+
+      socket.on('new_member', (data) => {
+        console.log("This is for allServers data", data);
+        dispatch(newMembership(data.membership));
+      })
   }, [])
 
   const RenderStatusButton = ({server}) => {
