@@ -23,6 +23,7 @@ const SingleServerPage = () => {
  let { serverId } = useParams();
  const [active, setActive] = useState(null);
  serverId = parseInt(serverId);
+ const server = useSelector(state => state.servers.allServers[serverId])
  const history = useHistory();
  const dispatch = useDispatch();
  const user = useSelector(state => state.session.user);
@@ -75,13 +76,13 @@ const SingleServerPage = () => {
 
        <span id="addAChannel">
          <p>TEXT CHANNELS</p>
-         <OpenModalButton
+         { sessionUser.id === server.owner_id ? <OpenModalButton
          modalCSSClass="add-channel-display-none"
          buttonText={
          <FontAwesomeIcon icon={faPlus} id="plus-icon" className="fa-sm"/>
          }
          modalComponent={<AddChannelModal /> }
-         />
+         /> : null}
        </span>
 
        <div
@@ -95,11 +96,11 @@ const SingleServerPage = () => {
           <p>#</p>
            <div className="chnl-name"
            >{channel.name}
-           <div id="edit-cog">
+           { sessionUser.id ===  server.owner_id ? <div id="edit-cog">
           <FontAwesomeIcon
           onClick={(e) => editChannel(channel, e)}
           icon={faGear} size="sm"/>
-            </div>
+            </div> : null}
            </div>
          </div>
         ))}
