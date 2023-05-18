@@ -2,6 +2,7 @@ from app.models import db, environment, SCHEMA, add_prefix_for_prod, DirectMessa
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from random import randint
 
 friends = db.Table(
     "friends",
@@ -44,10 +45,23 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     active_status = db.Column(db.Boolean, unique=False, default=False)
     hashed_password = db.Column(db.String(255), nullable=False)
-
+    code = db.Column(db.String(4), unique=True)
     # Relationships
     servers = db.relationship(
         "Server", back_populates="owner", cascade="all, delete-orphan")
+
+
+    def __init__(self, *args, **kwargs):
+        super(User, self).__init__(*args, **kwargs)
+        self.code = self.generate_code()
+
+    def generate_code(self):
+        while True:
+            code = ''.join([str(randint(0, 9)) for _ in range(4)])
+            if not User.query.filter_by(code=code).first():
+                return code
+
+
 
     if environment == "production":
 
@@ -115,6 +129,7 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'email': self.email,
+            'code': self.code,
             "firstname": self.firstname,
             "lastname": self.lastname,
             "photo_url": self.photo_url,
@@ -128,6 +143,7 @@ class User(db.Model, UserMixin):
             'email': self.email,
             "firstname": self.firstname,
             "lastname": self.lastname,
+            'code': self.code,
             "photo_url": self.photo_url,
             "active_status": self.active_status,
             "servers": [server.to_safe_dict() for server in self.servers],

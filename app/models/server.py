@@ -1,6 +1,6 @@
 from app.models import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
-
+from random import randint
 # Join table for Servers and users to create memberships
 server_memberships = db.Table(
     "server_memberships",  # Name of the table
