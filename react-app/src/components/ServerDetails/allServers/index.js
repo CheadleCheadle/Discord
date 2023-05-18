@@ -8,6 +8,7 @@ import "./main.css"
 import { joinServerThunk } from "../../../store/session";
 import { socket } from "../../DirectMessages/roomChat";
 import { getMembersThunk } from "../../../store/members";
+import { thunkLoadAllServers } from "../../../store/servers";
 const AllServersPage = () => {
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch()

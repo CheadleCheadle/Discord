@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import SignupFormPage from "./components/SignupFormPage";
-import { authenticate } from "./store/session";
+import { addUserStatus, authenticate, removeUserStatus } from "./store/session";
 import AddServerForm from "./components/AddServerForm";
 import MyServersPage from "./components/ServerDetails/MyServersPage";
 import { thunkLoadAllServers } from "./store/servers";
@@ -25,6 +25,16 @@ function App() {
     socket.on('joined', (data) => {
       dispatch(authenticate());
     })
+    socket.on('status_update', ({ user, active }) => {
+      //dispatch actions to remove or
+      if (active) {
+        dispatch(addUserStatus(user));
+      } else {
+        dispatch(removeUserStatus(user));
+      }
+      console.log(`User ${user.id} is ${active ? 'active' : 'inactive'}`);
+    })
+
   }, [ dispatch, isLoaded ]);
 
   return (

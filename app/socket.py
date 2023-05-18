@@ -18,7 +18,7 @@ else:
 socketio = SocketIO(cors_allowed_origins=origins)
 
 active_rooms = {}
-online_users = {}
+active_users = {}
 
 @user_routes.route('/online')
 @login_required
@@ -87,16 +87,30 @@ def handle_joined(data):
     emit('joined', membership, room=room_name, broadcast=True)
 
 
-@socketio.on('connect')
-def handle_connect():
+@socketio.on('connecting')
+def handle_connect(data):
     print('Client connected22222222222222222')
-    # online_users[request.sid] = {"user": current_user.to_dict()}
-    # emit('online_users', {'users': list(online_users.values())}, broadcast=True)
+    user = data["user"]
+    user_id = user["id"]
 
-@socketio.on('disconnect')
-def handle_disconnect():
-    del online_users[request.sid]
-    emit('online_users', {'users': list(online_users.values())}, broadcast=True)
+    active_users[user_id] = {
+        'connection_id': request.sid,
+        'active': True
+    }
+    emit('status_update', {'user': user, 'active': True}, broadcast=True)
+
+@socketio.on('disconnectingUser')
+def handle_disconnect(data):
+
+    user = data["user"]
+    user_id = user["id"]
+
+
+    if user_id in active_users:
+        del active_users[user_id]
+        emit('status_update', {'user': user, 'active': False}, broadcast=True)
+
+
 
 @socketio.on('channel_join')
 def handle_channel_join(data):

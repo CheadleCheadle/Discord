@@ -1,9 +1,13 @@
 import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
 import { normalizeFn } from "./channels";
 import { thunkAddAServer, thunkLoadAllServers, thunkLoadCurrentServers } from "./servers";
+import { socket } from "../components/DirectMessages/roomChat"
+import { useSelector} from "react-redux";
 
-// constants
+
 const SET_USER = "session/SET_USER";
+const ADD_USER_STATUS = "session/ADD_STATUS";
+const REMOVE_USER_STATUS = "session/remove_user";
 const REMOVE_USER = "session/REMOVE_USER";
 const JOIN_SERVER = "session/JOIN_SERVER";
 const NEW_DIRECT_MESSAGE = "session/user/directMessages/CREATE"
@@ -18,6 +22,19 @@ export const editServer = (server) => {
 	return {
 		type: EDIT_SERVER,
 		server
+	}
+}
+export const addUserStatus = (user) => {
+	return {
+		type: ADD_USER_STATUS,
+		user
+	}
+}
+
+export const removeUserStatus = (user) => {
+	return {
+		type: REMOVE_USER_STATUS,
+		user
 	}
 }
 export const deleteUserServer = (serverId) => {
@@ -56,8 +73,9 @@ const setUser = (user) => ({
 	payload: user,
 });
 
-const removeUser = () => ({
+const removeUser = (user) => ({
 	type: REMOVE_USER,
+	user
 });
 
 const joinServer = (userId, serverId, status, membershipId) => {
@@ -136,6 +154,8 @@ export const login = (email, password) => async (dispatch) => {
 		const data = await response.json();
 		await dispatch(setUser(data));
 		await dispatch(getMembershipsThunk());
+		console.log("This is the user!!!!!!", data);
+		socket.emit('connecting', {user: data})
 		return null;
 	} else if (response.status < 500) {
 		const data = await response.json();
@@ -147,7 +167,7 @@ export const login = (email, password) => async (dispatch) => {
 	}
 };
 
-export const logout = () => async (dispatch) => {
+export const logout = (user) => async (dispatch) => {
 	const response = await fetch("/api/auth/logout", {
 		headers: {
 			"Content-Type": "application/json",
@@ -155,7 +175,8 @@ export const logout = () => async (dispatch) => {
 	});
 
 	if (response.ok) {
-		dispatch(removeUser());
+		socket.emit('disconnectingUser', {user})
+		dispatch(removeUser(user));
 	}
 };
 
@@ -218,7 +239,7 @@ export const getOnlineUsersThunk = () => async (dispatch) => {
 	}
 }
 
-const initialState = { user: null, onlineUsers: {}, memberships: {} };
+const initialState = { user: null, activeUsers: {}, memberships: {} };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
@@ -228,9 +249,27 @@ export default function reducer(state = initialState, action) {
 			action.payload.direct_messages = normalizeFn(action.payload.direct_messages)
 			action.payload.friends = normalizeFn(action.payload.friends)
 			action.payload.servers = normalizeFn(action.payload.servers)
-			return { ...state, user: action.payload };
+
+			return { ...state, user: action.payload};
+		case ADD_USER_STATUS: {
+			return {
+				...state, activeUsers: {...state.activeUsers, [action.user.id]: action.user}
+			}
+		}
+		case REMOVE_USER_STATUS: {
+			let newState = {
+				...state,
+				activeUsers: {...state.activeUsers}
+			}
+			delete newState.activeUsers[action.user.id];
+			return newState;
+		}
 		case REMOVE_USER:
-			return { user: null };
+			let newState = {
+				...state,
+				user: null
+			}
+			return newState;
 
 		case NEW_SERVER: {
 			let newState = { ...state };
