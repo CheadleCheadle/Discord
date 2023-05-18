@@ -20,10 +20,11 @@ const AllServersNavbar = () => {
   };
   return (
     <>
+
       <div className="svr-nav-bar">
         <div className="svr-nav-server-list">
           <div id="home" onClick={() => goHome()}>
-            <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png"></img>
+            <img width="50" height="50" color="#DBDEE1" src="https://img.icons8.com/ios-filled/50/DBDEE1/discord-logo.png" alt="discord-logo"/>
           </div>
           <NavBarServerList />
         </div>
