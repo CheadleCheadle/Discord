@@ -15,18 +15,18 @@ const MyServersPage = () => {
   const serversObj = useSelector(state => state.servers.allServers);
   const servers = Object.values(serversObj)
   const location = useLocation();
-  const [ showFriends, setShowFriends ] = useState(false)
-  const [ isLoaded, setIsLoaded ] = useState(false)
+  const [showFriends, setShowFriends] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     dispatch(getMembershipsThunk())
       .then(() => setIsLoaded(true))
-  }, [ dispatch ])
+  }, [dispatch])
 
   useEffect(() => {
     if (location.pathname.slice(0, 8) === '/friends' || location.pathname === '/servers') setShowFriends(true)
     else setShowFriends(false)
-  }, [ location.pathname ]);
+  }, [location.pathname]);
   return (
     <>
       {isLoaded && (
@@ -36,14 +36,28 @@ const MyServersPage = () => {
             {showFriends && (
               <Friends></Friends>
             )}
+            {showFriends && <div className="user-info">
+              <span id="user-info-pfp">
+                <img src={sessionUser.photo_url}></img>
+              </span>
+
+              <div>
+                <span id="user-username">
+                  <h4>{sessionUser.username}</h4>
+                  <p>{sessionUser.username}#{sessionUser.code}</p>
+                </span>
+              </div>
+            </div>}
           </div>
           <Switch>
             <Route path={'/servers/:serverId'}>
               <SingleServerPage />
+
             </Route>
             <Route path={"/friends/:friendId"} component={FriendDisplay} />
             <Route exact path={"/servers"} component={AllServersPage} />
           </Switch>
+
         </>
       )}
     </>

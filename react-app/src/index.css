@@ -21,13 +21,11 @@ body {
 
 .svr-nav-bar {
   margin: 0;
-  padding-top: 10px;
   width: 80px;
-  height: 100vh;
-  background-color: #222;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  height: 100vh;
+  background-color: #1e1f22;
 }
 
 .svr-channel-column {
@@ -40,17 +38,15 @@ body {
 
 
 .svr-nav-server-list {
+  padding-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 82%;
-  background-color: #1e1f22;
 }
 
 .svr-nav-menu {
   width: 100%;
-  height: 18%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -69,8 +65,8 @@ body {
 }
 
 .svr-profile-btn-color {
-  color: green;
-  border-color: 1px solid green;
+  color: #1e1f22;
+
 }
 
 .svr-nav-menu-item {
@@ -78,6 +74,13 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
+  cursor: pointer;
+}
+
+.svr-nav-menu-item img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
   cursor: pointer;
 }
 
@@ -418,9 +421,8 @@ body {
 }
 
 .svr-nav-menu-item {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  width: 48px;
+  height: 48px;
   overflow: hidden;
 }
 
@@ -443,8 +445,8 @@ body {
   height: 50px;
   border-radius: 50%;
   color: white;
-  background-color: rgb(2, 208, 2);
   overflow: hidden;
+  background-color: #1e1f22;
 }
 
 .svr-new-channel-button {

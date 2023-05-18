@@ -94,6 +94,18 @@ const SingleServerPage = () => {
         ))}
        </div>
       </div>
+              <div className="user-info">
+                <span id="user-info-pfp">
+                  <img src={sessionUser.photo_url}></img>
+                </span>
+
+                <div>
+                  <span id="user-username">
+                    <h4>{sessionUser.username}</h4>
+                    <p>{sessionUser.username}#{sessionUser.code}</p>
+                  </span>
+                </div>
+              </div>
      </div>
      <Switch>
       <Route path={`/servers/:serverId/channels/:channelId`}>
