@@ -31,7 +31,8 @@
 
 .chnl-container {
     display: flex;
-    flex-direction: column;
     gap: 1em;
+    flex-direction: column;
+    justify-content: center;
 
 }

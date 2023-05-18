@@ -12,6 +12,8 @@ import OpenModalButton from "../OpenModalButton";
 import ServerMenuBox from "../ServerMenuBox";
 import Friends from "../Friends";
 import "./Server.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faGear} from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { loadOneServerId } from "../../store/servers";
 import { fetchAllMembersThunk, getMembersThunk } from "../../store/members";
@@ -19,6 +21,7 @@ import { socket } from "../DirectMessages/roomChat";
 const SingleServerPage = () => {
  const [isLoaded, setIsLoaded] = useState(false);
  let { serverId } = useParams();
+ const [active, setActive] = useState(null);
  serverId = parseInt(serverId);
  const history = useHistory();
  const dispatch = useDispatch();
@@ -37,6 +40,16 @@ const SingleServerPage = () => {
  const channelsArr = Object.values(
   useSelector((state) => state.channels.allChannels)
  );
+ const handleClick = (channel) => {
+   setActive(channel.id)
+   history.push(`/servers/${serverId}/channels/${channel.id}`)
+ }
+
+ const editChannel = (channel, e) => {
+   e.stopPropagation()
+   history.push(`/servers/${serverId}/channels/${channel.id}/edit`)
+ }
+
 
  useEffect(() => {
   console.log("This is the serverId", serverId, typeof serverId);
@@ -53,47 +66,46 @@ const SingleServerPage = () => {
    {isLoaded && (
     <>
      <div className="svr-channel-wrapper">
+      <div id="svr-channels">
       <div className="svr-menu-box">
        <div className="svr-dropdown-btn-menu-box">
         <ServerMenuBox servers={servers} user={sessionUser} />
+          </div>
        </div>
-       <div className="chnl-container">
+
+       <span id="addAChannel">
+         <p>TEXT CHANNELS</p>
+         <OpenModalButton
+         modalCSSClass="add-channel-display-none"
+         buttonText={
+         <FontAwesomeIcon icon={faPlus} id="plus-icon" className="fa-sm"/>
+         }
+         modalComponent={<AddChannelModal /> }
+         />
+       </span>
+
+       <div
+        className="chnl-container"
+       >
         {channelsArr.map((channel) => (
-         <div key={channel.id} className="chnl-container-item">
-          <div>#️{channel.type}</div>
-          <NavLink
-           key={channel.id}
-           to={`/servers/${serverId}/channels/${channel.id}`}
-           style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            color: "white",
-           }}
-          >
-           <div className="chnl-name">{channel.name}</div>
-          </NavLink>
-          <OpenModalButton
-           buttonText="Delete"
-           modalCSSClass="single-svr-chnl-delete-btn"
-           modalComponent={
-            <DeleteEditChannel
-             channelId={channel.id}
-             serverId={serverId}
-            ></DeleteEditChannel>
-           }
-          />
-          <OpenModalButton
-           edit={true}
-           channelId={channel.id}
-           buttonText="Edit"
-           modalCSSClass="single-svr-chnl-edit-btn"
-           modalComponent={<AddChannelModal channel={channel} flag={true} />}
-          />
+           <div key={channel.id}
+            className={active === channel.id ? "chnl-container-item-active": "chnl-container-item"}
+            onClick={() => handleClick(channel)}
+            >
+          <p>#</p>
+           <div className="chnl-name"
+           >{channel.name}
+           <div id="edit-cog">
+          <FontAwesomeIcon
+          onClick={(e) => editChannel(channel, e)}
+          icon={faGear} size="sm"/>
+            </div>
+           </div>
          </div>
         ))}
        </div>
-      </div>
+       </div>
+
               <div className="user-info">
                 <span id="user-info-pfp">
                   <img src={sessionUser.photo_url}></img>

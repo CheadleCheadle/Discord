@@ -8,10 +8,19 @@ export default function Friends() {
     const params = useParams();
     const dispatch = useDispatch();
     const friends = useSelector((state) => state.session.user.friends);
+    const activeUsers = useSelector(state => state.session.activeUsers);
 
     const handleFriend = (friend) => {
         history.push(`/friends/${friend.id}`);
     };
+
+    const isActive = (friend) => {
+        if (activeUsers[friend.id]) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     return (
         <>
@@ -33,6 +42,7 @@ export default function Friends() {
             <div id="usr-name">
             <p>{friend.username}</p>
             </div>
+            <span>{isActive(friend) ? "Online": "Offline"}</span>
             </div>
             </div>
         ))}

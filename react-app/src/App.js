@@ -11,6 +11,7 @@ import AllServersPage from "./components/ServerDetails/allServers";
 import Friends from "./components/Friends";
 import FriendDisplay from "./components/FriendDisplay";
 import { socket } from "./components/DirectMessages/roomChat";
+import EditChannel from "./components/ServerDetails/editChannel";
 
 
 function App() {
@@ -46,6 +47,9 @@ function App() {
           </Route>
           {!!sessionUser && (
             <Route exact path="/servers" component={MyServersPage} />
+          )}
+          {!!sessionUser && (
+              <Route path='/servers/:serverId/channels/:channelId/edit' component={EditChannel} />
           )}
           {!!sessionUser && (
             <Route path='/servers/:serverId/channels/:channelId' component={MyServersPage} />

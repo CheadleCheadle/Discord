@@ -78,8 +78,7 @@ export default function ServerMenuBox({ servers, user }) {
   return (
     <>
       <div className="svr-menu-name">
-        {server ? server.name : "You have not joined a server yet!"}
-      </div>
+        {server ? <h3>{server.name}</h3> : null}
       <div className="svr-dropdown-parent svr-toggle-btn ">
         <button onClick={openMenu} className="down-close-btn">
           {showMenu ? (
@@ -93,6 +92,7 @@ export default function ServerMenuBox({ servers, user }) {
           <div className="svr-dropdown-content">{`${user?.email}`}</div>
             {renderDelete()}
         </div>
+      </div>
       </div>
     </>
   );

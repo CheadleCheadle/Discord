@@ -8,9 +8,12 @@ import ServerMenuBox from "../ServerMenuBox";
 import { useDispatch, useSelector } from "react-redux";
 import { getMembershipsThunk } from "../../store/session";
 import AllServersPage from "./allServers";
+import { logout } from "../../store/session";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const MyServersPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const history = useHistory();
   const sessionUser = useSelector(state => state.session.user);
   const serversObj = useSelector(state => state.servers.allServers);
   const servers = Object.values(serversObj)
@@ -22,6 +25,13 @@ const MyServersPage = () => {
     dispatch(getMembershipsThunk())
       .then(() => setIsLoaded(true))
   }, [dispatch])
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logout(sessionUser))
+      .then(() => history.push('/'));
+
+  };
 
   useEffect(() => {
     if (location.pathname.slice(0, 8) === '/friends' || location.pathname === '/servers') setShowFriends(true)
@@ -47,6 +57,7 @@ const MyServersPage = () => {
                   <p>{sessionUser.username}#{sessionUser.code}</p>
                 </span>
               </div>
+                <p onClick={handleLogout}>Logout</p>
             </div>}
           </div>
           <Switch>
