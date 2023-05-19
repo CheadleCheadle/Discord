@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal.js";
-import { createChannelAction } from "../../store/channels";
+import { createChannelAction, thunkUpdateSingleChannelId } from "../../store/channels";
 import { updateChannelAction } from "../../store/channels";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleDot, faX, faHashtag, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import "./AddChannel.css";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min.js";
 export default function AddChannelModal({ channel, flag }) {
   const dispatch = useDispatch();
   const serverId = useSelector((state) => state.servers.singleServerId);
@@ -13,14 +14,14 @@ export default function AddChannelModal({ channel, flag }) {
   let [errors, setErrors] = useState({});
   const { closeModal } = useModal();
   const [active, setActive] = useState("");
-
+  const history = useHistory();
   const currentChannelId = useSelector(state => state.channels.singleChannelId);
 
   const handleIsActive = (str) => {
     setActive(str);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newChannel = {
       server_id: serverId,
@@ -29,7 +30,9 @@ export default function AddChannelModal({ channel, flag }) {
       max_users: 10,
       topic: "A topic"
     };
-    dispatch(createChannelAction(newChannel, serverId));
+    const returnedChannel = await dispatch(createChannelAction(newChannel, serverId));
+    dispatch(thunkUpdateSingleChannelId(returnedChannel.id))
+    history.push(`/servers/${serverId}/channels/${returnedChannel.id}`)
     closeModal();
 
   };

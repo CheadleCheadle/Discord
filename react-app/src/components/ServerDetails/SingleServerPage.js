@@ -46,6 +46,13 @@ const SingleServerPage = () => {
  const channelsArr = Object.values(
   useSelector((state) => state.channels.allChannels)
  );
+
+ useEffect(() => {
+    setActive(singleChannelId)
+ }, [channelsArr])
+
+
+
  const handleClick = (channel) => {
    setActive(channel.id)
   dispatch(thunkUpdateSingleChannelId(channel.id))
