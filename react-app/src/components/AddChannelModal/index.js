@@ -3,131 +3,133 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal.js";
 import { createChannelAction } from "../../store/channels";
 import { updateChannelAction } from "../../store/channels";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleDot, faX, faHashtag, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
+import "./AddChannel.css";
+export default function AddChannelModal({ channel, flag }) {
+  const dispatch = useDispatch();
+  const serverId = useSelector((state) => state.servers.singleServerId);
+  const [name, setName] = useState("");
+  let [errors, setErrors] = useState({});
+  const { closeModal } = useModal();
+  const [active, setActive] = useState("");
 
-export default function AddChannelModal({channel, flag}) {
- const dispatch = useDispatch();
- const serverId = useSelector((state) => state.servers.singleServerId);
- const [name, setName] = useState("");
- const [type, setType] = useState("");
- const [maxUsers, setMaxUsers] = useState(0);
- const [topic, setTopic] = useState("");
- let [errors, setErrors] = useState([]);
- const { closeModal } = useModal();
-const currentChannelId = useSelector(state => state.channels.singleChannelId);
- useEffect(() => {
-    if (channel) {
-    setName(channel.name);
-    setType(channel.type);
-    setMaxUsers(channel.max_users);
-    setTopic(channel.topic);
-    }
- }, [flag])
- const handleSubmit = (e) => {
-  e.preventDefault();
-  validateBody();
-  if (flag) {
-    console.log("WHERE EDITINGIN")
-    const updatedChannel = {
-        name,
-        type,
-        max_users: maxUsers,
-        topic
-    }
-    console.log("CHANNEL TO EDIT", updatedChannel)
-    dispatch(updateChannelAction(updatedChannel, currentChannelId));
+  const currentChannelId = useSelector(state => state.channels.singleChannelId);
+
+  const handleIsActive = (str) => {
+    setActive(str);
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newChannel = {
+      server_id: serverId,
+      name,
+      type: "Public",
+      max_users: 10,
+      topic: "A topic"
+    };
+    dispatch(createChannelAction(newChannel, serverId));
     closeModal();
-  } else {
 
-  const newChannel = {
-   server_id: serverId,
-   name,
-   type,
-   max_users: maxUsers,
-   topic,
   };
-  dispatch(createChannelAction(newChannel, serverId));
-  closeModal();
-}
- };
 
- const handleDisable = () => {
-  if (name === "") return true;
-  if (type === "") return true;
-  if (maxUsers <= 0) return true;
-  if (topic === "") return true;
- };
+  const handleDisable = () => {
+    if (name === "") return true;
+  };
+  useEffect(() => {
+    const tempErrors = {};
+    if (name === "") {
+      tempErrors.name = "please provide a name";
+    }
+    return setErrors(tempErrors);
+  }, [name]);
 
- const validateBody = () => {
-  const tempErrors = [];
-  if (name === "") {
-   tempErrors.push("Please Provide a name");
-  }
-  if (type === "") {
-   tempErrors.push("Please Provide a type");
-  }
-  if (maxUsers <= 0) {
-   tempErrors.push("Please Provide a maximum amount of users");
-  }
-  if (topic === "") {
-   tempErrors.push("Please Provide a topic");
-  }
-  return setErrors(...tempErrors);
- };
+  return (
+    <>
+    <div id="svr-channel-form-cont">
 
- useEffect(() => {
-  validateBody();
- });
 
- return (
-  <div className="svr-channel-form-container">
-   {flag ? <h3>Edit Channel</h3> : <h3>New Channel</h3>}
-   <form className="svr-channel-server-form" onSubmit={handleSubmit}>
-    <label className="svr-channel-form-label">
-     <input
-      className="svr-channel-form-input"
-      placeholder="Name"
-      type="text"
-      value={name}
-      onChange={(e) => setName(e.target.value)}
-      required
-     />
-    </label>
-    <label className="svr-channel-form-label">
-     <input
-      className="svr-channel-form-input"
-      placeholder="Type"
-      type="text"
-      value={type}
-      onChange={(e) => setType(e.target.value)}
-      required
-     />
-    </label>
-    <label className="svr-channel-form-label">
-     <input
-      className="svr-channel-form-input"
-      placeholder="Max Users"
-      type="text"
-      value={maxUsers}
-      onChange={(e) => setMaxUsers(e.target.value)}
-      required
-     />
-    </label>
-    <label className="svr-channel-form-label">
-     <input
-      className="svr-channel-form-input"
-      placeholder="Topic"
-      type="text"
-      value={topic}
-      onChange={(e) => setTopic(e.target.value)}
-      required
-     />
-    </label>
-    <input
-     className={"svr-channel-form-button"}
-     type="submit"
-     value={flag ? "Update Channel" : "Create new Channel"}
-    />
-   </form>
-  </div>
- );
+    <div className="svr-channel-form-container">
+
+      <div id="create-channel-msg">
+        <span>
+          Create Channel
+          <p>in Text Channels</p>
+        </span>
+        <div
+        onClick={() => closeModal()}
+        id="exit">
+        <FontAwesomeIcon
+        icon={faX} />
+        </div>
+      </div>
+      <div id="channel-type">
+        <h3>CHANNEL TYPE</h3>
+
+        <div
+          onClick={() => handleIsActive("text")}
+          className={active === "text" ? "active-channel-type" : "channel-type"}>
+          <div className="channel-type-icon">
+            <FontAwesomeIcon icon={faHashtag} className="fa-lg" />
+          </div>
+          <span className="channel-type-option">
+            Text
+            <p>Send messages, images, and puns</p>
+          </span>
+
+        </div>
+        <div
+          onClick={() => handleIsActive("voice")}
+          className={active === "voice" ? "active-channel-type" : "channel-type"}>
+          <div className="channel-type-icon">
+            <FontAwesomeIcon icon={faVolumeHigh} className="fa-lg" />
+          </div>
+          <span className="channel-type-option">
+            Voice
+            <p>Hang out together with voice chat</p>
+          </span>
+
+        </div>
+
+      </div>
+      <h3 id="channel-name">CHANNEL NAME</h3>
+      <form className="svr-channel-form" onSubmit={handleSubmit}>
+        <label className="channel-label">
+          <div id="font-cont">
+            <FontAwesomeIcon icon={faHashtag} className="fa-sm" />
+          </div>
+          <input
+            className="svr-channel-form-input"
+            placeholder="new-channel"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </label>
+      </form>
+    </div>
+
+      <div id="create-channel-buttons">
+
+      <div id="buttons-cont">
+        <div
+        id="cancel"
+        onClick={() => closeModal()}>
+        Cancel
+        </div>
+
+        <div
+        id={Object.values(errors).length ? "submit-channel-inactive": "submit-channel"}
+        onClick={ Object.values(errors).length ? null : (e) => { handleSubmit(e) }}
+        >Create Channel
+        </div>
+
+        </div>
+
+      </div>
+      </div>
+      </>
+  );
 }

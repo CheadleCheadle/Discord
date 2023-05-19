@@ -385,9 +385,8 @@ body {
 /* ********************* */
 
 #modal-content {
-  border-radius: 9px;
   color: white;
-  background-color: #666;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .svr-channel-form-container,
@@ -395,6 +394,9 @@ body {
   display: flex;
   flex-direction: column;
   padding: 25px;
+  width: 30em;
+  background-color: #313338;
+  border-radius: 12px;
 }
 
 .svr-channel-server-form,
@@ -533,6 +535,14 @@ body {
   background-color: #414146 ;
   cursor: pointer;
   gap: .5em;
+}
+.chnl-container-item-active:hover {
+  background-color: #414146 ;
+  #edit-cog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 .chnl-container-item:hover {
   background-color: #414146 ;
