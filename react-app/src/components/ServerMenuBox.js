@@ -5,12 +5,15 @@ import EditServerForm from "./EditServerForm";
 import OpenModalButton from "./OpenModalButton";
 import { loadOneServerId } from "../store/servers";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function ServerMenuBox({ servers, user }) {
   const ulRef = useRef();
+  const history = useHistory();
   const dispatch = useDispatch();
   const location = useLocation()
   const currUser = useSelector(state => state.session.user)
+  const serverId = useSelector(state => state.servers.singleServerId);
   const server = useSelector(state => state.servers.allServers[ state.servers.singleServerId ]);
   const [ showMenu, setShowMenu ] = useState(false);
   const [ serverNameDisplay, setServerNameDisplay ] = useState(`Welcome, ${currUser.firstname}`)
@@ -25,19 +28,14 @@ export default function ServerMenuBox({ servers, user }) {
 
       return (
           <>
-          <OpenModalButton
-            modalCSSClass="svr-dropdown-content"
-            // for button css styling
-            buttonText="Delete the Server"
-            modalComponent={<DeleteServerModal serverId={server?.id} />}
-          />
-          <OpenModalButton
-            modalCSSClass=" svr-dropdown-content"
-            // for button css styling
-            buttonText="Edit the Server"
-            modalComponent={<EditServerForm server={server} />}
+        <div
+        onClick={() => {
+            history.push(`/servers/${serverId}/edit`);
+        }}
+        >
+            Server Settings
+        </div>
 
-          />
           </>
       )
     } else {
@@ -63,7 +61,7 @@ export default function ServerMenuBox({ servers, user }) {
     if (!showMenu) return;
 
     const closeMenu = (e) => {
-      if (!ulRef.current.contains(e.target)) {
+      if (!ulRef.current?.contains(e.target)) {
         setShowMenu(false);
       }
     };

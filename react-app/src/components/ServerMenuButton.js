@@ -4,6 +4,7 @@ import DeleteServerModal from "./DeleteServerModal";
 import EditServerForm from "./EditServerForm";
 import OpenModalButton from "./OpenModalButton";
 import { thunkLoadAllServers } from "../store/servers";
+import { useHistory } from "react-router-dom";
 
 function ServerMenuButton() {
  const [showMenu, setShowMenu] = useState(false);
@@ -13,6 +14,7 @@ function ServerMenuButton() {
  const return_servers = return_servers_state.allServers;
  const serverId = return_servers_state.singleServer;
  const server = return_servers[serverId];
+ const history = useHistory();
 
  useEffect(() => {
   dispatch(thunkLoadAllServers());
@@ -61,11 +63,7 @@ function ServerMenuButton() {
       />
      </div>
      <div className="svr-dropdown-content">
-      <OpenModalButton
-       someN="svr-edit-button svr-dropdown-content"
-       buttonText="Edit the Server"
-       modalComponent={<EditServerForm server={server} />}
-      />
+
      </div>
     </div>
    </div>

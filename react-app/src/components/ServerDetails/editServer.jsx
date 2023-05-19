@@ -1,92 +1,105 @@
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useModal } from "../../context/Modal";
-import { updateChannelAction } from "../../store/channels";
-import { updateSingleChannelId } from "../../store/channels";
-import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
-import { getServerChannels } from "../../store/channels";
-import DeleteEditChannel from "./DeleteEditChannel";
+import { thunkAddAServer, thunkEditAServer } from "../../store/servers";
+import { editServer } from "../../store/session";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import DeleteServerModal from "../DeleteServerModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
-export default function EditChannel() {
-    let { channelId: currentChannelId, serverId } = useParams();
-    currentChannelId = parseInt(currentChannelId);
-    const channel = useSelector(state => state.channels.allChannels[currentChannelId]);
+
+
+export default function EditServer() {
     const dispatch = useDispatch();
     const history = useHistory();
+
     const [name, setName] = useState("");
-    const [topic, setTopic] = useState("");
-    let [errors, setErrors] = useState({});
+    const [description, setDescription] = useState("");
+    const [errors, setErrors] = useState({});
+    const [disabled, setDisabled] = useState(false);
+    const { closeModal } = useModal();
     const [isLoaded, setIsLoaded] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [active, setActive] = useState(null);
 
+    const server = useSelector(state => state.servers.allServers[state.servers.singleServerId]);
+
+
+    const { setModalContent } = useModal();
+
+    useEffect(() => {
+        const tempErrors = {};
+
+        if (name.length > 100) {
+            tempErrors.name = "Name needs to be no more than 100 characters";
+        }
+        if (name === "") {
+            tempErrors.name = "Name is required"
+        }
+        if (description === "") {
+            tempErrors.description = "Description is required";
+        }
+
+        if (!tempErrors.length) {
+            setDisabled(false)
+        }
+        setErrors(tempErrors);
+
+    }, [name, description]);
+
+
+    useEffect(() => {
+        setName(server.name);
+        setDescription(server.description);
+        setIsLoaded(true);
+    }, [])
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsSubmitted(true);
-        if (!Object.values(errors).length) {
-            const updatedChannel = {
-                name,
-                topic,
-                max_users: channel.max_users,
-                type: channel.type
-            }
-            dispatch(updateChannelAction(updatedChannel, currentChannelId));
-            history.push(`/servers/${serverId}/channels/${channel.id}`)
+        const updatedServer = {
+            icon_url: server.icon_url,
+            name,
+            max_users: server.max_users,
+            description,
+            public_: server.public
+        };
+
+        if (!disabled) {
+            dispatch(thunkEditAServer(updatedServer, server.id))
+                .then((server) => {
+                    dispatch(editServer(server))
+                })
+                .catch(async (res) => {
+                    let data = res.json();
+                })
+            history.push(`/servers/${server.id}`)
         }
+
     }
-
-
-    const { setModalContent, setOnModalClose } = useModal();
 
     const handleClick = (arg) => {
         setActive(arg);
         if (arg === "delete") {
             setModalContent(
-                <DeleteEditChannel
-                    channelId={channel.id}
-                    serverId={serverId}
-                ></DeleteEditChannel>
+                <DeleteServerModal
+                    serverId={server.id}
+                />
             )
         }
     }
 
     const handleLeave = () => {
-        history.push(`/servers/${serverId}/channels/${channel.id}`)
+        history.push(`/servers/${server.id}`)
     }
 
-    useEffect(() => {
-        if (!channel) {
-            dispatch(getServerChannels(serverId))
-        }
-        dispatch(updateSingleChannelId(currentChannelId))
-
-        if (channel) {
-            setName(channel.name);
-            setTopic(channel.topic);
-            setIsLoaded(true);
-        }
-    }, [channel])
-
-    useEffect(() => {
-
-        const tempErrors = {};
-        if (name === "") {
-            tempErrors.name = "Please Provide a name";
-        }
-        if (topic === "") {
-            tempErrors.topic = "Please Provide a topic";
-        }
-        setErrors(tempErrors);
-
-    }, [name, topic, isSubmitted])
-
-    return (isLoaded &&
+    return (
+        isLoaded &&
         <div className="edit-channel">
             <section id="sect-1">
                 <div id="channel-overview-details">
                     <div id="overview-cont">
-                        <p># {channel.name} {channel.topic}</p>
+                        <p># {server.name}</p>
                     </div>
                     <div id="overview-cont">
                         <h4
@@ -96,10 +109,12 @@ export default function EditChannel() {
                     <div id="overview-cont">
                         <h4
                             onClick={() => handleClick("delete")}
-                            id={active === "delete" ? "active-overview" : "overview-details"}>Delete Channel</h4>
+                            id={active === "delete" ? "active-overview" : "overview-details"}>Delete Server</h4>
                     </div>
                 </div>
+
             </section>
+
             <section id="sect-2">
                 <div className="edit-overview">
                     <span id="overview-close">
@@ -113,7 +128,7 @@ export default function EditChannel() {
                         />
                     </span>
                     <form>
-                        <label>CHANNEL NAME</label>
+                        <label>SERVER NAME</label>
                         <input
                             type="text"
                             value={name}
@@ -121,23 +136,25 @@ export default function EditChannel() {
                             required
                         />
                         {isSubmitted && <p className="errors">{errors.name}</p>}
-                        <label id="channel-topic">Channel Topic</label>
+                        <label id="channel-topic">Discord Description</label>
                         <input
                             type="text"
-                            value={topic}
-                            onChange={(e) => setTopic(e.target.value)}
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
                             required
-                            placeholder="Let everyone know how to use this channel!"
                         />
-                        {isSubmitted && <p className="errors">{errors.topic}</p>}
+                        {isSubmitted && <p className="errors">{errors.description}</p>}
                     </form>
                     <span id="save-changes">
                         <div
                             onClick={(e) => handleSubmit(e)}
                         >Save Changes</div>
                     </span>
+
                 </div>
             </section>
+
+
         </div>
     )
 }
