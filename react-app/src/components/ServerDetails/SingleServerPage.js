@@ -4,6 +4,8 @@ import Channel from "../ChannelDetails";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Route, Switch, useParams } from "react-router-dom";
 import { getServerChannels, updateSingleChannelId } from "../../store/channels";
+import { thunkUpdateSingleChannelId } from "../../store/channels.js";
+import { fetchChannelMessagesThunk} from "../../store/channelmessages.js";
 import Members from "./allMembers";
 import OpenModalMenuItem from "../OpenModalButton";
 import AddChannelModal from "../AddChannelModal";
@@ -18,12 +20,15 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { loadOneServerId } from "../../store/servers";
 import { fetchAllMembersThunk, getMembersThunk } from "../../store/members";
 import { socket } from "../DirectMessages/roomChat";
+
 const SingleServerPage = () => {
  const [isLoaded, setIsLoaded] = useState(false);
  let { serverId } = useParams();
  const [active, setActive] = useState(null);
  serverId = parseInt(serverId);
  const server = useSelector(state => state.servers.allServers[serverId])
+ const singleChannelId = parseInt((useSelector(state => state.channels.singleChannelId)));
+
  const history = useHistory();
  const dispatch = useDispatch();
  const user = useSelector(state => state.session.user);
@@ -43,6 +48,7 @@ const SingleServerPage = () => {
  );
  const handleClick = (channel) => {
    setActive(channel.id)
+  dispatch(thunkUpdateSingleChannelId(channel.id))
    history.push(`/servers/${serverId}/channels/${channel.id}`)
  }
 
@@ -61,6 +67,23 @@ const SingleServerPage = () => {
 
     socket.emit("join_server_room", {roomName, user});
  }, [dispatch, serverId]);
+
+ useEffect(() => {
+
+  console.log("Im the server!", server, singleChannelId, typeof singleChannelId);
+  if (server.channels[singleChannelId] && isLoaded) {
+    dispatch(thunkUpdateSingleChannelId(singleChannelId))
+    setActive(singleChannelId)
+    history.push(`/servers/${serverId}/channels/${singleChannelId}`);
+  } else if (isLoaded) {
+
+    const keys = Object.keys(server.channels);
+    dispatch(thunkUpdateSingleChannelId(parseInt(keys[0])))
+    setActive(parseInt(keys[0]));
+    history.push(`/servers/${serverId}/channels/${parseInt(keys[0])}`)
+    console.log(singleChannelId, keys, "-----");
+  }
+ }, [server, isLoaded])
 
  return (
   <>

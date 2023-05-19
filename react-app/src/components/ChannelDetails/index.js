@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,35 +11,45 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHashtag } from "@fortawesome/free-solid-svg-icons";
 export default function Channel() {
  const dispatch = useDispatch();
- const { serverId, channelId } = useParams();
+//  let { serverId, channelId } = useParams();
+ const channelId = useSelector(state => state.channels.singleChannelId);
+ console.log("THIS IS THE CHANNELID", channelId, typeof channelId)
+
  const user = useSelector(state => state.session.user);
  const [isLoaded, setIsLoaded] = useState(false);
  const [message, setMessage] = useState("");
  const channel = useSelector((state) => state.channels.allChannels[channelId]);
  const channelMessagesObj = (useSelector(state => state.channelMessages));
  const channelMessages = Object.values(channelMessagesObj.messages)
+ const messageContainer = useRef(null);
 
  useEffect(() => {
-  dispatch(thunkUpdateSingleChannelId(channelId))
+  //Handle Scroll Position
+  if (messageContainer.current) {
+    messageContainer.current.scrollTop = messageContainer.current.scrollHeight;
+  }
+ })
+ useEffect(() => {
   dispatch(fetchChannelMessagesThunk(channelId))
   .then(() => {
     setIsLoaded(true);
   })
 
-  socket.emit("channel_join", {channelName: channel.name});
+  if (channel) {
 
-  //Handle incoming messages
-  socket.on("new_channel_message", (data) => {
-    console.log("New channel message", data);
-    dispatch(sendChannelMessage(data));
-  })
-  // Leave the channel when component unmounts
-  return () => {
-    const charCode2 = channel.name;
-    socket.emit("leave", {charCode2})
+    socket.emit("channel_join", {channelName: channel.name});
+    //Handle incoming messages
+    socket.on("new_channel_message", (data) => {
+      console.log("New channel message", data);
+      dispatch(sendChannelMessage(data));
+    })
+    // Leave the channel when component unmounts
+    return () => {
+      const charCode2 = channel.name;
+      socket.emit("leave", {charCode2})
+    }
   }
- }, [dispatch, channelId]);
-
+ }, [dispatch, channelId, channel]);
 
 
 
@@ -60,7 +71,9 @@ export default function Channel() {
         </span>
 
     </nav>
-     <div className="chnl-messages-cont">
+     <div
+     ref={messageContainer}
+      className="chnl-messages-cont">
          {!channelMessages.length ? <h1>Be the first to send a message!</h1> : null}
       {channelMessages.map((message) => (
           <div id="all-msgs" key={message.id}>
