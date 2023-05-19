@@ -67,7 +67,7 @@ export default function Channel() {
     <nav className="messaging-nav">
       <span>
       <FontAwesomeIcon icon={faHashtag} className="fa-lg" />
-      {channel.name}
+      {channel?.name}
         </span>
 
     </nav>
