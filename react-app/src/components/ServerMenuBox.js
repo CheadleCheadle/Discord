@@ -6,7 +6,11 @@ import OpenModalButton from "./OpenModalButton";
 import { loadOneServerId } from "../store/servers";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useModal } from "../context/Modal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGear } from "@fortawesome/free-solid-svg-icons";
 
+import AddChannelModal from "./AddChannelModal";
 export default function ServerMenuBox({ servers, user }) {
   const ulRef = useRef();
   const history = useHistory();
@@ -17,6 +21,8 @@ export default function ServerMenuBox({ servers, user }) {
   const server = useSelector(state => state.servers.allServers[ state.servers.singleServerId ]);
   const [ showMenu, setShowMenu ] = useState(false);
   const [ serverNameDisplay, setServerNameDisplay ] = useState(`Welcome, ${currUser.firstname}`)
+  const { setModalContent, setOnModalClose } = useModal();
+
   useEffect(() => {
     if (servers.length !== 0) {
       dispatch(loadOneServerId(server.id));
@@ -29,13 +35,26 @@ export default function ServerMenuBox({ servers, user }) {
       return (
           <>
         <div
+        className="server-settings"
         onClick={() => {
             history.push(`/servers/${serverId}/edit`);
         }}
         >
             Server Settings
+          <FontAwesomeIcon
+          icon={faGear} size="lg"/>
         </div>
-
+        <div
+        className="server-settings"
+        onClick={() => {
+          setModalContent(
+            <AddChannelModal
+            />
+          )
+        }}
+        >
+        Add A Channel
+        </div>
           </>
       )
     } else {
@@ -86,8 +105,6 @@ export default function ServerMenuBox({ servers, user }) {
           )}
         </button>
         <div className={ulClassName} ref={ulRef}>
-          <div className="svr-dropdown-content">{`Hello,${user?.firstname}`}</div>
-          <div className="svr-dropdown-content">{`${user?.email}`}</div>
             {renderDelete()}
         </div>
       </div>

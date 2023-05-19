@@ -73,7 +73,9 @@
     background-color: #2b2d31;
     align-items: flex-start;
     padding: 2em;
+    margin-top: 3em;
     position: absolute;
+    border-top: 3px solid #252525;
 }
 
 

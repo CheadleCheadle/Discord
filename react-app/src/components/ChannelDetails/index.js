@@ -6,6 +6,8 @@ import { thunkUpdateSingleChannelId } from "../../store/channels.js";
 import  { socket } from "../DirectMessages/roomChat.js";
 import "./channel.css";
 import { fetchChannelMessagesThunk, sendChannelMessage} from "../../store/channelmessages.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHashtag } from "@fortawesome/free-solid-svg-icons";
 export default function Channel() {
  const dispatch = useDispatch();
  const { serverId, channelId } = useParams();
@@ -50,6 +52,14 @@ export default function Channel() {
   <>
    {isLoaded && (
     <>
+    <div id="channel-messages-container">
+    <nav className="messaging-nav">
+      <span>
+      <FontAwesomeIcon icon={faHashtag} className="fa-lg" />
+      {channel.name}
+        </span>
+
+    </nav>
      <div className="chnl-messages-cont">
          {!channelMessages.length ? <h1>Be the first to send a message!</h1> : null}
       {channelMessages.map((message) => (
@@ -60,6 +70,7 @@ export default function Channel() {
       ))}
 
       </div>
+
       <div className="chnl-form-cont">
        <form id="submit-form" onSubmit={handleSubmit}>
         <input id="enter-field"
@@ -71,7 +82,12 @@ export default function Channel() {
         <input type="submit" value="Submit" />
        </form>
      </div>
-    </>
+     </div>
+     <span id="space-gap">
+        <p id="nope">wwasd</p>
+     </span>
+     </>
+
    )}
   </>
  );

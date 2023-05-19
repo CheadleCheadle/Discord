@@ -11,10 +11,26 @@
 .chnl-messages-cont {
     flex-direction: column;
     padding: 20px;
-    width: 76.5em;
+    width: 92.5em;
     height: 52em;
     overflow-y: scroll;
     color: white;
+}
+
+/*
+Style the Scrollbar
+*/
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #2b2d31;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #1a1b1e;
+  border-radius: 5px;
 }
 
 #all-msgs p {
@@ -35,4 +51,41 @@
     flex-direction: column;
     justify-content: center;
 
+}
+
+.messaging-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    font-family: Gill Sans,Gill Sans MT,Calibri,Trebuchet MS,sans-serif;
+    font-size: 16px;
+    overflow: hidden;
+    width: 100%;
+    height: 3em;
+    color: #d6d4d4;
+    border-bottom: 3px solid #252525;
+}
+
+.messaging-nav span {
+    padding-top: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 1em;
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+#channel-messages-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#space-gap {
+    margin-top: 3em;
+    border-top: 3px solid #252525;
+}
+
+#nope {
+    color: #313338;
 }

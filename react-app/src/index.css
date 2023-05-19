@@ -156,7 +156,7 @@ body {
   font-weight: bold;
   display: flex;
   justify-content: space-between;
-  /* background-color: blueviolet; */
+  align-items: center;
 }
 
 .svr-dropdown-parent {
@@ -172,6 +172,7 @@ body {
 .down-close-btn {
   background-color: transparent;
   border-color: transparent;
+  font-size: 1.3em;
 
 }
 
@@ -184,22 +185,40 @@ body {
 }
 
 .svr-menu-profile-dropdown {
-  width: 190px;
+  width: 15em;
   display: flex;
   flex-direction: column;
-  height: 10em;
+  height: 4.5em;
   position: absolute;
-  left: 50%;
-  top: calc(100% + .05rem);
-  /* top side of self container is at 50% of parent container */
+  left: 20%;
+  top: calc(100% + 1.5rem);
+  gap: .5em;
   transform: translateX(-92%);
-  /* gap: 10px; */
-  color: white;
-  background-color: #222;
-  padding-bottom: .15rem;
-  border-radius: 9px;
-  box-shadow: 0 2px 5px 0 gray;
+  padding: .5em;
+  color: #cecece;
+  background-color: #191919;
+  border-radius: 5px;
   z-index: 1;
+  cursor: pointer;
+}
+
+.server-settings {
+  height: 50%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  color: #cecece;
+  border-radius: 5px;
+  align-items: center;
+  padding-left: .5em;
+  padding-right: .5em;
+  font-size: 14px;
+}
+
+.server-settings:hover {
+  background-color: #259655;
+  transition-duration: .22s;
+  color: #fff;
 }
 
 .svr-dropdown-btn {

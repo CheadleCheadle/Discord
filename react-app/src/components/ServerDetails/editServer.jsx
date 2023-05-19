@@ -65,7 +65,7 @@ export default function EditServer() {
             public_: server.public
         };
 
-        if (!disabled) {
+        if (!Object.values(errors).length) {
             dispatch(thunkEditAServer(updatedServer, server.id))
                 .then((server) => {
                     dispatch(editServer(server))
@@ -136,7 +136,7 @@ export default function EditServer() {
                             required
                         />
                         {isSubmitted && <p className="errors">{errors.name}</p>}
-                        <label id="channel-topic">Discord Description</label>
+                        <label id="channel-topic">Server Description</label>
                         <input
                             type="text"
                             value={description}
