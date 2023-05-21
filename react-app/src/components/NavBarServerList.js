@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { getMembershipsThunk } from "../store/session";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+// import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import AddServerForm from "./AddServerForm";
 import OpenModalButton from "./OpenModalButton";
 function NavBarServerList() {
@@ -17,7 +17,7 @@ function NavBarServerList() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [activeItem, setActiveItem] = useState(null);
+  const [ activeItem, setActiveItem ] = useState(null);
 
   const handleClick = (server) => {
     setActiveItem(server.id)
@@ -31,36 +31,36 @@ function NavBarServerList() {
 
   return (
     <>
-    <div className="server-indicator">
-      <span id={activeItem === 400 ? 'active-indicator-home': "inactive-indicator"}></span>
-      <div className="server-list">
-      <div  id={activeItem === 400 ? 'home-active' : 'home'} onClick={() => goHome(400)}>
-            <img width="48" height="48" color="#DBDEE1" src="https://img.icons8.com/ios-filled/50/DBDEE1/discord-logo.png" alt="discord-logo"/>
-      </div>
-        <div id="spacer-cont">
-          <span id="spacer"></span>
-        </div>
-    <div className="bunch-servers">
-      {servers.map((server) => (
-        <>
-        <NavLink key={server.name} to={`/servers/${server.id}`}>
-      <span id={activeItem === server.id ? 'active-indicator': "inactive-indicator"}></span>
-          <div onClick={() => handleClick(server)} key={server.id} className="svr-nav-menu-item">
-            <img src={server.icon_url}></img>
+      <div className="server-indicator">
+        <span id={activeItem === 400 ? 'active-indicator-home' : "inactive-indicator"}></span>
+        <div className="server-list">
+          <div id={activeItem === 400 ? 'home-active' : 'home'} onClick={() => goHome(400)}>
+            <img width="48" height="48" color="#DBDEE1" src="https://img.icons8.com/ios-filled/50/DBDEE1/discord-logo.png" alt="discord-logo" />
           </div>
-        </NavLink >
-        </>
-      ))}
-          <div className="svr-nav-menu-item">
-            <OpenModalButton
-              modalCSSClass="new-svr-button"
-              buttonText={<FontAwesomeIcon icon={faPlus}/>}
-              modalComponent={<AddServerForm user={sessionUser} />}
-            />
+          <div id="spacer-cont">
+            <span id="spacer"></span>
           </div>
-      </div>
+          <div className="bunch-servers">
+            {servers.map((server) => (
+              <>
+                <NavLink key={server.name} to={`/servers/${server.id}`}>
+                  <span id={activeItem === server.id ? 'active-indicator' : "inactive-indicator"}></span>
+                  <div onClick={() => handleClick(server)} key={server.id} className="svr-nav-menu-item">
+                    <img src={server.icon_url}></img>
+                  </div>
+                </NavLink >
+              </>
+            ))}
+            <div className="svr-nav-menu-item">
+              <OpenModalButton
+                modalCSSClass="new-svr-button"
+                // buttonText={<FontAwesomeIcon icon={faPlus} />}
+                modalComponent={<AddServerForm user={sessionUser} />}
+              />
+            </div>
+          </div>
 
-      </div>
+        </div>
       </div>
     </>
   );
