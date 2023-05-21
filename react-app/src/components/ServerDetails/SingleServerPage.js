@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Route, Switch, useParams } from "react-router-dom";
 import { getServerChannels, updateSingleChannelId } from "../../store/channels";
 import { thunkUpdateSingleChannelId } from "../../store/channels.js";
-import { fetchChannelMessagesThunk} from "../../store/channelmessages.js";
+import { fetchChannelMessagesThunk } from "../../store/channelmessages.js";
 import Members from "./allMembers";
 import OpenModalMenuItem from "../OpenModalButton";
 import AddChannelModal from "../AddChannelModal";
@@ -15,151 +15,151 @@ import ServerMenuBox from "../ServerMenuBox";
 import Friends from "../Friends";
 import "./Server.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faGear} from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faGear } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { loadOneServerId } from "../../store/servers";
 import { fetchAllMembersThunk, getMembersThunk } from "../../store/members";
 import { socket } from "../DirectMessages/roomChat";
 
 const SingleServerPage = () => {
- const [isLoaded, setIsLoaded] = useState(false);
- let { serverId } = useParams();
- const [active, setActive] = useState(null);
- serverId = parseInt(serverId);
- const server = useSelector(state => state.servers.allServers[serverId])
- const singleChannelId = parseInt((useSelector(state => state.channels.singleChannelId)));
+  const [ isLoaded, setIsLoaded ] = useState(false);
+  let { serverId } = useParams();
+  const [ active, setActive ] = useState(null);
+  serverId = parseInt(serverId);
+  const server = useSelector(state => state.servers.allServers[ serverId ])
+  const singleChannelId = parseInt((useSelector(state => state.channels.singleChannelId)));
 
- const history = useHistory();
- const dispatch = useDispatch();
- const user = useSelector(state => state.session.user);
- const userServers = useSelector((state) => state.session.user.servers);
- //For redirecting user when they aren't a member of a server...
- if (isNaN(+serverId) || !userServers[serverId]) {
-  history.replace("/servers");
- }
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.session.user);
+  const userServers = useSelector((state) => state.session.user.servers);
+  //For redirecting user when they aren't a member of a server...
+  if (isNaN(+serverId) || !userServers[ serverId ]) {
+    history.replace("/servers");
+  }
 
   const roomName = String(serverId);
- const sessionUser = useSelector((state) => state.session.user);
+  const sessionUser = useSelector((state) => state.session.user);
 
- const servers = useSelector((state) => state.servers.allServers);
+  const servers = useSelector((state) => state.servers.allServers);
 
- const channelsArr = Object.values(
-  useSelector((state) => state.channels.allChannels)
- );
+  const channelsArr = Object.values(
+    useSelector((state) => state.channels.allChannels)
+  );
 
- useEffect(() => {
+  useEffect(() => {
     setActive(singleChannelId)
- }, [channelsArr])
+  }, [ channelsArr ])
 
 
 
- const handleClick = (channel) => {
-   setActive(channel.id)
-  dispatch(thunkUpdateSingleChannelId(channel.id))
-   history.push(`/servers/${serverId}/channels/${channel.id}`)
- }
-
- const editChannel = (channel, e) => {
-   e.stopPropagation()
-   history.push(`/servers/${serverId}/channels/${channel.id}/edit`)
- }
-
-
- useEffect(() => {
-  console.log("This is the serverId", serverId, typeof serverId);
-  dispatch(getServerChannels(serverId))
-   .then(dispatch(loadOneServerId(serverId)))
-   .then(dispatch(fetchAllMembersThunk(serverId)))
-   .then(() => setIsLoaded(true));
-
-    socket.emit("join_server_room", {roomName, user});
- }, [dispatch, serverId]);
-
- useEffect(() => {
-
-  console.log("Im the server!", server, singleChannelId, typeof singleChannelId);
-  if (server.channels[singleChannelId] && isLoaded) {
-    dispatch(thunkUpdateSingleChannelId(singleChannelId))
-    setActive(singleChannelId)
-    history.push(`/servers/${serverId}/channels/${singleChannelId}`);
-  } else if (isLoaded) {
-
-    const keys = Object.keys(server.channels);
-    dispatch(thunkUpdateSingleChannelId(parseInt(keys[0])))
-    setActive(parseInt(keys[0]));
-    history.push(`/servers/${serverId}/channels/${parseInt(keys[0])}`)
-    console.log(singleChannelId, keys, "-----");
+  const handleClick = (channel) => {
+    setActive(channel.id)
+    dispatch(thunkUpdateSingleChannelId(channel.id))
+    history.push(`/servers/${serverId}/channels/${channel.id}`)
   }
- }, [server, isLoaded])
 
- return (
-  <>
-   {isLoaded && (
+  const editChannel = (channel, e) => {
+    e.stopPropagation()
+    history.push(`/servers/${serverId}/channels/${channel.id}/edit`)
+  }
+
+
+  useEffect(() => {
+    console.log("This is the serverId", serverId, typeof serverId);
+    dispatch(getServerChannels(serverId))
+      .then(dispatch(loadOneServerId(serverId)))
+      .then(dispatch(fetchAllMembersThunk(serverId)))
+      .then(() => setIsLoaded(true));
+
+    socket.emit("join_server_room", { roomName, user });
+  }, [ dispatch, serverId ]);
+
+  useEffect(() => {
+
+    console.log("Im the server!", server, singleChannelId, typeof singleChannelId);
+    if (server.channels[ singleChannelId ] && isLoaded) {
+      dispatch(thunkUpdateSingleChannelId(singleChannelId))
+      setActive(singleChannelId)
+      history.push(`/servers/${serverId}/channels/${singleChannelId}`);
+    } else if (isLoaded) {
+
+      const keys = Object.keys(server.channels);
+      dispatch(thunkUpdateSingleChannelId(parseInt(keys[ 0 ])))
+      setActive(parseInt(keys[ 0 ]));
+      history.push(`/servers/${serverId}/channels/${parseInt(keys[ 0 ])}`)
+      console.log(singleChannelId, keys, "-----");
+    }
+  }, [ server, isLoaded ])
+
+  return (
     <>
-     <div className="svr-channel-wrapper">
-      <div id="svr-channels">
-      <div className="svr-menu-box">
-       <div className="svr-dropdown-btn-menu-box">
-        <ServerMenuBox servers={servers} user={sessionUser} />
-          </div>
-       </div>
-
-       <span id="addAChannel">
-         <p>TEXT CHANNELS</p>
-         { sessionUser.id === server.owner_id ? <OpenModalButton
-         modalCSSClass="add-channel-display-none"
-         buttonText={
-         <FontAwesomeIcon icon={faPlus} id="plus-icon" className="fa-sm"/>
-         }
-         modalComponent={<AddChannelModal /> }
-         /> : null}
-       </span>
-
-       <div
-        className="chnl-container"
-       >
-        {channelsArr.map((channel) => (
-           <div key={channel.id}
-            className={active === channel.id ? "chnl-container-item-active": "chnl-container-item"}
-            onClick={() => handleClick(channel)}
-            >
-          <p>#</p>
-           <div className="chnl-name"
-           >{channel.name}
-           { sessionUser.id ===  server.owner_id ? <div id="edit-cog">
-          <FontAwesomeIcon
-          onClick={(e) => editChannel(channel, e)}
-          icon={faGear} size="sm"/>
-            </div> : null}
-           </div>
-         </div>
-        ))}
-       </div>
-       </div>
-
-              <div className="user-info">
-                <span id="user-info-pfp">
-                  <img src={sessionUser.photo_url}></img>
-                </span>
-
-                <div>
-                  <span id="user-username">
-                    <h4>{sessionUser.username}</h4>
-                    <p>{sessionUser.username}#{sessionUser.code}</p>
-                  </span>
+      {isLoaded && (
+        <>
+          <div className="svr-channel-wrapper">
+            <div id="svr-channels">
+              <div className="svr-menu-box">
+                <div className="svr-dropdown-btn-menu-box">
+                  <ServerMenuBox servers={servers} user={sessionUser} />
                 </div>
               </div>
-     </div>
-     <Switch>
-      <Route path={`/servers/:serverId/channels/:channelId`}>
-       <Channel />
-      </Route>
-     </Switch>
-     <Members isLoaded={isLoaded}></Members>
+
+              <span id="addAChannel">
+                <p>TEXT CHANNELS</p>
+                {sessionUser.id === server.owner_id ? <OpenModalButton
+                  modalCSSClass="add-channel-display-none"
+                  buttonText={
+                    <FontAwesomeIcon icon={faPlus} id="plus-icon" className="fa-sm" />
+                  }
+                  modalComponent={<AddChannelModal />}
+                /> : null}
+              </span>
+
+              <div
+                className="chnl-container"
+              >
+                {channelsArr.map((channel) => (
+                  <div key={channel.id}
+                    className={active === channel.id ? "chnl-container-item-active" : "chnl-container-item"}
+                    onClick={() => handleClick(channel)}
+                  >
+                    <p>#</p>
+                    <div className="chnl-name"
+                    >{channel.name}
+                      {sessionUser.id === server.owner_id ? <div id="edit-cog">
+                        <FontAwesomeIcon
+                          onClick={(e) => editChannel(channel, e)}
+                          icon={faGear} size="sm" />
+                      </div> : null}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="user-info">
+              <span id="user-info-pfp">
+                <img src={sessionUser.photo_url}></img>
+              </span>
+
+              <div>
+                <span id="user-username">
+                  <h4>{sessionUser.username}</h4>
+                  <p>{sessionUser.username}#{sessionUser.code}</p>
+                </span>
+              </div>
+            </div>
+          </div>
+          <Switch>
+            <Route path={`/servers/:serverId/channels/:channelId`}>
+              <Channel />
+            </Route>
+          </Switch>
+          {/* <Members isLoaded={isLoaded}></Members> */}
+        </>
+      )}
     </>
-   )}
-  </>
- );
+  );
 };
 
 export default SingleServerPage;

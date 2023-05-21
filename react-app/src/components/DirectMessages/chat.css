@@ -41,7 +41,7 @@
   align-items: center;
 }
 
-.top-nav>.fa-solid.fa-user {
+.top-nav>i {
   font-size: 28px;
   padding-right: 20px;
   color: var(--primary-blurple);
@@ -86,7 +86,7 @@ div.message-content {
   font-size: 47px;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   border-radius: 50%;
   overflow: hidden;
 }

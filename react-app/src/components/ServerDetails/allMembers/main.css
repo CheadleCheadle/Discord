@@ -65,19 +65,15 @@
 } */
 
 .members-cont {
-    right: 0em;
     display: flex;
     flex-direction: column;
-    width: 12em;
+    width: 15%;
     height: 100vh;
     background-color: #2b2d31;
     align-items: flex-start;
     padding: 2em;
-    margin-top: 3em;
-    position: absolute;
     border-top: 3px solid #252525;
 }
-
 
 #members-info {
     display: flex;
@@ -87,13 +83,10 @@
     text-align: center;
 }
 
-
-
 #members-info p {
     text-align: center;
     color: #ffffff;
 }
-
 
 #mbr-image img {
     width: 1.5em;
