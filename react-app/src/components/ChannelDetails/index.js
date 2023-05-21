@@ -19,10 +19,17 @@ export default function Channel() {
   const user = useSelector(state => state.session.user);
   const [ isLoaded, setIsLoaded ] = useState(false);
   const [ message, setMessage ] = useState("");
+  const [ inputDisableBool, setInputDisableBool ] = useState(true);
   const channel = useSelector((state) => state.channels.allChannels[ channelId ]);
   const channelMessagesObj = (useSelector(state => state.channelMessages));
   const channelMessages = Object.values(channelMessagesObj.messages)
   const messageContainer = useRef(null);
+
+  useEffect(() => {
+    if (!message) setInputDisableBool(true);
+    else setInputDisableBool(false);
+  }, [ message ])
+
 
   useEffect(() => {
     //Handle Scroll Position
@@ -89,7 +96,7 @@ export default function Channel() {
                   {channelMessages.map((message) => (
                     <div id="message" key={message.id}>
                       <div id="pfp-cont">
-                        <i class="fa-solid fa-user" style={{ background: `${Math.floor(100000 + Math.random() * 900000)}` }}></i>
+                        <i class="fa-solid fa-user" style={{ background: `#${Math.floor(100000 + Math.random() * 900000)}` }}></i>
                       </div>
                       <div id="text-info">
                         <div id="name">
@@ -109,7 +116,7 @@ export default function Channel() {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                 />
-                <button id="send-button" type="submit" value="Submit" >Send</button>
+                <button disabled={inputDisableBool} id="send-button" type="submit" value="Submit" >Send</button>
               </form>
             </div>
             <Members isLoaded={isLoaded}></Members>
