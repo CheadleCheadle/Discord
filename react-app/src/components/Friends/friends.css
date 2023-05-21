@@ -6,7 +6,7 @@
     background-color: #2b2d31;
     height: 100%;
     box-sizing: border-box;
-    width: 300px;
+    width: 320px;
 
 }
 
@@ -30,6 +30,7 @@
     align-items: center;
     padding: 0 15px;
     box-sizing: border-box;
+    margin-bottom: 15px;
 }
 
 #direct-msg-label {

@@ -177,7 +177,7 @@ body {
 }
 
 #svr-channels {
-  width: 300px;
+  width: 320px;
   display: flex;
   flex-direction: column;
 }
@@ -381,7 +381,7 @@ body {
 /* ********************* */
 
 .svr-delete-server-form-container {
-  width: 300px;
+  width: 320px;
   display: flex;
   flex-direction: column;
   align-items: center;

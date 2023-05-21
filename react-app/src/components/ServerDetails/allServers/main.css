@@ -7,7 +7,6 @@
     align-items: flex-start;
     overflow-y: scroll;
     padding: 55px;
-    justify-content: space-between;
 }
 
 .all-svr-image-cont img {
@@ -17,17 +16,19 @@
 }
 
 .all-svr-image-cont {
-    height: 10em;
+    height: 200px;
     width: 100%;
-
 }
 
 .svr-all-servers-info {
-    width: 15em;
-    height: 20em;
+    width: 300px;
+    height: 350px;
     background-color: #232428;
     border-radius: 5px;
+    box-sizing: border-box;
+    margin-right: 20px;
 }
+
 
 #server-description {}
 
@@ -36,17 +37,19 @@
 #desc-members {
     display: flex;
     flex-direction: column;
-    row-gap: 1em;
-    height: 10em;
-    justify-content: space-around;
-    padding: 0em 1em 1em 1em;
+    height: 150px;
+    width: 100%;
     color: #b0bac1;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    justify-content: space-evenly;
 }
 
 #join-desc {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
 #button-container {

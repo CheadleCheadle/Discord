@@ -23,10 +23,11 @@ div.profile-dropdown {
   align-items: center;
   cursor: pointer;
   border-radius: 50%;
+  transition: 0.3s;
 }
 
 #home:hover {
-  transition-duration: 0.20s;
+  transition: 0.3s;
   background-color: #5865f2;
   border-radius: 15px;
 }
@@ -40,6 +41,7 @@ div.profile-dropdown {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 .isActive {
@@ -57,7 +59,7 @@ div.profile-dropdown {
   border-radius: 0 4px 4px 0;
   height: 40px;
   position: absolute;
-  margin-left: -20px;
+  margin-left: -18px;
   margin-top: .25em;
 }
 
@@ -67,8 +69,9 @@ div.profile-dropdown {
   border-radius: 0 4px 4px 0;
   height: 40px;
   position: absolute;
-  margin-left: -17px;
+  margin-left: -18px;
   margin-top: .25em;
+  transition: 0.3s;
 }
 
 #inactive-indicator {
@@ -79,6 +82,7 @@ div.profile-dropdown {
   position: absolute;
   margin-left: -15px;
   margin-top: .25em;
+  transition: 0.3s;
 }
 
 #home img {
@@ -151,7 +155,7 @@ div.profile-dropdown {
 .bunch-servers {
   display: flex;
   flex-direction: column;
-  gap: .5em;
+  gap: 10px;
 }
 
 .fa-plus {
