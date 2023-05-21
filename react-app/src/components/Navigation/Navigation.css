@@ -13,6 +13,7 @@ div.profile-dropdown {
 .hidden {
   display: none;
 }
+
 #home {
   background-color: #35363c;
   width: 48px;
@@ -23,11 +24,13 @@ div.profile-dropdown {
   cursor: pointer;
   border-radius: 50%;
 }
+
 #home:hover {
   transition-duration: 0.20s;
   background-color: #5865f2;
   border-radius: 15px;
 }
+
 #home-active {
   border-radius: 15px;
   background-color: #5865f2;
@@ -38,13 +41,16 @@ div.profile-dropdown {
   align-items: center;
   cursor: pointer;
 }
+
 .isActive {
   background-color: #5865f2;
 }
+
 .server-indicator {
   display: flex;
   flex-direction: row;
 }
+
 #active-indicator {
   background-color: #fff;
   width: 8px;
@@ -54,6 +60,7 @@ div.profile-dropdown {
   margin-left: -20px;
   margin-top: .25em;
 }
+
 #active-indicator-home {
   background-color: #fff;
   width: 8px;
@@ -63,6 +70,7 @@ div.profile-dropdown {
   margin-left: -17px;
   margin-top: .25em;
 }
+
 #inactive-indicator {
   background-color: inherit;
   width: 8px;
@@ -72,6 +80,7 @@ div.profile-dropdown {
   margin-left: -15px;
   margin-top: .25em;
 }
+
 #home img {
   width: 2em;
   height: 2em;
@@ -83,14 +92,16 @@ div.profile-dropdown {
   height: 2em;
   cursor: pointer;
 }
+
 #spacer-cont {
   display: flex;
   justify-content: center;
 }
+
 #spacer {
   margin: .5em 0em;
   height: 2px;
-  width: 32px;
+  width: 49px;
   border-radius: 1px;
   background-color: #35363c;
   display: flex;
@@ -162,6 +173,7 @@ div.profile-dropdown {
   border-radius: 15px;
   background-color: #259655;
   transition-duration: .5s;
+
   .fa-plus {
     transition-duration: .5s;
     color: #fff;

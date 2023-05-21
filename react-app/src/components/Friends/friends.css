@@ -6,6 +6,7 @@
     background-color: #2b2d31;
     height: 100%;
     box-sizing: border-box;
+    width: 300px;
 
 }
 
@@ -92,7 +93,10 @@
 #usr-img img {
     height: 30px;
     border-radius: 40px;
-    margin-right: 15px
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #usr-name {
