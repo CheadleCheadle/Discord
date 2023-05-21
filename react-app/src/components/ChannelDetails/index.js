@@ -89,7 +89,7 @@ export default function Channel() {
                   {channelMessages.map((message) => (
                     <div id="message" key={message.id}>
                       <div id="pfp-cont">
-                        <i class="fa-solid fa-user" style={{ background: "var(--primary-blurple)" }}></i>
+                        <i class="fa-solid fa-user" style={{ background: `${Math.floor(100000 + Math.random() * 900000)}` }}></i>
                       </div>
                       <div id="text-info">
                         <div id="name">
@@ -111,9 +111,6 @@ export default function Channel() {
                 />
                 <button id="send-button" type="submit" value="Submit" >Send</button>
               </form>
-              {/* <span id="space-gap">
-            <p id="nope">wwasd</p>
-          </span> */}
             </div>
             <Members isLoaded={isLoaded}></Members>
           </div>

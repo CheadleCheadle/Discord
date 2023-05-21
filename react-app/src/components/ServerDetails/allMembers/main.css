@@ -67,12 +67,12 @@
 .members-cont {
     display: flex;
     flex-direction: column;
-    width: 15%;
+    width: 20%;
     height: 100vh;
     background-color: #2b2d31;
     align-items: flex-start;
-    padding: 2em;
-    border-top: 3px solid #252525;
+    padding: 60px 30px;
+    box-sizing: border-box;
 }
 
 #members-info {
@@ -96,8 +96,10 @@
 }
 
 #status {
-    color: #ffffff;
-    font-weight: bold;
+    color: var(--primary-gray);
+    font-weight: 100;
+    font-size: 12pt;
+
 }
 
 #accept-button {
