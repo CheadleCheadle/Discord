@@ -26,6 +26,7 @@ def get_online_users():
     print('Client connected111111111111111111111111111111111111111111111111111111111111111111111111111111')
     return {'users': list(online_users.values())}
 
+
 @socketio.on('join_server_room')
 def join_server_room(data):
     room_name = data["roomName"]
@@ -183,3 +184,54 @@ def handle_message(data):
     the_message["time_stamp"] = str(the_message["time_stamp"])
     emit('new_message', the_message,
          broadcast=True, room=char_code)
+
+
+
+@socketio.on('startStreaming')
+def handle_start_streaming(audio_stream):
+    print("THIS IS THE AUDIO --------------", audio_stream)
+    emit('audioStream', audio_stream, broadcast=True)
+
+
+
+@socketio.on('audioData')
+def handle_audio_data(audio_data):
+    print('---------------', audio_data, "wasdwasd")
+    # Broadcast the received audio data to all other users in the room
+    emit('audioStream', audio_data, broadcast=True)
+
+@socketio.on('offer')
+def handle_offer(data):
+    # Send the offer to all other users in the room
+    offer = data["offer"]
+    room = data["room"]
+    join_room(room)
+    print("offer---------", offer, room)
+    emit('offer', offer, room=room, include_self=False)
+
+@socketio.on('answer')
+def handle_answer(answer):
+    print("answer-------------")
+    # Send the answer to the user who initiated the offer
+    emit('answer', answer)
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    # Clean up by leaving all rooms when a user disconnects
+    for room_id in active_rooms(sid=request.sid):
+        leave_room(room_id)
+
+
+
+
+@socketio.on('joinRoom')
+def handle_join_room(room):
+    join_room(room)
+    print("I JOINED A VOICE ROOM")
+    emit('roomJoined', room, room=room)
+
+@socketio.on('leaveRoom')
+def handle_leave_room(room):
+    leave_room(room)
+    print("I LEFT A VOICE ROOM")
+    emit('roomLeft', room, room=room)

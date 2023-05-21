@@ -14,6 +14,7 @@ class Channel(db.Model):
     _type = db.Column(db.String(40), nullable=False)
     _max_users = db.Column(db.Integer)
     _topic = db.Column(db.String(100), nullable=False)
+    _com_type = db.Column(db.String, nullable=True, default="text")
 
     server = db.relationship(
         "Server", back_populates="channels")
@@ -67,7 +68,8 @@ class Channel(db.Model):
             'name': self._name,
             'type': self._type,
             'max_users': self._max_users,
-            'topic': self._topic
+            'topic': self._topic,
+            'com_type': self._com_type
         }
 
     def to_dict(self):
@@ -79,5 +81,6 @@ class Channel(db.Model):
             'max_users': self._max_users,
             'topic': self._topic,
             'server': self.server.to_safe_dict(),
-            'channel_messages': [message.to_safe_dict() for message in self.channel_messages]
+            'channel_messages': [message.to_safe_dict() for message in self.channel_messages],
+            'com_type': self._com_type
         }

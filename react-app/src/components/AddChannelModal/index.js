@@ -11,6 +11,7 @@ export default function AddChannelModal({ channel, flag }) {
   const dispatch = useDispatch();
   const serverId = useSelector((state) => state.servers.singleServerId);
   const [name, setName] = useState("");
+  const [com_type, setComType] = useState("");
   let [errors, setErrors] = useState({});
   const { closeModal } = useModal();
   const [active, setActive] = useState("");
@@ -19,6 +20,7 @@ export default function AddChannelModal({ channel, flag }) {
 
   const handleIsActive = (str) => {
     setActive(str);
+    setComType(str);
   }
 
   const handleSubmit = async (e) => {
@@ -28,7 +30,8 @@ export default function AddChannelModal({ channel, flag }) {
       name,
       type: "Public",
       max_users: 10,
-      topic: "A topic"
+      topic: "A topic",
+      com_type
     };
     const returnedChannel = await dispatch(createChannelAction(newChannel, serverId));
     dispatch(thunkUpdateSingleChannelId(returnedChannel.id))

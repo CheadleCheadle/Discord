@@ -10,42 +10,48 @@ def seed_channels():
             "_name": "channel-1",
             "_type": "text",
             "_max_users": 40,
-            "_topic": "study"
+            "_topic": "study",
+            "_com_type": "text"
         },
         {
             "_server_id": 2,
             "_name": "channel-1",
             "_type": "text",
             "_max_users": 40,
-            "_topic": "study"
+            "_topic": "study",
+            "_com_type": "text"
         },
         {
             "_server_id": 3,
             "_name": "channel-1",
             "_type": "text",
             "_max_users": 40,
-            "_topic": "gaming"
+            "_topic": "gaming",
+            "_com_type": "text"
         },
         {
             "_server_id": 4,
             "_name": "channel-1",
             "_type": "text",
             "_max_users": 40,
-            "_topic": "gaming"
+            "_topic": "gaming",
+            "_com_type": "text"
         },
         {
             "_server_id": 5,
             "_name": "channel-1",
             "_type": "text",
             "_max_users": 40,
-            "_topic": "study"
+            "_topic": "study",
+            "_com_type": "text"
         },
         {
             "_server_id": 6,
             "_name": "channel-1",
             "_type": "text",
             "_max_users": 40,
-            "_topic": "gaming"
+            "_topic": "gaming",
+            "_com_type": "text"
         }
     ]
 

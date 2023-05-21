@@ -159,7 +159,8 @@ def create_new_channel_by_server_id(server_id):
             _name=form.data["name"],
             _type=form.data["type"],
             _max_users=form.data["max_users"],
-            _topic=form.data["topic"]
+            _topic=form.data["topic"],
+            _com_type=form.data["com_type"]
         )
         db.session.add(channel)
         db.session.commit()
