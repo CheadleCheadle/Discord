@@ -71,7 +71,7 @@
     height: 100vh;
     background-color: #2b2d31;
     align-items: flex-start;
-    padding: 60px 30px;
+    padding: 40px 20px;
     box-sizing: border-box;
 }
 
@@ -81,6 +81,7 @@
     width: 200px;
     margin-top: 1em;
     text-align: center;
+    align-items: center;
 }
 
 #members-info p {
@@ -89,10 +90,9 @@
 }
 
 #mbr-image img {
-    width: 1.5em;
-    height: 1.5em;
-    border-radius: 10px;
-    margin-right: .5em;
+    width: 25px;
+    height: 25px;
+    margin-right: 15px;
 }
 
 #status {
