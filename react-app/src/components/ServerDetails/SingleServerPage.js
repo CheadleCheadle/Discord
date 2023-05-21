@@ -20,6 +20,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { loadOneServerId } from "../../store/servers";
 import { fetchAllMembersThunk, getMembersThunk } from "../../store/members";
 import { socket } from "../DirectMessages/roomChat";
+import { logout } from "../../store/session";
 
 const SingleServerPage = () => {
   const [ isLoaded, setIsLoaded ] = useState(false);
@@ -51,8 +52,6 @@ const SingleServerPage = () => {
     setActive(singleChannelId)
   }, [ channelsArr ])
 
-
-
   const handleClick = (channel) => {
     setActive(channel.id)
     dispatch(thunkUpdateSingleChannelId(channel.id))
@@ -64,9 +63,7 @@ const SingleServerPage = () => {
     history.push(`/servers/${serverId}/channels/${channel.id}/edit`)
   }
 
-
   useEffect(() => {
-    console.log("This is the serverId", serverId, typeof serverId);
     dispatch(getServerChannels(serverId))
       .then(dispatch(loadOneServerId(serverId)))
       .then(dispatch(fetchAllMembersThunk(serverId)))
@@ -76,21 +73,24 @@ const SingleServerPage = () => {
   }, [ dispatch, serverId ]);
 
   useEffect(() => {
-
-    console.log("Im the server!", server, singleChannelId, typeof singleChannelId);
     if (server.channels[ singleChannelId ] && isLoaded) {
       dispatch(thunkUpdateSingleChannelId(singleChannelId))
       setActive(singleChannelId)
       history.push(`/servers/${serverId}/channels/${singleChannelId}`);
     } else if (isLoaded) {
-
       const keys = Object.keys(server.channels);
       dispatch(thunkUpdateSingleChannelId(parseInt(keys[ 0 ])))
       setActive(parseInt(keys[ 0 ]));
       history.push(`/servers/${serverId}/channels/${parseInt(keys[ 0 ])}`)
-      console.log(singleChannelId, keys, "-----");
     }
   }, [ server, isLoaded ])
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logout(sessionUser))
+      .then(() => history.push('/'));
+
+  };
 
   return (
     <>
@@ -150,7 +150,7 @@ const SingleServerPage = () => {
                   </span>
                 </div>
               </div>
-              {/* <p className="pointer" onClick={handleLogout}>Logout</p> */}
+              <p className="pointer" onClick={handleLogout}>Logout</p>
             </div>
           </div>
           <Switch>
