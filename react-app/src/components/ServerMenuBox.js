@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
 
 import AddChannelModal from "./AddChannelModal";
+
 export default function ServerMenuBox({ servers, user }) {
   const ulRef = useRef();
   const history = useHistory();
@@ -33,29 +34,29 @@ export default function ServerMenuBox({ servers, user }) {
     if (server.owner_id == currUser.id) {
 
       return (
-          <>
-        <div
-        className="server-settings"
-        onClick={() => {
-            history.push(`/servers/${serverId}/edit`);
-        }}
-        >
+        <>
+          <div
+            className="server-settings"
+            onClick={() => {
+              history.push(`/servers/${serverId}/edit`);
+            }}
+          >
             Server Settings
-          <FontAwesomeIcon
-          icon={faGear} size="lg"/>
-        </div>
-        <div
-        className="server-settings"
-        onClick={() => {
-          setModalContent(
-            <AddChannelModal
-            />
-          )
-        }}
-        >
-        Add A Channel
-        </div>
-          </>
+            <FontAwesomeIcon
+              icon={faGear} size="lg" />
+          </div>
+          <div
+            className="server-settings"
+            onClick={() => {
+              setModalContent(
+                <AddChannelModal
+                />
+              )
+            }}
+          >
+            Add A Channel
+          </div>
+        </>
       )
     } else {
       return (
@@ -68,7 +69,7 @@ export default function ServerMenuBox({ servers, user }) {
   }
   useEffect(() => {
     renderDelete();
-  }, [renderDelete, server])
+  }, [ renderDelete, server ])
 
 
   const openMenu = () => {
@@ -96,18 +97,18 @@ export default function ServerMenuBox({ servers, user }) {
     <>
       <div className="svr-menu-name">
         {server ? <h3>{server.name}</h3> : null}
-      <div className="svr-dropdown-parent svr-toggle-btn ">
-        <button onClick={openMenu} className="down-close-btn">
-          {showMenu ? (
-            <i className="fa-solid fa-x fa-sm"></i>
-          ) : (
-            <i className="fa-solid fa-chevron-down fa-sm"></i>
-          )}
-        </button>
-        <div className={ulClassName} ref={ulRef}>
+        <div className="svr-dropdown-parent svr-toggle-btn ">
+          <button onClick={openMenu} className="down-close-btn">
+            {showMenu ? (
+              <i className="fa-solid fa-x fa-sm"></i>
+            ) : (
+              <i className="fa-solid fa-chevron-down fa-sm"></i>
+            )}
+          </button>
+          <div className={ulClassName} ref={ulRef}>
             {renderDelete()}
+          </div>
         </div>
-      </div>
       </div>
     </>
   );
