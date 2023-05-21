@@ -137,17 +137,20 @@ const SingleServerPage = () => {
               </div>
             </div>
 
-            <div className="user-info">
-              <span id="user-info-pfp">
-                <img src={sessionUser.photo_url}></img>
-              </span>
-
-              <div>
-                <span id="user-username">
-                  <h4>{sessionUser.username}</h4>
-                  <p>{sessionUser.username}#{sessionUser.code}</p>
+            <div className="user-info-nav">
+              <div className="user-info">
+                <span id="user-info-pfp">
+                  <img src={sessionUser.photo_url}></img>
                 </span>
+
+                <div>
+                  <span id="user-username">
+                    <h4>{sessionUser.username}</h4>
+                    <p>{sessionUser.username} #{sessionUser.code}</p>
+                  </span>
+                </div>
               </div>
+              {/* <p className="pointer" onClick={handleLogout}>Logout</p> */}
             </div>
           </div>
           <Switch>

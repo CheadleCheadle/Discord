@@ -2,32 +2,40 @@
     font-size: 12pt;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     width: 100%;
     background-color: #2b2d31;
+    height: 100%;
+    box-sizing: border-box;
 
 }
 
 .drt-usr-msg-box {
     display: flex;
     align-items: center;
-    width: 90%;
-    height: 30px;
+    height: 55px;
     font-family: sans-serif;
-    padding: 0 6px;
     font-size: 10pt;
     font-weight: 600;
     color: white;
-    gap: 15px;
-    background-color: #2b2d31;
-    margin: 2px;
-    border-radius: 5px;
-    width: 16.9em;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.drt-usr-msg-box:hover {
-    background-color: #666;
+.direct-messages-list {
+    height: 55px;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+#direct-msg-label {
+    color: white;
+    font-size: 12pt;
+    font-weight: 200;
+
 }
 
 .drt-msg-light-color {
@@ -48,8 +56,24 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    border-color: burlywood;
+    box-sizing: border-box;
+    padding: 0 15px;
+    border-radius: 10px;
+    cursor: pointer;
 }
+
+.drt-msg-container>span {
+    color: var(--primary-gray);
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.drt-msg-container:hover {
+    background-color: #666;
+}
+
 
 .usr-box {
     width: 100%;
@@ -66,14 +90,16 @@
 }
 
 #usr-img img {
-    height: 1em;
-    border-radius: 2em;
+    height: 30px;
+    border-radius: 40px;
+    margin-right: 15px
 }
 
 #usr-name {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    font-size: 12pt;
-    font-weight: 600;
+    font-size: 13pt;
+    font-weight: 400;
+    color: white;
 }

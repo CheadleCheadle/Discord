@@ -81,7 +81,7 @@ function ChatRoom({ friend, user }) {
                             <div id="chat-start-section">
                                 <i class="fa-solid fa-user chat-messages-icon"></i>
                                 <h1>
-                                    {friendname[ 0 ].toUpperCase() + friendname.slice(1)}
+                                    {friendname[ 0 ].toUpperCase() + friendname.slice(1)} #{friend.code}
                                 </h1>
                                 <p>
                                     This is the beginning of your chat with {friendname[ 0 ].toUpperCase() + friendname.slice(1)}

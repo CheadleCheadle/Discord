@@ -15,7 +15,7 @@ export default function Friends() {
     };
 
     const isActive = (friend) => {
-        if (activeUsers[friend.id]) {
+        if (activeUsers[ friend.id ]) {
             return true;
         } else {
             return false;
@@ -24,30 +24,31 @@ export default function Friends() {
 
     return (
         <>
-        <div className="svr-friends-list">
-        <div className="drt-msg">
-        <div className="drt-usr-msg-box drt-msg-light-color ">DIRECT MESSAGES</div>
+            <div className="svr-friends-list">
+                <div className="drt-msg">
+                    <div className="direct-messages-list">
+                        <h3 id="direct-msg-label">Direct Messages</h3>
+                    </div>
+                    {Object.values(friends).map((friend) => (
+                        <div
+                            className="drt-msg-container"
+                            key={friend.id}
+                            onClick={() => handleFriend(friend)}
+                        >
+                            <div className="drt-usr-msg-box">
+                                <div id="usr-img">
+                                    <img src={friend.photo_url}></img>
+                                </div>
 
-        {Object.values(friends).map((friend) => (
-            <div
-            className="drt-msg-container"
-            key={friend.id}
-            onClick={() => handleFriend(friend)}
-            >
-            <div className="drt-usr-msg-box">
-            <div id="usr-img">
-            <img src={friend.photo_url}></img>
+                                <div id="usr-name">
+                                    <p>{friend.username}</p>
+                                </div>
+                            </div>
+                            <span>{isActive(friend) ? "Online" : "Offline"}</span>
+                        </div>
+                    ))}
+                </div>
             </div>
-
-            <div id="usr-name">
-            <p>{friend.username}</p>
-            </div>
-            <span>{isActive(friend) ? "Online": "Offline"}</span>
-            </div>
-            </div>
-        ))}
-        </div>
-        </div>
         </>
     );
 }
