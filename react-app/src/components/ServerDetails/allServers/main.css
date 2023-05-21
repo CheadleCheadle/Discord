@@ -1,12 +1,13 @@
 .svr-all-servers-container {
     display: flex;
     flex-flow: row wrap;
-    justify-content: center;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
     align-items: flex-start;
-    padding: 40px;
+    overflow-y: scroll;
+    padding: 55px;
+    justify-content: space-between;
 }
 
 .all-svr-image-cont img {
