@@ -21,12 +21,14 @@ body {
 }
 
 .svr-nav-bar {
+  padding: 10px;
   margin: 0;
   width: 80px;
-  display: flex;
-  flex-direction: column;
   height: 100vh;
   background-color: #1e1f22;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
 }
 
 .svr-channel-column {
@@ -39,11 +41,12 @@ body {
 
 
 .svr-nav-server-list {
-  padding-top: 10px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  width: 60px;
+  height: 100%;
   align-items: center;
-  width: 100%;
 }
 
 .svr-nav-menu {
@@ -146,8 +149,17 @@ body {
 /*  Server Menu Box      */
 /* ********************* */
 
+:root {
+  --primary-blurple: #7289DA;
+  --primary-gray: #99AAB5;
+  --dark-gray: #2C2F33;
+}
 
-
+#root {
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+}
 
 .svr-menu-name {
   width: 100%;
@@ -165,6 +177,7 @@ body {
 }
 
 #svr-channels {
+  width: 320px;
   display: flex;
   flex-direction: column;
 }
@@ -368,7 +381,7 @@ body {
 /* ********************* */
 
 .svr-delete-server-form-container {
-  width: 350px;
+  width: 320px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -482,9 +495,7 @@ body {
 .svr-dropdown-btn-menu-box {
   display: flex;
   width: 100%;
-  justify-content: flex-start;
-  gap: 7px;
-  padding-top: 1em;
+  height: 100%;
 }
 
 .svr-menu-name {
@@ -501,10 +512,9 @@ body {
   font-size: 12pt;
   display: flex;
   align-items: center;
-  height: 3em;
+  height: 55px;
   color: white;
-  position: relative;
-  border-bottom: 3px solid #252525;
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.15);
 }
 
 #addAChannel {
@@ -516,6 +526,7 @@ body {
   justify-content: space-between;
 
 }
+
 #addAChannel p {
   display: flex;
   align-items: center;
@@ -542,6 +553,7 @@ body {
   cursor: pointer;
   gap: .5em;
 }
+
 .chnl-container-item-active {
   margin: 0em .5em;
   padding: 0em .5em;
@@ -551,20 +563,24 @@ body {
   color: white;
   border-radius: 5px;
   height: 2em;
-  background-color: #414146 ;
+  background-color: #414146;
   cursor: pointer;
   gap: .5em;
 }
+
 .chnl-container-item-active:hover {
-  background-color: #414146 ;
+  background-color: #414146;
+
   #edit-cog {
     display: flex;
     align-items: center;
     justify-content: center;
   }
 }
+
 .chnl-container-item:hover {
-  background-color: #414146 ;
+  background-color: #414146;
+
   #edit-cog {
     display: flex;
     align-items: center;

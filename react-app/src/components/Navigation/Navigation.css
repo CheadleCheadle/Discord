@@ -13,6 +13,7 @@ div.profile-dropdown {
 .hidden {
   display: none;
 }
+
 #home {
   background-color: #35363c;
   width: 48px;
@@ -22,12 +23,15 @@ div.profile-dropdown {
   align-items: center;
   cursor: pointer;
   border-radius: 50%;
+  transition: 0.3s;
 }
+
 #home:hover {
-  transition-duration: 0.20s;
+  transition: 0.3s;
   background-color: #5865f2;
   border-radius: 15px;
 }
+
 #home-active {
   border-radius: 15px;
   background-color: #5865f2;
@@ -37,32 +41,39 @@ div.profile-dropdown {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  transition: 0.3s;
 }
+
 .isActive {
   background-color: #5865f2;
 }
+
 .server-indicator {
   display: flex;
   flex-direction: row;
 }
+
 #active-indicator {
   background-color: #fff;
   width: 8px;
   border-radius: 0 4px 4px 0;
   height: 40px;
   position: absolute;
-  margin-left: -20px;
+  margin-left: -18px;
   margin-top: .25em;
 }
+
 #active-indicator-home {
   background-color: #fff;
   width: 8px;
   border-radius: 0 4px 4px 0;
   height: 40px;
   position: absolute;
-  margin-left: -17px;
+  margin-left: -18px;
   margin-top: .25em;
+  transition: 0.3s;
 }
+
 #inactive-indicator {
   background-color: inherit;
   width: 8px;
@@ -71,7 +82,9 @@ div.profile-dropdown {
   position: absolute;
   margin-left: -15px;
   margin-top: .25em;
+  transition: 0.3s;
 }
+
 #home img {
   width: 2em;
   height: 2em;
@@ -83,14 +96,16 @@ div.profile-dropdown {
   height: 2em;
   cursor: pointer;
 }
+
 #spacer-cont {
   display: flex;
   justify-content: center;
 }
+
 #spacer {
   margin: .5em 0em;
   height: 2px;
-  width: 32px;
+  width: 49px;
   border-radius: 1px;
   background-color: #35363c;
   display: flex;
@@ -140,7 +155,7 @@ div.profile-dropdown {
 .bunch-servers {
   display: flex;
   flex-direction: column;
-  gap: .5em;
+  gap: 10px;
 }
 
 .fa-plus {
@@ -162,6 +177,7 @@ div.profile-dropdown {
   border-radius: 15px;
   background-color: #259655;
   transition-duration: .5s;
+
   .fa-plus {
     transition-duration: .5s;
     color: #fff;

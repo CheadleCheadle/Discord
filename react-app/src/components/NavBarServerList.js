@@ -10,12 +10,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import AddServerForm from "./AddServerForm";
 import OpenModalButton from "./OpenModalButton";
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 function NavBarServerList() {
   const serversObj = useSelector(state => state.session.user.servers)
   const servers = Object.values(serversObj)
   const sessionUser = useSelector((state) => state.session.user);
   const history = useHistory();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const [ activeItem, setActiveItem ] = useState(null);
 
@@ -32,9 +34,9 @@ function NavBarServerList() {
   return (
     <>
       <div className="server-indicator">
-        <span id={activeItem === 400 ? 'active-indicator-home' : "inactive-indicator"}></span>
+        <span id={location.pathname === '/servers' ? 'active-indicator-home' : "inactive-indicator"}></span>
         <div className="server-list">
-          <div id={activeItem === 400 ? 'home-active' : 'home'} onClick={() => goHome(400)}>
+          <div id={location.pathname === '/servers' ? 'home-active' : 'home'} onClick={() => goHome(400)}>
             <img width="48" height="48" color="#DBDEE1" src="https://img.icons8.com/ios-filled/50/DBDEE1/discord-logo.png" alt="discord-logo" />
           </div>
           <div id="spacer-cont">

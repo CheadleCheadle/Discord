@@ -15,12 +15,12 @@ const AllServersNavbar = () => {
 
 
   return (
-      <div className="svr-nav-bar">
-        <div className="svr-nav-server-list">
-          <NavBarServerList />
-        </div>
-
+    <div className="svr-nav-bar">
+      <div className="svr-nav-server-list">
+        <NavBarServerList />
       </div>
+
+    </div>
   );
 };
 

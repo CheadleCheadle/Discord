@@ -18,13 +18,13 @@ const MyServersPage = () => {
   const serversObj = useSelector(state => state.servers.allServers);
   const servers = Object.values(serversObj)
   const location = useLocation();
-  const [showFriends, setShowFriends] = useState(false)
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [ showFriends, setShowFriends ] = useState(false)
+  const [ isLoaded, setIsLoaded ] = useState(false)
 
   useEffect(() => {
     dispatch(getMembershipsThunk())
       .then(() => setIsLoaded(true))
-  }, [dispatch])
+  }, [ dispatch ])
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -36,30 +36,32 @@ const MyServersPage = () => {
   useEffect(() => {
     if (location.pathname.slice(0, 8) === '/friends' || location.pathname === '/servers') setShowFriends(true)
     else setShowFriends(false)
-  }, [location.pathname]);
+  }, [ location.pathname ]);
   return (
     <>
       {isLoaded && (
         <>
           <AllServersNavbar></AllServersNavbar>
-          <div className="friends-column">
-            {showFriends && (
+          {showFriends && (
+            <div className="friends-column">
               <Friends></Friends>
-            )}
-            {showFriends && <div className="user-info">
-              <span id="user-info-pfp">
-                <img src={sessionUser.photo_url}></img>
-              </span>
+              <div className="user-info-nav">
+                <div className="user-info">
+                  <span id="user-info-pfp">
+                    <img src={sessionUser.photo_url}></img>
+                  </span>
 
-              <div>
-                <span id="user-username">
-                  <h4>{sessionUser.username}</h4>
-                  <p>{sessionUser.username}#{sessionUser.code}</p>
-                </span>
+                  <div>
+                    <span id="user-username">
+                      <h4>{sessionUser.username}</h4>
+                      <p>{sessionUser.username} #{sessionUser.code}</p>
+                    </span>
+                  </div>
+                </div>
+                <p className="pointer" onClick={handleLogout}>Logout</p>
               </div>
-                <p onClick={handleLogout}>Logout</p>
-            </div>}
-          </div>
+            </div>
+          )}
           <Switch>
             <Route path={'/servers/:serverId'}>
               <SingleServerPage />
