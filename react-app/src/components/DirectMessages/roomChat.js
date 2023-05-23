@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import "./chat.css"
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMessagesThunk, sendMessage } from '../../store/directmessages';
-export const socket = io.connect('http://localhost:5001');
+export const socket = io.connect('https://discord-wa36.onrender.com');
 
 function ChatRoom({ friend, user }) {
     const dispatch = useDispatch();
