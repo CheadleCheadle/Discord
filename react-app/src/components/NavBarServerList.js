@@ -45,14 +45,14 @@ function NavBarServerList() {
           </div>
           <div className="bunch-servers">
             {servers.map((server) => (
-              <>
+              <div key={server.id}>
                 <NavLink key={server.name} to={`/servers/${server.id}`}>
                   <span id={activeItem === server.id ? 'active-indicator' : "inactive-indicator"}></span>
                   <div onClick={() => handleClick(server)} key={server.id} className="svr-nav-menu-item">
                     <img src={server.icon_url}></img>
                   </div>
                 </NavLink >
-              </>
+              </div>
             ))}
             <div className="svr-nav-menu-item">
               <OpenModalButton
