@@ -85,7 +85,11 @@ const AllServersPage = () => {
               <div id="desc-members">
                 <span id="server-description">{server.description}</span>
                 <div id="join-desc" >
-                  <p>🟢{server.users.length} Members</p>
+                  <div id="server-members-count">
+                  <div id="server-dot">
+                  </div>
+                  <p>{server.users.length} Members</p>
+                  </div>
                   <div id="button-container">
                   <RenderStatusButton server={server}/>
                   </div>

@@ -1,7 +1,7 @@
 from operator import add
 from app.models import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
-
+import time
 
 class Message(db.Model):
     __abstract__ = True
@@ -12,6 +12,15 @@ class Message(db.Model):
     _content = db.Column(db.Text, nullable=False)
     _time_stamp = db.Column(db.DateTime, nullable=False,
                             default=datetime.utcnow)
+
+    def utc2local(self):
+        timeg = self._time_stamp.strftime("%a, %b %d %Y %I:%M %p")
+        utc = datetime.strptime(timeg,"%a, %b %d %Y %I:%M %p")
+        epoch = time.mktime(utc.timetuple())
+        offset = datetime.fromtimestamp(epoch) - datetime.utcfromtimestamp(epoch)
+        local_time = utc + offset
+        return local_time.strftime("%a, %b %d %Y %I:%M %p")
+
 
     @property
     def content(self):
@@ -54,7 +63,7 @@ class DirectMessage(Message):
             "user_id": self.user_id,
             "content": self.content,
             "recipient_id": self.recipient_id,
-            "time_stamp": self._time_stamp
+            "time_stamp": self.utc2local()
         }
 
     def to_dict(self):
@@ -63,7 +72,7 @@ class DirectMessage(Message):
             "user_id": self.user_id,
             "content": self.content,
             "recipient_id": self.recipient_id,
-            "time_stamp": self._time_stamp,
+            "time_stamp": self.utc2local(),
             "sender": self.sender.to_safe_dict(),
             "recipient": self.recipient.to_safe_dict()
         }
@@ -109,7 +118,7 @@ class ChannelMessage(Message):
             "user_id": self.user_id,
             "content": self._content,
             "channel_id": self.channel_id,
-            "time_stamp": self._time_stamp,
+            "time_stamp": self.utc2local(),
             "sender": self.sender.to_safe_dict(),
             "channel": self.channel.to_safe_dict()
         }
@@ -120,7 +129,8 @@ class ChannelMessage(Message):
             "user_id": self.user_id,
             "content": self._content,
             "channel_id": self.channel_id,
-            "time_stamp": self._time_stamp,
+            "sender": self.sender.to_safe_dict(),
+            "time_stamp": self.utc2local()
         }
 
     def __repr__(self):

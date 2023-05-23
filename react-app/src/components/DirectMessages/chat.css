@@ -1,9 +1,3 @@
-:root {
-  --primary-blurple: #7289DA;
-  --primary-gray: #99AAB5;
-  --dark-gray: #2C2F33;
-}
-
 .chatroom {
   box-sizing: 1px solid black;
   width: 100%;
@@ -41,7 +35,7 @@
   align-items: center;
 }
 
-.top-nav>.fa-solid.fa-user {
+.top-nav>i {
   font-size: 28px;
   padding-right: 20px;
   color: var(--primary-blurple);
@@ -61,7 +55,7 @@
 
 div.message-content {
   height: auto;
-  width: 100%;
+  width: 62em;
   font-size: 13pt;
   color: white;
   gap: 5px;
@@ -72,21 +66,29 @@ div.message-content {
   display: flex;
   flex-direction: row;
   height: auto;
-  width: 100%;
+  width: 25em;
+  max-width: 15em;
   border-radius: 1px solid red;
   align-items: flex-start;
   margin: 10px 0;
   box-sizing: border-box;
+  overflow-wrap: break-word;
 }
 
-#pfp-cont i {
+#pfp-cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#pfp-cont img {
   width: 47px;
   height: 47px;
   margin-right: 25px;
   font-size: 47px;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   border-radius: 50%;
   overflow: hidden;
 }
@@ -134,7 +136,7 @@ div.message-content {
   background-color: #40444b;
   color: #dcddde;
   font-size: 18px;
-  font-weight: 200;
+  font-weight: 500;
   overflow-y: scroll;
 }
 
@@ -147,6 +149,7 @@ div.message-content {
   cursor: pointer;
   height: 40px;
   transition: 0.3s;
+  font-weight: 500;
 }
 
 #chat-start-section {
@@ -171,7 +174,7 @@ div.message-content {
   align-items: center;
   border-bottom: 1px solid rgb(100, 100, 100);
   color: var(--primary-gray);
-  font-weight: 100;
+  font-weight: 400;
   font-size: 12pt;
 }
 
@@ -184,7 +187,6 @@ div.message-content {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--primary-blurple);
   margin-bottom: 30px;
 }
 

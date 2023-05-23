@@ -13,8 +13,8 @@ const ServerForm = ({ formType, server }) => {
  const [max_users, setMax_users] = useState();
  const [description, setDescription] = useState("");
  const [disabled, setDisabled] = useState(false);
-
- const [errors, setErrors] = useState([]);
+ const [isSubmitted, setIsSubmitted] = useState(false);
+ const [errors, setErrors] = useState({});
  const { closeModal } = useModal();
  const history = useHistory();
 
@@ -22,35 +22,27 @@ const ServerForm = ({ formType, server }) => {
  let servers = return_servers.allServers;
 
 
-
  useEffect(() => {
-  if (formType === "EditServerForm") {
-   setIcon_url(server.icon_url);
-   server.public === true ? setPublic_("True") : setPublic_("False");
-   setName(server.name);
-   setDescription(server.description);
-   setMax_users(server.max_users);
-  }
- }, [formType]);
-
- useEffect(() => {
-  let errs = [];
-  setDisabled(true);
-  if (max_users < 3)
-   errs.push("Max number of members need to be greater than 2.");
-  if (max_users === null) errs.push("Max number of members is required");
+  let errs = {};
 
   if (name.length > 100)
-   errs.push("Name need to be no more than 100 characters");
-  if (!public_) errs.push("Public or Private type is required");
-
+   errs.name = "Name needs to be less than 100 characters";
+  if (name === "") {
+    errs.name = "Name is Required"
+  }
+  if (icon_url === "") {
+    errs.url = "Icon is required";
+  }
+  if (description === "") {
+    errs.description = "Description is required";
+  }
   if (errs.length === 0) setDisabled(false);
   setErrors(errs);
- }, [name, public_, max_users, icon_url]);
+ }, [name, public_, max_users, icon_url, description]);
 
  const handleSubmit = (e) => {
   e.preventDefault();
-  setErrors([]);
+  setIsSubmitted(true);
 
   if (formType === "AddServerForm") {
    const newServer = {
@@ -62,9 +54,12 @@ const ServerForm = ({ formType, server }) => {
 
    let public_value = public_ === "True" ? true : false;
    newServer.public_ = public_value;
-    dispatch(thunkAddAServer(newServer)).then((server) => {
-    closeModal();
-   });
+   if (!Object.values(errors).length) {
+      console.log(errors);
+     dispatch(thunkAddAServer(newServer)).then((server) => {
+     closeModal();
+      });
+  }
   }
 
   if (formType === "EditServerForm") {
@@ -92,25 +87,16 @@ const ServerForm = ({ formType, server }) => {
 
  return (
   <div className="svr-server-form-container">
-   <h3>
-    {formType === "AddServerForm"
-     ? "Create a new Server"
-     : "Update your Server"}
-   </h3>
 
-   <form className="svr-server-form" onSubmit={handleSubmit}>
+    <div id="create-server-msg">
+      <h2>Customize your server</h2>
+      <p>Give your server a personality with a name and an icon. You can always change it later.</p>
+    </div>
+   <form className="svr-server-form">
     <div className="where-text"></div>
-    <ul className="error-message">
-     {/* {bErrs?.name === "SequelizeValidationError" &&
-      bErrs?.errors.map((error, idx) => <li key={idx}>{error.message}</li>)} */}
-     {errors?.map((error, idx) => (
-      <li className="error-message" key={idx}>
-       {error}
-      </li>
-     ))}
-    </ul>
+    {isSubmitted && <p className="errors">{errors.name}</p>}
     <label className="svr-form-label">
-     Server name:
+     <p>SERVER NAME</p>
      <input
       className="svr-form-input"
       type="text"
@@ -152,8 +138,9 @@ const ServerForm = ({ formType, server }) => {
     )}
 
     <div className="svr-Icon-URL">
+    {isSubmitted && <p className="errors">{errors.url}</p>}
      <label className="svr-form-label">
-      Icon URL:
+      <p>ICON IMAGE</p>
       <input
        className="svr-form-input"
        type="url"
@@ -189,9 +176,11 @@ const ServerForm = ({ formType, server }) => {
       </p>
     {<p className="error-message">{bErrs?.lat}</p>}*/}
     </div>
+    {isSubmitted && <p className="errors">{errors.description}</p>}
     <label className="svr-form-label">
-     Description:
+      <p>DESCRIPTION</p>
      <textarea
+     id="server-description"
       className="svr-form-input"
       value={description}
       onChange={(e) => setDescription(e.target.value)}
@@ -203,16 +192,19 @@ const ServerForm = ({ formType, server }) => {
      </p> */}
      {/* {<p className="error-message">{bErrs?.description}</p>} */}
     </label>
+   </form>
+    <span id="button-server-cont">
     <button
      disabled={disabled}
+     onClick={handleSubmit}
      className={
-      !disabled ? "svr-form-button" : "svr-form-button disabled-button"
+      !errors.length ? "svr-form-button" : "svr-form-button disabled-button"
      }
      type="submit"
     >
-     {formType === "AddServerForm" ? "Create Server" : "Update your Server"}
+     {formType === "AddServerForm" ? "Create" : "Update your Server"}
     </button>
-   </form>
+    </span>
   </div>
  );
 };

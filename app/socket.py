@@ -125,9 +125,7 @@ def handle_channel_join(data):
 @socketio.on('channel_message')
 def handle_channel_message(data):
     """Handle channel messages"""
-    print('22222222222222222222222222222222222222222')
     channel = data['channel']
-    print("THIS IS THE CHANNEL", channel)
     channel_name = channel['name']
     message = data['message']
     user_id = data['userId']

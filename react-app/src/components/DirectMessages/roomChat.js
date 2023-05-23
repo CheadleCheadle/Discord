@@ -71,7 +71,9 @@ function ChatRoom({ friend, user }) {
             {isLoaded && (
                 <div className='column full'>
                     <div className='top-nav'>
-                        <i class="fa-solid fa-user"></i>
+                        <div id="pfp-cont">
+                        <img src={friend.photo_url}></img>
+                        </div>
                         <div className='message-roomname'>
                             {friendname[ 0 ].toUpperCase() + friendname.slice(1)}
                         </div>
@@ -79,9 +81,9 @@ function ChatRoom({ friend, user }) {
                     <div className="chat-wrapper">
                         <div className="chat-history">
                             <div id="chat-start-section">
-                                <i class="fa-solid fa-user chat-messages-icon"></i>
+                                <img  className="chat-messages-icon" src={friend.photo_url}></img>
                                 <h1>
-                                    {friendname[ 0 ].toUpperCase() + friendname.slice(1)}
+                                    {friendname[ 0 ].toUpperCase() + friendname.slice(1)} #{friend.code}
                                 </h1>
                                 <p>
                                     This is the beginning of your chat with {friendname[ 0 ].toUpperCase() + friendname.slice(1)}
@@ -90,7 +92,7 @@ function ChatRoom({ friend, user }) {
                             {messages.map((message) => (
                                 <div id="message">
                                     <div id="pfp-cont">
-                                        <i class="fa-solid fa-user" style={message.sender.username === username ? { background: "var(--primary-blurple)" } : { background: "orange" }}></i>
+                        <img src={message.sender.username === username ? user.photo_url : friend.photo_url}></img>
                                     </div>
                                     <div id="text-info">
                                         <div id="name">

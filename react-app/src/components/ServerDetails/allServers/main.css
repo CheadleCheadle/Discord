@@ -1,56 +1,62 @@
 .svr-all-servers-container {
     display: flex;
     flex-flow: row wrap;
-    margin: 5em 12em;
-    row-gap: 5em;
-    column-gap: 1em;
-    justify-content: center;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    align-items: flex-start;
+    overflow-y: scroll;
+    padding: 55px;
 }
 
-.all-svr-image-cont img{
+.all-svr-image-cont img {
     height: 100%;
     width: 100%;
     border-radius: 5px;
 }
-.all-svr-image-cont {
-    height: 10em;
-    width: 100%;
 
+.all-svr-image-cont {
+    height: 200px;
+    width: 100%;
 }
+
 .svr-all-servers-info {
-    width: 15em;
-    height: 20em;
+    width: 300px;
+    height: 350px;
     background-color: #232428;
     border-radius: 5px;
+    box-sizing: border-box;
+    margin-right: 20px;
 }
 
-#server-description {
-}
 
-.svr-details {
+#server-description {}
 
-}
+.svr-details {}
 
 #desc-members {
     display: flex;
     flex-direction: column;
-    row-gap: 1em;
-    height: 10em;
-    justify-content: space-around;
-    padding: 0em 1em 1em 1em;
+    height: 150px;
+    width: 100%;
     color: #b0bac1;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    justify-content: space-evenly;
 }
 
 #join-desc {
-display: flex;
-flex-direction: row;
-justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #button-container {
     display: flex;
     justify-content: flex-end;
 }
+
 #button-container button {
     background-color: #b0bac1;
     height: 3em;
@@ -58,4 +64,18 @@ justify-content: space-between;
     border-radius: 5px;
     font-weight: bold;
     cursor: pointer;
+}
+
+#server-dot {
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    background-color: #23a559;
+}
+
+#server-members-count {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
 }

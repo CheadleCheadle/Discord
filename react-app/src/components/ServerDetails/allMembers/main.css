@@ -65,19 +65,15 @@
 } */
 
 .members-cont {
-    right: 0em;
     display: flex;
     flex-direction: column;
-    width: 12em;
+    width: 20%;
     height: 100vh;
     background-color: #2b2d31;
     align-items: flex-start;
-    padding: 2em;
-    margin-top: 3em;
-    position: absolute;
-    border-top: 3px solid #252525;
+    padding: 40px 20px;
+    box-sizing: border-box;
 }
-
 
 #members-info {
     display: flex;
@@ -85,26 +81,33 @@
     width: 200px;
     margin-top: 1em;
     text-align: center;
+    align-items: center;
+    margin-bottom: 1em;
 }
-
-
 
 #members-info p {
     text-align: center;
     color: #ffffff;
 }
 
+#members-info button {
+    width: 10em;
+    background-color: #259655;
+    color: #ffffff;
+    font-weight: 500
+}
 
 #mbr-image img {
-    width: 1.5em;
-    height: 1.5em;
-    border-radius: 10px;
-    margin-right: .5em;
+    width: 25px;
+    height: 25px;
+    margin-right: 15px;
 }
 
 #status {
-    color: #ffffff;
-    font-weight: bold;
+    color: var(--primary-gray);
+    font-weight: 500;
+    font-size: 12pt;
+
 }
 
 #accept-button {

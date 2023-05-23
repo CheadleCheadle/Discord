@@ -1,3 +1,4 @@
+import { logout } from "../../store/session";
 import React, { useEffect, useState } from "react";
 import Channel from "../ChannelDetails";
 import { useDispatch, useSelector } from "react-redux";
@@ -183,6 +184,13 @@ const SingleServerPage = () => {
     }
   }, [server, isLoaded])
 
+   const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logout(sessionUser))
+      .then(() => history.push('/'));
+
+  };
+
 
 
   return (
@@ -265,26 +273,28 @@ const SingleServerPage = () => {
                   </div>
 
             </div>
+              <div className="user-info-nav">
+                <div className="user-info">
+                  <div id="pfp-cont">
+                    <img src={sessionUser.photo_url}></img>
+                  </div>
 
-            <div className="user-info">
-              <span id="user-info-pfp">
-                <img src={sessionUser.photo_url}></img>
-              </span>
-
-              <div>
-                <span id="user-username">
-                  <h4>{sessionUser.username}</h4>
-                  <p>{sessionUser.username}#{sessionUser.code}</p>
-                </span>
+                  <div>
+                    <span id="user-username">
+                      <h4>{sessionUser.username}</h4>
+                      <p>{sessionUser.username} #{sessionUser.code}</p>
+                    </span>
+                  </div>
+                </div>
+                <p className="pointer" onClick={handleLogout}>Logout</p>
               </div>
-            </div>
           </div>
           <Switch>
             <Route path={`/servers/:serverId/channels/:channelId`}>
               <Channel />
             </Route>
           </Switch>
-          <Members isLoaded={isLoaded}></Members>
+          {/* <Members isLoaded={isLoaded}></Members> */}
         </>
       )}
     </>

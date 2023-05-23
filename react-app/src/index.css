@@ -2,7 +2,8 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: "Google Sans", Roboto, Arial, sans-serif;
+   letter-spacing: .01785714em;
 }
 
 body {
@@ -21,12 +22,14 @@ body {
 }
 
 .svr-nav-bar {
+  padding: 10px;
   margin: 0;
   width: 80px;
-  display: flex;
-  flex-direction: column;
   height: 100vh;
   background-color: #1e1f22;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
 }
 
 .svr-channel-column {
@@ -39,11 +42,12 @@ body {
 
 
 .svr-nav-server-list {
-  padding-top: 10px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  width: 60px;
+  height: 100%;
   align-items: center;
-  width: 100%;
 }
 
 .svr-nav-menu {
@@ -146,8 +150,17 @@ body {
 /*  Server Menu Box      */
 /* ********************* */
 
+:root {
+  --primary-blurple: #7289DA;
+  --primary-gray: #99AAB5;
+  --dark-gray: #2C2F33;
+}
 
-
+#root {
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+}
 
 .svr-menu-name {
   width: 100%;
@@ -165,6 +178,7 @@ body {
 }
 
 #svr-channels {
+  width: 320px;
   display: flex;
   flex-direction: column;
 }
@@ -368,7 +382,7 @@ body {
 /* ********************* */
 
 .svr-delete-server-form-container {
-  width: 350px;
+  width: 320px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -413,9 +427,30 @@ body {
   display: flex;
   flex-direction: column;
   padding: 25px;
-  width: 30em;
-  background-color: #313338;
+  width: 25em;
+  height: 25em;
+  background-color: #fff;
+  color: black;
   border-radius: 12px;
+}
+
+#create-server-msg {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+margin-bottom: 2em;
+gap: 1em;
+}
+
+#create-server-msg h2 {
+  font-weight: 700;
+}
+#create-server-msg p {
+  display: flex;
+  text-align: center;
+  color: #96979c;
+  font-weight: 300;
 }
 
 .svr-channel-server-form,
@@ -424,23 +459,41 @@ body {
   flex-direction: column;
   align-items: flex-start;
   margin: 10px;
-  max-width: 500px;
   border-radius: 15px;
 }
 
+.svr-server-form input {
+  width: 100%;
+  height: 2.5em;
+}
+#server-description {
+  width: 100%;
+  height: 5em;
+}
+.svr-server-form label {
+  color: #818388;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.svr-server-form p {
+  margin-bottom: .5em;
+}
 .svr-channel-form-label,
 .svr-form-label,
 .svr-form-input,
 .svr-form-button {
   display: block;
-  width: 100%;
   margin-bottom: 0.2rem;
   border-radius: 5px;
   padding: 2px;
   border: none;
-
+  width: 100%;
 }
 
+.svr-Icon-URL {
+  width: 100%;
+}
 .svr-nav-menu-item {
   width: 48px;
   height: 48px;
@@ -452,12 +505,28 @@ body {
   font-weight: 600;
   margin: 15px 0;
   padding: 8px;
-  box-shadow: 0 4px 5px 0 #5e63f1;
+  background-color: #5865f2;
+  width: 8em;
+  color: #fff;
+  font-weight: 500;
+
+}
+
+.disabled-button {
+  cursor: not-allowed;
+}
+
+#button-server-cont {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .svr-channel-form-input,
 .svr-form-input {
-  background-color: rgb(127, 150, 253);
+  background-color: #e3e5e8;
+  width: 100%;
 }
 
 .svr-new-channel-button,
@@ -482,9 +551,7 @@ body {
 .svr-dropdown-btn-menu-box {
   display: flex;
   width: 100%;
-  justify-content: flex-start;
-  gap: 7px;
-  padding-top: 1em;
+  height: 100%;
 }
 
 .svr-menu-name {
@@ -501,10 +568,9 @@ body {
   font-size: 12pt;
   display: flex;
   align-items: center;
-  height: 3em;
+  height: 55px;
   color: white;
-  position: relative;
-  border-bottom: 3px solid #252525;
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.15);
 }
 
 #addAChannel {
@@ -516,6 +582,7 @@ body {
   justify-content: space-between;
 
 }
+
 #addAChannel p {
   display: flex;
   align-items: center;
@@ -542,6 +609,7 @@ body {
   cursor: pointer;
   gap: .5em;
 }
+
 .chnl-container-item-active {
   margin: 0em .5em;
   padding: 0em .5em;
@@ -551,20 +619,24 @@ body {
   color: white;
   border-radius: 5px;
   height: 2em;
-  background-color: #414146 ;
+  background-color: #414146;
   cursor: pointer;
   gap: .5em;
 }
+
 .chnl-container-item-active:hover {
-  background-color: #414146 ;
+  background-color: #414146;
+
   #edit-cog {
     display: flex;
     align-items: center;
     justify-content: center;
   }
 }
+
 .chnl-container-item:hover {
-  background-color: #414146 ;
+  background-color: #414146;
+
   #edit-cog {
     display: flex;
     align-items: center;
