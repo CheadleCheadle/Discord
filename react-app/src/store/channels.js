@@ -99,7 +99,6 @@ export const createChannelAction = (channel, serverId) => async (dispatch) => {
 }
 
 export const updateChannelAction = (channel, currentChannelId) => async (dispatch) => {
-    console.log("IM BEING HIT")
     const response = await fetch(`/api/channels/${currentChannelId}/edit`, {
         method: "PUT",
         headers: { 'Content-Type': 'Application/json' },

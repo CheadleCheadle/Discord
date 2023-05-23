@@ -23,7 +23,6 @@ active_users = {}
 @user_routes.route('/online')
 @login_required
 def get_online_users():
-    print('Client connected111111111111111111111111111111111111111111111111111111111111111111111111111111')
     return {'users': list(online_users.values())}
 
 
@@ -31,7 +30,6 @@ def get_online_users():
 def join_server_room(data):
     room_name = data["roomName"]
     user = data["user"]
-    print("9999999999999999999999999",user["username"], " joined ", room_name)
     join_room(room_name)
     active_rooms[room_name] = 1
     emit("join_message", {"Joined":"I joined the server room"})
@@ -90,7 +88,6 @@ def handle_joined(data):
 
 @socketio.on('connecting')
 def handle_connect(data):
-    print('Client connected22222222222222222')
     user = data["user"]
     user_id = user["id"]
 
@@ -116,7 +113,6 @@ def handle_disconnect(data):
 @socketio.on('channel_join')
 def handle_channel_join(data):
     """Join a channel"""
-    print("I joined a channel room!, 1111111111111111111111111111111111111")
     channel_name = data['channelName']
     join_room(channel_name)
     active_rooms[channel_name] = 1
@@ -187,14 +183,12 @@ def handle_message(data):
 
 @socketio.on('startStreaming')
 def handle_start_streaming(audio_stream):
-    print("THIS IS THE AUDIO --------------", audio_stream)
     emit('audioStream', audio_stream, broadcast=True)
 
 
 
 @socketio.on('audioData')
 def handle_audio_data(audio_data):
-    print('---------------', audio_data, "wasdwasd")
     # Broadcast the received audio data to all other users in the room
     emit('audioStream', audio_data, broadcast=True)
 
@@ -204,12 +198,10 @@ def handle_offer(data):
     offer = data["offer"]
     room = data["room"]
     join_room(room)
-    print("offer---------", offer, room)
     emit('offer', offer, room=room, include_self=False)
 
 @socketio.on('answer')
 def handle_answer(answer):
-    print("answer-------------")
     # Send the answer to the user who initiated the offer
     emit('answer', answer)
 
@@ -225,11 +217,9 @@ def handle_disconnect():
 @socketio.on('joinRoom')
 def handle_join_room(room):
     join_room(room)
-    print("I JOINED A VOICE ROOM")
     emit('roomJoined', room, room=room)
 
 @socketio.on('leaveRoom')
 def handle_leave_room(room):
     leave_room(room)
-    print("I LEFT A VOICE ROOM")
     emit('roomLeft', room, room=room)

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import "./chat.css"
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMessagesThunk, sendMessage } from '../../store/directmessages';
-
 export const socket = io.connect('http://localhost:5001');
 
 function ChatRoom({ friend, user }) {
@@ -19,10 +18,18 @@ function ChatRoom({ friend, user }) {
     const messagesObject = useSelector(state => state.messages);
     const messages = Object.values(messagesObject.messages);
 
+    const messageContainer = useRef(null);
     useEffect(() => {
         if (!messageText) setInputDisableBool(true);
         else setInputDisableBool(false);
     }, [ messageText ])
+
+      useEffect(() => {
+    //Handle Scroll Position
+    if (messageContainer.current) {
+      messageContainer.current.scrollTop = messageContainer.current.scrollHeight;
+    }
+  })
 
     const charCode = (username, friendname) => {
         let sum = 0;
@@ -78,7 +85,9 @@ function ChatRoom({ friend, user }) {
                             {friendname[ 0 ].toUpperCase() + friendname.slice(1)}
                         </div>
                     </div>
-                    <div className="chat-wrapper">
+                    <div
+                     ref={messageContainer}
+                     className="chat-wrapper">
                         <div className="chat-history">
                             <div id="chat-start-section">
                                 <img  className="chat-messages-icon" src={friend.photo_url}></img>
@@ -106,7 +115,7 @@ function ChatRoom({ friend, user }) {
                         </div>
                     </div>
                     <form className='message-input-bar' onSubmit={handleMessageSubmit}>
-                        <input id='message-input' type="text" value={messageText} onChange={handleInputChange} />
+                        <input placeholder={`Message ${friend.username}`} id='message-input' type="text" value={messageText} onChange={handleInputChange} />
                         <button id="send-button" disabled={inputDisableBool} type="submit">Send</button>
                     </form>
                 </div>

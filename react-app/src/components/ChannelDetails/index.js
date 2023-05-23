@@ -12,9 +12,7 @@ import { faHashtag } from "@fortawesome/free-solid-svg-icons";
 import Members from "../ServerDetails/allMembers/index.js";
 export default function Channel() {
   const dispatch = useDispatch();
-  //  let { serverId, channelId } = useParams();
   const channelId = useSelector(state => state.channels.singleChannelId);
-  console.log("THIS IS THE CHANNELID", channelId, typeof channelId)
 
   const user = useSelector(state => state.session.user);
   const [ isLoaded, setIsLoaded ] = useState(false);
@@ -23,7 +21,6 @@ export default function Channel() {
   const channel = useSelector((state) => state.channels.allChannels[ channelId ]);
   const channelMessagesObj = (useSelector(state => state.channelMessages));
   const channelMessages = Object.values(channelMessagesObj.messages)
-  console.log("CHANNLE MESSAGES", channelMessages);
   const messageContainer = useRef(null);
 
   useEffect(() => {
@@ -60,7 +57,6 @@ export default function Channel() {
   hour12: true
 };
         data.time_stamp = dateConversion.toLocaleDateString(undefined, options);
-        console.log("THIS DADWADWA", data.time_stamp);
         dispatch(sendChannelMessage(data));
       })
       // Leave the channel when component unmounts
@@ -75,8 +71,6 @@ export default function Channel() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("This is the message!", message);
-    // message.time_stamp = message.time_stamp.toString();
     socket.emit("channel_message", { channel, message, userId: user.id });
     setMessage("")
   };
@@ -147,7 +141,6 @@ export default function Channel() {
                       </div>
                       <div id="text-info">
                         <div id="name">
-                          {/* <div>{console.log(message), "MESSAGE"}</div> */}
                           <div className='message-date'>{handleMessageDate(message.time_stamp)}</div>
                         </div>
                         <div className='message-content'>{message.content}</div>
@@ -159,10 +152,11 @@ export default function Channel() {
               <form className='message-input-bar' onSubmit={handleSubmit}>
                 <input id='message-input'
                   type="text"
-                  placeholder={`Message`}
+                  placeholder={`Message ${channel.name}`}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                />
+                ></input>
+
                 <button disabled={inputDisableBool} id="send-button" type="submit" value="Submit" >Send</button>
               </form>
             </div>

@@ -30,7 +30,6 @@ def edit_channel_by_channel_id(channel_id):
 
     form = ChannelForm()
 
-    print("-----------------------------------------------------------------------------------")
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         channel_to_edit._name = form.data["name"]
@@ -48,7 +47,6 @@ def edit_channel_by_channel_id(channel_id):
 @login_required
 def create_a_channel_message(channel_id):
     data = json.loads(request.data)
-    print("this is the dat!!", data)
     user_id = current_user.id
     new_message = ChannelMessage(
         user_id=user_id,

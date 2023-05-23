@@ -33,7 +33,6 @@ def authenticate():
 
         for server in servers_list:
             server["memberships"] = get_all_memberships(server["id"])
-            print(server["memberships"], "===============================================")
 
         curr_user_dict = current_user.to_dict()
         curr_user_dict["servers"] = servers_list

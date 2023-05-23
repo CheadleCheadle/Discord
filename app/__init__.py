@@ -44,7 +44,6 @@ CORS(app)
 def get_directMsgs():
 
     directMsgs = DirectMessage.query.all()
-    print(f"Hi MOM! {directMsgs[0].sender}")
     return f"{directMsgs[0]}"
 #   return {'DirectMessage': [directMsg.to_dict() for directMsg in directMsgs]}
 

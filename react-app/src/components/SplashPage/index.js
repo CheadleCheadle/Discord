@@ -17,6 +17,10 @@ const SplashPage = (isLoaded) => {
     dispatch(login("demo@aa.io", "password"))
       .then(() => history.push('/servers'))
   }
+  const demoSecondUser = () => {
+dispatch(login("marnie@aa.io", "password"))
+      .then(() => history.push('/servers'))
+  }
 
   const closeMenu = () => setShowMenu(false)
 
@@ -40,6 +44,9 @@ const SplashPage = (isLoaded) => {
             </div>
             <Button buttonStyle={'btn--demo'} buttonSize={'btn--splash'} onClick={demoUser}>
               Demo User Login
+            </Button>
+            <Button buttonStyle={'btn--demo'} buttonSize={'btn--splash'} onClick={demoSecondUser}>
+              Demo User 2 Login
             </Button>
           </div>
         </div>

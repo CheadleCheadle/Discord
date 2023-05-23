@@ -4,7 +4,8 @@ import { useModal } from "../context/Modal";
 import { useHistory, useParams } from "react-router-dom";
 import { thunkAddAServer, thunkEditAServer } from "../store/servers";
 import { editServer } from "../store/session";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 const ServerForm = ({ formType, server }) => {
  const dispatch = useDispatch();
  const [icon_url, setIcon_url] = useState("");
@@ -55,7 +56,6 @@ const ServerForm = ({ formType, server }) => {
    let public_value = public_ === "True" ? true : false;
    newServer.public_ = public_value;
    if (!Object.values(errors).length) {
-      console.log(errors);
      dispatch(thunkAddAServer(newServer)).then((server) => {
      closeModal();
       });
@@ -89,7 +89,15 @@ const ServerForm = ({ formType, server }) => {
   <div className="svr-server-form-container">
 
     <div id="create-server-msg">
+      <div id="create-server-msg-cont">
       <h2>Customize your server</h2>
+        <div
+        onClick={() => closeModal()}
+        id="exit">
+        <FontAwesomeIcon
+        icon={faX} />
+        </div>
+      </div>
       <p>Give your server a personality with a name and an icon. You can always change it later.</p>
     </div>
    <form className="svr-server-form">

@@ -2,11 +2,12 @@
   box-sizing: 1px solid black;
   width: 100%;
   height: 1100px;
+  max-width: 108em;
 }
 
 .chat-wrapper {
   width: 100%;
-  height: 84vh;
+  height: 86.5vh;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
@@ -33,6 +34,7 @@
   padding: 0 20px;
   display: flex;
   align-items: center;
+
 }
 
 .top-nav>i {
@@ -45,12 +47,16 @@
   font-size: 18px;
   color: white;
   font-weight: 700;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
 }
 
 .chat-history {
   display: flex;
   flex-direction: column;
   gap: 1em;
+  color: #fff;
 }
 
 div.message-content {
@@ -124,6 +130,7 @@ div.message-content {
   padding: 0 30px 20px;
   width: 100%;
   box-sizing: border-box;
+  color: #fff;
 }
 
 #message-input {
@@ -134,10 +141,11 @@ div.message-content {
   border: none;
   border-radius: 10px;
   background-color: #40444b;
-  color: #dcddde;
-  font-size: 18px;
+  color: #cecece;
+  font-size: 16px;
   font-weight: 500;
   overflow-y: scroll;
+  outline: none;
 }
 
 #send-button {
@@ -165,6 +173,9 @@ div.message-content {
   color: white;
   font-size: 30px;
   font-weight: 700;
+       white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
 }
 
 #chat-start-section>p {
@@ -176,6 +187,9 @@ div.message-content {
   color: var(--primary-gray);
   font-weight: 400;
   font-size: 12pt;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
 }
 
 .chat-messages-icon {

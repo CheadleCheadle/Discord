@@ -40,10 +40,13 @@
  }
 
  .chnl-name {
-     width: 100%;
      display: flex;
      flex-direction: row;
      justify-content: space-between;
+     width: 90%;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
  }
 
  .friends-column {
@@ -74,6 +77,7 @@
  .user-info-nav {
      background-color: #232428;
      display: flex;
+     align-items: center;
      justify-content: space-between;
      box-sizing: border-box;
      width: 100%;
@@ -82,10 +86,9 @@
      padding: 10px 15px;
  }
 
- .user-info-nav>p {
+ .user-info-nav>div {
      display: flex;
      align-items: center;
-     color: var(--primary-gray);
  }
 
  #user-info-pfp {
@@ -175,6 +178,9 @@
      letter-spacing: .02em;
      font-size: 12px;
      width: 12.5em;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
  }
 
  #overview-cont {

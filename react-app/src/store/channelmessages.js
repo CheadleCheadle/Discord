@@ -23,7 +23,6 @@ export const fetchChannelMessagesThunk = (channelId) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
-        console.log("data", data);
         const messages = normalizeFn(data.channel.channel_messages);
         dispatch(getChannelMessages(messages));
         return messages;

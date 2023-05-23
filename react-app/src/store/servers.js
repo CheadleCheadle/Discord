@@ -76,9 +76,7 @@ export const thunkLoadAllServers = () => async (dispatch) => {
   const response = await fetch("/api/servers/");
   if (response.ok) {
     const servers = await response.json();
-    console.log("BEFORE", servers)
     const serversNormalized = normalizeFn(servers.servers);
-    console.log("AFTER", serversNormalized)
     for (let serverId in serversNormalized) {
       const channels = serversNormalized[ serverId ].channels;
       serversNormalized[ serverId ].channels = normalizeFn(channels);
@@ -101,7 +99,6 @@ export const thunkLoadOneServer = (id) => async (dispatch) => {
 };
 
 export const thunkAddAServer = (data) => async (dispatch) => {
-  console.log("reducer thunkAddAServer data:", data);
   let server;
   const response = await fetch("/api/servers/new", {
     method: "POST",
@@ -111,7 +108,6 @@ export const thunkAddAServer = (data) => async (dispatch) => {
 
   if (response.ok) {
     server = await response.json();
-    console.log("OK RESPONSE", server)
     dispatch(addAServer(server.new_server));
     dispatch(newUserServer(server.new_server));
     dispatch(newMembership(server.new_membership))
@@ -121,7 +117,6 @@ export const thunkAddAServer = (data) => async (dispatch) => {
 };
 
 export const thunkDeleteAServer = (id) => async (dispatch) => {
-  //  console.log("reducer thunkAddAServer data:", data);
   let message;
   const response = await fetch(`/api/servers/${id}`, {
     method: "DELETE",
@@ -133,7 +128,6 @@ export const thunkDeleteAServer = (id) => async (dispatch) => {
     message = await response.json();
     dispatch(deleteAServer(+id));
     dispatch(deleteUserServer(id));
-    // console.log("reducer createASpot spot:", spot);
     return message;
   } else {
     return response;
@@ -141,7 +135,6 @@ export const thunkDeleteAServer = (id) => async (dispatch) => {
 };
 
 export const thunkEditAServer = (data, id) => async (dispatch) => {
-  //  console.log("reducer thunkAddAServer data:", data);
   let server;
   const response = await fetch(`/api/servers/${id}`, {
     method: "PUT",
@@ -153,7 +146,6 @@ export const thunkEditAServer = (data, id) => async (dispatch) => {
     server = await response.json();
     dispatch(editAServer(server));
 
-    // console.log("reducer createASpot spot:", spot);
     return server;
   } else {
     return response;
@@ -163,7 +155,6 @@ export const thunkEditAServer = (data, id) => async (dispatch) => {
 const initialState = { allServers: {}, singleServerId: null };
 
 const serverReducer = (state = initialState, action) => {
-  //console.log("Inside serverReducer: ", action.type);
   let newState = {};
   switch (action.type) {
     case LOAD_ONE_SERVER_ID: {
@@ -220,7 +211,6 @@ const serverReducer = (state = initialState, action) => {
       return newState;
     //--------------------------------------------------------------------------
     case LOAD_ALL_CURRENT_SERVERS:
-      console.log("ACTION", action.servers)
       return {
         ...state,
         user: {

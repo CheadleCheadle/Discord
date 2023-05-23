@@ -18,32 +18,22 @@ const AllServersPage = () => {
   const [ isLoaded, setIsLoaded ] = useState(false);
   const serverElement = useRef();
   const joinServer = (server) => {
-    // dispatch(joinServerThunk(server));
     const roomName = String(server.id);
-    console.log("THIS IS THE ROOM NAME", roomName);
     socket.emit('join_server_room', {roomName, user});
     socket.emit('join_server', {serverId: server.id, userId: user.id, roomName});
-    //May need to change so it updates the status of that membership or whatever...
 
-    // dispatch(getMembershipsThunk());
   };
 
 
 
   useEffect(() => {
      socket.on('joined', (data) => {
-       console.log("I was accepted just now!", data);
        dispatch(updateMembership(data));
-       //Should update membership with the new status...
-       //Will need to pass data along with the websocket,
-       //Then dispatch an action to update the membership
      });
       socket.on('join_message', (data) => {
-            console.log(data);
         })
 
       socket.on('new_member', (data) => {
-        console.log("This is for allServers data", data);
         dispatch(newMembership(data.membership));
       })
   }, [])

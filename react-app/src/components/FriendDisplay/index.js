@@ -12,18 +12,6 @@ export default function FriendDisplay() {
   let { friendId } = params;
   friendId = parseInt(friendId);
   const friends = useSelector(state => state.session.user.friends)
-  // const onlineUsers = Object.values(useSelector(state => state.session.onlineUsers));
-  // console.log("here are the online users", onlineUsers);
-  useEffect(() => {
-    // dispatch(getOnlineUsersThunk())
-    // socket.on('online_users', (data) => {
-    //   dispatch(getOnlineUsersThunk(data.users))
-    // })
-
-    // return () => {
-    //   socket.off('online_users');
-    // }
-  }, [])
 
   let friend = friends[ friendId ];
   useEffect(() => {
@@ -34,11 +22,6 @@ export default function FriendDisplay() {
   return (
     <>
     <ChatRoom  friend={friend} user={user}/>
-    {/* <div>
-      {onlineUsers.map((user, index) => (
-        <div key={index}>{user.name}</div>
-      ))}
-    </div> */}
     </>
   )
 }

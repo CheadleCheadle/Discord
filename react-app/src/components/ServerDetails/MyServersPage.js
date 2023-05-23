@@ -58,7 +58,7 @@ const MyServersPage = () => {
                     </span>
                   </div>
                 </div>
-                <p className="pointer" onClick={handleLogout}>Logout</p>
+                <div className="pointer" onClick={handleLogout}>Logout</div>
               </div>
             </div>
           )}

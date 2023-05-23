@@ -23,7 +23,7 @@ function DeleteServerModal({ serverId }) {
  return (
   <div className="svr-delete-server-form-container">
    <div>
-    <h3>Confirm Delete</h3>
+    <h2>Confirm Delete</h2>
    </div>
    <div>
     <p>Are you sure you want to remove this server?</p>
@@ -36,17 +36,20 @@ function DeleteServerModal({ serverId }) {
           ))}
         </ul>
       </div>
-
-   <button className="svr-delete-server-button" onClick={() => handleDelete()}>
-    Yes (Delete Server)
-   </button>
+          <div id="buttons-cont-delete">
 
    <button
     className="svr-cancel-delete-server-button"
     onClick={() => closeModal()}
    >
-    No (Keep Server)
+    Cancel
    </button>
+   <button className="svr-delete-server-button" onClick={() => handleDelete()}>
+    Delete
+   </button>
+
+
+    </div>
   </div>
  );
 }

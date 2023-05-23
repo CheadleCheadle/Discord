@@ -44,7 +44,7 @@ export default function Friends() {
                                     <p>{friend.username}</p>
                                 </div>
                             </div>
-                            <span>{isActive(friend) ? "Online" : "Offline"}</span>
+                            <span id={isActive(friend) ? "active-friend": "inactive-friend"}>{isActive(friend) ? "Online" : "Offline"}</span>
                         </div>
                     ))}
                 </div>

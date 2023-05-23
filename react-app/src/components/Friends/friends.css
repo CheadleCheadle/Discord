@@ -36,7 +36,7 @@
 #direct-msg-label {
     color: white;
     font-size: 12pt;
-    font-weight: 200;
+    font-weight: 500;
 
 }
 
@@ -64,13 +64,32 @@
     cursor: pointer;
 }
 
-.drt-msg-container>span {
+#active-friend {
+    color:#1ab663;
+}
+
+#inactive-friend {
     color: var(--primary-gray);
 }
 
 .pointer {
     cursor: pointer;
+    width: 7em;
+    background-color: #1ab663;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: 500;
+    height: 2.5em;
 }
+
+.pointer:hover {
+    transition-duration: .22s;
+     background-color: #259655;
+}
+
 
 .drt-msg-container:hover {
     background-color: #666;

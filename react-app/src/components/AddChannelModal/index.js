@@ -15,6 +15,7 @@ export default function AddChannelModal({ channel, flag }) {
   let [errors, setErrors] = useState({});
   const { closeModal } = useModal();
   const [active, setActive] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const history = useHistory();
   const currentChannelId = useSelector(state => state.channels.singleChannelId);
 
@@ -25,6 +26,7 @@ export default function AddChannelModal({ channel, flag }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitted(true);
     const newChannel = {
       server_id: serverId,
       name,
@@ -33,23 +35,29 @@ export default function AddChannelModal({ channel, flag }) {
       topic: "A topic",
       com_type
     };
+    if (!Object.values(errors).length) {
     const returnedChannel = await dispatch(createChannelAction(newChannel, serverId));
     dispatch(thunkUpdateSingleChannelId(returnedChannel.id))
     history.push(`/servers/${serverId}/channels/${returnedChannel.id}`)
     closeModal();
+    }
 
   };
 
   const handleDisable = () => {
     if (name === "") return true;
+    if (com_type === "") return true;
   };
   useEffect(() => {
     const tempErrors = {};
     if (name === "") {
-      tempErrors.name = "please provide a name";
+      tempErrors.name = "Please provide a name";
+    }
+    if (com_type === "") {
+      tempErrors.coms = "Please Select A Type";
     }
     return setErrors(tempErrors);
-  }, [name]);
+  }, [name, com_type]);
 
   return (
     <>
@@ -95,7 +103,7 @@ export default function AddChannelModal({ channel, flag }) {
             Voice
             <p>Hang out together with voice chat</p>
           </span>
-
+        {isSubmitted && <p>{errors.name}</p>}
         </div>
 
       </div>
@@ -114,6 +122,7 @@ export default function AddChannelModal({ channel, flag }) {
             required
           />
         </label>
+        {isSubmitted && <p>{errors.name}</p>}
       </form>
     </div>
 
@@ -129,6 +138,7 @@ export default function AddChannelModal({ channel, flag }) {
         <div
         id={Object.values(errors).length ? "submit-channel-inactive": "submit-channel"}
         onClick={ Object.values(errors).length ? null : (e) => { handleSubmit(e) }}
+        disabled={handleDisable}
         >Create Channel
         </div>
 

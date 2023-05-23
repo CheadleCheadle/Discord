@@ -169,7 +169,6 @@ const SingleServerPage = () => {
 
   useEffect(() => {
 
-    console.log("Im the server!", server, singleChannelId, typeof singleChannelId);
     if (server.channels[singleChannelId] && isLoaded) {
       dispatch(thunkUpdateSingleChannelId(singleChannelId))
       setActive(singleChannelId)
@@ -180,7 +179,6 @@ const SingleServerPage = () => {
       dispatch(thunkUpdateSingleChannelId(parseInt(keys[0])))
       setActive(parseInt(keys[0]));
       history.push(`/servers/${serverId}/channels/${parseInt(keys[0])}`)
-      console.log(singleChannelId, keys, "-----");
     }
   }, [server, isLoaded])
 
@@ -227,12 +225,12 @@ const SingleServerPage = () => {
                     <FontAwesomeIcon icon={faHashtag} />
                     <div className="chnl-name"
                     >{channel.name}
+                    </div>
                       {sessionUser.id === server.owner_id ? <div id="edit-cog">
                         <FontAwesomeIcon
                           onClick={(e) => editChannel(channel, e)}
                           icon={faGear} size="sm" />
                       </div> : null}
-                    </div>
                   </div>
                 ))}
               </div>
@@ -258,12 +256,12 @@ const SingleServerPage = () => {
                     <FontAwesomeIcon icon={faVolumeHigh} />
                     <div className="chnl-name"
                     >{channel.name}
+                    </div>
                       {sessionUser.id === server.owner_id ? <div id="edit-cog">
                         <FontAwesomeIcon
                           onClick={(e) => editChannel(channel, e)}
                           icon={faGear} size="sm" />
                       </div> : null}
-                    </div>
                   </div>
                 ))}
               </div>
@@ -286,7 +284,7 @@ const SingleServerPage = () => {
                     </span>
                   </div>
                 </div>
-                <p className="pointer" onClick={handleLogout}>Logout</p>
+                <div className="pointer" onClick={handleLogout}>Logout</div>
               </div>
           </div>
           <Switch>

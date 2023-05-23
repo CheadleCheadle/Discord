@@ -163,13 +163,20 @@ body {
 }
 
 .svr-menu-name {
-  width: 100%;
+  width: 90%;
   padding: 0em 1em;
   font-size: 12pt;
   font-weight: bold;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.svr-menu-name h3 {
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     width: 90%;
 }
 
 .svr-dropdown-parent {
@@ -214,6 +221,9 @@ body {
   border-radius: 5px;
   z-index: 1;
   cursor: pointer;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
 }
 
 .server-settings {
@@ -227,6 +237,7 @@ body {
   padding-left: .5em;
   padding-right: .5em;
   font-size: 14px;
+  font-weight: 500;
 }
 
 .server-settings:hover {
@@ -382,14 +393,34 @@ body {
 /* ********************* */
 
 .svr-delete-server-form-container {
-  width: 320px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  border-radius: 9px;
-  margin: 10px;
+  border-radius: 5px;
+  padding: 1em;
+  background-color: #fff;
+  color: black;
 }
+
+.svr-delete-server-form-container p {
+  color: #96979c;
+}
+
+#buttons-cont-delete {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 1em;
+  width: 100%;
+}
+
+#buttons-cont-delete button {
+  width: 8em;
+  cursor: pointer;
+}
+
 
 .svr-cancel-delete-server-button,
 .svr-delete-server-button {
@@ -398,19 +429,23 @@ body {
   margin-top: 0.4rem;
   height: 40px;
   color: white;
-  border-radius: 9px;
+  border-radius: 5px;
 }
 
+
 .svr-delete-server-button {
-  color: red;
-  background-color: #444;
-  border-color: #444;
+  background-color: #1ab663;
+  border: none;
+}
+
+.svr-delete-server-button:hover {
+  transition-duration: .22s;
+  background-color: #259655;
 }
 
 
 .svr-cancel-delete-server-button {
-  background-color: green;
-  border-color: green;
+  background-color: #2b2d31;
 }
 
 /* ********************* */
@@ -422,13 +457,20 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-.svr-channel-form-container,
-.svr-server-form-container {
+.svr-channel-form-container {
   display: flex;
   flex-direction: column;
   padding: 25px;
   width: 25em;
   height: 25em;
+  border-radius: 12px;
+}
+.svr-server-form-container {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  width: 25em;
+  height: 31em;
   background-color: #fff;
   color: black;
   border-radius: 12px;
@@ -443,8 +485,16 @@ margin-bottom: 2em;
 gap: 1em;
 }
 
+#create-server-msg-cont {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
 #create-server-msg h2 {
   font-weight: 700;
+  text-align: center;
 }
 #create-server-msg p {
   display: flex;
@@ -469,6 +519,9 @@ gap: 1em;
 #server-description {
   width: 100%;
   height: 5em;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
 }
 .svr-server-form label {
   color: #818388;

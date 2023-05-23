@@ -34,7 +34,6 @@ def get_all_servers():
     servers = Server.query.all()
     dicted = [server.to_dict() for server in servers]
     for server in dicted:
-        print(server)
         server["memberships"] = get_all_memberships(server["id"])
 
 
@@ -71,7 +70,6 @@ def add_new_server():
             new_membership = db.session.query(server_memberships).join(Server).filter(server_memberships.c.user_id == curr_user.id, server_memberships.c.server_id == new_server.id).first()
             return {"new_server":new_server.to_dict(), "new_membership": {"status": new_membership.status, "userId": new_membership.user_id, "serverId": new_membership.server_id}}, 201
         except Exception as e:
-            print(']]]]]]]]]]]]]]]]]]]]]]]]]]]]]',{"errors": str(e)})
             return {"errors": str(e)}, 500
 
 

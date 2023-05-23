@@ -21,7 +21,6 @@ export default function Members() {
         setIsLoaded(true);
 
         socket.on('join_message', (data) => {
-            console.log(data);
         })
 
         socket.on('new_member', (data) => {

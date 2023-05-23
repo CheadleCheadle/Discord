@@ -34,7 +34,6 @@ function App() {
       } else {
         dispatch(removeUserStatus(user));
       }
-      console.log(`User ${user.id} is ${active ? 'active' : 'inactive'}`);
     })
 
   }, [ dispatch, isLoaded ]);

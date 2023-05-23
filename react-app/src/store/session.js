@@ -154,7 +154,6 @@ export const login = (email, password) => async (dispatch) => {
 		const data = await response.json();
 		await dispatch(setUser(data));
 		await dispatch(getMembershipsThunk());
-		console.log("This is the user!!!!!!", data);
 		socket.emit('connecting', {user: data})
 		return null;
 	} else if (response.status < 500) {
@@ -215,7 +214,6 @@ export const joinServerThunk = (server) => async (dispatch) => {
 export const getMembershipsThunk = () => async (dispatch) => {
 	const response = await fetch(`/api/memberships/curr`);
 	const memberships = await response.json();
-	console.log("HERE ARE THE MEMBERSHIPS", memberships);
 	dispatch(getMemberships(memberships));
 }
 
@@ -232,8 +230,6 @@ export const getOnlineUsersThunk = () => async (dispatch) => {
 	const response = await fetch(`/api/users/online`);
 	if (response.ok) {
 		const data = await response.json();
-		console.log("Im a user", data);
-		// const users = normalizeFn(data);
 		dispatch(getOnlineUsers(data))
 		return data;
 	}
@@ -244,7 +240,6 @@ const initialState = { user: null, activeUsers: {}, memberships: {} };
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case SET_USER:
-			console.log("THISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS", action.payload)
 			action.payload.channel_messages = normalizeFn(action.payload.channel_messages)
 			action.payload.direct_messages = normalizeFn(action.payload.direct_messages)
 			action.payload.friends = normalizeFn(action.payload.friends)
@@ -321,7 +316,6 @@ export default function reducer(state = initialState, action) {
 				...state,
 				user: {...state.user, servers: {...state.user.servers}}
 			}
-			console.log("SERVERID", action.server.id);
 			newState.user.servers[action.server.id] = action.server;
 			return newState;
 		}
