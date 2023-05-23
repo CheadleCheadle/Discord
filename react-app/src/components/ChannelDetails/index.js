@@ -79,6 +79,7 @@ export default function Channel() {
     const localDate = new Date(strDate)
     const today = new Date();
     const date = new Date(localDate);
+    console.log("Date", date.toString().slice(0, 11), typeof date);
     let  hours = date.getHours();
     let minutes = date.getMinutes();
     if (minutes < 10) {
@@ -101,9 +102,10 @@ export default function Channel() {
       && date.getMonth() === today.getMonth()
       && date.getFullYear() === today.getFullYear()
     ) {
-      return `Today at ${hours}:${minutes} ${period}`
+      return <div className="message-date">{`Today at ${hours}:${minutes} ${period}`}</div>
     } else {
-      return date;
+      return <div className="message-date">{date.toString().slice(0, 11)} at {`${hours}:${minutes} ${period}`}</div>
+
     }
   }
 
