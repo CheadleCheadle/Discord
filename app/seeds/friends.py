@@ -7,6 +7,9 @@ def seed_friends():
     users_list = User.query.all()
     users_list[0].add_friend([users_list[1], users_list[2]], 'pending')
     users_list[1].add_friend(users_list[2], "pending")
+    users_list[0].add_friend([users_list[3], users_list[4], users_list[5]], 'pending')
+    users_list[1].add_friend([users_list[3], users_list[4], users_list[5]], 'pending')
+
     db.session.commit()
 
 

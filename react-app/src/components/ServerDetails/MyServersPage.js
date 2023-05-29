@@ -10,6 +10,7 @@ import { getMembershipsThunk } from "../../store/session";
 import AllServersPage from "./allServers";
 import { logout } from "../../store/session";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import Loading from "../loading";
 
 const MyServersPage = () => {
   const dispatch = useDispatch();
@@ -37,6 +38,10 @@ const MyServersPage = () => {
     if (location.pathname.slice(0, 8) === '/friends' || location.pathname === '/servers') setShowFriends(true)
     else setShowFriends(false)
   }, [ location.pathname ]);
+
+  if (!isLoaded) {
+    return <Loading />
+  }
   return (
     <>
       {isLoaded && (

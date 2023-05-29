@@ -14,6 +14,30 @@ def seed_channels():
             "_com_type": "text"
         },
         {
+            "_server_id": 1,
+            "_name": "general",
+            "_type": "text",
+            "_max_users": 50,
+            "_topic": "general",
+            "_com_type": "text"
+        },
+        {
+            "_server_id": 1,
+            "_name": "code-review",
+            "_type": "text",
+            "_max_users": 50,
+            "_topic": "general",
+            "_com_type": "text"
+        },
+        {
+            "_server_id": 1,
+            "_name": "homework-help",
+            "_type": "text",
+            "_max_users": 50,
+            "_topic": "general",
+            "_com_type": "text"
+        },
+        {
             "_server_id": 2,
             "_name": "channel-1",
             "_type": "text",
@@ -51,6 +75,38 @@ def seed_channels():
             "_type": "text",
             "_max_users": 40,
             "_topic": "gaming",
+            "_com_type": "text"
+        },
+        {
+            "_server_id": 7,
+            "_name": "general",
+            "_type": "text",
+            "_max_users": 50,
+            "_topic": "general",
+            "_com_type": "text"
+        },
+        {
+            "_server_id": 8,
+            "_name": "general",
+            "_type": "text",
+            "_max_users": 50,
+            "_topic": "general",
+            "_com_type": "text"
+        },
+        {
+            "_server_id": 9,
+            "_name": "general",
+            "_type": "text",
+            "_max_users": 50,
+            "_topic": "general",
+            "_com_type": "text"
+        },
+        {
+            "_server_id": 10,
+            "_name": "general",
+            "_type": "text",
+            "_max_users": 50,
+            "_topic": "general",
             "_com_type": "text"
         }
     ]

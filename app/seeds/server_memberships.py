@@ -13,6 +13,10 @@ def seed_server_memberships():
     servers_list[2].add_member(users_list[2], "Host")
     servers_list[4].add_member(users_list[1], "Host")
     servers_list[5].add_member(users_list[2], "Host")
+    servers_list[6].add_member(users_list[0], "Host")
+    servers_list[7].add_member(users_list[1], "Host")
+    servers_list[8].add_member(users_list[0], "Host")
+    servers_list[9].add_member(users_list[0], "Host")
     db.session.commit()
 
 

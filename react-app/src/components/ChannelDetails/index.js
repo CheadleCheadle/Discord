@@ -10,6 +10,7 @@ import { fetchChannelMessagesThunk, sendChannelMessage } from "../../store/chann
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHashtag } from "@fortawesome/free-solid-svg-icons";
 import Members from "../ServerDetails/allMembers/index.js";
+import Loading from "../loading.js";
 export default function Channel() {
   const dispatch = useDispatch();
   const channelId = useSelector(state => state.channels.singleChannelId);
@@ -107,6 +108,11 @@ export default function Channel() {
       return <div className="message-date">{date.toString().slice(0, 11)} at {`${hours}:${minutes} ${period}`}</div>
 
     }
+  }
+  if (!isLoaded) {
+    return (
+      <Loading />
+    )
   }
   if (channel) {
   return (

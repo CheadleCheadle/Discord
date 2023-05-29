@@ -1,0 +1,29 @@
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.loading {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  color: #fff;
+  font-size: 1.1em;
+  gap: 1em;
+}
+
+.loading p {
+    width: 20em;
+    text-align: center;
+
+}
+
+#discord-svg {
+    animation: spin 2s linear infinite;
+}

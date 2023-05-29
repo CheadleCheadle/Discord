@@ -7,6 +7,7 @@ import { login } from '../../store/session'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import SignupFormModal from '../SignupFormModal'
 import OpenModalButton from '../OpenModalButton'
+import Loading from '../loading'
 
 const SplashPage = (isLoaded) => {
   const dispatch = useDispatch();
