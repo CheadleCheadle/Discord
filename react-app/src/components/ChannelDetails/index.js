@@ -22,7 +22,7 @@ export default function Channel() {
   const channelMessagesObj = (useSelector(state => state.channelMessages));
   const channelMessages = Object.values(channelMessagesObj.messages)
   const messageContainer = useRef(null);
-
+  console.log("Channle", channel, channelId);
   useEffect(() => {
     if (!message) setInputDisableBool(true);
     else setInputDisableBool(false);
@@ -108,7 +108,7 @@ export default function Channel() {
 
     }
   }
-
+  if (channel) {
   return (
     <div className='chatroom'>
       {isLoaded && (
@@ -168,4 +168,7 @@ export default function Channel() {
       )}
     </div>
   );
+          } else {
+            return null;
+          }
 }
