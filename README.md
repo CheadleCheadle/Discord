@@ -95,5 +95,7 @@ end
  * Inside the 'react-app' folder type "npm start" to start the react frontend server on localhost:3000
  * The application should now be running!
 ## Screenshot
-![new](https://user-images.githubusercontent.com/108553712/232428796-732b1da7-079c-4595-8e2c-e3b27355d90c.PNG)
+![new](https://user-images.githubusercontent.com/108553712/232428796-732b1da7-079c-4595-8e2c-e3b27355d90c.PNG)![discord](https://github.com/CheadleCheadle/Discord/assets/108553712/ec392f80-6471-4698-a0a3-b4d353e40d82)
+![server](https://github.com/CheadleCheadle/Discord/assets/108553712/9605b29f-d0cc-471b-9056-32ae05f0617c)
+
 If you wish to stop using the application, you can close it by hitting ctrl + c inside of both the root and frontend folders.
