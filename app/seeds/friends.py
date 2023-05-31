@@ -9,7 +9,10 @@ def seed_friends():
     users_list[1].add_friend(users_list[2], "pending")
     users_list[0].add_friend([users_list[3], users_list[4], users_list[5]], 'pending')
     users_list[1].add_friend([users_list[3], users_list[4], users_list[5]], 'pending')
-
+    users_list[1].add_friend([users_list[6], users_list[7], users_list[8]], 'pending')
+    users_list[1].add_friend([users_list[9], users_list[10]], 'pending')
+    users_list[0].add_friend([users_list[6], users_list[7], users_list[8]], 'pending')
+    users_list[0].add_friend([users_list[9], users_list[10]], 'pending')
     db.session.commit()
 
 

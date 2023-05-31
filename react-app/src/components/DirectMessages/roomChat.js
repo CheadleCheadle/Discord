@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import "./chat.css"
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMessagesThunk, sendMessage } from '../../store/directmessages';
+import Loading from '../loading';
 export const socket = io.connect('https://discord-wa36.onrender.com');
 
 function ChatRoom({ friend, user }) {
@@ -73,6 +74,11 @@ function ChatRoom({ friend, user }) {
         setMessageText(event.target.value);
     };
 
+    if (!isLoaded) {
+        return (
+            <Loading />
+        )
+    }
     return (
         <div className='chatroom'>
             {isLoaded && (

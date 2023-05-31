@@ -20,6 +20,25 @@ def seed_users():
     juicy= User(
         username='GC', firstname='Gian', lastname='Carlo', photo_url="https://media.npr.org/assets/img/2019/01/02/gettyimages-1058306908-0b38ff8a90d7bf88fea3133d8b72498665f63e12-s1100-c50.jpg", email='gian@aa.io', password='password')
 
+    ashley = User(
+        username='ashley', firstname='Ashley', lastname='Lallum', photo_url="https://xf-assets.pokecharms.com/data/attachment-files/2015/10/236933_Charmander_Picture.png", email='ashley@aa.io', password='password')
+    david = User(
+        username='SPACEMAN', firstname='David', lastname='Rogers', photo_url="https://m.media-amazon.com/images/I/7176aBLK8BS._AC_UF894,1000_QL80_.jpg", email='david@aa.io', password='password')
+
+    grant = User(
+        username='Cheadle', firstname='Grant', lastname='Cheadle', photo_url="https://i.pinimg.com/280x280_RS/b1/93/73/b1937337340da014be77ab4e5202663f.jpg", email='grant@aa.io', password='password')
+
+    tony = User(
+        username='tknee2', firstname='Tony', lastname='Zheng', photo_url="https://art.pixilart.com/13e07bd455dcf46.png", email='tony@aa.io', password='password')
+
+    helen = User(
+        username='chunni', firstname='helen', lastname='chunni', photo_url="https://i.quotev.com/e72wyjmuzkgq.jpg", email='helen@aa.io', password='password')
+
+
+
+
+
+
 
 
 
@@ -29,6 +48,11 @@ def seed_users():
     person3 = db.session.add(mark)
     person4 = db.session.add(sarah)
     person5 = db.session.add(juicy)
+    db.session.add(ashley)
+    db.session.add(david)
+    db.session.add(grant)
+    db.session.add(tony)
+    db.session.add(helen)
     person2 = db.session.commit()
 
 

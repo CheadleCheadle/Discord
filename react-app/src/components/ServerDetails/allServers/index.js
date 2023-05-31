@@ -9,6 +9,7 @@ import { joinServerThunk } from "../../../store/session";
 import { socket } from "../../DirectMessages/roomChat";
 import { getMembersThunk } from "../../../store/members";
 import { thunkLoadAllServers } from "../../../store/servers";
+import Loading from "../../loading";
 const AllServersPage = () => {
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch()
@@ -63,6 +64,11 @@ const AllServersPage = () => {
       .then(() => setIsLoaded(true));
   }, [ dispatch ]);
 
+  if (!isLoaded) {
+    return (
+      <Loading />
+    )
+  }
   return (
     <>
       {isLoaded && (
@@ -78,7 +84,7 @@ const AllServersPage = () => {
                   <div id="server-members-count">
                   <div id="server-dot">
                   </div>
-                  <p>{server.users.length} Members</p>
+                  <p>{server.users.length === 1 ? `${server.users.length} Member` : `${server.users.length} Members`}</p>
                   </div>
                   <div id="button-container">
                   <RenderStatusButton server={server}/>
