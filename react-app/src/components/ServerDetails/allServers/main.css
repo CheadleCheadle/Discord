@@ -7,6 +7,7 @@
     align-items: flex-start;
     overflow-y: scroll;
     padding: 55px;
+    gap: 1.5em;
 }
 
 .all-svr-image-cont img {
