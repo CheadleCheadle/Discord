@@ -11,7 +11,8 @@ import AllServersPage from "./allServers";
 import { logout } from "../../store/session";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Loading from "../loading";
-
+import { useModal } from "../../context/Modal";
+import UserInfo from "../UserInfoModal";
 const MyServersPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -21,7 +22,7 @@ const MyServersPage = () => {
   const location = useLocation();
   const [ showFriends, setShowFriends ] = useState(false)
   const [ isLoaded, setIsLoaded ] = useState(false)
-
+  const { setModalContent, setOnModalClose } = useModal();
   useEffect(() => {
     dispatch(getMembershipsThunk())
       .then(() => setIsLoaded(true))
@@ -33,6 +34,10 @@ const MyServersPage = () => {
       .then(() => history.push('/'));
 
   };
+
+  const handleUser = () => {
+    setModalContent(<UserInfo user={sessionUser} />)
+  }
 
   useEffect(() => {
     if (location.pathname.slice(0, 8) === '/friends' || location.pathname === '/servers') setShowFriends(true)
@@ -51,7 +56,7 @@ const MyServersPage = () => {
             <div className="friends-column">
               <Friends></Friends>
               <div className="user-info-nav">
-                <div className="user-info">
+                <div onClick={() => handleUser()} className="user-info">
                   <div id="pfp-cont">
                     <img src={sessionUser.photo_url}></img>
                   </div>

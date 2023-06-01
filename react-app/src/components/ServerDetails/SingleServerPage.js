@@ -22,7 +22,8 @@ import { fetchAllMembersThunk, getMembersThunk } from "../../store/members";
 import { socket } from "../DirectMessages/roomChat";
 import { faHashtag, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import { useRef } from "react";
-
+import { useModal } from "../../context/Modal";
+import UserInfo from "../UserInfoModal";
 const SingleServerPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   let { serverId } = useParams();
@@ -47,6 +48,7 @@ const SingleServerPage = () => {
   }
 
 
+  const { setModalContent, setOnModalClose } = useModal();
 
 
 
@@ -189,6 +191,11 @@ const SingleServerPage = () => {
 
   };
 
+    const handleUser = () => {
+    setModalContent(<UserInfo user={sessionUser} />)
+  }
+
+
 
 
   return (
@@ -272,7 +279,7 @@ const SingleServerPage = () => {
 
             </div>
               <div className="user-info-nav">
-                <div className="user-info">
+                <div onClick={() =>handleUser()}className="user-info">
                   <div id="pfp-cont">
                     <img src={sessionUser.photo_url}></img>
                   </div>

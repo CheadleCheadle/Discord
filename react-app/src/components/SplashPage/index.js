@@ -13,13 +13,13 @@ const SplashPage = (isLoaded) => {
   const dispatch = useDispatch();
 
   const history = useHistory()
-  const [ showMenu, setShowMenu ] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const demoUser = () => {
     dispatch(login("demo@aa.io", "password"))
       .then(() => history.push('/servers'))
   }
   const demoSecondUser = () => {
-dispatch(login("marnie@aa.io", "password"))
+    dispatch(login("marnie@aa.io", "password"))
       .then(() => history.push('/servers'))
   }
 
@@ -52,6 +52,50 @@ dispatch(login("marnie@aa.io", "password"))
           </div>
         </div>
       </div>
+        <div id="splash-page-bottom-half">
+          <div id="links-cont">
+
+          <div className='links'>
+              <p>Tony Zheng</p>
+            <div className="links-name">
+            <a id="linkedin" href="https://www.linkedin.com/in/tony-zheng-577840156/" target="_blank">
+              <i class="fa-brands fa-linkedin"></i>
+            </a>
+
+            <a id="linkedin" href="https://github.com/usr1l" target="_blank">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            </div>
+          </div>
+
+          <div className='links'>
+              <p>Chunyi Koo</p>
+            <div className="links-name">
+            <a id="linkedin" href="https://www.linkedin.com/in/chunyi-koo-70780025a/" target="_blank">
+              <i class="fa-brands fa-linkedin"></i>
+            </a>
+
+            <a id="linkedin" href="https://github.com/ChunyiKoo" target="_blank">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            </div>
+          </div>
+
+          <div className='links'>
+              <p>Grant Cheadle</p>
+            <div className="links-name">
+            <a id="linkedin" href="https://www.linkedin.com/in/grant-a-cheadle-0233771a7/" target="_blank">
+              <i class="fa-brands fa-linkedin"></i>
+            </a>
+
+            <a id="linkedin" href="https://github.com/CheadleCheadle" target="_blank">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            </div>
+          </div>
+
+          </div>
+        </div>
     </div>
   )
 }

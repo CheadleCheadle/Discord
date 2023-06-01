@@ -72,6 +72,12 @@
      align-items: center;
      box-sizing: border-box;
      width: 100%;
+     cursor: pointer;
+ }
+
+ .user-info:hover {
+    background-color: #414146;
+    border-radius: 8px;
  }
 
  .user-info-nav {
@@ -84,6 +90,7 @@
      height: 65px;
      margin: 0;
      padding: 10px 15px;
+     gap: .5em;
  }
 
  .user-info-nav>div {
