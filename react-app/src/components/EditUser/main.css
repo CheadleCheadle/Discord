@@ -26,7 +26,7 @@ input[type="file"] {
     align-items: center;
     justify-content: center;
     gap: .5em;
-    margin-top: 1em;
+    margin-top: 1.25em;
     cursor: pointer;
     width: 192px;
     font-size: 16px;
@@ -35,5 +35,78 @@ input[type="file"] {
 
 #upload-image:hover {
     transition-duration: .22s;
+    color: #fff;
+}
+
+#account-cont {
+    display: flex;
+    flex-direction: row;
+    gap: 10em;
+}
+
+#exit-edit {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#save-changes-edit {
+    margin-top: 1em;
+    width: 10em;
+    height: 3em;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: #fff;
+}
+
+#save-changes-edit div {
+    background-color: #1ab663;
+    border-radius: 5px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#save-changes-edit div:hover {
+     transition-duration: .22s;
+     background-color: #259655;
+}
+
+#edit-user-form {
+    display: flex;
+    flex-direction: column;
+    width: 15em;
+}
+
+
+#username {
+    height: 1.2em;
+    background-color: #1e1f22;
+    border: none;
+    border-radius: 5px;
+    color: #f5f5f5;
+    padding: 12px;
+    margin-bottom: 1em;
+}
+
+#about-me {
+    height: 6em;
+    overflow-y: hidden;
+    background-color: #1e1f22;
+    border: none;
+    border-radius: 5px;
+    color: #f5f5f5;
+    padding: 12px;
+}
+
+#edit-user-form label {
+    margin-bottom: .5em;
+}
+
+
+#my-account h2 {
     color: #fff;
 }

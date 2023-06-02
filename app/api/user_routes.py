@@ -1,8 +1,9 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import User, db, DirectMessage
+from app.forms import UserForm, UserFileForm
 import json
-
+from .AWS_HELPERS import upload_file_to_s3, get_unique_filename
 user_routes = Blueprint('users', __name__)
 
 
@@ -60,3 +61,37 @@ def create_direct_message(recipient_id):
     return new_message.to_dict()
 # CREATE A NEW DIRECT MESSAGE
 
+@user_routes.route('/<int:user_id>/edit/image', methods=['PUT'])
+@login_required
+def edit_user_image(user_id):
+    print("000000000000000")
+    form = UserFileForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+    user_to_edit = User.query.get(user_id)
+    if form.validate_on_submit():
+        file = form.data["file"]
+        if file != 'undefined':
+            file.filename = get_unique_filename(file.filename)
+            upload = upload_file_to_s3(file)
+            if "url" not in upload:
+                return {"errors": upload}
+        user_to_edit.photo_url = upload["url"]
+        db.session.commit()
+        return None
+    elif form.errors:
+        return {"errors": form.errors}
+
+
+@user_routes.route('/<int:user_id>/edit', methods=['PUT'])
+@login_required
+def edit_user(user_id):
+    form = UserForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+    if form.validate_on_submit():
+        user_to_edit = User.query.get(user_id)
+        user_to_edit.username = form.data["username"]
+        user_to_edit.about = form.data["about"]
+        db.session.commit()
+        return user_to_edit.to_dict()
+    elif form.errors:
+        return {"errors": form.errors}
