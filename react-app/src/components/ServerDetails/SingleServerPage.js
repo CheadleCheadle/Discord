@@ -15,7 +15,7 @@ import ServerMenuBox from "../ServerMenuBox";
 import Friends from "../Friends";
 import "./Server.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faGear } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faGear, faHeadphones, faMicrophone} from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { loadOneServerId } from "../../store/servers";
 import { fetchAllMembersThunk, getMembersThunk } from "../../store/members";
@@ -291,7 +291,12 @@ const SingleServerPage = () => {
                     </span>
                   </div>
                 </div>
-                <div className="pointer" onClick={handleLogout}>Logout</div>
+                <div className="user-icons">
+                <FontAwesomeIcon icon={faMicrophone} />
+                <FontAwesomeIcon icon={faHeadphones} />
+                <FontAwesomeIcon onClick={() => history.push('/user/edit')} icon={faGear} />
+                </div>
+                {/* <div className="pointer" onClick={handleLogout}>Logout</div> */}
               </div>
           </div>
           <Switch>

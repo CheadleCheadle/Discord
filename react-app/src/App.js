@@ -14,6 +14,7 @@ import { socket } from "./components/DirectMessages/roomChat";
 import EditChannel from "./components/ServerDetails/editChannel";
 import EditServer from "./components/ServerDetails/editServer";
 import Loading from "./components/loading";
+import EditUser from "./components/EditUser";
 
 
 function App() {
@@ -71,6 +72,9 @@ function App() {
           )}
           {!!sessionUser && (
             <Route exact path="/friends/:friendId" component={MyServersPage} />
+          )}
+          {!!sessionUser && (
+            <Route exact path="/user/edit" component={EditUser} />
           )}
           <Route>
             "404: Not Found"

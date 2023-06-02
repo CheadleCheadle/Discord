@@ -13,6 +13,8 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Loading from "../loading";
 import { useModal } from "../../context/Modal";
 import UserInfo from "../UserInfoModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGear, faHeadphones, faMicrophone} from "@fortawesome/free-solid-svg-icons";
 const MyServersPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -32,7 +34,6 @@ const MyServersPage = () => {
     e.preventDefault();
     dispatch(logout(sessionUser))
       .then(() => history.push('/'));
-
   };
 
   const handleUser = () => {
@@ -68,7 +69,12 @@ const MyServersPage = () => {
                     </span>
                   </div>
                 </div>
-                <div className="pointer" onClick={handleLogout}>Logout</div>
+                <div className="user-icons">
+                <FontAwesomeIcon  icon={faMicrophone} />
+                <FontAwesomeIcon  icon={faHeadphones} />
+                <FontAwesomeIcon onClick={() => history.push('/user/edit')} icon={faGear} />
+                </div>
+                {/* <div className="pointer" onClick={handleLogout}>Logout</div> */}
               </div>
             </div>
           )}

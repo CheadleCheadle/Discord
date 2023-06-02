@@ -201,7 +201,7 @@
      height: 2em;
      width: 9em;
      display: flex;
-     justify-content: flex-start;
+     justify-content: space-between;
      align-items: center;
      border-radius: 5px;
      padding: 0em 1em;
@@ -222,7 +222,7 @@
      height: 2em;
      width: 9em;
      display: flex;
-     justify-content: flex-start;
+     justify-content: space-between;
      align-items: center;
      border-radius: 5px;
      padding: 0em 1em;
@@ -318,3 +318,20 @@
      padding-top: 2em;
      border-top: thin solid #3f4147;
  }
+
+.user-icons {
+    display: flex;
+}
+
+.user-icons svg{
+    color: #fff;
+    cursor: pointer;
+    width: 1.25em;
+    height: 1.25em;
+    padding: .5em;
+}
+
+.user-icons svg:hover {
+    background-color: #414146;
+    border-radius: 8px;
+}
