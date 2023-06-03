@@ -1,0 +1,251 @@
+.pfp {
+    width: 20rem;
+    height: 20rem;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    border: 3px solid #5865f2;
+    animation: morph 8s ease-in-out infinite;
+    border-radius: 60% 40% 30% 70%/60% 30% 70% 40%;
+    position: relative;
+    transition: all 1s ease-in-out;
+}
+
+.grant {
+    background-image: url("./grant.jpg");
+}
+.helen {
+    background-image: url("./helen.jpg");
+}
+.tony {
+    background-image: url("./tony.jpg");
+}
+
+  @keyframes morph {
+    0% {
+      border-radius: 60% 40% 30% 70%/60% 30% 70% 40%;
+    }
+    50% {
+      border-radius: 30% 60% 70% 40%/50% 60% 30% 60%;
+    }
+    100% {
+      border-radius: 60% 40% 30% 70%/60% 30% 70% 40%;
+    }
+  }
+
+  #profile-cont {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0em 15vw;
+  }
+
+  #about-me-cont {
+      display: flex;
+      margin: 5em 5em;
+      flex-direction: column;
+      justify-content: center;
+      border-radius: 1.5rem;
+      padding: 1em;
+      background-color: #edf2f4;
+  }
+
+  .about-info {
+      /* width: 33.33%; */
+      padding: 1em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* background-color: #edf2f4; */
+
+  }
+
+  .about-info h3 {
+      color: #5865f2;
+  }
+
+  .about-info p {
+      font-weight: 500;
+      font-size: 1.2em;
+      line-height: 1.5;
+  }
+
+  .about-info li {
+      width: 3em;
+      height: 3em;
+      background-color: #fff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .09);
+  }
+
+  .about-info img {
+      width: 2em;
+      height: 2em;
+  }
+
+  .about-info span {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0em 1em;
+  }
+
+  .about-info span p {
+    font-size: 1.25em
+  }
+
+  #portfolio {
+    display: flex;
+    align-items: center;
+    font-size: 1.25em;
+    text-decoration: none;
+    color: teal;
+    font-size: 1.5em;
+    cursor: pointer;
+    font-weight: 550;
+    z-index: 10;
+  }
+
+  #portfolio:hover {
+    transition-duration: .22s;
+    color:#f64060;
+  }
+
+
+  #profile-cont h1 {
+      font-size: 48px;
+      margin-bottom: 0em;
+      color: teal;
+      letter-spacing: 0.025cm;
+      display: flex;
+  }
+
+  #profile-cont h4 {
+      font-size: 22px;
+  }
+
+  #technologies {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: .5em;
+    margin: 0em;
+    padding: 0em;
+  }
+
+  #externals {
+    margin-top: 1em;
+    display: flex;
+    margin-left: .25vw;
+    width: 100%;
+    gap: .5em;
+  }
+
+  #linkedin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2em;
+    height: 2em;
+    margin: 0em;
+    text-decoration: none;
+  }
+
+  #linkedin i {
+    font-size: 35px;
+    z-index: 10;
+  }
+  @media (max-width: 1790px) {
+    .pfp {
+      width: 20rem;
+      height: 20rem;
+    }
+
+    .about-info li {
+      width: 2.5em;
+      height: 2.5em;
+    }
+
+    .about-info img {
+      width: 1.5em;
+      height: 1.5em;
+    }
+
+    .about-info p {
+      font-size: 1em;
+      line-height: 1.4;
+    }
+    #linkedin i {
+      font-size: 30px;
+    }
+  }
+
+  @media (max-width: 1530px) {
+    .pfp {
+      width: 18rem;
+      height: 18rem;
+    }
+    .about-info p {
+      font-size: 0.95em;
+      line-height: 1.4;
+    }
+  }
+
+  @media (max-width: 1430px) {
+    #profile-cont {
+      margin: 0em 10vw;
+    }
+    #about-me-cont {
+      margin: 5em 5vw;
+    }
+  }
+
+  @media (max-width: 1111px) {
+    #profile-cont {
+      margin: 0em 10vw;
+    }
+    #about-me-cont {
+      margin: 5em 2vw;
+    }
+  }
+  @media (max-width: 1045px) {
+    .about-info li {
+      width: 2.25em;
+      height: 2.25em;
+    }
+
+    .about-info img {
+      width: 1.25em;
+      height: 1.25em;
+    }
+
+    .about-info p {
+      font-size: 1em;
+      line-height: 1.4;
+    }
+    #linkedin i {
+      font-size: 25px;
+    }
+  }
+
+  @media (max-width: 963px) {
+     .pfp {
+      width: 15rem;
+      height: 15rem;
+    }
+
+
+  }
+
+
+  .about-us-cont {
+    display: flex;
+    flex-direction: row;
+
+  }

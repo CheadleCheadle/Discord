@@ -184,3 +184,30 @@ div.profile-dropdown {
   }
 
 }
+
+.about-us {
+  width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background-color: #313338;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #259655;
+
+}
+
+.about-us:hover {
+    border-radius: 15px;
+  background-color: #259655;
+  transition-duration: .5s;
+
+  .fa-users{
+    transition-duration: .5s;
+    color: #fff;
+  }
+
+
+}
