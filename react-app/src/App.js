@@ -14,7 +14,8 @@ import { socket } from "./components/DirectMessages/roomChat";
 import EditChannel from "./components/ServerDetails/editChannel";
 import EditServer from "./components/ServerDetails/editServer";
 import Loading from "./components/loading";
-
+import EditUser from "./components/EditUser";
+import AboutUs from "./components/AboutUs";
 
 function App() {
   const dispatch = useDispatch();
@@ -71,6 +72,12 @@ function App() {
           )}
           {!!sessionUser && (
             <Route exact path="/friends/:friendId" component={MyServersPage} />
+          )}
+          {!!sessionUser && (
+            <Route exact path="/user/edit" component={EditUser} />
+          )}
+          {!!sessionUser && (
+            <Route exact path="/about/us" component={AboutUs} />
           )}
           <Route>
             "404: Not Found"

@@ -78,11 +78,17 @@
 #members-info {
     display: flex;
     flex-direction: row;
-    width: 200px;
+    width: 100%;
     margin-top: 1em;
     text-align: center;
     align-items: center;
     margin-bottom: 1em;
+    cursor: pointer;
+}
+
+#members-info:hover {
+    border-radius: 8px;
+    background-color: #414146;
 }
 
 #members-info p {

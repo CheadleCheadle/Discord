@@ -1,10 +1,8 @@
-import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
 import { normalizeFn } from "./channels";
 import { thunkAddAServer, thunkLoadAllServers, thunkLoadCurrentServers } from "./servers";
 import { socket } from "../components/DirectMessages/roomChat"
-import { useSelector} from "react-redux";
 
-
+const EDIT_USER = "session/EDIT_USER";
 const SET_USER = "session/SET_USER";
 const ADD_USER_STATUS = "session/ADD_STATUS";
 const REMOVE_USER_STATUS = "session/remove_user";
@@ -18,6 +16,7 @@ const DELETE_SERVER = "session/delete"
 const EDIT_SERVER = "session/servers/edit"
 const GET_ONLINE_USERS = "session/onlineUsers";
 const UPDATE_MEMBERSHIP = "session/membership/update"
+
 export const editServer = (server) => {
 	return {
 		type: EDIT_SERVER,
@@ -101,6 +100,43 @@ export const updateMembership = (membership) => {
 		membership
 	}
 }
+
+const editUser = (user) => {
+	return {
+		type: EDIT_USER,
+		user
+	}
+}
+
+export const editUserImageThunk = (file, userId, userName, about) => async (dispatch) => {
+	const formData = new FormData();
+	formData.append('file', file);
+	console.log('FILE', file);
+	await fetch(`/api/users/${userId}/edit/image`, {
+		method: "PUT",
+		body: formData
+	});
+}
+export const editUserThunk = (userId, username, about) => async (dispatch) => {
+	const response = await fetch(`/api/users/${userId}/edit`, {
+		method: "PUT",
+		headers: {'Content-Type': 'Application/json'},
+		body: JSON.stringify({
+			username: username,
+			about
+		})
+	});
+	if (response.ok) {
+		const user = await response.json();
+		dispatch(editUser(user));
+	} else {
+		console.log("Error updating user")
+	}
+}
+
+
+
+
 
 export const thunkNewDirectMessage = (data) => async (dispatch) => {
 	dispatch(newDirectMessageAction(data))
@@ -239,6 +275,13 @@ const initialState = { user: null, activeUsers: {}, memberships: {} };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
+		case EDIT_USER: {
+			let newState = {
+				...state,
+				user: {...action.user}
+			}
+			return newState;
+		}
 		case SET_USER:
 			action.payload.channel_messages = normalizeFn(action.payload.channel_messages)
 			action.payload.direct_messages = normalizeFn(action.payload.direct_messages)

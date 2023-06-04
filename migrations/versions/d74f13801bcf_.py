@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 20688c13dbbb
+Revision ID: d74f13801bcf
 Revises:
-Create Date: 2023-05-31 16:05:56.197611
+Create Date: 2023-06-01 15:52:59.418014
 
 """
 from alembic import op
@@ -12,8 +12,9 @@ import os
 environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
+
 # revision identifiers, used by Alembic.
-revision = '20688c13dbbb'
+revision = 'd74f13801bcf'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,6 +32,8 @@ def upgrade():
     sa.Column('active_status', sa.Boolean(), nullable=True),
     sa.Column('hashed_password', sa.String(length=255), nullable=False),
     sa.Column('code', sa.String(length=4), nullable=True),
+    sa.Column('about', sa.String(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('code'),
     sa.UniqueConstraint('email'),

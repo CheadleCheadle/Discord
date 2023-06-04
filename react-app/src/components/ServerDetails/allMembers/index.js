@@ -6,6 +6,8 @@ import { fetchAllMembersThunk, getMembersThunk, newPending } from "../../../stor
 import { changeMembershipStatusThunk, newMembership } from "../../../store/session";
 import { socket } from "../../DirectMessages/roomChat";
 import { newMember } from "../../../store/members";
+import { useModal } from "../../../context/Modal";
+import UserInfo from "../../UserInfoModal";
 
 export default function Members() {
     const dispatch = useDispatch();
@@ -17,6 +19,7 @@ export default function Members() {
     const pending = Object.values(useSelector(state => state.members.pending));
     const memberships = Object.values(useSelector(state => state.session.memberships));
     const roomName = String(serverId);
+    const { setModalContent, setOnModalClose } = useModal();
     useEffect(() => {
         setIsLoaded(true);
 
@@ -52,6 +55,11 @@ export default function Members() {
         }
     }
 
+    const handleUser = (user) => {
+    setModalContent(<UserInfo user={user} />)
+  }
+
+
 
 
 
@@ -59,7 +67,7 @@ export default function Members() {
         <div className="members-cont">
 
             <span id="status">HOST</span>
-            <div id="members-info" key={host.id}>
+            <div onClick={() => handleUser(host)}id="members-info" key={host.id}>
                 <div id="pfp-cont">
                     <img src={host.photo_url}></img>
                 </div>
@@ -68,7 +76,7 @@ export default function Members() {
 
             {members.length ? <span id="status">MEMBERS - {members.length}</span> : null}
             {members.map((member) => (
-                <div id="members-info" key={member.id}>
+                <div onClick={() => handleUser(member)}id="members-info" key={member.id}>
                     <div id="pfp-cont">
                         <img src={member.photo_url}></img>
                     </div>
@@ -77,7 +85,7 @@ export default function Members() {
             ))}
             {pending.length && host.id === user.id ? <span id="status">Pending - {pending.length}</span> : null}
             {host.id === user.id && pending.map((member) => (
-                <div id="members-info" key={member.id}>
+                <div onClick={() => handleUser(member)} id="members-info" key={member.id}>
                     <div id="pfp-cont">
                         <img src={member.photo_url}></img>
                     </div>

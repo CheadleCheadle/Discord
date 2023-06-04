@@ -35,7 +35,7 @@ function Navigation({ isLoaded }) {
             onButtonClick={sessionUser ? showDiscord : closeMenu}
             modalComponent={sessionUser ? null : <LoginFormModal />}
             modalCSSClass={'btn btn--demo btn--medium'}
-          />
+            />
         </div>
       )}
     </div >

@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { getMembershipsThunk } from "../store/session";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faUsers } from "@fortawesome/free-solid-svg-icons";
 // import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import AddServerForm from "./AddServerForm";
 import OpenModalButton from "./OpenModalButton";
@@ -61,6 +61,13 @@ function NavBarServerList() {
                 modalComponent={<AddServerForm user={sessionUser} />}
               />
             </div>
+              <div
+              onClick={() => history.push('/about/us')}
+              className="svr-nav-menu-item">
+                <div className="about-us">
+                <FontAwesomeIcon icon={faUsers} />
+                </div>
+              </div>
           </div>
 
         </div>

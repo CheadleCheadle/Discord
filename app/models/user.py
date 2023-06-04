@@ -1,5 +1,5 @@
 from app.models import db, environment, SCHEMA, add_prefix_for_prod, DirectMessage, ChannelMessage, Server, server_memberships
-
+from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from random import randint
@@ -46,6 +46,9 @@ class User(db.Model, UserMixin):
     active_status = db.Column(db.Boolean, unique=False, default=False)
     hashed_password = db.Column(db.String(255), nullable=False)
     code = db.Column(db.String(4), unique=True)
+    about = db.Column(db.String, nullable=True, default="Hi There!")
+    created_at = db.Column(db.DateTime, nullable=False,
+                            default=datetime.utcnow)
     # Relationships
     servers = db.relationship(
         "Server", back_populates="owner", cascade="all, delete-orphan")
@@ -134,6 +137,8 @@ class User(db.Model, UserMixin):
             "lastname": self.lastname,
             "photo_url": self.photo_url,
             "active_status": self.active_status,
+            "about": self.about,
+            "created_at": self.created_at
         }
 
     def to_dict(self):
@@ -150,4 +155,6 @@ class User(db.Model, UserMixin):
             "direct_messages": [dm.to_dict() for dm in self.direct_messages],
             "channel_messages": [message.to_dict() for message in self.channel_messages],
             "friends": [x for n in ([friend.to_safe_dict() for friend in self.friend.all()], [friend.to_safe_dict() for friend in self.friends]) for x in n],
+            "about": self.about,
+            "created_at": self.created_at
         }
