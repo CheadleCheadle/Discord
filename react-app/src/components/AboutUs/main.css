@@ -2,9 +2,9 @@
     width: 20rem;
     height: 20rem;
     background-size: cover;
-    background-position: center center;
+    background-position: 50% 25%;
     background-repeat: no-repeat;
-    border: 3px solid #5865f2;
+    border: 3px solid #fff;
     animation: morph 8s ease-in-out infinite;
     border-radius: 60% 40% 30% 70%/60% 30% 70% 40%;
     position: relative;
@@ -43,16 +43,23 @@
   #about-me-cont {
       display: flex;
       margin: 5em 5em;
+      width: 33.33%;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
       border-radius: 1.5rem;
       padding: 1em;
       background-color: #232428;
           box-shadow: 0 1px 2px 0 rgba(255,255,255,.05), 0 2px 6px 2px rgba(255,255,255,.05);
   }
 
+  #about-me-cont h1 {
+    color: #fff;
+  }
+
   .about-info {
       /* width: 33.33%; */
+      height: 33.33%;
       padding: 1em;
       display: flex;
       flex-direction: column;
@@ -66,9 +73,11 @@
   }
 
   .about-info p {
-      font-weight: 500;
+      font-weight: 400;
       font-size: 1.2em;
       line-height: 1.5;
+      color: #fff;
+      text-align: center;
   }
 
   .about-info li {
@@ -99,22 +108,31 @@
   .about-info span p {
     font-size: 1.25em
   }
-
-  #portfolio {
+#portfolio {
     display: flex;
     align-items: center;
     font-size: 1.25em;
     text-decoration: none;
-    color: teal;
+    color: #259655;
     font-size: 1.5em;
     cursor: pointer;
     font-weight: 550;
     z-index: 10;
-  }
+    border-bottom: solid 1px transparent;
+    -webkit-transition: color .2s ease-out, border-bottom-color .2s ease-out;
+    -moz-transition: color .2s ease-out, border-bottom-color .2s ease-out;
+    -ms-transition: color .2s ease-out, border-bottom-color .2s ease-out;
+    -o-transition: color .2s ease-out, border-bottom-color .2s ease-out;
+    transition: color .2s ease-out, border-bottom-color .2s ease-out;
 
+    &:hover {
+        color: #014a28;
+        border-bottom: solid 2px #014a28;
+    }
+}
   #portfolio:hover {
-    transition-duration: .22s;
-    color:#f64060;
+     transition-duration: .22s;
+     color: #1ab663;
   }
 
 
@@ -146,6 +164,9 @@
     margin-left: .25vw;
     width: 100%;
     gap: .5em;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
 
   #linkedin {
@@ -156,6 +177,12 @@
     height: 2em;
     margin: 0em;
     text-decoration: none;
+    color: #5865f2;
+  }
+
+  #linkedin:hover {
+    transition-duration: .22s;
+    color:#444eb7;
   }
 
   #linkedin i {
@@ -196,6 +223,10 @@
       font-size: 0.95em;
       line-height: 1.4;
     }
+
+    #about-me-cont {
+        margin: 5em 2em;
+    }
   }
 
   @media (max-width: 1430px) {
@@ -203,7 +234,17 @@
       margin: 0em 10vw;
     }
     #about-me-cont {
-      margin: 5em 5vw;
+      margin: 5em 2em;
+    }
+  }
+
+  @media (max-width: 1230px) {
+    #about-me-cont {
+      margin: 5em 1em;
+    }
+    .pfp {
+        width: 16em;
+        height: 16em;
     }
   }
 
@@ -212,7 +253,11 @@
       margin: 0em 10vw;
     }
     #about-me-cont {
-      margin: 5em 2vw;
+      margin: 5em .5em;
+    }
+    .pfp {
+        width: 15em;
+        height: 15em;
     }
   }
   @media (max-width: 1045px) {
@@ -243,10 +288,24 @@
 
 
   }
-
-
   .about-us-cont {
     display: flex;
     flex-direction: row;
 
+  }
+
+  #back {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.5em;
+    margin: 0em 5em;
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    margin-top: 1em;
+  }
+
+  #back:hover {
+    color: #1ab663;
+    transition-duration: .22s;
   }
