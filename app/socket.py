@@ -20,10 +20,11 @@ socketio = SocketIO(cors_allowed_origins=origins)
 active_rooms = {}
 active_users = {}
 
+
 @user_routes.route('/online')
 @login_required
 def get_online_users():
-    return {'users': list(online_users.values())}
+    return {'users': list(active_users.values())}
 
 
 @socketio.on('join_server_room')
@@ -32,7 +33,7 @@ def join_server_room(data):
     user = data["user"]
     join_room(room_name)
     active_rooms[room_name] = 1
-    emit("join_message", {"Joined":"I joined the server room"})
+    emit("join_message", {"Joined": "I joined the server room"})
 
 
 @socketio.on('join_server')
@@ -77,7 +78,9 @@ def join_server(data):
     new_membership = db.session.query(
         server_memberships).filter(server_memberships.c.user_id == user_id, server_memberships.c.server_id == server_id).first()
     converted_membership = dict(new_membership)
-    emit("new_member", {"membership": converted_membership, "user": user.to_safe_dict()}, room=room_name, broadcast=True)
+    emit("new_member", {"membership": converted_membership},
+         room=room_name, broadcast=True)
+
 
 @socketio.on('server_joined')
 def handle_joined(data):
@@ -97,17 +100,16 @@ def handle_connect(data):
     }
     emit('status_update', {'user': user, 'active': True}, broadcast=True)
 
+
 @socketio.on('disconnectingUser')
 def handle_disconnect(data):
 
     user = data["user"]
     user_id = user["id"]
 
-
     if user_id in active_users:
         del active_users[user_id]
         emit('status_update', {'user': user, 'active': False}, broadcast=True)
-
 
 
 @socketio.on('channel_join')
@@ -127,21 +129,22 @@ def handle_channel_message(data):
     user_id = data['userId']
     new_message = ChannelMessage(
         user_id=user_id,
-        channel_id = channel['id'],
-        _content= message
+        channel_id=channel['id'],
+        _content=message
     )
     db.session.add(new_message)
     db.session.commit()
     the_message = new_message.to_dict()
     the_message["time_stamp"] = str(the_message["time_stamp"])
+
+    # created_at is causing json serialization errors
+    del the_message["sender"]["created_at"]
     emit('new_channel_message', the_message, broadcast=True, room=channel_name)
 
 
 @socketio.on('join')
 def handle_join(data):
     """Join a chat room"""
-    username = data['username']
-    friendname = data['friendname']
     char_code = data["charCode2"]
     join_room(char_code)
     active_rooms[char_code] = 1
@@ -161,24 +164,22 @@ def handle_leave(data):
 @socketio.on('message')
 def handle_message(data):
     """Handle incoming messages"""
-    username = data['username']
-    friendname = data['friendname']
-    user_id = data["userId"]
-    recipient_id = data["friendId"]
     char_code = data['charCode2']
     message = data['message']
     new_message = DirectMessage(
-        user_id = data["userId"],
+        user_id=data["userId"],
         recipient_id=data["friendId"],
-        _content = message,
+        _content=message,
     )
     db.session.add(new_message)
     db.session.commit()
     the_message = new_message.to_dict()
     the_message["time_stamp"] = str(the_message["time_stamp"])
+    # created_at is causing json serialization errors
+    del the_message["sender"]["created_at"]
+    del the_message["recipient"]["created_at"]
     emit('new_message', the_message,
          broadcast=True, room=char_code)
-
 
 
 @socketio.on('startStreaming')
@@ -186,11 +187,11 @@ def handle_start_streaming(audio_stream):
     emit('audioStream', audio_stream, broadcast=True)
 
 
-
 @socketio.on('audioData')
 def handle_audio_data(audio_data):
     # Broadcast the received audio data to all other users in the room
     emit('audioStream', audio_data, broadcast=True)
+
 
 @socketio.on('offer')
 def handle_offer(data):
@@ -200,10 +201,12 @@ def handle_offer(data):
     join_room(room)
     emit('offer', offer, room=room, include_self=False)
 
+
 @socketio.on('answer')
 def handle_answer(answer):
     # Send the answer to the user who initiated the offer
     emit('answer', answer)
+
 
 @socketio.on('disconnect')
 def handle_disconnect():
@@ -212,12 +215,11 @@ def handle_disconnect():
         leave_room(room_id)
 
 
-
-
 @socketio.on('joinRoom')
 def handle_join_room(room):
     join_room(room)
     emit('roomJoined', room, room=room)
+
 
 @socketio.on('leaveRoom')
 def handle_leave_room(room):
